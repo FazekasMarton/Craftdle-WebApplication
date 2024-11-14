@@ -1,0 +1,71 @@
+/* --- Wrapper --- */
+html,
+body,
+#wrapper {
+    width: 100dvw;
+    height: 100dvh;
+    padding: 0;
+    margin: 0;
+    color: rgb(255, 255, 255);
+}
+
+/* -- Main Menu -- */
+#mainMenu{
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 50vmin;
+}
+
+/* - Background - */
+
+#background{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    animation: spin 120s infinite linear forwards;
+    transform-style: preserve-3d;
+    perspective: 100vmax;
+}
+
+@keyframes spin {
+    0% {
+        transform: translateZ(50vmin) rotateY(0deg);
+    }
+    100% {
+        transform: translateZ(50vmin) rotateY(360deg);
+    }
+}
+
+.panoramaPicture{
+    position: absolute;
+    background-color: black;
+    width: calc(100vmin + 1px);
+    height: calc(100vmin + 1px);
+    background-size: cover;
+}
+
+#panoramaPicture0{
+    transform: translateX(-50vmin) translateY(-50vmin) translateZ(-50vmin);
+}
+
+#panoramaPicture1{
+    transform: translateY(-50vmin) rotateY(-90deg);
+}
+
+#panoramaPicture2{
+    transform: translateX(-50vmin) translateY(-50vmin) translateZ(50vmin) rotateY(180deg);
+}
+
+#panoramaPicture3{
+    transform: translateX(-100vmin) translateY(-50vmin) rotateY(90deg);
+}
+
+#panoramaPicture4{
+    transform: translateX(-50vmin) translateY(-100vmin) rotateX(-90deg);
+}
+
+#panoramaPicture5{
+    transform: translateX(-50vmin) rotateX(90deg);
+}
