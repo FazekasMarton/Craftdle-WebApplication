@@ -1,3 +1,17 @@
+@font-face {
+    font-family: MinecraftRegular;
+    src: url("assets/minecraft-font/MinecraftRegular-Bmg3.otf");
+}
+
+@font-face {
+    font-family: MinecraftItalic;
+    src: url("assets/minecraft-font/MinecraftItalic-R8Mo.otf");
+}
+
+*{
+    font-family: MinecraftRegular;
+}
+
 /* --- Wrapper --- */
 html,
 body,
@@ -11,6 +25,7 @@ body,
 
 /* -- Main Menu -- */
 #mainMenu{
+    display: grid;
     width: 100dvw;
     height: 100dvh;
     overflow: hidden;
@@ -19,7 +34,6 @@ body,
 }
 
 /* - Background - */
-
 #background{
     position: absolute;
     top: 50%;
@@ -41,8 +55,8 @@ body,
 .panoramaPicture{
     position: absolute;
     background-color: black;
-    width: calc(100vmin + 1px);
-    height: calc(100vmin + 1px);
+    width: calc(100vmin + 2px);
+    height: calc(100vmin + 2px);
     background-size: cover;
 }
 
@@ -68,4 +82,95 @@ body,
 
 #panoramaPicture5{
     transform: translateX(-50vmin) rotateX(90deg);
+}
+
+/* - Menu - */
+
+#menu{
+    display: grid;
+    grid-template-columns: 2fr 5fr 5fr 2fr;
+    grid-template-rows: min-content min-content min-content min-content auto;
+    grid-template-areas: 
+    "title title title title"
+    ". maintenance maintenance ."
+    ". mainButtons mainButtons ."
+    "leftSideButtons additionalButtons additionalButtons rightSideButtons"
+    "appInformation appInformation disclaimer disclaimer";
+    gap: 2vmin;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+#craftleTitle{
+    grid-area: title;
+    width: min-content;
+    margin-top: 5vmin;
+    justify-self: center;
+    position: relative;
+}
+
+#craftdleLogo{
+    height: 20vmin;
+}
+
+#yellowText{
+    width: 31vw;
+    max-width: max-content;
+    position: absolute;
+    right: 10%;
+    bottom: 50%;
+    transform: translate(50%, 50%) rotate(-20deg);
+    color: rgb(255, 255, 0);
+    font-size: 3.5vmin;
+    animation-name: message;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    text-align: center;
+}
+
+@keyframes message {
+    50% {
+        scale: 1.05;
+    }
+}
+
+#mainButtons{
+    grid-area: mainButtons;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6vmin;
+}
+
+#stoneButton{
+    display: flex;
+    border: 0.3vmin black solid;
+    background-color: black;
+    text-decoration: none;
+    align-items: center;
+    justify-content: cente
+}
+
+#stoneButton:hover{
+    border: white 0.3vmin solid;
+    background-color: white;
+}
+
+#stoneButton > button{
+    display: flex;
+    background-image: url("./assets/imgs/button-bg.png");
+    background-size: auto 100%;
+    width: 100%;
+    min-width: 8vmin;
+    height: 8vmin;
+    padding: 0;
+    color: rgb(255, 255, 255);
+    border-top: gray 0.7vmin solid;
+    border-right: rgb(88, 88, 88) 0.7vmin solid;
+    border-bottom: rgb(88, 88, 88) 1.4vmin solid;
+    border-left: gray 0.7vmin solid;
+    font-size: 3.7vmin;
+    align-items: center;
+    justify-content: center;
 }

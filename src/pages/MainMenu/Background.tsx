@@ -48,7 +48,7 @@ function randomizepanoramas(){
 export function Background() {
     return <div id="background">
         {randomizepanoramas().map((imgs, index) => (
-            <img id={`panoramaPicture${index}`} className="panoramaPicture" src={imgs} alt={`panoramaPicture${index}`} />
+            <img key={index} id={`panoramaPicture${index}`} className="panoramaPicture" src={imgs} alt={`panoramaPicture${index}`} />
         ))}
     </div>
 }
