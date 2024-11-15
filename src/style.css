@@ -89,7 +89,7 @@ body,
 #menu{
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: min-content min-content min-content min-content min-content auto;
+    grid-template-rows: min-content min-content min-content min-content auto min-content;
     grid-template-areas: 
     "account account account"
     "title title title"
@@ -150,7 +150,7 @@ body,
     grid-area: additionalButtons;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: min-content min-content;
     flex-direction: column;
 }
 
@@ -204,4 +204,24 @@ body,
 .stoneButton img{
     max-height: 80%;
     max-width: 80%;
+}
+
+#mainMenu footer{
+    grid-area: footer;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 5px;
+}
+
+#footerInfo{
+    display: flex;
+    flex-direction: column;
+}
+
+#disclaimer{
+    margin: 0;
+    font-size: 10px;
+    text-align: end;
+    justify-self: end;
+    align-self: flex-end;
 }

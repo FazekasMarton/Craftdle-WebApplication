@@ -30,6 +30,16 @@ export function MainMenu(){
                 <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" /></StoneButton>
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" /></StoneButton>
             </nav>
+            <footer>
+                <aside id="footerInfo">
+                    <span>by Guideian Angel</span>
+                    <span>v1.2</span>
+                    <span>for Minecraft 1.21.50</span>
+                </aside>
+                <p id="disclaimer">
+                    NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT
+                </p>
+            </footer>
         </section>
     </main>
 }
