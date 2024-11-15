@@ -88,15 +88,16 @@ body,
 
 #menu{
     display: grid;
-    grid-template-columns: 2fr 5fr 5fr 2fr;
-    grid-template-rows: min-content min-content min-content min-content auto;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: min-content min-content min-content min-content min-content auto;
     grid-template-areas: 
-    "title title title title"
-    ". maintenance maintenance ."
-    ". mainButtons mainButtons ."
-    "leftSideButtons additionalButtons additionalButtons rightSideButtons"
-    "appInformation appInformation disclaimer disclaimer";
-    gap: 2vmin;
+    "account account account"
+    "title title title"
+    ". maintenance ."
+    ". mainButtons ."
+    "leftSideButtons additionalButtons rightSideButtons"
+    "footer footer footer";
+    gap: 3vmin 1.6vmin;
     height: 100%;
     width: 100%;
     z-index: 1;
@@ -105,7 +106,6 @@ body,
 #craftleTitle{
     grid-area: title;
     width: min-content;
-    margin-top: 5vmin;
     justify-self: center;
     position: relative;
 }
@@ -136,14 +136,40 @@ body,
     }
 }
 
+#menu nav{
+    gap: 1.6vmin;
+}
+
 #mainButtons{
     grid-area: mainButtons;
     display: flex;
     flex-direction: column;
-    gap: 1.6vmin;
 }
 
-#stoneButton{
+#additionalButtons{
+    grid-area: additionalButtons;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    flex-direction: column;
+}
+
+.sideButtons{
+    display: flex;
+    flex-direction: column;
+}
+
+#leftSideButtons{
+    grid-area: leftSideButtons;
+    align-items: end;
+}
+
+#rightSideButtons{
+    grid-area: rightSideButtons;
+    align-items: start;
+}
+
+.stoneButton{
     display: flex;
     border: 0.3vmin black solid;
     background-color: black;
@@ -152,12 +178,12 @@ body,
     justify-content: cente
 }
 
-#stoneButton:hover{
+.stoneButton:hover{
     border: white 0.3vmin solid;
     background-color: white;
 }
 
-#stoneButton > button{
+.stoneButton > button{
     display: flex;
     background-image: url("./assets/imgs/button-bg.png");
     background-size: auto 100%;
@@ -173,4 +199,9 @@ body,
     font-size: 3.7vmin;
     align-items: center;
     justify-content: center;
+}
+
+.stoneButton img{
+    max-height: 80%;
+    max-width: 80%;
 }
