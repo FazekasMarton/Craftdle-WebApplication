@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+import { SoundEffect } from "../classes/Audio";
+import { Link } from "react-router-dom";
 
 interface StoneButtonProps {
     href?: string;
@@ -21,17 +23,19 @@ export function StoneButton(props: StoneButtonProps) {
 
 function Border(props: StoneButtonProps) {
     return props.href ? (
-        <a
+        <Link
             className="stoneButton"
-            href={props.href}
+            to={props.href}
             style={props.disabled ? { pointerEvents: "none" } : {}}
+            onClick={() => {SoundEffect.click.play()}}
         >
             {props.children}
-        </a>
+        </Link>
     ) : (
         <div
             className="stoneButton"
             style={props.disabled ? { pointerEvents: "none" } : {}}
+            onClick={() => {SoundEffect.click.play()}}
         >
             {props.children}
         </div>
