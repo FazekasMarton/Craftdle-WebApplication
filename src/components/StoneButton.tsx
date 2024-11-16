@@ -1,19 +1,22 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 
 interface StoneButtonProps {
-    href?: string,
-    children: ReactNode
-    disabled?: true | boolean
+    href?: string;
+    children: ReactNode;
+    disabled?: true | boolean;
 }
 
 export function StoneButton(props: StoneButtonProps) {
-    return <Border disabled={props.disabled}>
-        <button
-            style={props.disabled ? {
-                opacity: 0.3
-            } : {}}
-        >{props.children}</button>
-    </Border>
+    return (
+        <Border href={props.href} disabled={props.disabled}>
+            <button
+                style={props.disabled ? { opacity: 0.3 } : {}}
+                disabled={props.disabled ? true : false}
+            >
+                {props.children}
+            </button>
+        </Border>
+    );
 }
 
 function Border(props: StoneButtonProps) {
@@ -21,20 +24,16 @@ function Border(props: StoneButtonProps) {
         <a
             className="stoneButton"
             href={props.href}
-            style={props.disabled ? {
-                pointerEvents: "none"
-            } : {}}
+            style={props.disabled ? { pointerEvents: "none" } : {}}
         >
             {props.children}
         </a>
     ) : (
         <div
             className="stoneButton"
-            style={props.disabled ? {
-                pointerEvents: "none"
-            } : {}}
+            style={props.disabled ? { pointerEvents: "none" } : {}}
         >
             {props.children}
         </div>
-    )
+    );
 }
