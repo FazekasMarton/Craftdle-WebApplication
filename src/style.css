@@ -210,6 +210,7 @@ body,
     grid-area: footer;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 15px;
     padding: 5px;
 }
 
