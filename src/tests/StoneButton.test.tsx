@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { vi } from 'vitest';
 import { StoneButton } from '../components/StoneButton';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';

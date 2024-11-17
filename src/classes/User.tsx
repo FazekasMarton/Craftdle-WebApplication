@@ -1,3 +1,4 @@
+import { Settings } from "../interfaces/Settings";
 import { error } from "./Error"
 
 interface UserData {
@@ -6,7 +7,7 @@ interface UserData {
     stayLogin: boolean | null,
     profilePicture: ProfileImage | null,
     profileBorder: ProfileImage | null,
-    settings: Settings | null
+    settings: Settings[] | null
 }
 
 interface ProfileImage {
@@ -15,58 +16,52 @@ interface ProfileImage {
     src: string
 }
 
-interface Settings {
-    volume: number;
-    imagesSize: number;
-    isSet: boolean;
-    controls: Controls;
-}
-
-interface Controls {
-    isTapMode: boolean;
-    copy: string;
-    remove: string;
-    teableMapping: string[];
-}
-
 class User implements UserData {
     username: string | null = null;
     loginToken: string | null = null;
-    stayLogin: boolean | null = null;
+    stayLogin: boolean = false;
     profilePicture: ProfileImage | null = null;
     profileBorder: ProfileImage | null = null;
-    settings: Settings | null = null;
+    settings: Settings[] | null = null;
 
-    saveUser(userData: UserData) {
-        this.username = userData.username;
-        this.loginToken = userData.loginToken;
-        this.profilePicture = userData.profilePicture;
-        this.profileBorder = userData.profileBorder;
+    saveUser(username: string | null, loginToken: string | null, stayLogin: boolean, profilePicture: ProfileImage | null, profileBorder: ProfileImage | null) {
+        this.username = username;
+        this.loginToken = loginToken;
+        this.stayLogin = stayLogin;
+        this.profilePicture = profilePicture;
+        this.profileBorder = profileBorder;
         this.save()
     }
 
-    saveSettings(settings: Settings) {
+    saveSettings(settings: Settings[]) {
         this.settings = settings
         this.save()
     }
 
     private save() {
-        let storage = sessionStorage
+        let storage = sessionStorage;
         if (this.stayLogin) {
-            storage = localStorage
+            storage = localStorage;
         }
-
+    
         Object.entries(this).forEach(([key, value]) => {
-            storage.setItem(key, JSON.stringify(value));
+            const storedValue = typeof value === 'object' ? JSON.stringify(value) : value;
+            storage.setItem(key, storedValue);
         });
-    }
+    }    
 
     loadUser() {
-        this.username = localStorage.getItem("username");
-        this.loginToken = localStorage.getItem("loginToken");
-        this.profilePicture = localStorage.getItem("profilePicture") ? JSON.parse(localStorage.getItem("profilePicture")!) : null;
-        this.profileBorder = localStorage.getItem("profileBorder") ? JSON.parse(localStorage.getItem("profileBorder")!) : null;
-        this.settings = localStorage.getItem("settings") ? JSON.parse(localStorage.getItem("settings")!) : null;
+        Object.keys(this).forEach((key) => {
+            const storedValue = localStorage.getItem(key);
+            if (storedValue) {
+                try {
+                    const parsedValue = JSON.parse(storedValue);
+                    this[key as keyof this] = parsedValue;
+                } catch {
+                    this[key as keyof this] = storedValue as any;
+                }
+            }
+        });
     }
 
     async register(username: string, email: string, password: string, stayLogin: boolean) {
@@ -160,10 +155,12 @@ class User implements UserData {
     clear() {
         this.username = null;
         this.loginToken = null;
+        this.stayLogin = false;
         this.profilePicture = null;
         this.profileBorder = null;
-        localStorage.clear()
-        sessionStorage.clear()
+        this.settings = null;
+        localStorage.clear;
+        sessionStorage.clear;
     }
 
     async forgotPassword(email: string) {
