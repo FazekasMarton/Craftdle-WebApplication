@@ -4,7 +4,7 @@ import { error } from "./Error"
 interface UserData {
     username: string | null,
     loginToken: string | null,
-    stayLogin: boolean | null,
+    stayLoggedIn: boolean | null,
     profilePicture: ProfileImage | null,
     profileBorder: ProfileImage | null,
     settings: Settings[] | null
@@ -19,15 +19,15 @@ interface ProfileImage {
 class User implements UserData {
     username: string | null = null;
     loginToken: string | null = null;
-    stayLogin: boolean = false;
+    stayLoggedIn: boolean = false;
     profilePicture: ProfileImage | null = null;
     profileBorder: ProfileImage | null = null;
     settings: Settings[] | null = null;
 
-    saveUser(username: string | null, loginToken: string | null, stayLogin: boolean, profilePicture: ProfileImage | null, profileBorder: ProfileImage | null) {
+    saveUser(username: string | null, loginToken: string | null, stayLoggedIn: boolean, profilePicture: ProfileImage | null, profileBorder: ProfileImage | null) {
         this.username = username;
         this.loginToken = loginToken;
-        this.stayLogin = stayLogin;
+        this.stayLoggedIn = stayLoggedIn;
         this.profilePicture = profilePicture;
         this.profileBorder = profileBorder;
         this.save()
@@ -39,10 +39,7 @@ class User implements UserData {
     }
 
     private save() {
-        let storage = sessionStorage;
-        if (this.stayLogin) {
-            storage = localStorage;
-        }
+        let storage = this.stayLoggedIn ? localStorage : sessionStorage
     
         Object.entries(this).forEach(([key, value]) => {
             const storedValue = typeof value === 'object' ? JSON.stringify(value) : value;
@@ -64,7 +61,7 @@ class User implements UserData {
         });
     }
 
-    async register(username: string, email: string, password: string, stayLogin: boolean) {
+    async register(username: string, email: string, password: string, stayLoggedIn: boolean) {
         const options = {
             method: 'POST',
             headers: {
@@ -74,7 +71,7 @@ class User implements UserData {
                 username: username,
                 email: email,
                 password: password,
-                stayLogin: stayLogin
+                stayLoggedIn: stayLoggedIn
             })
         };
         try {
@@ -113,7 +110,7 @@ class User implements UserData {
         }
     }
 
-    async login(username: string, password: string, stayLogin: boolean) {
+    async login(username: string, password: string, stayLoggedIn: boolean) {
         const options = {
             method: 'POST',
             headers: {
@@ -122,7 +119,7 @@ class User implements UserData {
             body: JSON.stringify({
                 username: username,
                 password: password,
-                stayLogin: stayLogin
+                stayLoggedIn: stayLoggedIn
             })
         };
         try {
@@ -155,7 +152,7 @@ class User implements UserData {
     clear() {
         this.username = null;
         this.loginToken = null;
-        this.stayLogin = false;
+        this.stayLoggedIn = false;
         this.profilePicture = null;
         this.profileBorder = null;
         this.settings = null;
@@ -243,8 +240,8 @@ class User implements UserData {
         return this.loginToken;
     }
 
-    get StayLogin() {
-        return this.stayLogin;
+    get StayLoggedIn() {
+        return this.stayLoggedIn;
     }
 
     get ProfilePicture() {
