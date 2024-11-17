@@ -1,4 +1,5 @@
 export interface Settings {
+    id: number;
     volume: number;
     imagesSize: number;
     isSet: boolean;

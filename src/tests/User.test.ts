@@ -4,7 +4,7 @@ import { Settings } from "../interfaces/Settings";
 import { faker } from "@faker-js/faker";
 import { error } from "../classes/Error";
 
-function getStorageMocker(storageType: "localStorage" | "sessionStorage"){
+function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
     const storage: Record<string, string> = {};
     const getItemMock = vi.fn((key: string) => storage[key] || null);
     const setItemMock = vi.fn((key: string, value: string) => {
@@ -47,6 +47,7 @@ function generateSettings() {
             mapping.push(faker.string.alphanumeric(1))
         }
         settings.push({
+            id: i,
             volume: faker.number.int({ min: 0, max: 100 }),
             imagesSize: faker.number.int({ min: 0, max: 100 }),
             isSet: faker.datatype.boolean(),
@@ -61,7 +62,7 @@ function generateSettings() {
     return settings
 }
 
-function getSuccceedFetchMocker(status: number, body: object){
+function getSuccceedFetchMocker(status: number, body: object) {
     const mockFetch = vi.fn(() =>
         Promise.resolve(
             new Response(
@@ -90,7 +91,7 @@ describe('User class', () => {
                 expect(user.ProfilePicture).toEqual(randomUser.profilePicture);
                 expect(user.ProfileBorder).toEqual(randomUser.profileBorder);
             });
-        
+
             it('should update user settings correctly', () => {
                 user.clear();
                 const randomUser = generateUser()
@@ -148,7 +149,7 @@ describe('User class', () => {
                 expect(setItemMock).toHaveBeenCalledWith('settings', JSON.stringify(settings));
             })
         })
-    
+
         it('should clear user data', () => {
             getStorageMocker("localStorage")
             user.clear();
@@ -182,7 +183,7 @@ describe('User class', () => {
                 expect(user.ProfileBorder).toEqual(randomUser.profileBorder);
                 expect(user.Settings).toEqual(settings);
             });
-            
+
             it('should load no data from localStorage', () => {
                 getStorageMocker("localStorage")
                 user.clear();
@@ -200,47 +201,294 @@ describe('User class', () => {
     describe('Data request', () => {
         describe('Register', () => {
             it('should return data and response for a successful registration', async () => {
-                const randomUser = generateUser()
+                const randomUser = generateUser();
                 const fakeBody = {
                     loginToken: randomUser.loginToken,
                     username: randomUser.username,
                     profilePicture: randomUser.profilePicture,
                     profileBorder: randomUser.profileBorder,
                     stayLoggedIn: randomUser.stayLoggedIn
-                }
-                const mockFetch = getSuccceedFetchMocker(201, fakeBody)
+                };
+                const mockFetch = getSuccceedFetchMocker(200, fakeBody);
+
                 const result = await user.register(randomUser.username, randomUser.email, randomUser.password, randomUser.stayLoggedIn);
-                expect(mockFetch).toHaveBeenCalledTimes(1)
+
+                expect(mockFetch).toHaveBeenCalledTimes(1);
                 expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/register", {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        username: randomUser.username, 
-                        email: randomUser.email, 
-                        password: randomUser.password, 
+                        username: randomUser.username,
+                        email: randomUser.email,
+                        password: randomUser.password,
                         stayLoggedIn: randomUser.stayLoggedIn
                     })
                 });
-                expect(result?.response.status).toBe(201);
+                expect(result?.response.status).toBe(200);
                 expect(result?.data).toEqual(fakeBody);
             });
-        
-            it('should get Service Unavailable error', async () => {
-                const randomUser = generateUser()
-                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Network Error"));
+
+            it('should handle failed register due to server error', async () => {
+                const randomUser = generateUser();
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
                 global.fetch = mockFetch;
                 const errorMock = vi.spyOn(error, "setError");
+
                 await user.register(randomUser.username, randomUser.email, randomUser.password, randomUser.stayLoggedIn);
-                expect(mockFetch).toHaveBeenCalledTimes(1)
-                expect(errorMock).toHaveBeenCalledWith(
-                    503,
-                    "Service Unavailable",
-                    "Failed to connect to the server. Please try again later."
-                );
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
                 errorMock.mockRestore();
-            })
-        })
+            });
+        });
+
+        describe('Guest Login', () => {
+            it('should return data and response for a successful guest login', async () => {
+                const fakeBody = {
+                    loginToken: faker.string.uuid(),
+                    username: "guestUser",
+                    profilePicture: generateImage(),
+                    profileBorder: generateImage(),
+                };
+                const mockFetch = getSuccceedFetchMocker(200, fakeBody);
+
+                const result = await user.guestLogin();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login");
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeBody);
+            });
+
+            it('should handle failed guest login due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.guestLogin();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Token Login', () => {
+            it('should return data and response for a successful token login', async () => {
+                const fakeBody = {
+                    loginToken: faker.string.uuid(),
+                    username: "tokenUser",
+                    profilePicture: generateImage(),
+                    profileBorder: generateImage(),
+                };
+                const mockFetch = getSuccceedFetchMocker(200, fakeBody);
+
+                const result = await user.tokenLogin();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.LoginToken}` },
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeBody);
+            });
+
+            it('should handle failed token login due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.tokenLogin();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Login', () => {
+            it('should return data and response for a successful login', async () => {
+                const randomUser = generateUser();
+                const fakeBody = {
+                    loginToken: randomUser.loginToken,
+                    username: randomUser.username,
+                    profilePicture: randomUser.profilePicture,
+                    profileBorder: randomUser.profileBorder,
+                    stayLoggedIn: randomUser.stayLoggedIn
+                };
+                const mockFetch = getSuccceedFetchMocker(200, fakeBody);
+
+                const result = await user.login(randomUser.username, randomUser.password, randomUser.stayLoggedIn);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: randomUser.username,
+                        password: randomUser.password,
+                        stayLoggedIn: randomUser.stayLoggedIn
+                    })
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeBody);
+            });
+
+            it('should handle failed login due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.login("invalidUser", "wrongPassword", false);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Logout', () => {
+            it('should successfully logout the user', async () => {
+                const mockFetch = getSuccceedFetchMocker(200, { message: "Logout successful" });
+                const randomUser = generateUser();
+                const auth = btoa(`${randomUser.username}:${randomUser.loginToken}`)
+                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
+                const result = await user.logout();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login", {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Basic ${auth}`
+                    }
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual({ message: "Logout successful" });
+            });
+
+            it('should handle failed logout due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.logout();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Forgot Password', () => {
+            it('should return success message for a successful password reset request', async () => {
+                const randomUser = generateUser();
+                const fakeBody = { item: generateImage() };
+                const mockFetch = getSuccceedFetchMocker(200, fakeBody);
+
+                const result = await user.forgotPassword(randomUser.email);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/password", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: randomUser.email })
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeBody);
+            });
+
+            it('should handle failed forgot password due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.forgotPassword("invalidemail@gmail.com");
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Change Password', () => {
+            it('should return success message for a successful password change', async () => {
+                const randomUser = generateUser();
+                const fakeBody = { message: "Password updated successfully" };
+                const mockFetch = getSuccceedFetchMocker(200, fakeBody);
+
+                const result = await user.changePassword(randomUser.password);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/password", {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: randomUser.password })
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeBody);
+            });
+
+            it('should handle failed password change due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.changePassword("wrongPassword");
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Get Settings', () => {
+            it('should return user settings successfully', async () => {
+                const randomUser = generateUser();
+                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
+                const fakeSettings = generateSettings();
+                const mockFetch = getSuccceedFetchMocker(200, fakeSettings);
+
+                const result = await user.getSettings();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/settings", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${randomUser.loginToken}`
+                    }
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeSettings);
+            });
+
+            it('should handle failed settings retrieval due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.getSettings();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Change Settings', () => {
+            it('should successfully change settings', async () => {
+                const newSettings = generateSettings();
+                const mockFetch = getSuccceedFetchMocker(200, { message: "Settings updated successfully" });
+
+                const result = await user.changeSettings(newSettings[0]);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith(`https://localhost:3000/settings/${newSettings[0].id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newSettings[0])
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual({ message: "Settings updated successfully" });
+            });
+
+            it('should handle failed settings update due to server error', async () => {
+                const newSettings = generateSettings();
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+
+                await user.changeSettings(newSettings[0]);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(errorMock).toHaveBeenCalledWith(503, "Service Unavailable", "Failed to connect to the server. Please try again later.");
+                errorMock.mockRestore();
+            });
+        });
     });
 })

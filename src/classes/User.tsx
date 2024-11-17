@@ -224,7 +224,7 @@ class User implements UserData {
             body: JSON.stringify(settings)
         };
         try {
-            const response = await fetch("https://localhost:3000/settings", options);
+            const response = await fetch(`https://localhost:3000/settings/${settings.id}`, options);
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
