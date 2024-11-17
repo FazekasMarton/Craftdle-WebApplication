@@ -79,7 +79,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -89,7 +89,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -106,7 +106,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -127,7 +127,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -145,7 +145,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -175,7 +175,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -194,7 +194,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -211,7 +211,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
@@ -228,7 +228,7 @@ class User implements UserData {
             let data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(503, "Service Unavailable", "Failed to connect to the server. Please try again later.")
+            error.setError(err)
         }
     }
 
