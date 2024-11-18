@@ -7,7 +7,7 @@ import { error } from "../classes/Error";
 function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
     const storage: Record<string, string> = {};
 
-    const getItemMock = vi.fn((key: string) => storage[key] || null);
+    const getItemMock = vi.fn((key: string) => storage[key] != undefined ? storage[key] : null);
     const setItemMock = vi.fn((key: string, value: string) => {
         storage[key] = value;
     });
@@ -25,6 +25,7 @@ function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
             removeItem: removeItemMock,
             clear: clearMock,
             key: vi.fn((index: number) => Object.keys(storage)[index] || null),
+            items: storage,
             length: Object.keys(storage).length,
         },
         writable: true,
@@ -135,7 +136,7 @@ describe('User class', () => {
                 user.saveUser(randomUser.username, randomUser.loginToken, false, randomUser.profilePicture, randomUser.profileBorder)
                 expect(sessionStorage.getItem("username")).toBe(randomUser.username);
                 expect(sessionStorage.getItem("loginToken")).toBe(randomUser.loginToken);
-                expect(sessionStorage.getItem("stayLoggedIn")).toBeFalsy();
+                expect(sessionStorage.getItem("stayLoggedIn")).toBe(false);
                 expect(sessionStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(sessionStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
             })
