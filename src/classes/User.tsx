@@ -65,7 +65,8 @@ class User implements UserData {
         const options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.loginToken}`
             },
             body: JSON.stringify({
                 username: username,
@@ -75,8 +76,8 @@ class User implements UserData {
             })
         };
         try {
-            const response = await fetch("https://localhost:3000/register", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/register", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -85,8 +86,8 @@ class User implements UserData {
 
     async guestLogin() {
         try {
-            const response = await fetch("https://localhost:3000/login");
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/login");
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -102,8 +103,8 @@ class User implements UserData {
             }
         };
         try {
-            const response = await fetch("https://localhost:3000/login", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/login", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -123,8 +124,8 @@ class User implements UserData {
             })
         };
         try {
-            const response = await fetch("https://localhost:3000/login", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/login", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -141,8 +142,8 @@ class User implements UserData {
             }
         };
         try {
-            const response = await fetch("https://localhost:3000/login", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/login", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -171,8 +172,8 @@ class User implements UserData {
             })
         };
         try {
-            const response = await fetch("https://localhost:3000/password", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/password", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -190,8 +191,8 @@ class User implements UserData {
             })
         };
         try {
-            const response = await fetch("https://localhost:3000/password", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/password", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -207,8 +208,8 @@ class User implements UserData {
             }
         };
         try {
-            const response = await fetch("https://localhost:3000/settings", options);
-            let data = await response.json();
+            const response = await fetch("https://localhost:3000/user/settings", options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)
@@ -219,13 +220,86 @@ class User implements UserData {
         const options = {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.loginToken}`
             },
             body: JSON.stringify(settings)
         };
         try {
-            const response = await fetch(`https://localhost:3000/settings/${settings.id}`, options);
-            let data = await response.json();
+            const response = await fetch(`https://localhost:3000/user/settings/${settings.id}`, options);
+            const data = await response.json();
+            return { data: data, response: response };
+        } catch (err: any) {
+            error.setError(err)
+        }
+    }
+
+    async getStats(){
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.loginToken}`
+            }
+        };
+        try {
+            const response = await fetch("https://localhost:3000/user/stats", options);
+            const data = await response.json();
+            return { data: data, response: response };
+        } catch (err: any) {
+            error.setError(err)
+        }
+    }
+
+    async getCollection(){
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.loginToken}`
+            }
+        };
+        try {
+            const response = await fetch("https://localhost:3000/user/collection", options);
+            const data = await response.json();
+            return { data: data, response: response };
+        } catch (err: any) {
+            error.setError(err)
+        }
+    }
+
+    async changeProfilePics(profilePicture: number, profileBorder: number) {
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.loginToken}`
+            },
+            body: JSON.stringify({
+                profilePicture: profilePicture,
+                profileBorder: profileBorder
+            })
+        };
+        try {
+            const response = await fetch(`https://localhost:3000/user/profile`, options);
+            const data = await response.json();
+            return { data: data, response: response };
+        } catch (err: any) {
+            error.setError(err)
+        }
+    }
+
+    async getGamemodes(type: 'singleplayer' | 'multiplayer'){
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.loginToken}`
+            }
+        };
+        try {
+            const response = await fetch(`https://localhost:3000/game/${type}`, options);
+            const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
             error.setError(err)

@@ -212,9 +212,12 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.register(randomUser.username, randomUser.email, randomUser.password, randomUser.stayLoggedIn);
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/register", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/register", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.loginToken}`
+                    },
                     body: JSON.stringify({
                         username: randomUser.username,
                         email: randomUser.email,
@@ -248,7 +251,7 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.guestLogin();
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login");
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/login");
                 expect(result?.response.status).toBe(200);
                 expect(result?.data).toEqual(fakeBody);
             });
@@ -274,9 +277,12 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.tokenLogin();
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/login", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.LoginToken}` },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.LoginToken}`
+                    },
                 });
                 expect(result?.response.status).toBe(200);
                 expect(result?.data).toEqual(fakeBody);
@@ -305,7 +311,7 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.login(randomUser.username, randomUser.password, randomUser.stayLoggedIn);
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/login", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -336,7 +342,7 @@ describe('User class', () => {
                 user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
                 const result = await user.logout();
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/login", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/login", {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -364,7 +370,7 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.forgotPassword(randomUser.email);
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/password", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/password", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: randomUser.email })
@@ -390,7 +396,7 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.changePassword(randomUser.password);
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/password", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/password", {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ password: randomUser.password })
@@ -417,7 +423,7 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeSettings);
                 const result = await user.getSettings();
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/settings", {
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/settings", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -444,9 +450,12 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, { message: "Settings updated successfully" });
                 const result = await user.changeSettings(newSettings[0]);
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith(`https://localhost:3000/settings/${newSettings[0].id}`, {
+                expect(mockFetch).toHaveBeenCalledWith(`https://localhost:3000/user/settings/${newSettings[0].id}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.loginToken}`
+                    },
                     body: JSON.stringify(newSettings[0])
                 });
                 expect(result?.response.status).toBe(200);
@@ -459,6 +468,123 @@ describe('User class', () => {
                 global.fetch = mockFetch;
                 const errorMock = vi.spyOn(error, "setError");
                 await user.changeSettings(newSettings[0]);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Get Stats', () => {
+            it('should return user stats successfully', async () => {
+                const randomUser = generateUser();
+                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
+                const fakeData = { test: "test1" };
+                const mockFetch = getSuccceedFetchMocker(200, fakeData);
+                const result = await user.getStats();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/stats", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${randomUser.loginToken}`
+                    }
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeData);
+            });
+
+            it('should handle failed stats retrieval due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+                await user.getStats();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Get Collection', () => {
+            it('should return user collection successfully', async () => {
+                const randomUser = generateUser();
+                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
+                const fakeData = { test: "test1" };
+                const mockFetch = getSuccceedFetchMocker(200, fakeData);
+                const result = await user.getCollection();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/collection", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${randomUser.loginToken}`
+                    }
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeData);
+            });
+
+            it('should handle failed collection retrieval due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+                await user.getCollection();
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Change Profile Pictures', () => {
+            it('should successfully change profile pictures', async () => {
+                const mockFetch = getSuccceedFetchMocker(200, { message: "Settings updated successfully" });
+                const result = await user.changeProfilePics(1, 2);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith(`https://localhost:3000/user/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.loginToken}`
+                    },
+                    body: JSON.stringify({
+                        profilePicture: 1,
+                        profileBorder: 2
+                    })
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual({ message: "Settings updated successfully" });
+            });
+
+            it('should handle failed profile pictures update due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+                await user.changeProfilePics(1, 3);
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                errorMock.mockRestore();
+            });
+        });
+
+        describe('Get Gamemodes', () => {
+            it('should return gamemodes successfully', async () => {
+                const randomUser = generateUser();
+                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
+                const fakeData = { test: "test1" };
+                const mockFetch = getSuccceedFetchMocker(200, fakeData);
+                const result = await user.getGamemodes("singleplayer");
+                expect(mockFetch).toHaveBeenCalledTimes(1);
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/game/singleplayer", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${randomUser.loginToken}`
+                    }
+                });
+                expect(result?.response.status).toBe(200);
+                expect(result?.data).toEqual(fakeData);
+            });
+
+            it('should handle failed gamemodes retrieval due to server error', async () => {
+                const mockFetch = vi.fn().mockRejectedValueOnce(new Error("Server Error"));
+                global.fetch = mockFetch;
+                const errorMock = vi.spyOn(error, "setError");
+                await user.getGamemodes("singleplayer");
                 expect(mockFetch).toHaveBeenCalledTimes(1);
                 errorMock.mockRestore();
             });
