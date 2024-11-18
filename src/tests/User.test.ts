@@ -6,17 +6,36 @@ import { error } from "../classes/Error";
 
 function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
     const storage: Record<string, string> = {};
+
     const getItemMock = vi.fn((key: string) => storage[key] || null);
     const setItemMock = vi.fn((key: string, value: string) => {
         storage[key] = value;
     });
+    const removeItemMock = vi.fn((key: string) => {
+        delete storage[key];
+    });
+    const clearMock = vi.fn(() => {
+        Object.keys(storage).forEach(key => delete storage[key]);
+    });
+
     Object.defineProperty(window, storageType, {
         value: {
             getItem: getItemMock,
-            setItem: setItemMock
-        }
+            setItem: setItemMock,
+            removeItem: removeItemMock,
+            clear: clearMock,
+            key: vi.fn((index: number) => Object.keys(storage)[index] || null),
+            length: Object.keys(storage).length,
+        },
+        writable: true,
     });
-    return setItemMock
+
+    return {
+        getItemMock,
+        setItemMock,
+        removeItemMock,
+        clearMock,
+    };
 }
 
 function generateUser() {
@@ -78,11 +97,20 @@ function getSuccceedFetchMocker(status: number, body: object) {
     return mockFetch
 }
 
+beforeEach(() => {
+    getStorageMocker("localStorage");
+    getStorageMocker("sessionStorage");
+});
+
+afterEach(() => {
+    user.clear()
+    vi.clearAllMocks();
+});
+
 describe('User class', () => {
     describe('Data controller functions', () => {
         describe('Update user', () => {
             it('should update user data correctly', () => {
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
                 expect(user.Username).toBe(randomUser.username);
@@ -93,7 +121,6 @@ describe('User class', () => {
             });
 
             it('should update user settings correctly', () => {
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
                 const settings: Settings[] = generateSettings()
@@ -104,55 +131,45 @@ describe('User class', () => {
 
         describe('Store in sessionStorage', () => {
             it('should store user data in sessionStorage', () => {
-                const setItemMock = getStorageMocker("sessionStorage")
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, false, randomUser.profilePicture, randomUser.profileBorder)
-                expect(setItemMock).toHaveBeenCalledWith('username', randomUser.username);
-                expect(setItemMock).toHaveBeenCalledWith('loginToken', randomUser.loginToken);
-                expect(setItemMock).toHaveBeenCalledWith('stayLoggedIn', false);
-                expect(setItemMock).toHaveBeenCalledWith('profilePicture', JSON.stringify(randomUser.profilePicture));
-                expect(setItemMock).toHaveBeenCalledWith('profileBorder', JSON.stringify(randomUser.profileBorder));
+                expect(sessionStorage.getItem("username")).toBe(randomUser.username);
+                expect(sessionStorage.getItem("loginToken")).toBe(randomUser.loginToken);
+                expect(sessionStorage.getItem("stayLoggedIn")).toBeFalsy();
+                expect(sessionStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
+                expect(sessionStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
             })
 
             it('should store user settings in sessionStorage', () => {
-                const setItemMock = getStorageMocker("sessionStorage")
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, false, randomUser.profilePicture, randomUser.profileBorder)
                 const settings: Settings[] = generateSettings()
                 user.saveSettings(settings)
-                expect(setItemMock).toHaveBeenCalledWith('settings', JSON.stringify(settings));
+                expect(sessionStorage.getItem("settings")).toBe(JSON.stringify(settings));
             })
         })
 
         describe('Store in localStorage', () => {
             it('should store user data in localStorage', () => {
-                const setItemMock = getStorageMocker("localStorage")
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
-                expect(setItemMock).toHaveBeenCalledWith('username', randomUser.username);
-                expect(setItemMock).toHaveBeenCalledWith('loginToken', randomUser.loginToken);
-                expect(setItemMock).toHaveBeenCalledWith('stayLoggedIn', true);
-                expect(setItemMock).toHaveBeenCalledWith('profilePicture', JSON.stringify(randomUser.profilePicture));
-                expect(setItemMock).toHaveBeenCalledWith('profileBorder', JSON.stringify(randomUser.profileBorder));
+                expect(localStorage.getItem("username")).toBe(randomUser.username);
+                expect(localStorage.getItem("loginToken")).toBe(randomUser.loginToken);
+                expect(localStorage.getItem("stayLoggedIn")).toBe(true);
+                expect(localStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
+                expect(localStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
             })
 
             it('should store user settings in localStorage', () => {
-                const setItemMock = getStorageMocker("localStorage")
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
                 const settings: Settings[] = generateSettings()
                 user.saveSettings(settings)
-                expect(setItemMock).toHaveBeenCalledWith('settings', JSON.stringify(settings));
+                expect(localStorage.getItem("settings")).toBe(JSON.stringify(settings));
             })
         })
 
         it('should clear user data', () => {
-            getStorageMocker("localStorage")
-            user.clear();
             const randomUser = generateUser()
             user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
             const settings: Settings[] = generateSettings()
@@ -168,13 +185,16 @@ describe('User class', () => {
 
         describe('Load data from localStorage', () => {
             it('should load user data from localStorage', () => {
-                getStorageMocker("localStorage")
-                user.clear();
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
                 const settings: Settings[] = generateSettings()
                 user.saveSettings(settings)
-                user.clear()
+                user.username = null;
+                user.loginToken = null;
+                user.stayLoggedIn = false;
+                user.profilePicture = null;
+                user.profileBorder = null;
+                user.settings = null;
                 user.loadUser();
                 expect(user.Username).toBe(randomUser.username);
                 expect(user.LoginToken).toBe(randomUser.loginToken);
@@ -185,8 +205,6 @@ describe('User class', () => {
             });
 
             it('should load no data from localStorage', () => {
-                getStorageMocker("localStorage")
-                user.clear();
                 user.loadUser();
                 expect(user.Username).toBe(null);
                 expect(user.LoginToken).toBe(null);
@@ -251,7 +269,12 @@ describe('User class', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await user.guestLogin();
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/login");
+                expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/login", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
                 expect(result?.response.status).toBe(200);
                 expect(result?.data).toEqual(fakeBody);
             });
@@ -372,7 +395,10 @@ describe('User class', () => {
                 expect(mockFetch).toHaveBeenCalledTimes(1);
                 expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/password", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.LoginToken}`
+                    },
                     body: JSON.stringify({ email: randomUser.email })
                 });
                 expect(result?.response.status).toBe(200);
@@ -398,7 +424,10 @@ describe('User class', () => {
                 expect(mockFetch).toHaveBeenCalledTimes(1);
                 expect(mockFetch).toHaveBeenCalledWith("https://localhost:3000/user/password", {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.LoginToken}`
+                    },
                     body: JSON.stringify({ password: randomUser.password })
                 });
                 expect(result?.response.status).toBe(200);

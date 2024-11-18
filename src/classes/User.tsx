@@ -40,12 +40,12 @@ class User implements UserData {
 
     private save() {
         let storage = this.stayLoggedIn ? localStorage : sessionStorage
-    
+
         Object.entries(this).forEach(([key, value]) => {
             const storedValue = typeof value === 'object' ? JSON.stringify(value) : value;
             storage.setItem(key, storedValue);
         });
-    }    
+    }
 
     loadUser() {
         Object.keys(this).forEach((key) => {
@@ -62,92 +62,32 @@ class User implements UserData {
     }
 
     async register(username: string, email: string, password: string, stayLoggedIn: boolean) {
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            },
-            body: JSON.stringify({
-                username: username,
-                email: email,
-                password: password,
-                stayLoggedIn: stayLoggedIn
-            })
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/register", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/register", "POST", "Bearer", {
+            username: username,
+            email: email,
+            password: password,
+            stayLoggedIn: stayLoggedIn
+        })
     }
 
     async guestLogin() {
-        try {
-            const response = await fetch("https://localhost:3000/user/login");
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/login", "GET")
     }
 
     async tokenLogin() {
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            }
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/login", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/login", "POST", "Bearer")
     }
 
     async login(username: string, password: string, stayLoggedIn: boolean) {
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-                stayLoggedIn: stayLoggedIn
-            })
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/login", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/login", "POST", undefined, {
+            username: username,
+            password: password,
+            stayLoggedIn: stayLoggedIn
+        })
     }
 
     async logout() {
-        const auth = btoa(`${this.username}:${this.loginToken}`)
-        const options = {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Basic ${auth}`
-            }
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/login", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/login", "DELETE", "Basic")
     }
 
     clear() {
@@ -157,153 +97,73 @@ class User implements UserData {
         this.profilePicture = null;
         this.profileBorder = null;
         this.settings = null;
-        localStorage.clear;
-        sessionStorage.clear;
+        localStorage.clear();
+        sessionStorage.clear();
     }
 
     async forgotPassword(email: string) {
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email
-            })
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/password", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/password", "POST", "Bearer", { email: email })
     }
 
     async changePassword(password: string) {
-        const options = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                password: password
-            })
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/password", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/password", "PUT", "Bearer", { password: password })
     }
 
     async getSettings() {
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            }
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/settings", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate("https://localhost:3000/user/settings", "GET", "Bearer")
     }
 
     async changeSettings(settings: Settings) {
-        const options = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            },
-            body: JSON.stringify(settings)
-        };
-        try {
-            const response = await fetch(`https://localhost:3000/user/settings/${settings.id}`, options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+        return await this.communicate(`https://localhost:3000/user/settings/${settings.id}`, "PUT", "Bearer", settings)
     }
 
-    async getStats(){
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            }
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/stats", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+    async getStats() {
+        return await this.communicate("https://localhost:3000/user/stats", "GET", "Bearer")
     }
 
-    async getCollection(){
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            }
-        };
-        try {
-            const response = await fetch("https://localhost:3000/user/collection", options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
-        }
+    async getCollection() {
+        return await this.communicate("https://localhost:3000/user/collection", "GET", "Bearer")
     }
 
     async changeProfilePics(profilePicture: number, profileBorder: number) {
-        const options = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            },
-            body: JSON.stringify({
-                profilePicture: profilePicture,
-                profileBorder: profileBorder
-            })
+        return await this.communicate("https://localhost:3000/user/profile", "PUT", "Bearer", {
+            profilePicture: profilePicture,
+            profileBorder: profileBorder
+        })
+    }
+
+    async getGamemodes(type: 'singleplayer' | 'multiplayer') {
+        return await this.communicate(`https://localhost:3000/game/${type}`, "GET", "Bearer")
+    }
+
+    private async communicate(url: string, method: "GET" | "POST" | "PUT" | "DELETE", auth?: "Basic" | "Bearer", body?: object) {
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+        };
+        if (auth) {
+            headers['Authorization'] = this.getAuthorizationToken(auth);
+        }
+        const options: RequestInit = {
+            method: method,
+            headers: headers,
+            body: body ? JSON.stringify(body) : undefined,
         };
         try {
-            const response = await fetch(`https://localhost:3000/user/profile`, options);
+            const response = await fetch(url, options);
             const data = await response.json();
             return { data: data, response: response };
         } catch (err: any) {
-            error.setError(err)
+            error.setError(err);
+            return null;
         }
     }
 
-    async getGamemodes(type: 'singleplayer' | 'multiplayer'){
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.loginToken}`
-            }
-        };
-        try {
-            const response = await fetch(`https://localhost:3000/game/${type}`, options);
-            const data = await response.json();
-            return { data: data, response: response };
-        } catch (err: any) {
-            error.setError(err)
+    private getAuthorizationToken(auth: "Basic" | "Bearer") {
+        let tokens = {
+            "Basic": `Basic ${btoa(`${this.username}:${this.loginToken}`)}`,
+            "Bearer": `Bearer ${this.loginToken}`
         }
+        return tokens[auth]
     }
 
     get Username() {
