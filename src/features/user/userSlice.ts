@@ -62,11 +62,15 @@ export const userSlice = createSlice({
             });
             Object.assign(state, storageContent);
         },
-        clear: (state) => {
-            Object.assign(state, null);
-            state.stayLoggedIn = false
-        }
+        clearUser: (state) => {
+            state.username = null;
+            state.loginToken = null;
+            state.stayLoggedIn = false;
+            state.profilePicture = null;
+            state.profileBorder = null;
+            state.settings = null;
+        }        
     }
 })
-export const { saveUser, saveSettings, loadUser } = userSlice.actions;
+export const { saveUser, saveSettings, loadUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -3,6 +3,9 @@ import user from "../classes/User";
 import { Settings } from "../interfaces/Settings";
 import { faker } from "@faker-js/faker";
 import { error } from "../classes/Error";
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer, { saveSettings, saveUser, clearUser, loadUser } from "../features/user/userSlice"
+import { store } from "../app/store";
 
 function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
     const storage: Record<string, string> = {};
@@ -98,13 +101,21 @@ function getSuccceedFetchMocker(status: number, body: object) {
     return mockFetch
 }
 
-beforeEach(() => {
+beforeEach(async () => {
     getStorageMocker("localStorage");
     getStorageMocker("sessionStorage");
+    let store: ReturnType<typeof configureStore>;
+    store = configureStore({
+        reducer: {
+            user: userReducer,
+        },
+    });
 });
 
-afterEach(() => {
-    user.clear()
+afterEach(async () => {
+    localStorage.clear();
+    sessionStorage.clear()
+    await store.dispatch(clearUser())
     vi.clearAllMocks();
 });
 
@@ -112,108 +123,114 @@ describe('User class', () => {
     describe('Data controller functions', () => {
         describe('Update user', () => {
             it('should update user data correctly', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
-                expect(user.Username).toBe(randomUser.username);
-                expect(user.LoginToken).toBe(randomUser.loginToken);
-                expect(user.StayLoggedIn).toBe(randomUser.stayLoggedIn);
-                expect(user.ProfilePicture).toEqual(randomUser.profilePicture);
-                expect(user.ProfileBorder).toEqual(randomUser.profileBorder);
+                const randomUser = generateUser();
+                store.dispatch(saveUser(randomUser));
+                const state = store.getState().user;
+                expect(state.username).toBe(randomUser.username);
+                expect(state.loginToken).toBe(randomUser.loginToken);
+                expect(state.stayLoggedIn).toBe(randomUser.stayLoggedIn);
+                expect(state.profilePicture).toEqual(randomUser.profilePicture);
+                expect(state.profileBorder).toEqual(randomUser.profileBorder);
             });
 
             it('should update user settings correctly', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
-                const settings: Settings[] = generateSettings()
-                user.saveSettings(settings)
-                expect(user.Settings).toEqual(settings);
+                const randomUser = generateUser();
+                store.dispatch(saveUser(randomUser));
+                const settings: Settings[] = generateSettings();
+                store.dispatch(saveSettings(settings));
+                const state = store.getState().user;
+                expect(state.settings).toEqual(settings);
             });
         })
 
         describe('Store in sessionStorage', () => {
             it('should store user data in sessionStorage', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, false, randomUser.profilePicture, randomUser.profileBorder)
+                const randomUser = generateUser();
+                randomUser.stayLoggedIn = false
+                store.dispatch(saveUser(randomUser));
                 expect(sessionStorage.getItem("username")).toBe(randomUser.username);
                 expect(sessionStorage.getItem("loginToken")).toBe(randomUser.loginToken);
                 expect(sessionStorage.getItem("stayLoggedIn")).toBe(false);
                 expect(sessionStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(sessionStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
-            })
+            });
 
             it('should store user settings in sessionStorage', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, false, randomUser.profilePicture, randomUser.profileBorder)
-                const settings: Settings[] = generateSettings()
-                user.saveSettings(settings)
+                const randomUser = generateUser();
+                randomUser.stayLoggedIn = false
+                store.dispatch(saveUser(randomUser));
+                const settings: Settings[] = generateSettings();
+                store.dispatch(saveSettings(settings));
                 expect(sessionStorage.getItem("settings")).toBe(JSON.stringify(settings));
-            })
+            });
         })
 
         describe('Store in localStorage', () => {
             it('should store user data in localStorage', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
+                const randomUser = generateUser();
+                randomUser.stayLoggedIn = true
+                store.dispatch(saveUser(randomUser));
                 expect(localStorage.getItem("username")).toBe(randomUser.username);
                 expect(localStorage.getItem("loginToken")).toBe(randomUser.loginToken);
                 expect(localStorage.getItem("stayLoggedIn")).toBe(true);
                 expect(localStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(localStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
-            })
-
+            });
+            
             it('should store user settings in localStorage', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
-                const settings: Settings[] = generateSettings()
-                user.saveSettings(settings)
+                const randomUser = generateUser();
+                randomUser.stayLoggedIn = true
+                store.dispatch(saveUser(randomUser));
+                const settings: Settings[] = generateSettings();
+                store.dispatch(saveSettings(settings));
                 expect(localStorage.getItem("settings")).toBe(JSON.stringify(settings));
-            })
+            });
         })
 
-        it('should clear user data', () => {
-            const randomUser = generateUser()
-            user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
-            const settings: Settings[] = generateSettings()
-            user.saveSettings(settings)
-            user.clear()
-            expect(user.Username).toBe(null);
-            expect(user.LoginToken).toBe(null);
-            expect(user.StayLoggedIn).toBe(false);
-            expect(user.ProfilePicture).toEqual(null);
-            expect(user.ProfileBorder).toEqual(null);
-            expect(user.Settings).toEqual(null);
-        })
+        it('should clear user data', async () => {
+            const randomUser = generateUser();
+            store.dispatch(saveUser(randomUser));
+            const settings: Settings[] = generateSettings();
+            store.dispatch(saveSettings(settings));
+            await store.dispatch(clearUser());
+            const updatedState = store.getState().user;
+            expect(updatedState.username).toBeNull();
+            expect(updatedState.loginToken).toBeNull();
+            expect(updatedState.stayLoggedIn).toBe(false);
+            expect(updatedState.profilePicture).toBeNull();
+            expect(updatedState.profileBorder).toBeNull();
+            expect(updatedState.settings).toBeNull();
+        });
+        
 
         describe('Load data from localStorage', () => {
             it('should load user data from localStorage', () => {
-                const randomUser = generateUser()
-                user.saveUser(randomUser.username, randomUser.loginToken, true, randomUser.profilePicture, randomUser.profileBorder)
-                const settings: Settings[] = generateSettings()
-                user.saveSettings(settings)
-                user.username = null;
-                user.loginToken = null;
-                user.stayLoggedIn = false;
-                user.profilePicture = null;
-                user.profileBorder = null;
-                user.settings = null;
-                user.loadUser();
-                expect(user.Username).toBe(randomUser.username);
-                expect(user.LoginToken).toBe(randomUser.loginToken);
-                expect(user.StayLoggedIn).toBe(true);
-                expect(user.ProfilePicture).toEqual(randomUser.profilePicture);
-                expect(user.ProfileBorder).toEqual(randomUser.profileBorder);
-                expect(user.Settings).toEqual(settings);
+                const randomUser = generateUser();
+                randomUser.stayLoggedIn = true
+                store.dispatch(saveUser(randomUser));
+                const settings: Settings[] = generateSettings();
+                store.dispatch(saveSettings(settings));
+                store.dispatch(clearUser());
+                store.dispatch(loadUser());
+                const state = store.getState().user;
+                expect(state.username).toBe(randomUser.username);
+                expect(state.loginToken).toBe(randomUser.loginToken);
+                expect(state.stayLoggedIn).toBe(true);
+                expect(state.profilePicture).toEqual(randomUser.profilePicture);
+                expect(state.profileBorder).toEqual(randomUser.profileBorder);
+                expect(state.settings).toEqual(settings);
             });
 
-            it('should load no data from localStorage', () => {
-                user.loadUser();
-                expect(user.Username).toBe(null);
-                expect(user.LoginToken).toBe(null);
-                expect(user.StayLoggedIn).toBe(false);
-                expect(user.ProfilePicture).toEqual(null);
-                expect(user.ProfileBorder).toEqual(null);
-                expect(user.Settings).toEqual(null);
-            })
+            it('should load no data from localStorage', async () => {
+                await store.dispatch(loadUser());
+                const state = store.getState().user;
+                expect(state.username).toBeNull();
+                expect(state.loginToken).toBeNull();
+                expect(state.stayLoggedIn).toBe(false);
+                expect(state.profilePicture).toBeNull();
+                expect(state.profileBorder).toBeNull();
+                expect(state.settings).toBeNull();
+            });
         })
     });
 
@@ -618,6 +635,6 @@ describe('User class', () => {
                 expect(mockFetch).toHaveBeenCalledTimes(1);
                 errorMock.mockRestore();
             });
-        }); 
+        });
     });
 })
