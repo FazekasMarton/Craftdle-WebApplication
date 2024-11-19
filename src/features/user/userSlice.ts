@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Settings } from "../interfaces/Settings"
+import { Settings } from "../../interfaces/Settings"
 
 interface ProfileImage {
     id: string,
@@ -62,6 +62,10 @@ export const userSlice = createSlice({
             });
             Object.assign(state, storageContent);
         },
+        clear: (state) => {
+            Object.assign(state, null);
+            state.stayLoggedIn = false
+        }
     }
 })
 export const { saveUser, saveSettings, loadUser } = userSlice.actions;
