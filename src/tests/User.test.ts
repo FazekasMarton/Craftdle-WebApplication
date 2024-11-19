@@ -110,7 +110,7 @@ afterEach(() => {
 
 describe('User class', () => {
     describe('Data controller functions', () => {
-/*         describe('Update user', () => {
+        describe('Update user', () => {
             it('should update user data correctly', () => {
                 const randomUser = generateUser()
                 user.saveUser(randomUser.username, randomUser.loginToken, randomUser.stayLoggedIn, randomUser.profilePicture, randomUser.profileBorder)
@@ -214,10 +214,10 @@ describe('User class', () => {
                 expect(user.ProfileBorder).toEqual(null);
                 expect(user.Settings).toEqual(null);
             })
-        }) */
+        })
     });
 
-/*     describe('Data request', () => {
+    describe('Data request', () => {
         describe('Register', () => {
             it('should return data and response for a successful registration', async () => {
                 const randomUser = generateUser();
@@ -619,5 +619,5 @@ describe('User class', () => {
                 errorMock.mockRestore();
             });
         }); 
-    });*/
+    });
 })
