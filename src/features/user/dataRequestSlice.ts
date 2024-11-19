@@ -8,11 +8,11 @@ async function communicate(
     dispatch: Function,
     url: string,
     method: "GET" | "POST" | "PUT" | "DELETE",
-    auth?: "Basic" | "Bearer",
+    auth?: "Basic" | "Bearer" | null,
     body?: object,
 ) {
     const headers: Record<string, string> = {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
     };
 
     if (auth) {
@@ -30,16 +30,11 @@ async function communicate(
 
     try {
         const response = await fetch(url, options);
-        if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status}`);
-        }
         const data = await response.json();
-        return { data, response };
+        return { data: data, response: response.status };
     } catch (err: any) {
-        if (dispatch) {
-            dispatch(setError(err));
-        }
-        throw err;
+        console.log(err)
+        dispatch(setError(err.name));
     }
 }
 
@@ -57,7 +52,7 @@ export const register = createAsyncThunk(
             dispatch,
             "https://localhost:3000/user/register",
             "POST",
-            "Bearer",
+            null,
             {
                 username: username,
                 email: email,
@@ -66,7 +61,7 @@ export const register = createAsyncThunk(
             },
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -82,7 +77,7 @@ export const guestLogin = createAsyncThunk(
             "GET"
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -99,7 +94,7 @@ export const tokenLogin = createAsyncThunk(
             "Bearer"
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -119,7 +114,7 @@ export const login = createAsyncThunk(
             { username, password, stayLoggedIn }
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -136,7 +131,7 @@ export const logout = createAsyncThunk(
             "Basic"
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -154,7 +149,7 @@ export const forgotPassword = createAsyncThunk(
             { email: email }
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -172,7 +167,7 @@ export const changePassword = createAsyncThunk(
             { password: password }
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -189,7 +184,7 @@ export const getSettings = createAsyncThunk(
             "Bearer"
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -207,7 +202,7 @@ export const changeSettings = createAsyncThunk(
             settings
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -224,7 +219,7 @@ export const getStats = createAsyncThunk(
             "Bearer"
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -241,7 +236,7 @@ export const getCollection = createAsyncThunk(
             "Bearer"
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -262,7 +257,7 @@ export const changeProfilePics = createAsyncThunk(
             { profilePicture, profileBorder }
         );
 
-        return response?.data;
+        return response;
     }
 );
 
@@ -282,6 +277,6 @@ export const getGamemodes = createAsyncThunk(
             "Bearer"
         );
 
-        return response?.data;
+        return response;
     }
 );

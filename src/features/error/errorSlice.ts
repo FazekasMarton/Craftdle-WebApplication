@@ -16,9 +16,9 @@ const errorSlice = createSlice({
     name: 'error',
     initialState,
     reducers: {
-        setError: (state, action: PayloadAction<string>) => {
-            const error = action.payload;
-            switch (error) {
+        setError: (state, action: PayloadAction<Error>) => {
+            const errorName = action.payload.name;
+            switch (errorName) {
                 case 'TypeError':
                     state.status = 503;
                     state.name = "Service Unavailable";
@@ -35,7 +35,7 @@ const errorSlice = createSlice({
                     state.message = "Something went wrong on our end. Please try again later.";
                     break;
             }
-        },
+        },       
         resetError: (state) => {
             state.status = 200;
             state.name = "OK";

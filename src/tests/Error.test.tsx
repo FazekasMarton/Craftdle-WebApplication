@@ -21,7 +21,7 @@ describe('Error slice', () => {
     });
     
     it('should update error state when setError is dispatched', () => {
-        store.dispatch(setError(new TypeError().name));
+        store.dispatch(setError(new TypeError()));
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(503);
         expect(state.error.name).toBe("Service Unavailable");
@@ -29,7 +29,7 @@ describe('Error slice', () => {
     });
     
     it('should update error state for SyntaxError', () => {
-        store.dispatch(setError(new SyntaxError().name));
+        store.dispatch(setError(new SyntaxError()));
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(400);
         expect(state.error.name).toBe("Bad Request");
@@ -37,7 +37,7 @@ describe('Error slice', () => {
     });
     
     it('should update error state for unknown errors', () => {
-        store.dispatch(setError(new Error("UnknownError").name));
+        store.dispatch(setError(new Error("UnknownError")));
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(500);
         expect(state.error.name).toBe("Internal Server Error");
@@ -46,7 +46,7 @@ describe('Error slice', () => {
     
     it('should clear error state when clearError is dispatched', () => {
         const state = store.getState() as RootState;
-        store.dispatch(setError(new TypeError().name));
+        store.dispatch(setError(new TypeError()));
         store.dispatch(resetError());
         expect(state.error.status).toBe(200);
         expect(state.error.name).toBe("OK");
