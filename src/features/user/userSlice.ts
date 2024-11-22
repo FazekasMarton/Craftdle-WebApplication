@@ -1,11 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Settings } from "../../interfaces/Settings"
-
-interface ProfileImage {
-    id: string,
-    name: string,
-    src: string
-}
+import { ProfileImage } from "../../interfaces/ProfileImage";
 
 interface UserState {
     username: string | null,
