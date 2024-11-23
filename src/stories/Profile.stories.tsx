@@ -17,7 +17,7 @@ export default {
     component: Profile,
 };
 
-export function Default(){
+export function Villager(){
     const testPPicture: ProfileImage = {
         id: "picture",
         name: "test_picture",
