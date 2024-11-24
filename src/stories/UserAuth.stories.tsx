@@ -21,6 +21,7 @@ export const RegisteredUser = () => {
     const fakeUser = {
         username: "Martin Potter",
         loginToken: "1234-5678-9012-3456-7890",
+        isGuest: false,
         stayLoggedIn: false,
         profilePicture: {
             id: "picture",
@@ -44,6 +45,7 @@ export const Guest = () => {
     const fakeUser = {
         username: "Guest1234",
         loginToken: "1234-5678-9012-3456-7890",
+        isGuest: true,
         stayLoggedIn: false,
         profilePicture: {
             id: "picture",

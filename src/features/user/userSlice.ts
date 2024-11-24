@@ -5,6 +5,7 @@ import { ProfileImage } from "../../interfaces/ProfileImage";
 interface UserState {
     username: string | null,
     loginToken: string | null,
+    isGuest: boolean,
     stayLoggedIn: boolean,
     profilePicture: ProfileImage | null,
     profileBorder: ProfileImage | null,
@@ -14,6 +15,7 @@ interface UserState {
 const initialState: UserState = {
     username: null,
     loginToken: null,
+    isGuest: false,
     stayLoggedIn: false,
     profilePicture: null,
     profileBorder: null,
@@ -60,6 +62,7 @@ export const userSlice = createSlice({
         clearUser: (state) => {
             state.username = null;
             state.loginToken = null;
+            state.isGuest = false,
             state.stayLoggedIn = false;
             state.profilePicture = null;
             state.profileBorder = null;

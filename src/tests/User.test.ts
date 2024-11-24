@@ -44,6 +44,7 @@ function generateUser() {
     return {
         username: faker.person.fullName(),
         loginToken: faker.string.uuid(),
+        isGuest: faker.datatype.boolean(),
         stayLoggedIn: faker.datatype.boolean(),
         profilePicture: generateImage(),
         profileBorder: generateImage(),
@@ -120,6 +121,7 @@ describe('User class', () => {
                 const state = store.getState().user;
                 expect(state.username).toBe(randomUser.username);
                 expect(state.loginToken).toBe(randomUser.loginToken);
+                expect(state.isGuest).toBe(randomUser.isGuest);
                 expect(state.stayLoggedIn).toBe(randomUser.stayLoggedIn);
                 expect(state.profilePicture).toEqual(randomUser.profilePicture);
                 expect(state.profileBorder).toEqual(randomUser.profileBorder);
@@ -142,6 +144,7 @@ describe('User class', () => {
                 store.dispatch(saveUser(randomUser));
                 expect(sessionStorage.getItem("username")).toBe(randomUser.username);
                 expect(sessionStorage.getItem("loginToken")).toBe(randomUser.loginToken);
+                expect(sessionStorage.getItem("isGuest")).toBe(randomUser.isGuest);
                 expect(sessionStorage.getItem("stayLoggedIn")).toBe(false);
                 expect(sessionStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(sessionStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
@@ -164,6 +167,7 @@ describe('User class', () => {
                 store.dispatch(saveUser(randomUser));
                 expect(localStorage.getItem("username")).toBe(randomUser.username);
                 expect(localStorage.getItem("loginToken")).toBe(randomUser.loginToken);
+                expect(localStorage.getItem("isGuest")).toBe(randomUser.isGuest);
                 expect(localStorage.getItem("stayLoggedIn")).toBe(true);
                 expect(localStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(localStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
@@ -188,6 +192,7 @@ describe('User class', () => {
             const updatedState = store.getState().user;
             expect(updatedState.username).toBeNull();
             expect(updatedState.loginToken).toBeNull();
+            expect(updatedState.isGuest).toBe(false);
             expect(updatedState.stayLoggedIn).toBe(false);
             expect(updatedState.profilePicture).toBeNull();
             expect(updatedState.profileBorder).toBeNull();
@@ -207,6 +212,7 @@ describe('User class', () => {
                 const state = store.getState().user;
                 expect(state.username).toBe(randomUser.username);
                 expect(state.loginToken).toBe(randomUser.loginToken);
+                expect(state.isGuest).toBe(randomUser.isGuest);
                 expect(state.stayLoggedIn).toBe(true);
                 expect(state.profilePicture).toEqual(randomUser.profilePicture);
                 expect(state.profileBorder).toEqual(randomUser.profileBorder);
@@ -218,6 +224,7 @@ describe('User class', () => {
                 const state = store.getState().user;
                 expect(state.username).toBeNull();
                 expect(state.loginToken).toBeNull();
+                expect(state.isGuest).toBe(false);
                 expect(state.stayLoggedIn).toBe(false);
                 expect(state.profilePicture).toBeNull();
                 expect(state.profileBorder).toBeNull();

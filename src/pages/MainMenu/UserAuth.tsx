@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
 
 interface UserAuthNavProps {
-    username: string,
+    isGuest: boolean,
     form: "Login" | "Register" | "Logout"
     setForm: (value: "Login" | "Register" | "Logout") => void
 }
@@ -14,7 +14,7 @@ function UserAuthNav(props: UserAuthNavProps) {
     return <div id="userAuthNav">
         <Button color={props.form == "Login" ? "gray" : "green"} onClick={() => props.setForm("Login")}>Log In</Button>
         <Button color={props.form == "Register" ? "gray" : "green"} onClick={() => props.setForm("Register")}>Register</Button>
-        {!/^Guest[0-9]+$/.test(props.username) ? <Button color={props.form == "Logout" ? "gray" : "green"} onClick={() => props.setForm("Logout")}>Log Out</Button> : null}
+        {!props.isGuest ? <Button color={props.form == "Logout" ? "gray" : "green"} onClick={() => props.setForm("Logout")}>Log Out</Button> : null}
     </div>
 }
 
@@ -86,11 +86,11 @@ function getForm(formName: "Login" | "Register" | "Logout") {
 }
 
 export function UserAuth() {
-    const username = useSelector((state: RootState) => state.user.username);
+    const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout">("Login")
     return <div id="userAuth">
         <button id='authExit'></button>
-        <UserAuthNav username={username || ""} form={form} setForm={setForm} />
+        <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
         {getForm(form)}
     </div>
 }

@@ -2,7 +2,7 @@ import { Button } from "../components/Button";
 import "../style.css"
 
 export default {
-    title: "Components/GreenButton",
+    title: "Components/Button",
     component: Button,
 };
 
