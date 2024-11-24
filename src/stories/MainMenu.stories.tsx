@@ -1,17 +1,17 @@
 import { Provider, useDispatch } from "react-redux";
-import { UserAuth } from "../pages/MainMenu/UserAuth";
 import "../style.css"
 import { store } from "../app/store";
 import { saveUser } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
-
-function setAuthOpened(value: boolean){
-    console.log(`authOpened changed to ${value}`)
-}
+import { MainMenu } from "../pages/MainMenu/MainMenu";
+import fox from "./assets/imgs/profilePictures/Fox.png"
+import ice from "./assets/imgs/profileBorders/Snow.png"
+import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
+import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 
 export default {
-    title: "Components/UserAuth",
-    component: UserAuth,
+    title: "Components/MainMenu",
+    component: MainMenu,
     decorators: [
         (Story: any) => (
             <Provider store={store}>
@@ -30,18 +30,18 @@ export const RegisteredUser = () => {
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: "testP.png"
+            src: villager
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: "testB.png"
+            src: wood
         }
     }
     const dispatch = useDispatch()
     dispatch(saveUser(fakeUser))
     return <BrowserRouter>
-        <UserAuth openAuth={setAuthOpened}/>
+        <MainMenu />
     </BrowserRouter>
 }
 
@@ -54,17 +54,17 @@ export const Guest = () => {
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: "testP.png"
+            src: fox
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: "testB.png"
+            src: ice
         }
     }
     const dispatch = useDispatch()
     dispatch(saveUser(fakeUser))
     return <BrowserRouter>
-        <UserAuth openAuth={setAuthOpened}/>
+        <MainMenu />
     </BrowserRouter>
 }

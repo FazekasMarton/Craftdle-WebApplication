@@ -6,5 +6,5 @@ interface ButtonProps{
 
 export function Button(props: ButtonProps){
     let click = props.onClick ? props.onClick : () => {}
-    return <button className={`${props.color}Button`} onClick={() => {click()}}>{props.children}</button>
+    return <button className={`${props.color}Button button`} onClick={() => {click()}}>{props.children}</button>
 }

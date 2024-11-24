@@ -19,7 +19,7 @@ function UserAuthNav(props: UserAuthNavProps) {
 }
 
 function LoginForm() {
-    return <form className='authForm'>
+    return <div className='authForm'>
         <div className='authFormInputs'>
             <div>
                 <label htmlFor="loginUsernameAndEmail">Username or Email:</label>
@@ -35,11 +35,11 @@ function LoginForm() {
             </div>
         </div>
         <Button color="green">Log In</Button>
-    </form>
+    </div>
 }
 
 function RegisterForm() {
-    return <form className='authForm'>
+    return <div className='authForm'>
         <div className='authFormInputs'>
             <div>
                 <label htmlFor="registerUsername">Username:</label>
@@ -67,14 +67,14 @@ function RegisterForm() {
             </div>
         </div>
         <Button color="green">Register</Button>
-    </form>
+    </div>
 }
 
 function LogoutForm() {
-    return <form className='authForm'>
+    return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
         <Button color="green">Log Out</Button>
-    </form>
+    </div>
 }
 
 function getForm(formName: "Login" | "Register" | "Logout") {
@@ -85,11 +85,15 @@ function getForm(formName: "Login" | "Register" | "Logout") {
     }
 }
 
-export function UserAuth() {
+interface UserAuthProps{
+    openAuth: (value: boolean) => void
+}
+
+export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout">("Login")
     return <div id="userAuth">
-        <button id='authExit'></button>
+        <button id='authExit' onClick={() => props.openAuth(false)}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
         {getForm(form)}
     </div>

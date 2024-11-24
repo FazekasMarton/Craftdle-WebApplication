@@ -1,3 +1,4 @@
+import { useState } from "react"
 import title from "../../assets/imgs/craftdle_title-react_edition.png"
 
 const texts = [
@@ -43,8 +44,9 @@ function getRandomText(){
 }
 
 export function Title() {
+    const [text] = useState(getRandomText())
     return <header id="craftleTitle">
         <img id="craftdleLogo" src={title} alt="Craftdle Logo" />
-        <span id="yellowText">{getRandomText()}</span>
+        <span id="yellowText">{text}</span>
     </header>
 }

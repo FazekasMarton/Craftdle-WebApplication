@@ -32,6 +32,7 @@ import bg1_16_2 from "../../assets/imgs/panoramas/1.16_panorama_2.png"
 import bg1_16_3 from "../../assets/imgs/panoramas/1.16_panorama_3.png"
 import bg1_16_4 from "../../assets/imgs/panoramas/1.16_panorama_4.png"
 import bg1_16_5 from "../../assets/imgs/panoramas/1.16_panorama_5.png"
+import { useState } from "react"
 
 let panoramass = [
     [bg1_21_0, bg1_21_1, bg1_21_2, bg1_21_3, bg1_21_4, bg1_21_5],
@@ -46,8 +47,9 @@ function randomizepanoramas(){
 }
 
 export function Background() {
+    const [panorama] = useState(randomizepanoramas())
     return <div id="background">
-        {randomizepanoramas().map((imgs, index) => (
+        {panorama.map((imgs, index) => (
             <img key={index} id={`panoramaPicture${index}`} className="panoramaPicture" src={imgs} alt={`panoramaPicture${index}`} />
         ))}
     </div>

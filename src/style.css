@@ -16,6 +16,16 @@
 
 /* -- Button -- */
 
+.button{
+    padding: 1vmin;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100%;
+    font-size: 2vmin;
+    text-wrap: nowrap;
+    cursor: pointer;
+}
+
 /* - Green - */
 .greenButton{
     background-color: rgb(59, 132, 39);
@@ -23,13 +33,6 @@
     border-right: 1vmin solid rgb(28, 63, 19);
     border-bottom: 1vmin solid rgb(22, 79, 14);
     border-left: 1vmin solid rgb(66, 115, 52);
-    padding: 1vmin;
-    color: rgb(255, 255, 255);
-    width: 100%;
-    height: 100%;
-    font-family: MinecraftRegular;
-    font-size: 2vmin;
-    text-wrap: nowrap;
 }
 
 .greenButton:hover{
@@ -48,13 +51,6 @@
     border-right: 1vmin solid rgb(63, 63, 63);
     border-bottom: 1vmin solid rgb(79, 79, 79);
     border-left: 1vmin solid rgb(115, 115, 115);
-    padding: 1vmin;
-    color: rgb(255, 255, 255);
-    width: 100%;
-    height: 100%;
-    font-family: MinecraftRegular;
-    font-size: 2vmin;
-    text-wrap: nowrap;
 }
 
 /* -- StoneButton -- */
@@ -88,6 +84,7 @@
     font-size: 3.7vmin;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .stoneButton img{
@@ -172,9 +169,8 @@ body,
 #menu{
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: min-content min-content min-content min-content auto min-content;
+    grid-template-rows: min-content min-content min-content auto min-content;
     grid-template-areas: 
-    "account account account"
     "title title title"
     ". maintenance ."
     ". mainButtons ."
@@ -187,13 +183,16 @@ body,
 }
 
 #account{
-    grid-area: account;
-    justify-self: end;
+    position: absolute;
+    top: 0;
+    right: 0;
     display: flex;
     align-items: center;
     gap: 10px;
     width: fit-content;
     height: min-content;
+    margin: 10px;
+    cursor: pointer;
 }
 
 #profileBorder{
@@ -225,6 +224,7 @@ body,
     width: min-content;
     justify-self: center;
     position: relative;
+    padding-top: 5vmin;
 }
 
 #craftdleLogo{
@@ -321,6 +321,7 @@ body,
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: min-content min-content auto;
+    z-index: 2;
 }
 
 #authExit{
@@ -334,6 +335,7 @@ body,
     background-position: center;
     background-repeat: no-repeat;
     filter: sepia(40%) hue-rotate(90deg) saturate(550%);
+    cursor: pointer;
 }
 
 #authExit:hover{
