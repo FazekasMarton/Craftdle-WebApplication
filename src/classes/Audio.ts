@@ -4,5 +4,11 @@ const clickAudio = new Audio(clickSound)
 clickAudio.preload = "auto"
 
 export class SoundEffect{
-    static click = clickAudio
+    static play(effect: "click"){
+        switch (effect) {
+            case "click":
+                new Audio(clickSound).play()
+                break;
+        }
+    }
 }
