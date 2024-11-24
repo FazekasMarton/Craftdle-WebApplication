@@ -313,11 +313,31 @@ body,
     left: 50%;
     translate: -50% -50%;
     background-color: rgb(38, 38, 38);
+    width: 360px;
+    height: 550px;
     padding: 20px;
+    gap: 20px;
     border-radius: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto;
+}
+
+#authExit{
+    justify-self: flex-end;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    background-image: url("./assets/imgs/icons/reject.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: sepia(40%) hue-rotate(90deg) saturate(550%);
+}
+
+#authExit:hover{
+    background-image: url("./assets//imgs//icons//reject_highlighted.png");
 }
 
 #userAuthNav{
@@ -328,10 +348,16 @@ body,
 .authForm{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.authForm > .authFormInputs{
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
-.authForm > div:not(.checkRow){
+.authForm > .authFormInputs > div:not(.checkRow){
     display: flex;
     flex-direction: column;
 }
@@ -377,4 +403,8 @@ input:-webkit-autofill:focus {
 .link{
     color: rgb(0, 170, 0);
     font-weight: bold;
+}
+
+.authForm button{
+    height: min-content;
 }
