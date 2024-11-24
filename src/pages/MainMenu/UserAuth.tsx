@@ -23,7 +23,7 @@ function LoginForm() {
 }
 
 function RegisterForm() {
-    return <form>
+    return <form className='authForm'>
         <div>
             <label htmlFor="registerUsername">Username:</label>
             <input type="text" id='registerUsername' />
@@ -40,9 +40,9 @@ function RegisterForm() {
             <label htmlFor="registerPasswordConfirm">Confirm password:</label>
             <input type="password" id='registerPasswordConfirm' />
         </div>
-        <div>
+        <div className='checkRow'>
             <input type="checkbox" id='acceptTermsOfUse' />
-            <label htmlFor="acceptTermsOfUse">I accept and agree to the <Link to="/docs#termsOfUse">Terms of Use</Link></label>
+            <label htmlFor="acceptTermsOfUse">I accept and agree to the <Link className='link' to="/docs#termsOfUse">Terms of Use</Link></label>
         </div>
         <Button color="green">Register</Button>
     </form>

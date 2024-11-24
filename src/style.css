@@ -317,9 +317,64 @@ body,
     border-radius: 25px;
     display: flex;
     flex-direction: column;
+    gap: 30px;
 }
 
 #userAuthNav{
     display: flex;
     gap: 10px;
+}
+
+.authForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.authForm > div:not(.checkRow){
+    display: flex;
+    flex-direction: column;
+}
+
+.checkRow{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+
+.authForm input{
+    background-color: rgb(19, 19, 19);
+    color: white;
+    border: solid 3px transparent;
+    padding: 5px;
+}
+
+.authForm input:not([type = checkbox]):focus{
+    border: rgb(81, 81, 81) solid 3px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.authForm input[type = checkbox]{
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    cursor: pointer;
+}
+
+.authForm input[type = checkbox]:checked{
+    background-image: url("./assets/imgs/icons/checkmark.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.link{
+    color: rgb(0, 170, 0);
+    font-weight: bold;
 }
