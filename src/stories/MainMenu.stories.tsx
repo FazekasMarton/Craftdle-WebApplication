@@ -31,7 +31,7 @@ export const RegisteredUser = () => {
         username: "Martin Potter",
         loginToken: "1234-5678-9012-3456-7890",
         isGuest: false,
-        stayLoggedIn: false,
+        stayLoggedIn: true,
         profilePicture: {
             id: "picture",
             name: "test_picture",

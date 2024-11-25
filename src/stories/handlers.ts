@@ -10,6 +10,7 @@ export const handlers = [
                 loginToken: "1234-5678-9000-AAAA-BBBB",
                 username: "Guest1234",
                 stayLoggedIn: false,
+                isGuest: true,
                 profilePicture: {
                     id: "picture",
                     name: "test_picture",
@@ -49,6 +50,7 @@ export const handlers = [
                 loginToken: "1234-5678-9012-3456-7890",
                 username: data?.username || "Auto login",
                 stayLoggedIn: data?.stayLoggedIn || false,
+                isGuest: false,
                 profilePicture: {
                     id: "picture",
                     name: "test_picture",
@@ -83,6 +85,7 @@ export const handlers = [
                 loginToken: "1234-5678-9012-3456-7890",
                 username: data.username,
                 stayLoggedIn: data.stayLoggedIn,
+                isGuest: false,
                 profilePicture: {
                     id: "picture",
                     name: "test_picture",
