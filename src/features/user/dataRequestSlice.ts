@@ -33,7 +33,6 @@ async function communicate(
         const data = await response.json();
         return { data: data, response: response.status };
     } catch (err: any) {
-        console.log(err)
         dispatch(setError(err.name));
     }
 }
@@ -50,7 +49,7 @@ export const register = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/register",
+            "https://localhost:3000/users/register",
             "POST",
             null,
             {
@@ -73,7 +72,7 @@ export const guestLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/login",
+            "https://localhost:3000/users/login",
             "GET"
         );
 
@@ -89,7 +88,7 @@ export const tokenLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/login",
+            "https://localhost:3000/users/login",
             "POST",
             "Bearer"
         );
@@ -108,7 +107,7 @@ export const login = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/login",
+            "https://localhost:3000/users/login",
             "POST",
             undefined,
             { username, password, stayLoggedIn }
@@ -126,7 +125,7 @@ export const logout = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/login",
+            "https://localhost:3000/users/login",
             "DELETE",
             "Basic"
         );
@@ -143,7 +142,7 @@ export const forgotPassword = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/password",
+            "https://localhost:3000/users/password",
             "POST",
             "Bearer",
             { email: email }
@@ -161,7 +160,7 @@ export const changePassword = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/password",
+            "https://localhost:3000/users/password",
             "PUT",
             "Bearer",
             { password: password }
@@ -179,7 +178,7 @@ export const getSettings = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/settings",
+            "https://localhost:3000/users/settings",
             "GET",
             "Bearer"
         );
@@ -196,7 +195,7 @@ export const changeSettings = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            `https://localhost:3000/user/settings/${settings.id}`,
+            `https://localhost:3000/users/settings/${settings.id}`,
             "PUT",
             "Bearer",
             settings
@@ -214,7 +213,7 @@ export const getStats = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/stats",
+            "https://localhost:3000/users/stats",
             "GET",
             "Bearer"
         );
@@ -231,7 +230,7 @@ export const getCollection = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/collection",
+            "https://localhost:3000/users/collection",
             "GET",
             "Bearer"
         );
@@ -251,7 +250,7 @@ export const changeProfilePics = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/user/profile",
+            "https://localhost:3000/users/profile",
             "PUT",
             "Bearer",
             { profilePicture, profileBorder }
