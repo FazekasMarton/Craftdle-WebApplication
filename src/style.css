@@ -217,6 +217,7 @@ body,
 
 #profileName{
     margin: 0;
+    font-weight: normal;
 }
 
 #craftleTitle{
@@ -313,8 +314,6 @@ body,
     left: 50%;
     translate: -50% -50%;
     background-color: rgb(38, 38, 38);
-    width: 400px;
-    height: 600px;
     padding: 20px;
     gap: 20px;
     border-radius: 25px;
@@ -351,15 +350,10 @@ body,
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.authForm > .authFormInputs{
-    display: flex;
-    flex-direction: column;
     gap: 20px;
 }
 
-.authForm > .authFormInputs > div:not(.checkRow){
+.authForm > div:not(.checkRow){
     display: flex;
     flex-direction: column;
 }
@@ -400,6 +394,11 @@ input:-webkit-autofill:focus {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.inputError{
+    color: rgb(170, 0, 0);
+    font-size: 13px;
 }
 
 .link{

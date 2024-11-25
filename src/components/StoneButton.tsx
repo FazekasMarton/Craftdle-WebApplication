@@ -27,7 +27,7 @@ function Border(props: StoneButtonProps) {
             className="stoneButton"
             to={props.href}
             style={props.disabled ? { pointerEvents: "none" } : {}}
-            onClick={() => {SoundEffect.click.play()}}
+            onClick={() => {SoundEffect.play("click")}}
         >
             {props.children}
         </Link>
@@ -35,7 +35,7 @@ function Border(props: StoneButtonProps) {
         <div
             className="stoneButton"
             style={props.disabled ? { pointerEvents: "none" } : {}}
-            onClick={() => {SoundEffect.click.play()}}
+            onClick={() => {SoundEffect.play("click")}}
         >
             {props.children}
         </div>

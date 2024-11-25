@@ -4,6 +4,7 @@ import { store } from "../app/store";
 import { saveUser } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
 import { MainMenu } from "../pages/MainMenu/MainMenu";
+import { handlers } from './handlers';
 import fox from "./assets/imgs/profilePictures/Fox.png"
 import ice from "./assets/imgs/profileBorders/Snow.png"
 import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
@@ -19,6 +20,11 @@ export default {
             </Provider>
         ),
     ],
+    parameters: {
+        msw: {
+            handlers: handlers,
+        },
+    },
 };
 
 export const RegisteredUser = () => {
