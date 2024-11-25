@@ -3,7 +3,7 @@ import { RootState, store } from '../../app/store';
 import { useSelector } from "react-redux";
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
-import { login, logout, register } from '../../features/user/dataRequestSlice';
+import { guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
 
 interface UserAuthNavProps {
@@ -215,6 +215,9 @@ function LogoutForm(props: FormProps) {
             if (res.response == 200) {
                 await store.dispatch(clearUser())
                 props.openAuth(false)
+                let response = await store.dispatch(guestLogin())
+                let res = (response.payload as any)
+                store.dispatch(saveUser(res.data.data))
             }
         }}>Log Out</Button>
     </div>

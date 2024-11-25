@@ -1,12 +1,10 @@
 import { Provider, useDispatch } from "react-redux";
 import "../style.css"
 import { store } from "../app/store";
-import { saveUser } from "../features/user/userSlice";
+import { clearUser, saveUser } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
 import { MainMenu } from "../pages/MainMenu/MainMenu";
 import { handlers } from './handlers';
-import fox from "./assets/imgs/profilePictures/Fox.png"
-import ice from "./assets/imgs/profileBorders/Snow.png"
 import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
 import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 
@@ -28,6 +26,7 @@ export default {
 };
 
 export const RegisteredUser = () => {
+    store.dispatch(clearUser())
     const fakeUser = {
         username: "Martin Potter",
         loginToken: "1234-5678-9012-3456-7890",
@@ -52,24 +51,7 @@ export const RegisteredUser = () => {
 }
 
 export const Guest = () => {
-    const fakeUser = {
-        username: "Guest1234",
-        loginToken: "1234-5678-9012-3456-7890",
-        isGuest: true,
-        stayLoggedIn: false,
-        profilePicture: {
-            id: "picture",
-            name: "test_picture",
-            src: fox
-        },
-        profileBorder: {
-            id: "border",
-            name: "test_border",
-            src: ice
-        }
-    }
-    const dispatch = useDispatch()
-    dispatch(saveUser(fakeUser))
+    store.dispatch(clearUser())
     return <BrowserRouter>
         <MainMenu />
     </BrowserRouter>

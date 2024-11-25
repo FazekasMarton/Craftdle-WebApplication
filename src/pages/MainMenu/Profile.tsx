@@ -11,11 +11,11 @@ export function Profile(props: ProfileProps){
     const profileBorder = useSelector((state: RootState) => state.user.profileBorder);
     return <div id="account" onClick={() => {props.openAuth(true)}}>
         <div id="profileBorder"
-            style={{
+            style={profileBorder ? {
                 backgroundImage: `url(${profileBorder?.src})`
-            }}
+            } : {}}
         >
-            <img id="profilePicture" src={profilePicture?.src} alt={profilePicture?.name} />
+            {profilePicture ? <img id="profilePicture" src={profilePicture?.src} alt={profilePicture?.name} /> : null}
         </div>
         <h1 id="profileName">{username}</h1>
     </div>
