@@ -3,8 +3,8 @@ import { RootState, store } from '../../app/store';
 import { useSelector } from "react-redux";
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
-import { login, register } from '../../features/user/dataRequestSlice';
-import { saveUser } from '../../features/user/userSlice';
+import { login, logout, register } from '../../features/user/dataRequestSlice';
+import { clearUser, saveUser } from '../../features/user/userSlice';
 
 interface UserAuthNavProps {
     isGuest: boolean,
@@ -54,29 +54,24 @@ function LoginForm(props: FormProps) {
             <label htmlFor="rememberMe">Remember Me</label>
         </div>
         <Button color="green" onClick={async () => {
-            let error = false
-            if (username == "") {
-                setUsernameError(["Username cannot be empty!"])
-                error = error || true
-            } else {
-                setUsernameError([])
-                error = error || false
+            let usernameErr = []
+            if (username.length <= 0) {
+                usernameErr.push("Username cannot be empty!")
             }
-            if (password == "") {
-                setPasswordError(["Username cannot be empty!"])
-                error = error || true
-            } else {
-                setPasswordError([])
-                error = error || false
+            setUsernameError(usernameErr)
+            let passwordErr = []
+            if (password.length <= 0) {
+                passwordErr.push("Password cannot be empty!")
             }
-            if (!error) {
+            setPasswordError(passwordErr)
+            let errors = [usernameErr, passwordErr]
+            if (errors.every(error => error.length === 0)) {
                 let response = await store.dispatch(login({
                     username: username,
                     password: password,
                     stayLoggedIn: rememberMe
                 }))
                 let res = (response.payload as any)
-                console.log(res)
                 if (res.response == 200) {
                     store.dispatch(saveUser(res.data.data))
                     setUsername("")
@@ -154,7 +149,7 @@ function RegisterForm(props: FormProps) {
                 })
             }</ul>
         </div>
-        <Button color="green" onClick={async() => {
+        <Button color="green" onClick={async () => {
             let usernameErr = []
             if (username.length < 5 || username.length > 16) {
                 usernameErr.push("Username must be between 5 and 16 characters!")
@@ -184,7 +179,6 @@ function RegisterForm(props: FormProps) {
             }
             setAcceptError(acceptErr)
             let errors = [usernameErr, emailErr, passwordErr, passwordCErr, acceptErr]
-            console.log(errors)
             if (errors.every(error => error.length === 0)) {
                 let response = await store.dispatch(register({
                     username: username,
@@ -193,15 +187,18 @@ function RegisterForm(props: FormProps) {
                     stayLoggedIn: rememberMe
                 }))
                 let res = (response.payload as any)
-                console.log(res)
                 if (res.response == 200) {
                     store.dispatch(saveUser(res.data.data))
                     setUsername("")
+                    setEmail("")
                     setPassword("")
+                    setPasswordC("")
                     setRememberMe(false)
+                    setAcceptTOU(false)
                     props.openAuth(false)
                 } else {
                     res.data.message.error.username ? setUsernameError(res.data.message.error.username) : setUsernameError([])
+                    res.data.message.error.email ? setEmailError(res.data.message.error.email) : setEmailError([])
                     res.data.message.error.password ? setPasswordError(res.data.message.error.password) : setPasswordError([])
                 }
             }
@@ -212,7 +209,14 @@ function RegisterForm(props: FormProps) {
 function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
-        <Button color="green">Log Out</Button>
+        <Button color="green" onClick={async() => {
+            let response = await store.dispatch(logout())
+            let res = (response.payload as any)
+            if (res.response == 200) {
+                await store.dispatch(clearUser())
+                props.openAuth(false)
+            }
+        }}>Log Out</Button>
     </div>
 }
 

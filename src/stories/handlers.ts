@@ -4,10 +4,10 @@ import desertFletcher from "./assets/imgs/profilePictures/Desert_Fletcher.png"
 import amethyst from "./assets/imgs/profileBorders/Amethyst.png"
 
 export const handlers = [
-    http.post('https://localhost:3000/users/login', async({ request }) => {
+    http.post('https://localhost:3000/users/login', async ({ request }) => {
         let data: any = await request.json()
-        
-        if(data.username == "Test"){
+
+        if (data.username == "Test") {
             return HttpResponse.json({
                 message: {
                     error: {
@@ -37,10 +37,10 @@ export const handlers = [
         })
     }),
 
-    http.post('https://localhost:3000/users/register', async({ request }) => {
+    http.post('https://localhost:3000/users/register', async ({ request }) => {
         let data: any = await request.json()
-        
-        if(data.username == "Test"){
+
+        if (data.username == "Test123") {
             return HttpResponse.json({
                 message: {
                     error: {
@@ -68,6 +68,12 @@ export const handlers = [
                     src: amethyst
                 }
             }
+        })
+    }),
+
+    http.delete('https://localhost:3000/users/login', () => {
+        return HttpResponse.json({
+            message: "Siker!"
         })
     }),
 ];
