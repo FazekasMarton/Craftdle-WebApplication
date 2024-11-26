@@ -8,7 +8,7 @@
     src: url("assets/minecraft-font/MinecraftItalic-R8Mo.otf");
 }
 
-*{
+* {
     font-family: MinecraftRegular;
 }
 
@@ -16,7 +16,7 @@
 
 /* -- Button -- */
 
-.button{
+.button {
     padding: 1vmin;
     color: rgb(255, 255, 255);
     width: 100%;
@@ -27,7 +27,7 @@
 }
 
 /* - Green - */
-.greenButton{
+.greenButton {
     background-color: rgb(59, 132, 39);
     border-top: 1vmin solid rgb(101, 157, 80);
     border-right: 1vmin solid rgb(28, 63, 19);
@@ -35,7 +35,7 @@
     border-left: 1vmin solid rgb(66, 115, 52);
 }
 
-.greenButton:hover{
+.greenButton:hover {
     background-color: rgb(53, 113, 36);
     border-top: 1vmin solid rgb(93, 144, 74);
     border-right: 1vmin solid rgb(25, 56, 17);
@@ -45,7 +45,7 @@
 }
 
 /* - Gray - */
-.grayButton{
+.grayButton {
     background-color: rgb(132, 132, 132);
     border-top: 1vmin solid rgb(157, 157, 157);
     border-right: 1vmin solid rgb(63, 63, 63);
@@ -54,23 +54,23 @@
 }
 
 /* -- StoneButton -- */
-.stoneButton{
+.stoneButton {
     display: flex;
     border: 0.3vmin black solid;
     background-color: black;
     text-decoration: none;
     align-items: center;
-    justify-content: cente
+    justify-content: center;
 }
 
-.stoneButton:hover{
+.stoneButton:hover {
     border: white 0.3vmin solid;
     background-color: white;
 }
 
-.stoneButton > button{
+.stoneButton > button {
     display: flex;
-    background-image: url("./assets/imgs/button-bg.png");
+    background-image: url("./assets/imgs/backgrounds/button-bg.png");
     background-size: auto 100%;
     width: 100%;
     min-width: 8vmin;
@@ -87,7 +87,7 @@
     cursor: pointer;
 }
 
-.stoneButton img{
+.stoneButton img {
     max-height: 80%;
     max-width: 80%;
 }
@@ -104,7 +104,7 @@ body,
 }
 
 /* -- Main Menu -- */
-#mainMenu{
+#mainMenu {
     display: grid;
     width: 100dvw;
     height: 100dvh;
@@ -114,7 +114,7 @@ body,
 }
 
 /* - Background - */
-#background{
+#background {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -127,12 +127,13 @@ body,
     0% {
         transform: translateZ(50vmin) rotateY(0deg);
     }
+
     100% {
         transform: translateZ(50vmin) rotateY(360deg);
     }
 }
 
-.panoramaPicture{
+.panoramaPicture {
     position: absolute;
     background-color: black;
     width: calc(100vmin + 2px);
@@ -140,49 +141,49 @@ body,
     background-size: cover;
 }
 
-#panoramaPicture0{
+#panoramaPicture0 {
     transform: translateX(-50vmin) translateY(-50vmin) translateZ(-50vmin);
 }
 
-#panoramaPicture1{
+#panoramaPicture1 {
     transform: translateY(-50vmin) rotateY(-90deg);
 }
 
-#panoramaPicture2{
+#panoramaPicture2 {
     transform: translateX(-50vmin) translateY(-50vmin) translateZ(50vmin) rotateY(180deg);
 }
 
-#panoramaPicture3{
+#panoramaPicture3 {
     transform: translateX(-100vmin) translateY(-50vmin) rotateY(90deg);
 }
 
-#panoramaPicture4{
+#panoramaPicture4 {
     transform: translateX(-50vmin) translateY(-100vmin) rotateX(-90deg);
 }
 
-#panoramaPicture5{
+#panoramaPicture5 {
     transform: translateX(-50vmin) rotateX(90deg);
 }
 
 /* - Menu - */
 
-#menu{
+#menu {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-rows: min-content min-content min-content auto min-content;
-    grid-template-areas: 
-    "title title title"
-    ". maintenance ."
-    ". mainButtons ."
-    "leftSideButtons additionalButtons rightSideButtons"
-    "footer footer footer";
+    grid-template-areas:
+        "title title title"
+        ". maintenance ."
+        ". mainButtons ."
+        "leftSideButtons additionalButtons rightSideButtons"
+        "footer footer footer";
     gap: 3vmin 1.6vmin;
     height: 100%;
     width: 100%;
     z-index: 1;
 }
 
-#account{
+#account {
     position: absolute;
     top: 0;
     right: 0;
@@ -195,7 +196,7 @@ body,
     cursor: pointer;
 }
 
-#profileBorder{
+#profileBorder {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(16, 1fr);
@@ -206,7 +207,7 @@ body,
     overflow: hidden;
 }
 
-#profilePicture{
+#profilePicture {
     width: 100%;
     height: 100%;
     grid-column: 2 / 16;
@@ -215,12 +216,12 @@ body,
     object-position: top left;
 }
 
-#profileName{
+#profileName {
     margin: 0;
     font-weight: normal;
 }
 
-#craftleTitle{
+#craftleTitle {
     grid-area: title;
     width: min-content;
     justify-self: center;
@@ -228,11 +229,11 @@ body,
     padding-top: 5vmin;
 }
 
-#craftdleLogo{
+#craftdleLogo {
     height: 20vmin;
 }
 
-#yellowText{
+#yellowText {
     width: 31vw;
     max-width: max-content;
     position: absolute;
@@ -254,17 +255,17 @@ body,
     }
 }
 
-#menu nav{
+#menu nav {
     gap: 1.6vmin;
 }
 
-#mainButtons{
+#mainButtons {
     grid-area: mainButtons;
     display: flex;
     flex-direction: column;
 }
 
-#additionalButtons{
+#additionalButtons {
     grid-area: additionalButtons;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -272,22 +273,22 @@ body,
     flex-direction: column;
 }
 
-.sideButtons{
+.sideButtons {
     display: flex;
     flex-direction: column;
 }
 
-#leftSideButtons{
+#leftSideButtons {
     grid-area: leftSideButtons;
     align-items: end;
 }
 
-#rightSideButtons{
+#rightSideButtons {
     grid-area: rightSideButtons;
     align-items: start;
 }
 
-#mainMenu footer{
+#mainMenu footer {
     grid-area: footer;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -295,12 +296,12 @@ body,
     padding: 5px;
 }
 
-#footerInfo{
+#footerInfo {
     display: flex;
     flex-direction: column;
 }
 
-#disclaimer{
+#disclaimer {
     margin: 0;
     font-size: 10px;
     text-align: end;
@@ -308,7 +309,7 @@ body,
     align-self: flex-end;
 }
 
-#userAuth{
+#userAuth {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -323,7 +324,7 @@ body,
     z-index: 2;
 }
 
-#authExit{
+#authExit {
     justify-self: flex-end;
     width: 30px;
     height: 30px;
@@ -337,28 +338,28 @@ body,
     cursor: pointer;
 }
 
-#authExit:hover{
+#authExit:hover {
     background-image: url("./assets//imgs//icons//reject_highlighted.png");
 }
 
-#userAuthNav{
+#userAuthNav {
     display: flex;
     gap: 10px;
 }
 
-.authForm{
+.authForm {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
 }
 
-.authForm > div:not(.checkRow){
+.authForm>div:not(.checkRow) {
     display: flex;
     flex-direction: column;
 }
 
-.checkRow{
+.checkRow {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -366,37 +367,37 @@ body,
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  transition: background-color 0s 600000s, color 0s 600000s !important;
+    transition: background-color 0s 600000s, color 0s 600000s !important;
 }
 
-.authForm input{
+.authForm input {
     background-color: rgb(19, 19, 19);
     color: white;
     border: solid 3px transparent;
     padding: 5px;
 }
 
-.authForm input:not([type = checkbox]):focus{
+.authForm input:not([type=checkbox]):focus {
     border: rgb(81, 81, 81) solid 3px;
     border-radius: 5px;
     outline: none;
 }
 
-.authForm input[type = checkbox]{
+.authForm input[type=checkbox] {
     width: 20px;
     height: 20px;
     appearance: none;
     cursor: pointer;
 }
 
-.authForm input[type = checkbox]:checked{
+.authForm input[type=checkbox]:checked {
     background-image: url("./assets/imgs/icons/checkmark.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-.inputError{
+.inputError {
     display: block;
     color: rgb(170, 0, 0);
     font-size: 13px;
@@ -405,11 +406,49 @@ input:-webkit-autofill:focus {
     padding: 0;
 }
 
-.link{
+.link {
     color: rgb(0, 170, 0);
     font-weight: bold;
 }
 
-.authForm button{
+.authForm button {
     height: min-content;
+}
+
+/* -- Settings -- */
+
+#settings {
+    background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto min-content;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+#settingsHeader h1 {
+    text-align: center;
+    font-weight: normal;
+    margin-top: 0;
+}
+
+#settingsHeader, #settingsFooter{
+    padding: 2vmin;
+    box-shadow: 0 0 5dvh 1dvh black;
+}
+
+#settingsHeader > nav, #settingsFooter > div{
+    display: flex;
+    width: 60%;
+    margin: auto;
+    gap: 5vmin;
+    
+}
+
+#settingsHeader > nav > *, #settingsFooter > div > *{
+    flex-basis: 100%;
+}
+
+#settingsMain{
+    background-color: rgba(0, 0, 0, 0.5);
 }

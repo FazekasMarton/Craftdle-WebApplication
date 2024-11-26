@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Settings } from "../../interfaces/Settings"
-import { ProfileImage } from "../../interfaces/ProfileImage";
+import { ISettings } from "../../interfaces/ISettings"
+import { IProfileImage } from "../../interfaces/IProfileImage";
 
 interface UserState {
     username: string | null,
     loginToken: string | null,
     isGuest: boolean,
     stayLoggedIn: boolean,
-    profilePicture: ProfileImage | null,
-    profileBorder: ProfileImage | null,
-    settings: Settings[] | null
+    profilePicture: IProfileImage | null,
+    profileBorder: IProfileImage | null,
+    settings: ISettings[] | null
 }
 
 const initialState: UserState = {
@@ -40,7 +40,7 @@ export const userSlice = createSlice({
             save(state);
         },
         
-        saveSettings: (state, action: PayloadAction<Settings[]>) => {
+        saveSettings: (state, action: PayloadAction<ISettings[]>) => {
             state.settings = action.payload
             save(state)
         },

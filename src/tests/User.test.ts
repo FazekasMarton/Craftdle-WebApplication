@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { Settings } from "../interfaces/Settings";
+import { ISettings } from "../interfaces/ISettings";
 import { faker } from "@faker-js/faker";
 import { saveSettings, saveUser, clearUser, loadUser } from "../features/user/userSlice"
 import { store } from "../app/store";
@@ -130,7 +130,7 @@ describe('User class', () => {
             it('should update user settings correctly', () => {
                 const randomUser = generateUser();
                 store.dispatch(saveUser(randomUser));
-                const settings: Settings[] = generateSettings();
+                const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
                 const state = store.getState().user;
                 expect(state.settings).toEqual(settings);
@@ -154,7 +154,7 @@ describe('User class', () => {
                 const randomUser = generateUser();
                 randomUser.stayLoggedIn = false
                 store.dispatch(saveUser(randomUser));
-                const settings: Settings[] = generateSettings();
+                const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
                 expect(sessionStorage.getItem("settings")).toBe(JSON.stringify(settings));
             });
@@ -177,7 +177,7 @@ describe('User class', () => {
                 const randomUser = generateUser();
                 randomUser.stayLoggedIn = true
                 store.dispatch(saveUser(randomUser));
-                const settings: Settings[] = generateSettings();
+                const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
                 expect(localStorage.getItem("settings")).toBe(JSON.stringify(settings));
             });
@@ -186,7 +186,7 @@ describe('User class', () => {
         it('should clear user data', async () => {
             const randomUser = generateUser();
             store.dispatch(saveUser(randomUser));
-            const settings: Settings[] = generateSettings();
+            const settings: ISettings[] = generateSettings();
             store.dispatch(saveSettings(settings));
             await store.dispatch(clearUser());
             const updatedState = store.getState().user;
@@ -205,7 +205,7 @@ describe('User class', () => {
                 const randomUser = generateUser();
                 randomUser.stayLoggedIn = true
                 store.dispatch(saveUser(randomUser));
-                const settings: Settings[] = generateSettings();
+                const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
                 store.dispatch(clearUser());
                 store.dispatch(loadUser());

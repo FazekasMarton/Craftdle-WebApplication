@@ -1,12 +1,12 @@
-export interface Settings {
+export interface ISettings {
     id: number;
     volume: number;
     imagesSize: number;
     isSet: boolean;
-    controls: Controls;
+    controls: IControls;
 }
 
-interface Controls {
+interface IControls {
     isTapMode: boolean;
     copy: string;
     remove: string;

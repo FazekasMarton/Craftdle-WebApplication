@@ -1,4 +1,4 @@
-export interface ProfileImage {
+export interface IProfileImage {
     id: string,
     name: string,
     src: string

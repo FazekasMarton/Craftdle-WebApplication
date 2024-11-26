@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { setError } from "../error/errorSlice";
-import { Settings } from "../../interfaces/Settings";
+import { ISettings } from "../../interfaces/ISettings";
 
 async function communicate(
     state: RootState,
@@ -189,7 +189,7 @@ export const getSettings = createAsyncThunk(
 
 export const changeSettings = createAsyncThunk(
     "user/changeSettings",
-    async (settings: Settings, { dispatch, getState }) => {
+    async (settings: ISettings, { dispatch, getState }) => {
         const state = getState() as RootState;
 
         const response = await communicate(
