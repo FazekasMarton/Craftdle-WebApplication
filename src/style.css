@@ -53,8 +53,9 @@
     border-left: 1vmin solid rgb(115, 115, 115);
 }
 
-/* -- StoneButton -- */
-.stoneButton {
+/* -- StoneButton & StoneSlider -- */
+.stoneButton,
+.stoneSlider {
     display: flex;
     border: 0.3vmin black solid;
     background-color: black;
@@ -68,7 +69,7 @@
     background-color: white;
 }
 
-.stoneButton > button {
+.stoneButton>button {
     display: flex;
     background-image: url("./assets/imgs/backgrounds/button-bg.png");
     background-size: auto 100%;
@@ -90,6 +91,49 @@
 .stoneButton img {
     max-height: 80%;
     max-width: 80%;
+}
+
+.stoneSlider>input {
+    position: relative;
+    width: 100%;
+    min-width: 30dvw;
+    height: 8vmin;
+    padding: 0;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("./assets/imgs/backgrounds/button-bg.png");
+    background-size: auto 100%;
+    border: none;
+    outline: none;
+    overflow: hidden;
+}
+
+.stoneSlider>input::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.stoneSlider>input::-webkit-slider-thumb {
+    appearance: none;
+    position: relative;
+    width: 50px;
+    height: 8vmin;
+    background-image: url("./assets/imgs/backgrounds/button-bg.png");
+    background-size: auto 100%;
+    border-top: gray 0.7vmin solid;
+    border-right: rgb(88, 88, 88) 0.7vmin solid;
+    border-bottom: rgb(88, 88, 88) 1.4vmin solid;
+    border-left: gray 0.7vmin solid;
+    cursor: pointer;
+    z-index: 2;
 }
 
 /* --- Wrapper --- */
@@ -432,23 +476,26 @@ input:-webkit-autofill:focus {
     margin-top: 0;
 }
 
-#settingsHeader, #settingsFooter{
+#settingsHeader,
+#settingsFooter {
     padding: 2vmin;
     box-shadow: 0 0 5dvh 1dvh black;
 }
 
-#settingsHeader > nav, #settingsFooter > div{
+#settingsHeader>nav,
+#settingsFooter>div {
     display: flex;
     width: 60%;
     margin: auto;
     gap: 5vmin;
-    
+
 }
 
-#settingsHeader > nav > *, #settingsFooter > div > *{
+#settingsHeader>nav>*,
+#settingsFooter>div>* {
     flex-basis: 100%;
 }
 
-#settingsMain{
+#settingsMain {
     background-color: rgba(0, 0, 0, 0.5);
 }
