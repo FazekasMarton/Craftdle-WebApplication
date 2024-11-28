@@ -12,6 +12,36 @@
     font-family: MinecraftRegular;
 }
 
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+    width: 8vmin;
+    max-width: 25px;
+    height: 8vmin;
+    max-height: 25px;
+}
+
+::-webkit-scrollbar-track {
+    border-top: 2px solid rgb(51, 50, 50);
+    border-right: 2px solid rgb(255, 254, 254);
+    border-bottom: 2px solid rgb(254, 255, 255);
+    border-left: 2px solid rgb(57, 56, 56);
+    background-color: rgb(138, 139, 139);
+}
+
+::-webkit-scrollbar-thumb {
+    border-top: 2px solid rgb(254, 255, 255);
+    border-right: 2px solid rgb(57, 56, 56);
+    border-bottom: 2px solid rgb(51, 50, 50);
+    border-left: 2px solid rgb(255, 254, 254);
+    background-color: rgb(194, 195, 195);
+}
+
+@media (pointer:coarse) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
 /* --- Components --- */
 
 /* -- Button -- */
@@ -97,8 +127,7 @@
     position: relative;
     width: 100%;
     min-width: 30dvw;
-    height: 8vmin;
-    padding: 0;
+    padding: 0 0.3vmin;
     color: rgb(255, 255, 255);
     cursor: pointer;
     appearance: none;
@@ -124,16 +153,22 @@
 .stoneSlider>input::-webkit-slider-thumb {
     appearance: none;
     position: relative;
-    width: 50px;
-    height: 8vmin;
+    width: 5vmin;
+    height: 7vmin;
+    margin: 0.3vmin 0;
     background-image: url("./assets/imgs/backgrounds/button-bg.png");
     background-size: auto 100%;
     border-top: gray 0.7vmin solid;
     border-right: rgb(88, 88, 88) 0.7vmin solid;
     border-bottom: rgb(88, 88, 88) 1.4vmin solid;
     border-left: gray 0.7vmin solid;
+    box-shadow: 0 0 0 0.3vmin black;
     cursor: pointer;
     z-index: 2;
+}
+
+.stoneSlider>input::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 0.3vmin white;
 }
 
 /* --- Wrapper --- */
@@ -480,6 +515,7 @@ input:-webkit-autofill:focus {
 #settingsFooter {
     padding: 2vmin;
     box-shadow: 0 0 5dvh 1dvh black;
+    z-index: 3;
 }
 
 #settingsHeader>nav,
@@ -498,4 +534,26 @@ input:-webkit-autofill:focus {
 
 #settingsMain {
     background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+#settingsList {
+    display: grid;
+    grid-template-columns: fit-content min-content min-content;
+    justify-content: center;
+    align-items: center;
+    gap: 2vmin;
+    width: fit-content;
+    margin: 2vmin auto;
+}
+
+.settingsLabel {
+    text-align: center;
+    font-weight: normal;
+    grid-column: 1/4;
+    margin: 0;
+}
+
+#settingsList>span {
+    font-size: 4vmin;
 }
