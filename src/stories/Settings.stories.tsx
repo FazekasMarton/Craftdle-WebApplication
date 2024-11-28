@@ -1,7 +1,7 @@
 import { Provider, useDispatch } from "react-redux";
 import "../style.css"
 import { store } from "../app/store";
-import { clearUser, saveSettings } from "../features/user/userSlice";
+import { saveSettings } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
 import { handlers } from './handlers';
 import { Settings } from "../pages/Settings/Settings";
@@ -49,7 +49,6 @@ export default {
 };
 
 export const Deafault = () => {
-    store.dispatch(clearUser())
     const fakeSettings: Array<ISettings> = generateSettings()
     const dispatch = useDispatch()
     dispatch(saveSettings(fakeSettings))
