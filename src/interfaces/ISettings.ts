@@ -6,7 +6,7 @@ export interface ISettings {
     controls: IControls;
 }
 
-interface IControls {
+export interface IControls {
     isTapMode: boolean;
     copy: string;
     remove: string;

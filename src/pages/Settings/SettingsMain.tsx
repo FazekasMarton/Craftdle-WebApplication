@@ -1,6 +1,6 @@
 import { StoneButton } from "../../components/StoneButton"
 import { StoneSlider } from "../../components/StoneSlider"
-import { ISettings } from "../../interfaces/ISettings"
+import { IControls, ISettings } from "../../interfaces/ISettings"
 
 interface SettingsMainProps {
     profile: number;
@@ -30,6 +30,18 @@ export function SettingsMain(props: SettingsMainProps) {
         props.setSettings(newSettings)
     }
 
+    function changeControls<K extends keyof IControls>(key: K, value: IControls[K]) {
+        let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles))
+        newSettings[props.profile].controls[key] = value
+        props.setSettings(newSettings)
+    }
+
+    function changeTableMapping(index: number, value: string) {
+        let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles))
+        newSettings[props.profile].controls.teableMapping[index] = value
+        props.setSettings(newSettings)
+    }
+
     return <section id="settingsMain">
         <div id="settingsList">
             <h2 className="settingsLabel">General</h2>
@@ -51,22 +63,34 @@ export function SettingsMain(props: SettingsMainProps) {
             <h2 className="settingsLabel">Controls</h2>
 
             <span>Enable Tap Mode</span>
-            <StoneButton>{profile.controls.isTapMode ? "Enable" : "Disable"}</StoneButton>
-            <StoneButton>Reset</StoneButton>
+            <StoneButton onClick={() => { changeControls("isTapMode", !profile.controls.isTapMode) }}>{profile.controls.isTapMode ? "Enable" : "Disable"}</StoneButton>
+            <StoneButton
+                disabled={profile.controls.isTapMode == defaultSettings.controls.isTapMode}
+                onClick={() => { changeControls("isTapMode", defaultSettings.controls.isTapMode) }}
+            >Reset</StoneButton>
 
             <span>Drag / Duplicate Items</span>
             <StoneButton>{profile.controls.copy}</StoneButton>
-            <StoneButton>Reset</StoneButton>
+            <StoneButton
+                disabled={profile.controls.copy == defaultSettings.controls.copy}
+                onClick={() => { changeControls("copy", defaultSettings.controls.copy) }}
+            >Reset</StoneButton>
 
             <span>Remove Items</span>
             <StoneButton>{profile.controls.remove}</StoneButton>
-            <StoneButton>Reset</StoneButton>
+            <StoneButton
+                disabled={profile.controls.remove == defaultSettings.controls.remove}
+                onClick={() => { changeControls("remove", defaultSettings.controls.remove) }}
+            >Reset</StoneButton>
 
             {Array.from({ length: 9 }, (_, i) => {
                 return <>
                     <span>Slot {i + 1}</span>
                     <StoneButton>{profile.controls.teableMapping[i]}</StoneButton>
-                    <StoneButton>Reset</StoneButton>
+                    <StoneButton
+                        disabled={profile.controls.teableMapping[i] == defaultSettings.controls.teableMapping[i]}
+                        onClick={() => { changeTableMapping(i, defaultSettings.controls.teableMapping[i]) }}
+                    >Reset</StoneButton>
                 </>
             })}
         </div>
