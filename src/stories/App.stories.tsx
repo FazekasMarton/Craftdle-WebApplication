@@ -5,6 +5,7 @@ import { handlers } from "./handlers";
 import { clearUser, saveUser } from "../features/user/userSlice";
 import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
 import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
+import "../style.css"
 
 export default {
     title: "App/App",

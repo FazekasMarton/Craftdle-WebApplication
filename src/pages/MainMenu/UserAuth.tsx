@@ -5,6 +5,7 @@ import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
 import { guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
+import { loadSettings } from '../../functions/loadSettings';
 
 interface UserAuthNavProps {
     isGuest: boolean,
@@ -78,6 +79,7 @@ function LoginForm(props: FormProps) {
                     setPassword("")
                     setRememberMe(false)
                     props.openAuth(false)
+                    loadSettings()
                 } else {
                     res.data.message.error.username ? setUsernameError(res.data.message.error.username) : setUsernameError([])
                     res.data.message.error.password ? setPasswordError(res.data.message.error.password) : setPasswordError([])
@@ -196,6 +198,7 @@ function RegisterForm(props: FormProps) {
                     setRememberMe(false)
                     setAcceptTOU(false)
                     props.openAuth(false)
+                    loadSettings()
                 } else {
                     res.data.message.error.username ? setUsernameError(res.data.message.error.username) : setUsernameError([])
                     res.data.message.error.email ? setEmailError(res.data.message.error.email) : setEmailError([])

@@ -108,6 +108,7 @@ export const handlers = [
     }),
 
     http.get('https://localhost:3000/users/settings', () => {
+        console.log("szió")
         const settings: ISettings[] = [
             {
                 id: 45,
@@ -122,7 +123,7 @@ export const handlers = [
                 }
             },
             {
-                id: 55,
+                id: 52,
                 volume: 0,
                 imagesSize: 10,
                 isSet: false,

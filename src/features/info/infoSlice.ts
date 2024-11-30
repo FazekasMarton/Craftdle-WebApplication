@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ReactNode } from 'react';
 
 interface InfoState {
     position: {
         x: number;
         y: number;
     } | null;
-    text: string;
+    text: ReactNode;
 }
 
 const initialState: InfoState = {
@@ -17,7 +18,7 @@ const infoSlice = createSlice({
     name: 'info',
     initialState,
     reducers: {
-        setInfo: (state, action: PayloadAction<{x: number, y: number, text: string}>) => {
+        setInfo: (state, action: PayloadAction<{x: number, y: number, text: ReactNode}>) => {
             state.position = {
                 x: action.payload.x,
                 y: action.payload.y

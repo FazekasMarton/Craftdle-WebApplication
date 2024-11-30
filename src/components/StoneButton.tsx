@@ -9,7 +9,7 @@ interface StoneButtonProps {
     children: ReactNode;
     disabled?: true | boolean;
     onClick?: () => void;
-    info?: string;
+    info?: ReactNode;
 }
 
 export function StoneButton(props: StoneButtonProps) {
@@ -34,7 +34,7 @@ function Border(props: StoneButtonProps) {
             click();
         },
         onMouseMove: props.info ? (e) => {
-            store.dispatch(setInfo({x: e.clientX, y: e.clientY, text: props.info || ""}))
+            store.dispatch(setInfo({x: e.clientX, y: e.clientY, text: props.info}))
         } : undefined,
         onMouseLeave: props.info ? () => {
             store.dispatch(deleteInfo())

@@ -1,3 +1,4 @@
+import React from "react";
 import { StoneButton } from "../../components/StoneButton";
 import { StoneSlider } from "../../components/StoneSlider";
 import { IControls, ISettings } from "../../interfaces/ISettings";
@@ -15,8 +16,8 @@ const defaultSettings: ISettings = {
     imagesSize: 50,
     controls: {
         isTapMode: false,
-        copy: "Left Mouse Click",
-        remove: "Right Mouse Click",
+        copy: "Left Mouse Button",
+        remove: "Right Mouse Button",
         teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
     }
 };
@@ -130,7 +131,7 @@ export function SettingsMain(props: SettingsMainProps) {
                 >Reset</StoneButton>
 
                 {Array.from({ length: 9 }, (_, i) => (
-                    <>
+                    <React.Fragment key={i}>
                         <span>Slot {i + 1}</span>
                         <StoneButton onClick={() => {
                             listenInteraction((value: string) => { changeTableMapping(i, value); });
@@ -141,7 +142,7 @@ export function SettingsMain(props: SettingsMainProps) {
                             disabled={profile.controls.teableMapping[i] === defaultSettings.controls.teableMapping[i]}
                             onClick={() => { changeTableMapping(i, defaultSettings.controls.teableMapping[i]); }}
                         >Reset</StoneButton>
-                    </>
+                    </React.Fragment>
                 ))}
             </div>
         </section>

@@ -3,7 +3,6 @@ import { RootState } from "../app/store"
 
 export function Info(){
     const info = useSelector((state: RootState) => state.info)
-    console.log(info)
     const text = info.position && info.position.x && info.position.y ? info.text : null
 
     return <div id="infoWindow" style={{
