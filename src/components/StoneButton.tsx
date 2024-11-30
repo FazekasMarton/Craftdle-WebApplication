@@ -9,7 +9,11 @@ interface StoneButtonProps {
     children: ReactNode;
     disabled?: true | boolean;
     onClick?: () => void;
-    info?: ReactNode;
+    info?: {
+        title?: string,
+        titleColor?: string,
+        text: string
+    };
 }
 
 export function StoneButton(props: StoneButtonProps) {
@@ -32,9 +36,12 @@ function Border(props: StoneButtonProps) {
         onClick: () => {
             SoundEffect.play("click");
             click();
+            if(props.info){
+                store.dispatch(deleteInfo())
+            }
         },
         onMouseMove: props.info ? (e) => {
-            store.dispatch(setInfo({x: e.clientX, y: e.clientY, text: props.info}))
+            store.dispatch(setInfo({x: e.clientX, y: e.clientY, title: props.info?.title, titleColor: props.info?.titleColor, text: props.info?.text}))
         } : undefined,
         onMouseLeave: props.info ? () => {
             store.dispatch(deleteInfo())

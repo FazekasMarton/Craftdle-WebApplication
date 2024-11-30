@@ -1,32 +1,37 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ReactNode } from 'react';
 
 interface InfoState {
     position: {
         x: number;
         y: number;
-    } | null;
-    text: ReactNode;
+    } | undefined;
+    title: string | undefined;
+    titlecolor: string | undefined;
+    text: string | undefined;
 }
 
 const initialState: InfoState = {
-    position: null,
-    text: ""
+    position: undefined,
+    title: undefined,
+    titlecolor: undefined,
+    text: undefined
 }
 
 const infoSlice = createSlice({
     name: 'info',
     initialState,
     reducers: {
-        setInfo: (state, action: PayloadAction<{x: number, y: number, text: ReactNode}>) => {
+        setInfo: (state, action: PayloadAction<{x: number, y: number, title: string | undefined, titleColor: string | undefined, text: string | undefined}>) => {
             state.position = {
                 x: action.payload.x,
                 y: action.payload.y
-            }
-            state.text = action.payload.text
+            };
+            state.title = action.payload.title;
+            state.titlecolor = action.payload.titleColor
+            state.text = action.payload.text;
         },
         deleteInfo: (state) => {
-            state.position = null
+            state.position = undefined
         },
     },
 });

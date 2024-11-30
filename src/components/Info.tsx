@@ -3,11 +3,13 @@ import { RootState } from "../app/store"
 
 export function Info(){
     const info = useSelector((state: RootState) => state.info)
-    const text = info.position && info.position.x && info.position.y ? info.text : null
 
     return <div id="infoWindow" style={{
-        display : text ? "block" : "none",
+        display : info.position && info.position.x && info.position.y ? "block" : "none",
         top: info.position?.y,
         left: info.position?.x
-    }}>{text}</div>
+    }}>
+        <div style={{color: info.titlecolor}}>{info.title}</div>
+        <div>{info.text}</div>
+    </div>
 }

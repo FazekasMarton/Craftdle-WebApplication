@@ -33,10 +33,11 @@ export function SettingsHeader(props: SettingsHeaderProps) {
     return <header id="settingsHeader">
         <h1>Settings</h1>
         <nav>
-            <StoneButton href="/" info={saveable ? <>
-                <div style={{color: "#AA0000"}}>Warning</div>
-                <div>Unsaved changes exist</div>
-            </> : undefined}>{saveable ? <img src={warning} alt="warning"/> : null}Back to Menu</StoneButton>
+            <StoneButton href="/" info={saveable ? {
+                title: "Warning",
+                titleColor: "#AA0000",
+                text: "Unsaved changes exist"
+            } : undefined}>{saveable ? <img src={warning} alt="warning"/> : null}Back to Menu</StoneButton>
             <StoneButton onClick={changeNextProfile}>Profile {props.activeProfile + 1}</StoneButton>
         </nav>
     </header>
