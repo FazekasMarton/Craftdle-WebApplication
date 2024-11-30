@@ -10,8 +10,8 @@ import { useEffect, useState } from "react"
 import { UserAuth } from "./UserAuth"
 import { useSelector } from "react-redux"
 import { RootState, store } from "../../app/store"
-import { loadUser, saveUser } from "../../features/user/userSlice"
-import { guestLogin, tokenLogin } from "../../features/user/dataRequestSlice"
+import { loadUser, saveSettings, saveUser } from "../../features/user/userSlice"
+import { getSettings, guestLogin, tokenLogin } from "../../features/user/dataRequestSlice"
 
 async function autoLogin(token: string | null){
     let error = true
@@ -22,12 +22,21 @@ async function autoLogin(token: string | null){
         if (res.response == 200) {
             store.dispatch(saveUser(res.data.data))
             error = false
+            loadSettings()
         }
     }
     if(error){
         let response = await store.dispatch(guestLogin())
         let res = (response.payload as any)
         store.dispatch(saveUser(res.data.data))
+    }
+}
+
+async function loadSettings() {
+    let response = await store.dispatch(getSettings())
+    let res = (response.payload as any)
+    if (res.response == 200) {
+        store.dispatch(saveSettings(res.data.data))
     }
 }
 

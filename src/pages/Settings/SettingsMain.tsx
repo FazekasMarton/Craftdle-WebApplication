@@ -62,7 +62,7 @@ export function SettingsMain(props: SettingsMainProps) {
         }
 
         function listenKeyboard(e: KeyboardEvent) {
-            if (/^[A-Za-z0-9.,;:$#!/?%&()]+$/.test(e.key)) {
+            if (/^[A-Za-z0-9.,;:$#!/?%&()\-*+]+$/.test(e.key)) {
                 change(e.key.toUpperCase())
                 removeListeners()
             }
