@@ -44,6 +44,19 @@
 
 /* --- Components --- */
 
+/* -- InfoWindow -- */
+#infoWindow{
+    position: absolute;
+    background-color: rgb(19, 2, 18);
+    border: rgb(33, 8, 66) solid 0.3vmin;
+    box-shadow: 0 0 0 0.3vmin black;
+    color: rgb(170, 170, 170);
+    padding: 0.5vmin;
+    font-size: 3vmin;
+    translate: 5vmin -50%;
+    z-index: 10;
+}
+
 /* -- Button -- */
 
 .button {
@@ -85,6 +98,7 @@
 
 /* -- StoneButton & StoneSlider -- */
 .stoneButton,
+.disabledStoneButton,
 .stoneSlider {
     display: flex;
     border: 0.3vmin black solid;
@@ -94,12 +108,18 @@
     justify-content: center;
 }
 
+.disabledStoneButton,
+.disabledStoneButton>button {
+    cursor: default !important;
+}
+
 .stoneButton:hover {
     border: white 0.3vmin solid;
     background-color: white;
 }
 
-.stoneButton>button {
+.stoneButton>button,
+.disabledStoneButton>button {
     display: flex;
     background-image: url("./assets/imgs/backgrounds/button-bg.png");
     background-size: auto 100%;
@@ -118,7 +138,7 @@
     cursor: pointer;
 }
 
-.stoneButton img {
+.stoneButton img, .disabledStoneButton img{
     max-height: 80%;
     max-width: 80%;
 }

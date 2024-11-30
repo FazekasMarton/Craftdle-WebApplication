@@ -48,13 +48,13 @@ export function SettingsMain(props: SettingsMainProps) {
             if (e.button >= 0 && e.button <= 2) {
                 switch (e.button) {
                     case 0:
-                        change("Left Mouse Click");
+                        change("Left Mouse Button");
                         break;
                     case 1:
-                        change("Middle Mouse Click");
+                        change("Middle Mouse Button");
                         break;
                     case 2:
-                        change("Right Mouse Click");
+                        change("Right Mouse Button");
                         break;
                 }
                 removeListeners()

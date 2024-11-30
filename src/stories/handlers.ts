@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { setupWorker } from 'msw/browser'
 import desertFletcher from "./assets/imgs/profilePictures/Desert_Fletcher.png"
 import amethyst from "./assets/imgs/profileBorders/Amethyst.png"
+import { ISettings } from '../interfaces/ISettings';
 
 export const handlers = [
     http.get('https://localhost:3000/users/login', () => {
@@ -101,6 +102,57 @@ export const handlers = [
     }),
 
     http.delete('https://localhost:3000/users/login', () => {
+        return HttpResponse.json({
+            message: "Siker!"
+        })
+    }),
+
+    http.get('https://localhost:3000/users/settings', () => {
+        const settings: ISettings[] = [
+            {
+                id: 45,
+                volume: 0,
+                imagesSize: 10,
+                isSet: true,
+                controls: {
+                    copy: "Left Mouse Button",
+                    remove: "Right Click Button",
+                    isTapMode: false,
+                    teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                }
+            },
+            {
+                id: 55,
+                volume: 0,
+                imagesSize: 10,
+                isSet: false,
+                controls: {
+                    copy: "Left Mouse Button",
+                    remove: "Right Click Button",
+                    isTapMode: false,
+                    teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                }
+            },
+            {
+                id: 56,
+                volume: 0,
+                imagesSize: 10,
+                isSet: false,
+                controls: {
+                    copy: "Left Mouse Button",
+                    remove: "Right Click Button",
+                    isTapMode: false,
+                    teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                }
+            }
+        ]
+
+        return HttpResponse.json({
+            data: settings
+        })
+    }),
+
+    http.put('https://localhost:3000/users/settings/:id', () => {
         return HttpResponse.json({
             message: "Siker!"
         })
