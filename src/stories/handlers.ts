@@ -2,6 +2,13 @@ import { http, HttpResponse } from 'msw';
 import { setupWorker } from 'msw/browser'
 import desertFletcher from "./assets/imgs/profilePictures/Desert_Fletcher.png"
 import amethyst from "./assets/imgs/profileBorders/Amethyst.png"
+import tutorial from "./assets/imgs/gamemodes/Tutorial.png"
+import classic from "./assets/imgs/gamemodes/Classic.png"
+import daily from "./assets/imgs/gamemodes/Daily.png"
+import allinone from "./assets/imgs/gamemodes/All_in_One.png"
+import pocket from "./assets/imgs/gamemodes/Pocket.png"
+import resource from "./assets/imgs/gamemodes/Resource.png"
+import hardcore from "./assets/imgs/gamemodes/Hardcore.png"
 import { ISettings } from '../interfaces/ISettings';
 import { IGamemode } from '../interfaces/IGamemode';
 
@@ -163,7 +170,7 @@ export const handlers = [
         const gamemodes: IGamemode[] = [
             {
               "id": 1,
-              "icon": "Tutorial.png",
+              "icon": tutorial,
               "name": "Tutorial",
               "description": "In this mode, players can learn the game's mechanics and controls.",
               "difficulty": {
@@ -175,7 +182,7 @@ export const handlers = [
             },
             {
               "id": 2,
-              "icon": "Classic.png",
+              "icon": classic,
               "name": "Classic",
               "description": "In this mode, you receive recipes as riddles, but only those that are not made by one type of material. Four different hints are available to help you solve them.",
               "difficulty": {
@@ -187,7 +194,7 @@ export const handlers = [
             },
             {
               "id": 3,
-              "icon": "Daily.png",
+              "icon": daily,
               "name": "Daily",
               "description": "Similar to Classic, but can only be played once per day. Keep your streak going!",
               "difficulty": {
@@ -199,7 +206,7 @@ export const handlers = [
             },
             {
               "id": 4,
-              "icon": "AllInOne.png",
+              "icon": allinone,
               "name": "All in One",
               "description": "In this mode, you can receive any recipe as a riddle. Four different hints are available to help you solve it.",
               "difficulty": {
@@ -211,7 +218,7 @@ export const handlers = [
             },
             {
               "id": 5,
-              "icon": "Pocket.png",
+              "icon": pocket,
               "name": "Pocket",
               "description": "Similar to All in One, but you must work with a 2x2 crafting table to solve the riddles.",
               "difficulty": {
@@ -223,7 +230,7 @@ export const handlers = [
             },
             {
               "id": 6,
-              "icon": "Resource.png",
+              "icon": resource,
               "name": "Resource",
               "description": "Similar to Classic, but with a limited supply of materials.",
               "difficulty": {
@@ -235,7 +242,7 @@ export const handlers = [
             },
             {
               "id": 7,
-              "icon": "Hardcore.png",
+              "icon": hardcore,
               "name": "Hardcore",
               "description": "Similar to Classic, but no hints are available, and the game is played with health points.",
               "difficulty": {

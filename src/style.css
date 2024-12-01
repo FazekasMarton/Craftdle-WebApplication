@@ -595,3 +595,53 @@ input:-webkit-autofill:focus {
 }
 
 /* - Gamemodes Content - */
+
+#gamemodesList {
+    display: grid;
+    grid-template-columns: fit-content min-content min-content;
+    justify-content: center;
+    align-items: center;
+    gap: 2vmin;
+    width: fit-content;
+    margin: 2vmin auto;
+}
+
+#gamemodesList>article{
+    display: grid;
+    grid-template-columns: min-content auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+    "icon name difficulty"
+    "icon description description";
+    width: 50dvw;
+    align-items: start;
+    justify-content: start;
+    gap: 10px 20px;
+}
+
+.gamemodeIcon{
+    grid-area: icon;
+    width: 15vmin;
+    height: 15vmin;
+    background-position: center;
+    background-size: contain;
+}
+
+.gamemodeName{
+    grid-area: name;
+    font-weight: normal;
+    font-size: 4vmin;
+    margin: 0;
+}
+
+.gamemodeDifficulty{
+    grid-area: difficulty;
+    font-size: 3vmin;
+    align-self: self-end;
+}
+
+.gamemodeDescription{
+    grid-area: description;
+    margin: 0;
+    font-size: 2vmin;
+}

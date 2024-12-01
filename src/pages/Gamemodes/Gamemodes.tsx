@@ -27,7 +27,7 @@ export function Gamemodes(props: GamemodesProps) {
         <header id="gamemodesHeader">
             <h1>Select Gamemode</h1>
         </header>
-        <GamemodesMain />
+        <GamemodesMain gamemodes={gamemodes} />
         <GamemodesFooter />
     </main>
 }
