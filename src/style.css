@@ -13,6 +13,7 @@
 }
 
 /* --- Scrollbar --- */
+
 ::-webkit-scrollbar {
     width: 8vmin;
     max-width: 25px;
@@ -45,6 +46,7 @@
 /* --- Components --- */
 
 /* -- InfoWindow -- */
+
 #infoWindow{
     position: absolute;
     background-color: rgb(19, 2, 18);
@@ -71,6 +73,7 @@
 }
 
 /* - Green - */
+
 .greenButton {
     background-color: rgb(59, 132, 39);
     border-top: 1vmin solid rgb(101, 157, 80);
@@ -89,6 +92,7 @@
 }
 
 /* - Gray - */
+
 .grayButton {
     background-color: rgb(132, 132, 132);
     border-top: 1vmin solid rgb(157, 157, 157);
@@ -98,6 +102,7 @@
 }
 
 /* -- StoneButton & StoneSlider -- */
+
 .stoneButton,
 .disabledStoneButton,
 .stoneSlider {
@@ -193,6 +198,7 @@
 }
 
 /* --- Wrapper --- */
+
 html,
 body,
 #wrapper {
@@ -204,6 +210,7 @@ body,
 }
 
 /* -- Main Menu -- */
+
 #mainMenu {
     display: grid;
     width: 100dvw;
@@ -214,6 +221,7 @@ body,
 }
 
 /* - Background - */
+
 #background {
     position: absolute;
     top: 50%;
@@ -515,9 +523,9 @@ input:-webkit-autofill:focus {
     height: min-content;
 }
 
-/* -- Settings -- */
+/* -- Settings & Gamemodes -- */
 
-#settings {
+#settings, #gamemodes {
     background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
     display: grid;
     grid-template-columns: 1fr;
@@ -526,21 +534,24 @@ input:-webkit-autofill:focus {
     height: 100dvh;
 }
 
-#settingsHeader h1 {
+#settingsHeader h1, #gamemodesHeader h1 {
     text-align: center;
     font-weight: normal;
     margin-top: 0;
 }
 
 #settingsHeader,
-#settingsFooter {
+#settingsFooter,
+#gamemodesHeader,
+#gamemodesFooter {
     padding: 2vmin;
     box-shadow: 0 0 5dvh 1dvh black;
     z-index: 3;
 }
 
 #settingsHeader>nav,
-#settingsFooter>div {
+#settingsFooter>div,
+#gamemodesFooter>div {
     display: flex;
     width: 60%;
     margin: auto;
@@ -549,14 +560,18 @@ input:-webkit-autofill:focus {
 }
 
 #settingsHeader>nav>*,
-#settingsFooter>div>* {
+#settingsFooter>div>*,
+#gamemodesFooter>div>* {
     flex-basis: 100%;
 }
 
-#settingsMain {
+#settingsMain,
+#gamemodesMain {
     background-color: rgba(0, 0, 0, 0.5);
     overflow: auto;
 }
+
+/* - Settings Content - */
 
 #settingsList {
     display: grid;
@@ -578,3 +593,5 @@ input:-webkit-autofill:focus {
 #settingsList>span {
     font-size: 4vmin;
 }
+
+/* - Gamemodes Content - */
