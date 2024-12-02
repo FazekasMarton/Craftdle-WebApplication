@@ -56,8 +56,8 @@
     color: rgb(170, 170, 170);
     padding: 0.5vmin;
     font-size: 3vmin;
-    translate: 5vmin -50%;
     z-index: 10;
+    width: 250px;
 }
 
 /* -- Button -- */
@@ -597,8 +597,8 @@ input:-webkit-autofill:focus {
 /* - Gamemodes Content - */
 
 #gamemodesList {
-    display: grid;
-    grid-template-columns: fit-content min-content min-content;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2vmin;
@@ -608,15 +608,23 @@ input:-webkit-autofill:focus {
 
 #gamemodesList>article{
     display: grid;
-    grid-template-columns: min-content auto 1fr;
+    grid-template-columns: min-content auto 1fr 6vmin;
     grid-template-rows: auto 1fr;
     grid-template-areas: 
-    "icon name difficulty"
-    "icon description description";
-    width: 50dvw;
+    "icon name difficulty warning"
+    "icon description description warning";
+    width: 90%;
+    max-width: 700px;
     align-items: start;
     justify-content: start;
     gap: 10px 20px;
+    padding: 4px;
+    border: 2px solid transparent;
+}
+
+.selectedGamemode{
+    background-color: black;
+    border: 2px solid rgb(170, 170, 170) !important;
 }
 
 .gamemodeIcon{
@@ -625,6 +633,30 @@ input:-webkit-autofill:focus {
     height: 15vmin;
     background-position: center;
     background-size: contain;
+    display: flex;
+    justify-content: center;
+}
+
+.playButton{
+    display: none;
+    width: 100%;
+    background-image: url("./assets/imgs/icons/play.png");
+    background-color: transparent;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(110, 110, 110, 0.5);
+}
+
+#gamemodesList>article:hover .playButton{
+    display: block;
+}
+
+.playButton:hover{
+    background-image: url("./assets//imgs/icons/play_highlighted.png");
 }
 
 .gamemodeName{
@@ -644,4 +676,14 @@ input:-webkit-autofill:focus {
     grid-area: description;
     margin: 0;
     font-size: 2vmin;
+    color: rgb(170, 170, 170);
+}
+
+.gamemodeWarning{
+    grid-area: warning;
+    background-image: url('./assets/imgs/icons/error_highlighted.png');
+    width: 100%;
+    height: 100%;
+    background-position: left;
+    background-size: cover;
 }

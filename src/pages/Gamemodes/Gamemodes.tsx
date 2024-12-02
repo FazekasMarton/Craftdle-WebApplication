@@ -11,6 +11,7 @@ interface GamemodesProps {
 
 export function Gamemodes(props: GamemodesProps) {
     const [gamemodes, setGamemodes] = useState<Array<IGamemode>>([])
+    const [selectedGamemode, setSelectedGamemode] = useState<number | null>(null)
 
     async function collectGamemodes() {
         let response = await store.dispatch(getGamemodes(props.type))
@@ -27,7 +28,7 @@ export function Gamemodes(props: GamemodesProps) {
         <header id="gamemodesHeader">
             <h1>Select Gamemode</h1>
         </header>
-        <GamemodesMain gamemodes={gamemodes} />
+        <GamemodesMain gamemodes={gamemodes} selectedGamemode={selectedGamemode} setSelectedGamemode={setSelectedGamemode}/>
         <GamemodesFooter />
     </main>
 }
