@@ -19,13 +19,13 @@ export function GamemodesMain(props: GamemodesMainProps) {
                         props.setSelectedGamemode(gamemode.id)
                     }}
                     onMouseMove={gamemode.id == 1 && !gamemode.playedBefore ? (e) => {
-                        store.dispatch(setInfo({x: e.clientX, y: e.clientY, title: "Warning", titleColor: "#AA0000", text: "You haven't played Tutorial yet"}))
+                        store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: "Warning", titleColor: "#AA0000", text: "You haven't played Tutorial yet" }))
                     } : undefined}
                     onMouseLeave={gamemode.id == 1 && !gamemode.playedBefore ? () => {
                         store.dispatch(deleteInfo())
                     } : undefined}>
                     <div className="gamemodeIcon" style={{ backgroundImage: `url(${gamemode.icon})` }}>
-                        <button className="playButton"></button>
+                        <a className="playButton" href={`/play?gamemode=${gamemode.id}&newGame=${!gamemode.continueGame}`}></a>
                     </div>
                     <h2 className="gamemodeName">{gamemode.name}</h2>
                     <span className="gamemodeDifficulty" style={{ color: `#${gamemode.difficulty.color}` }}>{gamemode.difficulty.name}</span>
