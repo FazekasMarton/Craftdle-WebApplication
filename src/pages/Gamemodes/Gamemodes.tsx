@@ -29,6 +29,6 @@ export function Gamemodes(props: GamemodesProps) {
             <h1>Select Gamemode</h1>
         </header>
         <GamemodesMain gamemodes={gamemodes} selectedGamemode={selectedGamemode} setSelectedGamemode={setSelectedGamemode}/>
-        <GamemodesFooter />
+        <GamemodesFooter gamemode={gamemodes.filter(g => g.id == selectedGamemode)[0]}/>
     </main>
 }
