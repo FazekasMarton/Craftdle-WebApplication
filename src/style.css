@@ -47,7 +47,7 @@
 
 /* -- InfoWindow -- */
 
-#infoWindow{
+#infoWindow {
     position: absolute;
     background-color: rgb(19, 2, 18);
     border: rgb(33, 8, 66) solid 0.3vmin;
@@ -145,7 +145,8 @@
     cursor: pointer;
 }
 
-.stoneButton img, .disabledStoneButton img{
+.stoneButton img,
+.disabledStoneButton img {
     max-height: 80%;
     max-width: 80%;
 }
@@ -527,7 +528,8 @@ input:-webkit-autofill:focus {
 
 /* -- Settings & Gamemodes -- */
 
-#settings, #gamemodes {
+#settings,
+#gamemodes {
     background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
     display: grid;
     grid-template-columns: 1fr;
@@ -536,7 +538,8 @@ input:-webkit-autofill:focus {
     height: 100dvh;
 }
 
-#settingsHeader h1, #gamemodesHeader h1 {
+#settingsHeader h1,
+#gamemodesHeader h1 {
     text-align: center;
     font-weight: normal;
     margin-top: 0;
@@ -608,13 +611,13 @@ input:-webkit-autofill:focus {
     margin: 2vmin auto;
 }
 
-#gamemodesList>article{
+#gamemodesList>article {
     display: grid;
     grid-template-columns: min-content auto 1fr 6vmin;
     grid-template-rows: auto 1fr;
-    grid-template-areas: 
-    "icon name difficulty warning"
-    "icon description description warning";
+    grid-template-areas:
+        "icon name difficulty warning"
+        "icon description description warning";
     width: 90%;
     max-width: 700px;
     align-items: start;
@@ -624,12 +627,12 @@ input:-webkit-autofill:focus {
     border: 2px solid transparent;
 }
 
-.selectedGamemode{
+.selectedGamemode {
     background-color: black;
     border: 2px solid rgb(170, 170, 170) !important;
 }
 
-.gamemodeIcon{
+.gamemodeIcon {
     grid-area: icon;
     width: 15vmin;
     height: 15vmin;
@@ -639,7 +642,7 @@ input:-webkit-autofill:focus {
     justify-content: center;
 }
 
-.playButton{
+.playButton {
     display: none;
     width: 100%;
     background-image: url("./assets/imgs/icons/play.png");
@@ -653,39 +656,122 @@ input:-webkit-autofill:focus {
     background-color: rgba(110, 110, 110, 0.5);
 }
 
-#gamemodesList>article:hover .playButton{
+#gamemodesList>article:hover .playButton {
     display: block;
 }
 
-.playButton:hover{
+.playButton:hover {
     background-image: url("./assets//imgs/icons/play_highlighted.png");
 }
 
-.gamemodeName{
+.gamemodeName {
     grid-area: name;
     font-weight: normal;
     font-size: 4vmin;
     margin: 0;
 }
 
-.gamemodeDifficulty{
+.gamemodeDifficulty {
     grid-area: difficulty;
     font-size: 3vmin;
     align-self: self-end;
 }
 
-.gamemodeDescription{
+.gamemodeDescription {
     grid-area: description;
     margin: 0;
     font-size: 2vmin;
     color: rgb(170, 170, 170);
 }
 
-.gamemodeWarning{
+.gamemodeWarning {
     grid-area: warning;
     background-image: url('./assets/imgs/icons/error_highlighted.png');
     width: 100%;
     height: 100%;
     background-position: left;
     background-size: cover;
+}
+
+/* --- Game --- */
+
+/* -- General -- */
+
+/* - Slot - */
+
+.slot {
+    width: 8vmin;
+    height: 8vmin;
+    border-top: 0.2vmin solid rgb(51, 50, 50);
+    border-right: 0.2vmin solid rgb(255, 254, 254);
+    border-bottom: 0.2vmin solid rgb(254, 255, 255);
+    border-left: 0.2vmin solid rgb(57, 56, 56);
+    padding: 0;
+    background-color: rgb(138, 139, 139);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.05vmin;
+}
+
+.slotButton {
+    width: 8vmin;
+    height: 8vmin;
+    border-top: 0.2vmin solid rgb(254, 255, 255);
+    border-right: 0.2vmin solid rgb(57, 56, 56);
+    border-bottom: 0.2vmin solid rgb(51, 50, 50);
+    border-left: 0.2vmin solid rgb(255, 254, 254);
+    padding: 0;
+    background-color: rgb(194, 195, 195);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.05vmin;
+    border-radius: 15px;
+}
+
+.slot>img,
+.slotButton>img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* - Crafting Table - */
+
+#craftingTable {
+    display: grid;
+    grid-template-columns: min-content max-content min-content min-content;
+    grid-template-rows: min-content min-content;
+    grid-template-areas: 
+    ". craftingTitle . ."
+    "craftingBook craftingTable craftingArrow craftedItem";
+    align-items: center;
+    gap: 0 2vmin;
+}
+
+#craftingTitle {
+    grid-area: craftingTitle;
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 5vmin;
+}
+
+#craftingBook{
+    grid-area: craftingBook;
+}
+
+#craftingTable table {
+    grid-area: craftingTable;
+    border-collapse: collapse;
+}
+
+#craftingArrow{
+    grid-area: craftingArrow;
+    width: 10vmin;
+}
+
+#craftedItem{
+    grid-area: craftedItem;
+    padding: 1vmin;
 }

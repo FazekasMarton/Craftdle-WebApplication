@@ -81,8 +81,8 @@ function LoginForm(props: FormProps) {
                     props.openAuth(false)
                     loadSettings()
                 } else {
-                    res.data.message.error.username ? setUsernameError(res.data.message.error.username) : setUsernameError([])
-                    res.data.message.error.password ? setPasswordError(res.data.message.error.password) : setPasswordError([])
+                    res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
+                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
                 }
             }
         }}>Log In</Button>
@@ -200,9 +200,9 @@ function RegisterForm(props: FormProps) {
                     props.openAuth(false)
                     loadSettings()
                 } else {
-                    res.data.message.error.username ? setUsernameError(res.data.message.error.username) : setUsernameError([])
-                    res.data.message.error.email ? setEmailError(res.data.message.error.email) : setEmailError([])
-                    res.data.message.error.password ? setPasswordError(res.data.message.error.password) : setPasswordError([])
+                    res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
+                    res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
+                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
                 }
             }
         }}>Sign In</Button>

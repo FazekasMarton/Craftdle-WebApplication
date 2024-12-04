@@ -112,7 +112,7 @@ afterEach(async () => {
     vi.clearAllMocks();
 });
 
-describe('User class', () => {
+describe('User Slice', () => {
     describe('Data controller functions', () => {
         describe('Update user', () => {
             it('should update user data correctly', () => {

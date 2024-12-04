@@ -159,7 +159,7 @@ export const handlers = [
             data: settings
         })
     }),
-    
+
     http.put('https://localhost:3000/users/settings/:id', () => {
         return HttpResponse.json({
             message: "Siker!"
@@ -169,90 +169,90 @@ export const handlers = [
     http.get('https://localhost:3000/game/singleplayer', () => {
         const gamemodes: IGamemode[] = [
             {
-              "id": 1,
-              "icon": tutorial,
-              "name": "Tutorial",
-              "description": "In this mode, players can learn the game's mechanics and controls.",
-              "difficulty": {
-                "name": "Beginner",
-                "color": "55FF55"
-              },
-              "continueGame": false,
-              "playedBefore": false
+                "id": 1,
+                "icon": tutorial,
+                "name": "Tutorial",
+                "description": "In this mode, players can learn the game's mechanics and controls.",
+                "difficulty": {
+                    "name": "Beginner",
+                    "color": "55FF55"
+                },
+                "continueGame": false,
+                "playedBefore": false
             },
             {
-              "id": 2,
-              "icon": classic,
-              "name": "Classic",
-              "description": "In this mode, you receive recipes as riddles, but only those that are not made by one type of material. Four different hints are available to help you solve them.",
-              "difficulty": {
-                "name": "Normal",
-                "color": "FFFF55"
-              },
-              "continueGame": true,
-              "playedBefore": true
+                "id": 2,
+                "icon": classic,
+                "name": "Classic",
+                "description": "In this mode, you receive recipes as riddles, but only those that are not made by one type of material. Four different hints are available to help you solve them.",
+                "difficulty": {
+                    "name": "Normal",
+                    "color": "FFFF55"
+                },
+                "continueGame": true,
+                "playedBefore": true
             },
             {
-              "id": 3,
-              "icon": daily,
-              "name": "Daily",
-              "description": "Similar to Classic, but can only be played once per day. Keep your streak going!",
-              "difficulty": {
-                "name": "Normal",
-                "color": "FFFF55"
-              },
-              "continueGame": true,
-              "playedBefore": false
+                "id": 3,
+                "icon": daily,
+                "name": "Daily",
+                "description": "Similar to Classic, but can only be played once per day. Keep your streak going!",
+                "difficulty": {
+                    "name": "Normal",
+                    "color": "FFFF55"
+                },
+                "continueGame": true,
+                "playedBefore": false
             },
             {
-              "id": 4,
-              "icon": allinone,
-              "name": "All in One",
-              "description": "In this mode, you can receive any recipe as a riddle. Four different hints are available to help you solve it.",
-              "difficulty": {
-                "name": "Hard",
-                "color": "FFAA00"
-              },
-              "continueGame": false,
-              "playedBefore": true
+                "id": 4,
+                "icon": allinone,
+                "name": "All in One",
+                "description": "In this mode, you can receive any recipe as a riddle. Four different hints are available to help you solve it.",
+                "difficulty": {
+                    "name": "Hard",
+                    "color": "FFAA00"
+                },
+                "continueGame": false,
+                "playedBefore": true
             },
             {
-              "id": 5,
-              "icon": pocket,
-              "name": "Pocket",
-              "description": "Similar to All in One, but you must work with a 2x2 crafting table to solve the riddles.",
-              "difficulty": {
-                "name": "Normal",
-                "color": "FFFF55"
-              },
-              "continueGame": false,
-              "playedBefore": false
+                "id": 5,
+                "icon": pocket,
+                "name": "Pocket",
+                "description": "Similar to All in One, but you must work with a 2x2 crafting table to solve the riddles.",
+                "difficulty": {
+                    "name": "Normal",
+                    "color": "FFFF55"
+                },
+                "continueGame": false,
+                "playedBefore": false
             },
             {
-              "id": 6,
-              "icon": resource,
-              "name": "Resource",
-              "description": "Similar to Classic, but with a limited supply of materials.",
-              "difficulty": {
-                "name": "Easy",
-                "color": "00AA00"
-              },
-              "continueGame": false,
-              "playedBefore": true
+                "id": 6,
+                "icon": resource,
+                "name": "Resource",
+                "description": "Similar to Classic, but with a limited supply of materials.",
+                "difficulty": {
+                    "name": "Easy",
+                    "color": "00AA00"
+                },
+                "continueGame": false,
+                "playedBefore": true
             },
             {
-              "id": 7,
-              "icon": hardcore,
-              "name": "Hardcore",
-              "description": "Similar to Classic, but no hints are available, and the game is played with health points.",
-              "difficulty": {
-                "name": "Insane",
-                "color": "AA0000"
-              },
-              "continueGame": true,
-              "playedBefore": true
+                "id": 7,
+                "icon": hardcore,
+                "name": "Hardcore",
+                "description": "Similar to Classic, but no hints are available, and the game is played with health points.",
+                "difficulty": {
+                    "name": "Insane",
+                    "color": "AA0000"
+                },
+                "continueGame": true,
+                "playedBefore": true
             }
-          ]          
+        ]
 
         return HttpResponse.json({
             data: {

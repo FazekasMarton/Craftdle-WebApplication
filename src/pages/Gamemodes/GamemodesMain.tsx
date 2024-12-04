@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { store } from "../../app/store"
 import { deleteInfo, setInfo } from "../../features/info/infoSlice"
 import { IGamemode } from "../../interfaces/IGamemode"
@@ -25,7 +26,7 @@ export function GamemodesMain(props: GamemodesMainProps) {
                         store.dispatch(deleteInfo())
                     } : undefined}>
                     <div className="gamemodeIcon" style={{ backgroundImage: `url(${gamemode.icon})` }}>
-                        <a className="playButton" href={`/play?gamemode=${gamemode.id}&newGame=${!gamemode.continueGame}`}></a>
+                        <Link className="playButton" to={`/play?gamemode=${gamemode.id}&newGame=${!gamemode.continueGame}`}></Link>
                     </div>
                     <h2 className="gamemodeName">{gamemode.name}</h2>
                     <span className="gamemodeDifficulty" style={{ color: `#${gamemode.difficulty.color}` }}>{gamemode.difficulty.name}</span>

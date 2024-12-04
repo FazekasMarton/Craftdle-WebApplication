@@ -4,6 +4,7 @@ import { MainMenu } from "./pages/MainMenu/MainMenu"
 import { Settings } from "./pages/Settings/Settings"
 import { Info } from "./components/Info"
 import { Gamemodes } from "./pages/Gamemodes/Gamemodes"
+import { Game } from "./pages/Game/Game"
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: "singleplayer",
         element: <Gamemodes type="singleplayer" />
+    },
+    {
+        path: "play",
+        element: <Game />
     },
     {
         path: "*",

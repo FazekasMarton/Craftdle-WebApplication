@@ -8,7 +8,15 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    layout: "fullscreen"
+    layout: "fullscreen",
+    backgrounds: {
+      default: 'minecraft',
+      values: [
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#000000' },
+        { name: 'minecraft', value: '#c2c3c3' },
+      ],
+    },
   },
 };
 
