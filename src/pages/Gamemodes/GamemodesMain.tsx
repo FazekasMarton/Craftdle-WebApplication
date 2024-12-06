@@ -25,7 +25,7 @@ export function GamemodesMain(props: GamemodesMainProps) {
                     onMouseLeave={gamemode.id == 1 && !gamemode.playedBefore ? () => {
                         store.dispatch(deleteInfo())
                     } : undefined}>
-                    <div className="gamemodeIcon" style={{ backgroundImage: `url(${gamemode.icon})` }}>
+                    <div className="gamemodeIcon" style={{ backgroundImage: `url(https://localhost:3000/gamemodes/${gamemode.icon})` }}>
                         <Link className="playButton" to={`/play?gamemode=${gamemode.id}&newGame=${!gamemode.continueGame}`}></Link>
                     </div>
                     <h2 className="gamemodeName">{gamemode.name}</h2>

@@ -727,7 +727,7 @@ input:-webkit-autofill:focus {
     justify-content: center;
     align-items: center;
     margin: 0.05vmin;
-    border-radius: 15px;
+    border-radius: 25%;
 }
 
 .slot>img,
@@ -743,7 +743,7 @@ input:-webkit-autofill:focus {
     grid-template-columns: min-content max-content min-content min-content;
     grid-template-rows: min-content min-content;
     grid-template-areas: 
-    ". craftingTitle . ."
+    ". craftingTitle craftingTitle ."
     "craftingBook craftingTable craftingArrow craftedItem";
     align-items: center;
     gap: 0 2vmin;

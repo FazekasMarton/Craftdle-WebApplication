@@ -1,7 +1,5 @@
 import { http, HttpResponse } from 'msw';
 import { setupWorker } from 'msw/browser'
-import desertFletcher from "./assets/imgs/profilePictures/Desert_Fletcher.png"
-import amethyst from "./assets/imgs/profileBorders/Amethyst.png"
 import tutorial from "./assets/imgs/gamemodes/Tutorial.png"
 import classic from "./assets/imgs/gamemodes/Classic.png"
 import daily from "./assets/imgs/gamemodes/Daily.png"
@@ -11,6 +9,8 @@ import resource from "./assets/imgs/gamemodes/Resource.png"
 import hardcore from "./assets/imgs/gamemodes/Hardcore.png"
 import { ISettings } from '../interfaces/ISettings';
 import { IGamemode } from '../interfaces/IGamemode';
+import gold from "./assets/imgs/profileBorders/Gold.png"
+import fox from "./assets/imgs/profilepictures/Fox.png"
 
 export const handlers = [
     http.get('https://localhost:3000/users/login', () => {
@@ -23,12 +23,12 @@ export const handlers = [
                 profilePicture: {
                     id: "picture",
                     name: "test_picture",
-                    src: desertFletcher
+                    src: "Desert_Fletcher.png"
                 },
                 profileBorder: {
                     id: "border",
                     name: "test_border",
-                    src: amethyst
+                    src: "Amethyst.png"
                 }
             }
         })
@@ -63,12 +63,12 @@ export const handlers = [
                 profilePicture: {
                     id: "picture",
                     name: "test_picture",
-                    src: desertFletcher
+                    src: "Desert_Fletcher.png"
                 },
                 profileBorder: {
                     id: "border",
                     name: "test_border",
-                    src: amethyst
+                    src: "Amethyst.png"
                 }
             }
         })
@@ -98,12 +98,12 @@ export const handlers = [
                 profilePicture: {
                     id: "picture",
                     name: "test_picture",
-                    src: desertFletcher
+                    src: "Desert_Fletcher.png"
                 },
                 profileBorder: {
                     id: "border",
                     name: "test_border",
-                    src: amethyst
+                    src: "Amethyst.png"
                 }
             }
         })
@@ -170,7 +170,7 @@ export const handlers = [
         const gamemodes: IGamemode[] = [
             {
                 "id": 1,
-                "icon": tutorial,
+                "icon": "Tutorial.png",
                 "name": "Tutorial",
                 "description": "In this mode, players can learn the game's mechanics and controls.",
                 "difficulty": {
@@ -182,7 +182,7 @@ export const handlers = [
             },
             {
                 "id": 2,
-                "icon": classic,
+                "icon": "Classic.png",
                 "name": "Classic",
                 "description": "In this mode, you receive recipes as riddles, but only those that are not made by one type of material. Four different hints are available to help you solve them.",
                 "difficulty": {
@@ -194,7 +194,7 @@ export const handlers = [
             },
             {
                 "id": 3,
-                "icon": daily,
+                "icon": "Daily.png",
                 "name": "Daily",
                 "description": "Similar to Classic, but can only be played once per day. Keep your streak going!",
                 "difficulty": {
@@ -206,7 +206,7 @@ export const handlers = [
             },
             {
                 "id": 4,
-                "icon": allinone,
+                "icon": "AllInOne.png",
                 "name": "All in One",
                 "description": "In this mode, you can receive any recipe as a riddle. Four different hints are available to help you solve it.",
                 "difficulty": {
@@ -218,7 +218,7 @@ export const handlers = [
             },
             {
                 "id": 5,
-                "icon": pocket,
+                "icon": "Pocket.png",
                 "name": "Pocket",
                 "description": "Similar to All in One, but you must work with a 2x2 crafting table to solve the riddles.",
                 "difficulty": {
@@ -230,7 +230,7 @@ export const handlers = [
             },
             {
                 "id": 6,
-                "icon": resource,
+                "icon": "Resource.png",
                 "name": "Resource",
                 "description": "Similar to Classic, but with a limited supply of materials.",
                 "difficulty": {
@@ -242,7 +242,7 @@ export const handlers = [
             },
             {
                 "id": 7,
-                "icon": hardcore,
+                "icon": "Hardcore.png",
                 "name": "Hardcore",
                 "description": "Similar to Classic, but no hints are available, and the game is played with health points.",
                 "difficulty": {
@@ -260,6 +260,70 @@ export const handlers = [
             }
         })
     }),
+
+    http.get('https://localhost:3000/profileBorders/:id', async () => {
+        const buffer = await fetch(gold).then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.arrayBuffer();
+        });
+        return HttpResponse.arrayBuffer(buffer, {
+            headers: {
+                'Content-Type': 'image/jpeg',
+            },
+        })
+    }),
+
+    http.get('https://localhost:3000/profilepictures/:id', async () => {
+        const buffer = await fetch(fox).then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.arrayBuffer();
+        });
+        return HttpResponse.arrayBuffer(buffer, {
+            headers: {
+                'Content-Type': 'image/jpeg',
+            },
+        })
+    }),
+
+    http.get('https://localhost:3000/gamemodes/:id', async ({ params }) => {
+        let img = tutorial
+        switch (params.id) {
+            case "Classic.png":
+                img = classic
+                break;
+            case "AllInOne.png":
+                img = allinone
+                break;
+            case "Daily.png":
+                img = daily
+                break;
+            case "Hardcore.png":
+                img = hardcore
+                break;
+            case "Resource.png":
+                img = resource
+                break;
+            case "Pocket.png":
+                img = pocket
+                break;
+        }
+        console.log(img)
+        const buffer = await fetch(img).then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.arrayBuffer();
+        });
+        return HttpResponse.arrayBuffer(buffer, {
+            headers: {
+                'Content-Type': 'image/jpeg',
+            },
+        })
+    })
 ];
 
 const worker = setupWorker(...handlers)
