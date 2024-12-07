@@ -2,7 +2,8 @@ import arrow from "../../assets/imgs/icons/arrow.png"
 import craftingBook from "../../assets/imgs/icons/recipe_book.png"
 
 interface CraftingTableProps {
-    size: 2 | 3
+    size: 2 | 3,
+    craftingTable: Array<Array<HTMLImageElement | null>>
 }
 
 export function CraftingTable(props: CraftingTableProps) {
@@ -10,10 +11,13 @@ export function CraftingTable(props: CraftingTableProps) {
         <h1 id="craftingTitle">Crafting</h1>
         <table>
             <tbody>
-                {Array.from({ length: props.size }).map((_, index) => {
-                    return <tr key={index}>
-                        {Array.from({ length: props.size }).map((_, index) => {
-                            return <td key={index} className="slot"></td>
+                {Array.from({ length: props.size }).map((_, rowIndex) => {
+                    return <tr key={rowIndex}>
+                        {Array.from({ length: props.size }).map((_, slotIndex) => {
+                            const item = props.craftingTable[rowIndex]?.[slotIndex]
+                            return <td key={slotIndex} className="slot">
+                                { item ? <img className={`item ${item.className}`} src={item.src} alt={item.alt}/> : null }
+                            </td>
                         })}
                     </tr>
                 })}

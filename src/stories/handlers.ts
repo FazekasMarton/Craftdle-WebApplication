@@ -11,6 +11,8 @@ import { ISettings } from '../interfaces/ISettings';
 import { IGamemode } from '../interfaces/IGamemode';
 import gold from "./assets/imgs/profileBorders/Gold.png"
 import fox from "./assets/imgs/profilepictures/Fox.png"
+import op from "./assets/imgs/items/Oak_Planks.png"
+import stick from "./assets/imgs/items/Stick.png"
 
 export const handlers = [
     http.get('https://localhost:3000/users/login', () => {
@@ -311,7 +313,6 @@ export const handlers = [
                 img = pocket
                 break;
         }
-        console.log(img)
         const buffer = await fetch(img).then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -323,7 +324,31 @@ export const handlers = [
                 'Content-Type': 'image/jpeg',
             },
         })
-    })
+    }),
+
+    http.get('https://localhost:3000/items/:id', async ({ params }) => {
+        console.log("asd")
+        let img = op
+        switch (params.id) {
+            case "Oak_Planks.png":
+                img = op
+                break;
+            case "Stick.png":
+                img = stick
+                break;
+        }
+        const buffer = await fetch(img).then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.arrayBuffer();
+        });
+        return HttpResponse.arrayBuffer(buffer, {
+            headers: {
+                'Content-Type': 'image/jpeg',
+            },
+        })
+    }),
 ];
 
 const worker = setupWorker(...handlers)

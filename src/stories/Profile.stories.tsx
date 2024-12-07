@@ -1,11 +1,5 @@
 import { Profile } from "../pages/MainMenu/Profile";
 import "../style.css"
-import desertFletcher from "./assets/imgs/profilePictures/Desert_Fletcher.png"
-import amethyst from "./assets/imgs/profileBorders/Amethyst.png"
-import enderman from "./assets/imgs/profilePictures/Enderman.png"
-import portal from "./assets/imgs/profileBorders/Nether_Portal.png"
-import fox from "./assets/imgs/profilePictures/Fox.png"
-import lava from "./assets/imgs/profileBorders/Lava.png"
 import { Provider, useDispatch } from "react-redux";
 import { saveUser } from "../features/user/userSlice";
 import { store } from "../app/store";
@@ -35,12 +29,12 @@ export function Villager(){
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: desertFletcher
+            src: "Desert_Fletcher.png"
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: amethyst
+            src: "Amethyst.png"
         }
     }
     const dispatch = useDispatch()
@@ -57,12 +51,12 @@ export function Enderman(){
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: enderman
+            src: "Enderman.png"
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: portal
+            src: "Nether_Portal.png"
         }
     }
     const dispatch = useDispatch()
@@ -79,12 +73,12 @@ export function Fox(){
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: fox
+            src: "Fox.png"
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: lava
+            src: "Lava.png"
         }
     }
     const dispatch = useDispatch()
