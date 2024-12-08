@@ -1,6 +1,6 @@
 import "../style.css"
 import { CraftingTable } from "../pages/Game/CraftingTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Items } from "../classes/Items";
 import { handlers } from "./handlers";
 
@@ -32,5 +32,24 @@ export const Default = () => {
         [items.getItem("oak_planks")],
         [null, items.getItem("stick")]
     ])
+    const [focusedItem, setFocusedItem] = useState<HTMLImageElement>()
+
+    useEffect(() => {
+        const saveFocus = (e: MouseEvent) => {
+            let target = e.target as HTMLElement
+            if(target.classList.contains("item") && focusedItem?.className != target.className){
+                setFocusedItem(target as HTMLImageElement)
+            }
+        };
+
+        document.addEventListener("mousemove", saveFocus);
+        
+        return () => {
+            document.removeEventListener("mousemove", saveFocus);
+        };
+    }, []);
+
+    console.log(focusedItem)
+
     return <CraftingTable craftingTable={tableContent} size={3} />;
 }
