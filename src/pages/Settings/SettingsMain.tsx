@@ -2,6 +2,7 @@ import React from "react";
 import { StoneButton } from "../../components/StoneButton";
 import { StoneSlider } from "../../components/StoneSlider";
 import { IControls, ISettings } from "../../interfaces/ISettings";
+import { DefaultSettings } from "../../classes/DefaultSettings";
 
 interface SettingsMainProps {
     profile: number;
@@ -9,36 +10,24 @@ interface SettingsMainProps {
     setSettings: (value: Array<ISettings>) => void;
 }
 
-const defaultSettings: ISettings = {
-    id: 0,
-    isSet: false,
-    volume: 50,
-    imagesSize: 50,
-    controls: {
-        isTapMode: false,
-        copy: "Left Mouse Button",
-        remove: "Right Mouse Button",
-        teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    }
-};
-
 export function SettingsMain(props: SettingsMainProps) {
     const profile = props.profiles[props.profile];
+    const defaultSettings = DefaultSettings.getDefaultSettings()
 
     function changeSettings<K extends keyof ISettings>(key: K, value: ISettings[K]) {
-        let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
+        let newSettings: Array<ISettings> = structuredClone(props.profiles);
         newSettings[props.profile][key] = value;
         props.setSettings(newSettings);
     }
 
     function changeControls<K extends keyof IControls>(key: K, value: IControls[K]) {
-        let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
+        let newSettings: Array<ISettings> = structuredClone(props.profiles);
         newSettings[props.profile].controls[key] = value;
         props.setSettings(newSettings);
     }
 
     function changeTableMapping(index: number, value: string) {
-        let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
+        let newSettings: Array<ISettings> = structuredClone(props.profiles);
         newSettings[props.profile].controls.teableMapping[index] = value;
         props.setSettings(newSettings);
     }

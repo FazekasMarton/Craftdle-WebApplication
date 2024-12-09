@@ -10,6 +10,7 @@
 
 * {
     font-family: MinecraftRegular;
+    user-select: none;
 }
 
 /* --- Scrollbar --- */
@@ -730,7 +731,7 @@ input:-webkit-autofill:focus {
     border-radius: 25%;
 }
 
-.slot>img{
+.slot>img, .cursorItem{
     max-width: 90%;
     max-height: 90%;
 }
@@ -778,4 +779,17 @@ input:-webkit-autofill:focus {
 #craftedItem{
     grid-area: craftedItem;
     padding: 1vmin;
+}
+
+/* - Cursor - */
+
+#pickedUpItem{
+    position: absolute;
+    width: 8vmin;
+    height: 8vmin;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    translate: -50% -50%;
+    pointer-events: none;
 }

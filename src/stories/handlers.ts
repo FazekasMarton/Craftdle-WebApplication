@@ -126,7 +126,7 @@ export const handlers = [
                 isSet: true,
                 controls: {
                     copy: "Left Mouse Button",
-                    remove: "Right Click Button",
+                    remove: "Right Mouse Button",
                     isTapMode: false,
                     teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
@@ -138,7 +138,7 @@ export const handlers = [
                 isSet: false,
                 controls: {
                     copy: "Left Mouse Button",
-                    remove: "Right Click Button",
+                    remove: "Right Mouse Button",
                     isTapMode: false,
                     teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
@@ -150,7 +150,7 @@ export const handlers = [
                 isSet: false,
                 controls: {
                     copy: "Left Mouse Button",
-                    remove: "Right Click Button",
+                    remove: "Right Mouse Button",
                     isTapMode: false,
                     teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
