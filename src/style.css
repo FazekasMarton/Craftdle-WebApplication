@@ -8,11 +8,200 @@
     src: url("assets/minecraft-font/MinecraftItalic-R8Mo.otf");
 }
 
-*{
+* {
     font-family: MinecraftRegular;
+    user-select: none;
+}
+
+/* --- Scrollbar --- */
+
+::-webkit-scrollbar {
+    width: 8vmin;
+    max-width: 25px;
+    height: 8vmin;
+    max-height: 25px;
+}
+
+::-webkit-scrollbar-track {
+    border-top: 2px solid rgb(51, 50, 50);
+    border-right: 2px solid rgb(255, 254, 254);
+    border-bottom: 2px solid rgb(254, 255, 255);
+    border-left: 2px solid rgb(57, 56, 56);
+    background-color: rgb(138, 139, 139);
+}
+
+::-webkit-scrollbar-thumb {
+    border-top: 2px solid rgb(254, 255, 255);
+    border-right: 2px solid rgb(57, 56, 56);
+    border-bottom: 2px solid rgb(51, 50, 50);
+    border-left: 2px solid rgb(255, 254, 254);
+    background-color: rgb(194, 195, 195);
+}
+
+@media (pointer:coarse) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* --- Components --- */
+
+/* -- InfoWindow -- */
+
+#infoWindow {
+    position: absolute;
+    background-color: rgb(19, 2, 18);
+    border: rgb(33, 8, 66) solid 0.3vmin;
+    box-shadow: 0 0 0 0.3vmin black;
+    border-radius: 5px;
+    color: rgb(170, 170, 170);
+    padding: 0.5vmin;
+    font-size: 3vmin;
+    z-index: 10;
+    max-width: 250px;
+    width: fit-content;
+}
+
+/* -- Button -- */
+
+.button {
+    padding: 1vmin;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100%;
+    font-size: 2vmin;
+    text-wrap: nowrap;
+    cursor: pointer;
+}
+
+/* - Green - */
+
+.greenButton {
+    background-color: rgb(59, 132, 39);
+    border-top: 1vmin solid rgb(101, 157, 80);
+    border-right: 1vmin solid rgb(28, 63, 19);
+    border-bottom: 1vmin solid rgb(22, 79, 14);
+    border-left: 1vmin solid rgb(66, 115, 52);
+}
+
+.greenButton:hover {
+    background-color: rgb(53, 113, 36);
+    border-top: 1vmin solid rgb(93, 144, 74);
+    border-right: 1vmin solid rgb(25, 56, 17);
+    border-bottom: 1vmin solid rgb(19, 71, 13);
+    border-left: 1vmin solid rgb(54, 95, 43);
+    color: #dbdbdb;
+}
+
+/* - Gray - */
+
+.grayButton {
+    background-color: rgb(132, 132, 132);
+    border-top: 1vmin solid rgb(157, 157, 157);
+    border-right: 1vmin solid rgb(63, 63, 63);
+    border-bottom: 1vmin solid rgb(79, 79, 79);
+    border-left: 1vmin solid rgb(115, 115, 115);
+}
+
+/* -- StoneButton & StoneSlider -- */
+
+.stoneButton,
+.disabledStoneButton,
+.stoneSlider {
+    display: flex;
+    border: 0.3vmin black solid;
+    background-color: black;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.disabledStoneButton,
+.disabledStoneButton>button {
+    cursor: default !important;
+}
+
+.stoneButton:hover {
+    border: white 0.3vmin solid;
+    background-color: white;
+}
+
+.stoneButton>button,
+.disabledStoneButton>button {
+    display: flex;
+    background-image: url("./assets/imgs/backgrounds/button-bg.png");
+    background-size: auto 100%;
+    width: 100%;
+    min-width: 8vmin;
+    height: 8vmin;
+    padding: 0;
+    color: rgb(255, 255, 255);
+    border-top: gray 0.7vmin solid;
+    border-right: rgb(88, 88, 88) 0.7vmin solid;
+    border-bottom: rgb(88, 88, 88) 1.4vmin solid;
+    border-left: gray 0.7vmin solid;
+    font-size: 3.7vmin;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.stoneButton img,
+.disabledStoneButton img {
+    max-height: 80%;
+    max-width: 80%;
+}
+
+.stoneSlider>input {
+    position: relative;
+    width: 100%;
+    min-width: 30dvw;
+    padding: 0 0.3vmin;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("./assets/imgs/backgrounds/button-bg.png");
+    background-size: auto 100%;
+    border: none;
+    outline: none;
+    overflow: hidden;
+}
+
+.stoneSlider>input::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.stoneSlider>input::-webkit-slider-thumb {
+    appearance: none;
+    position: relative;
+    width: 5vmin;
+    height: 7vmin;
+    margin: 0.3vmin 0;
+    background-image: url("./assets/imgs/backgrounds/button-bg.png");
+    background-size: auto 100%;
+    border-top: gray 0.7vmin solid;
+    border-right: rgb(88, 88, 88) 0.7vmin solid;
+    border-bottom: rgb(88, 88, 88) 1.4vmin solid;
+    border-left: gray 0.7vmin solid;
+    box-shadow: 0 0 0 0.3vmin black;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.stoneSlider>input::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 0.3vmin white;
 }
 
 /* --- Wrapper --- */
+
 html,
 body,
 #wrapper {
@@ -24,7 +213,8 @@ body,
 }
 
 /* -- Main Menu -- */
-#mainMenu{
+
+#mainMenu {
     display: grid;
     width: 100dvw;
     height: 100dvh;
@@ -34,7 +224,8 @@ body,
 }
 
 /* - Background - */
-#background{
+
+#background {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -47,12 +238,13 @@ body,
     0% {
         transform: translateZ(50vmin) rotateY(0deg);
     }
+
     100% {
         transform: translateZ(50vmin) rotateY(360deg);
     }
 }
 
-.panoramaPicture{
+.panoramaPicture {
     position: absolute;
     background-color: black;
     width: calc(100vmin + 2px);
@@ -60,61 +252,99 @@ body,
     background-size: cover;
 }
 
-#panoramaPicture0{
+#panoramaPicture0 {
     transform: translateX(-50vmin) translateY(-50vmin) translateZ(-50vmin);
 }
 
-#panoramaPicture1{
+#panoramaPicture1 {
     transform: translateY(-50vmin) rotateY(-90deg);
 }
 
-#panoramaPicture2{
+#panoramaPicture2 {
     transform: translateX(-50vmin) translateY(-50vmin) translateZ(50vmin) rotateY(180deg);
 }
 
-#panoramaPicture3{
+#panoramaPicture3 {
     transform: translateX(-100vmin) translateY(-50vmin) rotateY(90deg);
 }
 
-#panoramaPicture4{
+#panoramaPicture4 {
     transform: translateX(-50vmin) translateY(-100vmin) rotateX(-90deg);
 }
 
-#panoramaPicture5{
+#panoramaPicture5 {
     transform: translateX(-50vmin) rotateX(90deg);
 }
 
 /* - Menu - */
 
-#menu{
+#menu {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: min-content min-content min-content min-content auto min-content;
-    grid-template-areas: 
-    "account account account"
-    "title title title"
-    ". maintenance ."
-    ". mainButtons ."
-    "leftSideButtons additionalButtons rightSideButtons"
-    "footer footer footer";
+    grid-template-rows: min-content min-content min-content auto min-content;
+    grid-template-areas:
+        "title title title"
+        ". maintenance ."
+        ". mainButtons ."
+        "leftSideButtons additionalButtons rightSideButtons"
+        "footer footer footer";
     gap: 3vmin 1.6vmin;
     height: 100%;
     width: 100%;
     z-index: 1;
 }
 
-#craftleTitle{
+#account {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    height: min-content;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#profileBorder {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-position: center;
+    overflow: hidden;
+}
+
+#profilePicture {
+    width: 100%;
+    height: 100%;
+    grid-column: 2 / 16;
+    grid-row: 2 / 16;
+    object-fit: cover;
+    object-position: top left;
+}
+
+#profileName {
+    margin: 0;
+    font-weight: normal;
+}
+
+#craftleTitle {
     grid-area: title;
     width: min-content;
     justify-self: center;
     position: relative;
+    padding-top: 5vmin;
 }
 
-#craftdleLogo{
+#craftdleLogo {
     height: 20vmin;
 }
 
-#yellowText{
+#yellowText {
     width: 31vw;
     max-width: max-content;
     position: absolute;
@@ -136,17 +366,17 @@ body,
     }
 }
 
-#menu nav{
+#menu nav {
     gap: 1.6vmin;
 }
 
-#mainButtons{
+#mainButtons {
     grid-area: mainButtons;
     display: flex;
     flex-direction: column;
 }
 
-#additionalButtons{
+#additionalButtons {
     grid-area: additionalButtons;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -154,59 +384,22 @@ body,
     flex-direction: column;
 }
 
-.sideButtons{
+.sideButtons {
     display: flex;
     flex-direction: column;
 }
 
-#leftSideButtons{
+#leftSideButtons {
     grid-area: leftSideButtons;
     align-items: end;
 }
 
-#rightSideButtons{
+#rightSideButtons {
     grid-area: rightSideButtons;
     align-items: start;
 }
 
-.stoneButton{
-    display: flex;
-    border: 0.3vmin black solid;
-    background-color: black;
-    text-decoration: none;
-    align-items: center;
-    justify-content: cente
-}
-
-.stoneButton:hover{
-    border: white 0.3vmin solid;
-    background-color: white;
-}
-
-.stoneButton > button{
-    display: flex;
-    background-image: url("./assets/imgs/button-bg.png");
-    background-size: auto 100%;
-    width: 100%;
-    min-width: 8vmin;
-    height: 8vmin;
-    padding: 0;
-    color: rgb(255, 255, 255);
-    border-top: gray 0.7vmin solid;
-    border-right: rgb(88, 88, 88) 0.7vmin solid;
-    border-bottom: rgb(88, 88, 88) 1.4vmin solid;
-    border-left: gray 0.7vmin solid;
-    font-size: 3.7vmin;
-    align-items: center;
-    justify-content: center;
-}
-
-.stoneButton img{
-    max-height: 80%;
-    max-width: 80%;
-}
-
-#mainMenu footer{
+#mainMenu footer {
     grid-area: footer;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -214,15 +407,389 @@ body,
     padding: 5px;
 }
 
-#footerInfo{
+#footerInfo {
     display: flex;
     flex-direction: column;
 }
 
-#disclaimer{
+#disclaimer {
     margin: 0;
     font-size: 10px;
     text-align: end;
     justify-self: end;
     align-self: flex-end;
+}
+
+#userAuth {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    min-width: 300px;
+    background-color: rgb(38, 38, 38);
+    padding: 20px;
+    gap: 20px;
+    border-radius: 25px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto;
+    z-index: 2;
+}
+
+#authExit {
+    justify-self: flex-end;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    background-image: url("./assets/imgs/icons/reject.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: sepia(40%) hue-rotate(90deg) saturate(550%);
+    cursor: pointer;
+}
+
+#authExit:hover {
+    background-image: url("./assets//imgs//icons//reject_highlighted.png");
+}
+
+#userAuthNav {
+    display: flex;
+    gap: 10px;
+}
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.authForm>div:not(.checkRow) {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkRow {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+
+.authForm input {
+    background-color: rgb(19, 19, 19);
+    color: white;
+    border: solid 3px transparent;
+    padding: 5px;
+}
+
+.authForm input:not([type=checkbox]):focus {
+    border: rgb(81, 81, 81) solid 3px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.authForm input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    cursor: pointer;
+}
+
+.authForm input[type=checkbox]:checked {
+    background-image: url("./assets/imgs/icons/checkmark.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.inputError {
+    display: block;
+    color: rgb(170, 0, 0);
+    font-size: 13px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.link {
+    color: rgb(0, 170, 0);
+    font-weight: bold;
+}
+
+.authForm button {
+    height: min-content;
+}
+
+/* -- Settings & Gamemodes -- */
+
+#settings,
+#gamemodes {
+    background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto min-content;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+#settingsHeader h1,
+#gamemodesHeader h1 {
+    text-align: center;
+    font-weight: normal;
+    margin-top: 0;
+}
+
+#settingsHeader,
+#settingsFooter,
+#gamemodesHeader,
+#gamemodesFooter {
+    padding: 2vmin;
+    box-shadow: 0 0 5dvh 1dvh black;
+    z-index: 3;
+}
+
+#settingsHeader>nav,
+#settingsFooter>div,
+#gamemodesFooter>div {
+    display: flex;
+    width: 60%;
+    margin: auto;
+    gap: 5vmin;
+
+}
+
+#settingsHeader>nav>*,
+#settingsFooter>div>*,
+#gamemodesFooter>div>* {
+    flex-basis: 100%;
+}
+
+#settingsMain,
+#gamemodesMain {
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+/* - Settings Content - */
+
+#settingsList {
+    display: grid;
+    grid-template-columns: fit-content min-content min-content;
+    justify-content: center;
+    align-items: center;
+    gap: 2vmin;
+    width: fit-content;
+    margin: 2vmin auto;
+}
+
+.settingsLabel {
+    text-align: center;
+    font-weight: normal;
+    grid-column: 1/4;
+    margin: 0;
+}
+
+#settingsList>span {
+    font-size: 4vmin;
+}
+
+/* - Gamemodes Content - */
+
+#gamemodesList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vmin;
+    width: fit-content;
+    margin: 2vmin auto;
+}
+
+#gamemodesList>article {
+    display: grid;
+    grid-template-columns: min-content auto 1fr 6vmin;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "icon name difficulty warning"
+        "icon description description warning";
+    width: 90%;
+    max-width: 700px;
+    align-items: start;
+    justify-content: start;
+    gap: 10px 20px;
+    padding: 4px;
+    border: 2px solid transparent;
+}
+
+.selectedGamemode {
+    background-color: black;
+    border: 2px solid rgb(170, 170, 170) !important;
+}
+
+.gamemodeIcon {
+    grid-area: icon;
+    width: 15vmin;
+    height: 15vmin;
+    background-position: center;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+}
+
+.playButton {
+    display: none;
+    width: 100%;
+    background-image: url("./assets/imgs/icons/play.png");
+    background-color: transparent;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(110, 110, 110, 0.5);
+}
+
+#gamemodesList>article:hover .playButton {
+    display: block;
+}
+
+.playButton:hover {
+    background-image: url("./assets//imgs/icons/play_highlighted.png");
+}
+
+.gamemodeName {
+    grid-area: name;
+    font-weight: normal;
+    font-size: 4vmin;
+    margin: 0;
+}
+
+.gamemodeDifficulty {
+    grid-area: difficulty;
+    font-size: 3vmin;
+    align-self: self-end;
+}
+
+.gamemodeDescription {
+    grid-area: description;
+    margin: 0;
+    font-size: 2vmin;
+    color: rgb(170, 170, 170);
+}
+
+.gamemodeWarning {
+    grid-area: warning;
+    background-image: url('./assets/imgs/icons/error_highlighted.png');
+    width: 100%;
+    height: 100%;
+    background-position: left;
+    background-size: cover;
+}
+
+/* --- Game --- */
+
+/* -- General -- */
+
+/* - Slot - */
+
+.slot {
+    width: 8vmin;
+    height: 8vmin;
+    border-top: 0.2vmin solid rgb(51, 50, 50);
+    border-right: 0.2vmin solid rgb(255, 254, 254);
+    border-bottom: 0.2vmin solid rgb(254, 255, 255);
+    border-left: 0.2vmin solid rgb(57, 56, 56);
+    padding: 0;
+    background-color: rgb(138, 139, 139);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.05vmin;
+}
+
+.slotButton {
+    width: 8vmin;
+    height: 8vmin;
+    border-top: 0.2vmin solid rgb(254, 255, 255);
+    border-right: 0.2vmin solid rgb(57, 56, 56);
+    border-bottom: 0.2vmin solid rgb(51, 50, 50);
+    border-left: 0.2vmin solid rgb(255, 254, 254);
+    padding: 0;
+    background-color: rgb(194, 195, 195);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.05vmin;
+    border-radius: 25%;
+}
+
+.slot>img, .cursorItem{
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.slotButton>img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* - Crafting Table - */
+
+#craftingTable {
+    display: grid;
+    grid-template-columns: min-content max-content min-content min-content;
+    grid-template-rows: min-content min-content;
+    grid-template-areas: 
+    ". craftingTitle craftingTitle ."
+    "craftingBook craftingTable craftingArrow craftedItem";
+    align-items: center;
+    gap: 0 2vmin;
+}
+
+#craftingTitle {
+    grid-area: craftingTitle;
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 5vmin;
+}
+
+#craftingBook{
+    grid-area: craftingBook;
+}
+
+#craftingTable table {
+    grid-area: craftingTable;
+    border-collapse: collapse;
+}
+
+#craftingArrow{
+    grid-area: craftingArrow;
+    width: 10vmin;
+}
+
+#craftedItem{
+    grid-area: craftedItem;
+    padding: 1vmin;
+}
+
+/* - Cursor - */
+
+#pickedUpItem{
+    position: absolute;
+    width: 8vmin;
+    height: 8vmin;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    translate: -50% -50%;
+    pointer-events: none;
 }
