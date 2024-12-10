@@ -38,20 +38,43 @@ export function Cursor(props: CursorProps) {
     useEffect(() => {
         function handleControl(key: string) {
             const control = getKeyAndIndexByValue(currentSettings.controls, key);
-            if (control === "copy") {
-                setPickedUpItem(focusedItemRef.current);
-                placeItem();
+            switch (control) {
+                case "copy":
+                    setPickedUpItem(focusedItemRef.current);
+                    placeItem();
+                    break;
+                case "remove":
+                    removeItem()
+                    break;
             }
         }
 
+        function getSlotIndex(){
+            const slotNumber = Number(focusedSlotRef.current?.id.replace("slot", ""));
+            return slotNumber || slotNumber === 0 ? slotNumber : undefined
+        }
+
+        function addToSlot(slots: Array<Array<HTMLImageElement | null>>, slotNumber: number, itemToPlace: HTMLImageElement | null){
+            const currentSlotItem = slots[Math.floor(slotNumber / 3)][slotNumber % 3];
+            slots[Math.floor(slotNumber / 3)][slotNumber % 3] = itemToPlace || null;
+            props.setCraftingTableSlots([...slots]);
+            return currentSlotItem
+        }
+        
+        function removeItem(){
+            let slots = props.craftingTableSlots;
+            const slotNumber = getSlotIndex()
+            if (slotNumber || slotNumber === 0) {
+                addToSlot(slots, slotNumber, null)
+            }
+        }
+        
         function placeItem() {
             let slots = props.craftingTableSlots;
-            const slotNumber = Number(focusedSlotRef.current?.id.replace("slot", ""));
+            const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
-                const currentSlotItem = slots[Math.floor(slotNumber / 3)][slotNumber % 3];
-                slots[Math.floor(slotNumber / 3)][slotNumber % 3] = pickedUpItem || null;
+                const currentSlotItem = addToSlot(slots, slotNumber, pickedUpItem)
                 setPickedUpItem(currentSlotItem || null);
-                props.setCraftingTableSlots([...slots]);
             }
         }
 
@@ -88,14 +111,20 @@ export function Cursor(props: CursorProps) {
             }
         }
 
+        function disableRightContextmenu(e: Event){
+            e.preventDefault()
+        }
+
         document.addEventListener("mousemove", updateLocation);
         document.addEventListener("mouseover", saveFocus);
         document.addEventListener("mousedown", handleMouseButtonPressed);
-
+        document.addEventListener("contextmenu", disableRightContextmenu)
+        
         return () => {
             document.removeEventListener("mousemove", updateLocation);
             document.removeEventListener("mouseover", saveFocus);
             document.removeEventListener("mousedown", handleMouseButtonPressed);
+            document.removeEventListener("contextmenu", disableRightContextmenu)
         };
     }, [pickedUpItem, currentSettings.controls]);
 
