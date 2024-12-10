@@ -27,13 +27,14 @@ interface CursorProps {
 export function Cursor(props: CursorProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
-    
+
     const focusedItemRef = useRef<HTMLImageElement | null>(null);
     const focusedSlotRef = useRef<HTMLElement | null>(null);
+    const isHoldingCopy = useRef<boolean>(false);
     const [pickedUpItem, setPickedUpItem] = useState<HTMLImageElement | null>(null);
     const [cursorPos, setCursorPos] = useState<{ x: number, y: number }>();
 
-    useEffect(() => {loadSettings()}, []);
+    useEffect(() => { loadSettings() }, []);
 
     useEffect(() => {
         function handleControl(key: string) {
@@ -49,26 +50,26 @@ export function Cursor(props: CursorProps) {
             }
         }
 
-        function getSlotIndex(){
+        function getSlotIndex() {
             const slotNumber = Number(focusedSlotRef.current?.id.replace("slot", ""));
             return slotNumber || slotNumber === 0 ? slotNumber : undefined
         }
 
-        function addToSlot(slots: Array<Array<HTMLImageElement | null>>, slotNumber: number, itemToPlace: HTMLImageElement | null){
+        function addToSlot(slots: Array<Array<HTMLImageElement | null>>, slotNumber: number, itemToPlace: HTMLImageElement | null) {
             const currentSlotItem = slots[Math.floor(slotNumber / 3)][slotNumber % 3];
             slots[Math.floor(slotNumber / 3)][slotNumber % 3] = itemToPlace || null;
             props.setCraftingTableSlots([...slots]);
             return currentSlotItem
         }
-        
-        function removeItem(){
+
+        function removeItem() {
             let slots = props.craftingTableSlots;
             const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
                 addToSlot(slots, slotNumber, null)
             }
         }
-        
+
         function placeItem() {
             let slots = props.craftingTableSlots;
             const slotNumber = getSlotIndex()
@@ -93,38 +94,69 @@ export function Cursor(props: CursorProps) {
 
         function updateLocation(e: MouseEvent) {
             setCursorPos({ x: e.clientX, y: e.clientY });
-        }
-
-        function handleMouseButtonPressed(e: MouseEvent) {
-            if (e.button >= 0 && e.button <= 2) {
-                switch (e.button) {
-                    case 0:
-                        handleControl("Left Mouse Button");
-                        break;
-                    case 1:
-                        handleControl("Middle Mouse Button");
-                        break;
-                    case 2:
-                        handleControl("Right Mouse Button");
-                        break;
+            if (isHoldingCopy.current && pickedUpItem && focusedSlotRef.current?.childNodes.length === 0) {
+                let slots = props.craftingTableSlots;
+                const slotNumber = getSlotIndex()
+                if (slotNumber || slotNumber === 0) {
+                    addToSlot(slots, slotNumber, pickedUpItem)
                 }
             }
         }
 
-        function disableRightContextmenu(e: Event){
+        function handleMouseButtonPressed(e: MouseEvent) {
+            const control = getKeyAndIndexByValue(currentSettings.controls, getMouseButton(e));
+            if (control === "copy") {
+                isHoldingCopy.current = true
+            }
+        }
+
+        function getMouseButton(e: MouseEvent){
+            let key = undefined
+            if (e.button >= 0 && e.button <= 2) {
+                switch (e.button) {
+                    case 0:
+                        key = "Left Mouse Button";
+                        break;
+                    case 1:
+                        key = "Middle Mouse Button";
+                        break;
+                    case 2:
+                        key = "Right Mouse Button";
+                        break;
+                }
+            }
+            return key
+        }
+
+        function disableRightContextmenu(e: Event) {
             e.preventDefault()
+        }
+
+        function handleMouseButtonRelease(e: MouseEvent) {
+            const button = getMouseButton(e)
+            if(button) handleControl(button)
+            if(button) stopHolding(button)
+        }
+
+        function stopHolding(key: string) {
+            const control = getKeyAndIndexByValue(currentSettings.controls, key);
+            if (control === "copy") {
+                isHoldingCopy.current = false
+            }
         }
 
         document.addEventListener("mousemove", updateLocation);
         document.addEventListener("mouseover", saveFocus);
         document.addEventListener("mousedown", handleMouseButtonPressed);
         document.addEventListener("contextmenu", disableRightContextmenu)
-        
+        document.addEventListener("mouseup", handleMouseButtonRelease)
+
         return () => {
             document.removeEventListener("mousemove", updateLocation);
             document.removeEventListener("mouseover", saveFocus);
             document.removeEventListener("mousedown", handleMouseButtonPressed);
             document.removeEventListener("contextmenu", disableRightContextmenu)
+            document.removeEventListener("mouseup", handleMouseButtonRelease)
         };
     }, [pickedUpItem, currentSettings.controls]);
 
