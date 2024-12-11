@@ -23,7 +23,7 @@ export class Items{
         let image = new Image()
         image.className = item.id
         image.alt = item.name
-        image.src = `https://localhost:3000/items/${item.src}`
+        image.src = `http://localhost:3000/items/${item.src}`
         this.items[item.id] = image
     }
 

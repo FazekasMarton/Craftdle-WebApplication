@@ -24,7 +24,7 @@ function generateSettings() {
                 isTapMode: faker.datatype.boolean(),
                 copy: faker.string.alphanumeric(1),
                 remove: faker.string.alphanumeric(1),
-                teableMapping: mapping
+                tableMapping: mapping
             }
         })
     }

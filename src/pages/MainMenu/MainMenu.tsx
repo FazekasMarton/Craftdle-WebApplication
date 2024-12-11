@@ -16,14 +16,12 @@ import { loadSettings } from "../../functions/loadSettings"
 
 async function autoLogin(token: string | null){
     let error = true
-    await store.dispatch(loadUser())
     if (token) {
         let response = await store.dispatch(tokenLogin())
         let res = (response.payload as any)
         if (res.response == 200) {
             await store.dispatch(saveUser(res.data.data))
             error = false
-            await loadSettings()
         }
     }
     if(error){
@@ -31,14 +29,27 @@ async function autoLogin(token: string | null){
         let res = (response.payload as any)
         store.dispatch(saveUser(res.data.data))
     }
+    await loadSettings()
 }
 
 export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
     const user = useSelector((state: RootState) => state.user);
+    
+    async function loadSavedUser() {
+        await store.dispatch(loadUser());
+        const token = store.getState().user.loginToken;
+        await autoLogin(token);
+    }
+
+    console.log(user.loginToken)
+
     useEffect(() => {
-        autoLogin(user.loginToken)
+        if(!user.username){
+            loadSavedUser()
+        }
     }, [])
+    
     return <main id="mainMenu">
         <Background />
         <section id="menu">

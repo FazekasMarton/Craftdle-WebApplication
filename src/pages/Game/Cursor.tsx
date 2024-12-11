@@ -115,13 +115,13 @@ export function Cursor(props: CursorProps) {
             if (e.button >= 0 && e.button <= 2) {
                 switch (e.button) {
                     case 0:
-                        key = "Left Mouse Button";
+                        key = "LMB";
                         break;
                     case 1:
-                        key = "Middle Mouse Button";
+                        key = "MMB";
                         break;
                     case 2:
-                        key = "Right Mouse Button";
+                        key = "RMB";
                         break;
                 }
             }

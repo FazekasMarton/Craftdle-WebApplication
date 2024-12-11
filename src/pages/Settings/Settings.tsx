@@ -18,9 +18,11 @@ export function Settings() {
         }
     })
 
-    return <main id="settings">
+    console.log(originalSettings)
+
+    return originalSettings ? <main id="settings">
         <SettingsHeader activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
         <SettingsMain setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />
         <SettingsFooter setSettings={setModifiedSettings} originalSettings={originalSettings} profiles={modifiedSettings} profile={activeProfile} />
-    </main>
+    </main> : <h1 style={{color: "black"}}>Something went wrong!</h1>
 }

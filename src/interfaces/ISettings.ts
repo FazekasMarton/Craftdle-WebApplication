@@ -10,5 +10,5 @@ export interface IControls {
     isTapMode: boolean;
     copy: string;
     remove: string;
-    teableMapping: string[];
+    tableMapping: string[];
 }
