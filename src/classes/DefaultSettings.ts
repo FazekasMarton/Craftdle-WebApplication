@@ -7,9 +7,9 @@ const defaultSettings: ISettings = {
     imagesSize: 50,
     controls: {
         isTapMode: false,
-        copy: "Left Mouse Button",
-        remove: "Right Mouse Button",
-        teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        copy: "LMB",
+        remove: "RMB",
+        tableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
     }
 };
 

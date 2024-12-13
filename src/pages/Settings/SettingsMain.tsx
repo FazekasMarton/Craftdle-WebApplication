@@ -28,7 +28,7 @@ export function SettingsMain(props: SettingsMainProps) {
 
     function changeTableMapping(index: number, value: string) {
         let newSettings: Array<ISettings> = structuredClone(props.profiles);
-        newSettings[props.profile].controls.teableMapping[index] = value;
+        newSettings[props.profile].controls.tableMapping[index] = value;
         props.setSettings(newSettings);
     }
 
@@ -38,13 +38,13 @@ export function SettingsMain(props: SettingsMainProps) {
             if (e.button >= 0 && e.button <= 2) {
                 switch (e.button) {
                     case 0:
-                        change("Left Mouse Button");
+                        change("LMB");
                         break;
                     case 1:
-                        change("Middle Mouse Button");
+                        change("MMB");
                         break;
                     case 2:
-                        change("Right Mouse Button");
+                        change("RMB");
                         break;
                 }
                 removeListeners()
@@ -125,11 +125,11 @@ export function SettingsMain(props: SettingsMainProps) {
                         <StoneButton onClick={() => {
                             listenInteraction((value: string) => { changeTableMapping(i, value); });
                         }}>
-                            {profile.controls.teableMapping[i]}
+                            {profile.controls.tableMapping[i]}
                         </StoneButton>
                         <StoneButton
-                            disabled={profile.controls.teableMapping[i] === defaultSettings.controls.teableMapping[i]}
-                            onClick={() => { changeTableMapping(i, defaultSettings.controls.teableMapping[i]); }}
+                            disabled={profile.controls.tableMapping[i] === defaultSettings.controls.tableMapping[i]}
+                            onClick={() => { changeTableMapping(i, defaultSettings.controls.tableMapping[i]); }}
                         >Reset</StoneButton>
                     </React.Fragment>
                 ))}

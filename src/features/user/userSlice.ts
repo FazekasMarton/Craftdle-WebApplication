@@ -67,6 +67,8 @@ export const userSlice = createSlice({
             state.profilePicture = null;
             state.profileBorder = null;
             state.settings = null;
+            sessionStorage.clear()
+            localStorage.clear()
         }        
     }
 })

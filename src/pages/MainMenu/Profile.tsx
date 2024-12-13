@@ -12,10 +12,10 @@ export function Profile(props: ProfileProps){
     return <div id="account" onClick={() => {props.openAuth(true)}}>
         <div id="profileBorder"
             style={profileBorder ? {
-                backgroundImage: `url(https://localhost:3000/profileBorders/${profileBorder?.src})`
+                backgroundImage: `url(http://localhost:3000/profileBorders/${profileBorder?.src})`
             } : {}}
         >
-            {profilePicture ? <img id="profilePicture" src={`https://localhost:3000/profilePictures/${profilePicture?.src}`} alt={profilePicture?.name} /> : null}
+            {profilePicture ? <img id="profilePicture" src={`http://localhost:3000/profilePictures/${profilePicture?.src}`} alt={profilePicture?.name} /> : null}
         </div>
         <h1 id="profileName">{username}</h1>
     </div>

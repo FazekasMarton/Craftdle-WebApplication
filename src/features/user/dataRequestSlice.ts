@@ -31,7 +31,8 @@ async function communicate(
     try {
         const response = await fetch(url, options);
         const data = await response.json();
-        return { data: data, response: response.status };
+        console.log(data)
+        return { data: data, response: response.ok };
     } catch (err: any) {
         dispatch(setError(err.name));
     }
@@ -49,7 +50,7 @@ export const register = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/register",
+            "http://localhost:3000/users/register",
             "POST",
             null,
             {
@@ -72,7 +73,7 @@ export const guestLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/login",
+            "http://localhost:3000/users/login",
             "GET"
         );
 
@@ -88,7 +89,7 @@ export const tokenLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/login",
+            "http://localhost:3000/users/login",
             "POST",
             "Bearer"
         );
@@ -107,7 +108,7 @@ export const login = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/login",
+            "http://localhost:3000/users/login",
             "POST",
             undefined,
             { username, password, stayLoggedIn }
@@ -125,7 +126,7 @@ export const logout = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/login",
+            "http://localhost:3000/users/login",
             "DELETE",
             "Basic"
         );
@@ -142,7 +143,7 @@ export const forgotPassword = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/password",
+            "http://localhost:3000/users/password",
             "POST",
             "Bearer",
             { email: email }
@@ -160,7 +161,7 @@ export const changePassword = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/password",
+            "http://localhost:3000/users/password",
             "PUT",
             "Bearer",
             { password: password }
@@ -178,7 +179,7 @@ export const getSettings = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/settings",
+            "http://localhost:3000/users/settings",
             "GET",
             "Bearer"
         );
@@ -195,7 +196,7 @@ export const changeSettings = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            `https://localhost:3000/users/settings/${settings.id}`,
+            `http://localhost:3000/users/settings/${settings.id}`,
             "PUT",
             "Bearer",
             settings
@@ -213,7 +214,7 @@ export const getStats = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/stats",
+            "http://localhost:3000/users/stats",
             "GET",
             "Bearer"
         );
@@ -230,7 +231,7 @@ export const getCollection = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/collection",
+            "http://localhost:3000/users/collection",
             "GET",
             "Bearer"
         );
@@ -250,7 +251,7 @@ export const changeProfilePics = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "https://localhost:3000/users/profile",
+            "http://localhost:3000/users/profile",
             "PUT",
             "Bearer",
             { profilePicture, profileBorder }
@@ -271,7 +272,7 @@ export const getGamemodes = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            `https://localhost:3000/game/${type}`,
+            `http://localhost:3000/game/${type}`,
             "GET",
             "Bearer"
         );

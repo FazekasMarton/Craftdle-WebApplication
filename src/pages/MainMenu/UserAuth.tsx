@@ -73,7 +73,7 @@ function LoginForm(props: FormProps) {
                     stayLoggedIn: rememberMe
                 }))
                 let res = (response.payload as any)
-                if (res.response == 200) {
+                if (res.response) {
                     store.dispatch(saveUser(res.data.data))
                     setUsername("")
                     setPassword("")
@@ -189,7 +189,7 @@ function RegisterForm(props: FormProps) {
                     stayLoggedIn: rememberMe
                 }))
                 let res = (response.payload as any)
-                if (res.response == 200) {
+                if (res.response) {
                     store.dispatch(saveUser(res.data.data))
                     setUsername("")
                     setEmail("")
@@ -215,7 +215,7 @@ function LogoutForm(props: FormProps) {
         <Button color="green" onClick={async() => {
             let response = await store.dispatch(logout())
             let res = (response.payload as any)
-            if (res.response == 200) {
+            if (res.response) {
                 await store.dispatch(clearUser())
                 props.openAuth(false)
                 let response = await store.dispatch(guestLogin())

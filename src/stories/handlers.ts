@@ -15,7 +15,7 @@ import op from "./assets/imgs/items/Oak_Planks.png"
 import stick from "./assets/imgs/items/Stick.png"
 
 export const handlers = [
-    http.get('https://localhost:3000/users/login', () => {
+    http.get('http://localhost:3000/users/login', () => {
         return HttpResponse.json({
             data: {
                 loginToken: "1234-5678-9000-AAAA-BBBB",
@@ -36,7 +36,7 @@ export const handlers = [
         })
     }),
 
-    http.post('https://localhost:3000/users/login', async ({ request }) => {
+    http.post('http://localhost:3000/users/login', async ({ request }) => {
         let data: any;
 
         try {
@@ -76,7 +76,7 @@ export const handlers = [
         })
     }),
 
-    http.post('https://localhost:3000/users/register', async ({ request }) => {
+    http.post('http://localhost:3000/users/register', async ({ request }) => {
         let data: any = await request.json()
 
         if (data.username == "Test123") {
@@ -111,13 +111,13 @@ export const handlers = [
         })
     }),
 
-    http.delete('https://localhost:3000/users/login', () => {
+    http.delete('http://localhost:3000/users/login', () => {
         return HttpResponse.json({
             message: "Siker!"
         })
     }),
 
-    http.get('https://localhost:3000/users/settings', () => {
+    http.get('http://localhost:3000/users/settings', () => {
         const settings: ISettings[] = [
             {
                 id: 45,
@@ -125,10 +125,10 @@ export const handlers = [
                 imagesSize: 10,
                 isSet: true,
                 controls: {
-                    copy: "Left Mouse Button",
-                    remove: "Right Mouse Button",
+                    copy: "LMB",
+                    remove: "RMB",
                     isTapMode: false,
-                    teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                    tableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
             },
             {
@@ -137,10 +137,10 @@ export const handlers = [
                 imagesSize: 10,
                 isSet: false,
                 controls: {
-                    copy: "Left Mouse Button",
-                    remove: "Right Mouse Button",
+                    copy: "LMB",
+                    remove: "RMB",
                     isTapMode: false,
-                    teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                    tableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
             },
             {
@@ -149,10 +149,10 @@ export const handlers = [
                 imagesSize: 10,
                 isSet: false,
                 controls: {
-                    copy: "Left Mouse Button",
-                    remove: "Right Mouse Button",
+                    copy: "LMB",
+                    remove: "RMB",
                     isTapMode: false,
-                    teableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                    tableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
             }
         ]
@@ -162,13 +162,13 @@ export const handlers = [
         })
     }),
 
-    http.put('https://localhost:3000/users/settings/:id', () => {
+    http.put('http://localhost:3000/users/settings/:id', () => {
         return HttpResponse.json({
             message: "Siker!"
         })
     }),
 
-    http.get('https://localhost:3000/game/singleplayer', () => {
+    http.get('http://localhost:3000/game/singleplayer', () => {
         const gamemodes: IGamemode[] = [
             {
                 "id": 1,
@@ -263,7 +263,7 @@ export const handlers = [
         })
     }),
 
-    http.get('https://localhost:3000/profileBorders/:id', async () => {
+    http.get('http://localhost:3000/profileBorders/:id', async () => {
         const buffer = await fetch(gold).then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -277,7 +277,7 @@ export const handlers = [
         })
     }),
 
-    http.get('https://localhost:3000/profilepictures/:id', async () => {
+    http.get('http://localhost:3000/profilepictures/:id', async () => {
         const buffer = await fetch(fox).then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -291,7 +291,7 @@ export const handlers = [
         })
     }),
 
-    http.get('https://localhost:3000/gamemodes/:id', async ({ params }) => {
+    http.get('http://localhost:3000/gamemodes/:id', async ({ params }) => {
         let img = tutorial
         switch (params.id) {
             case "Classic.png":
@@ -326,7 +326,7 @@ export const handlers = [
         })
     }),
 
-    http.get('https://localhost:3000/items/:id', async ({ params }) => {
+    http.get('http://localhost:3000/items/:id', async ({ params }) => {
         console.log("asd")
         let img = op
         switch (params.id) {
