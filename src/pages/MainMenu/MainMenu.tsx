@@ -19,7 +19,7 @@ async function autoLogin(token: string | null){
     if (token) {
         let response = await store.dispatch(tokenLogin())
         let res = (response.payload as any)
-        if (res.response == 200) {
+        if (res.response) {
             await store.dispatch(saveUser(res.data.data))
             error = false
         }
@@ -41,8 +41,6 @@ export function MainMenu() {
         const token = store.getState().user.loginToken;
         await autoLogin(token);
     }
-
-    console.log(user.loginToken)
 
     useEffect(() => {
         if(!user.username){

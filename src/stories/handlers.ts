@@ -327,7 +327,6 @@ export const handlers = [
     }),
 
     http.get('http://localhost:3000/items/:id', async ({ params }) => {
-        console.log("asd")
         let img = op
         switch (params.id) {
             case "Oak_Planks.png":
