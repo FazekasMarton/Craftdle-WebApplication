@@ -100,8 +100,8 @@ export const tokenLogin = createAsyncThunk(
 
 export const login = createAsyncThunk(
     "user/login",
-    async ({ username, password, stayLoggedIn }:
-        { username: string; password: string; stayLoggedIn: boolean },
+    async ({ usernameOrEmail, password, stayLoggedIn }:
+        { usernameOrEmail: string; password: string; stayLoggedIn: boolean },
         { dispatch, getState }) => {
         const state = getState() as RootState;
 
@@ -111,7 +111,7 @@ export const login = createAsyncThunk(
             "http://localhost:3000/users/login",
             "POST",
             undefined,
-            { username, password, stayLoggedIn }
+            { usernameOrEmail, password, stayLoggedIn }
         );
 
         return response;
@@ -193,13 +193,14 @@ export const changeSettings = createAsyncThunk(
     async (settings: ISettings, { dispatch, getState }) => {
         const state = getState() as RootState;
 
+        const {id, ...changedSettings} = settings
         const response = await communicate(
             state,
             dispatch,
-            `http://localhost:3000/users/settings/${settings.id}`,
+            `http://localhost:3000/users/settings/${id}`,
             "PUT",
             "Bearer",
-            settings
+            changedSettings
         );
 
         return response;

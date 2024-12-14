@@ -18,8 +18,6 @@ export function Settings() {
         }
     })
 
-    console.log(originalSettings)
-
     return originalSettings ? <main id="settings">
         <SettingsHeader activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
         <SettingsMain setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />

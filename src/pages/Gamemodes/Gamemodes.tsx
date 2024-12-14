@@ -22,8 +22,6 @@ export function Gamemodes(props: GamemodesProps) {
         collectGamemodes()
     }, [])
 
-    console.log(gamemodes)
-
     return <main id="gamemodes">
         <header id="gamemodesHeader">
             <h1>Select Gamemode</h1>

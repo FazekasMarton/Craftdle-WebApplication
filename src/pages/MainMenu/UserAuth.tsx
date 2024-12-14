@@ -68,7 +68,7 @@ function LoginForm(props: FormProps) {
             let errors = [usernameErr, passwordErr]
             if (errors.every(error => error.length === 0)) {
                 let response = await store.dispatch(login({
-                    username: username,
+                    usernameOrEmail: username,
                     password: password,
                     stayLoggedIn: rememberMe
                 }))
