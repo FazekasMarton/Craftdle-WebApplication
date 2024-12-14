@@ -9,16 +9,22 @@ import { loadSettings } from "../../functions/loadSettings";
 
 export function Settings() {
     const originalSettings = useSelector((state: RootState) => state.user.settings);
-    const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings>>(structuredClone(originalSettings) || [])
+    const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings> | null>(structuredClone(originalSettings))
     const [activeProfile, setActiveProfile] = useState(0)
 
     useEffect(() => {
         if (!originalSettings) {
             loadSettings()
         }
-    })
+    }, [])
 
-    return originalSettings ? <main id="settings">
+    useEffect(() => {
+        if (!modifiedSettings) {
+            setModifiedSettings(structuredClone(originalSettings))
+        }
+    }, [originalSettings])
+
+    return originalSettings && modifiedSettings ? <main id="settings">
         <SettingsHeader activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
         <SettingsMain setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />
         <SettingsFooter setSettings={setModifiedSettings} originalSettings={originalSettings} profiles={modifiedSettings} profile={activeProfile} />
