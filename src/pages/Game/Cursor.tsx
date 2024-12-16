@@ -81,7 +81,7 @@ export function Cursor(props: CursorProps) {
 
         function saveFocus(e: MouseEvent) {
             const target = e.target as HTMLElement;
-            if (target.classList.contains("item") && focusedItemRef.current?.className !== target.className) {
+            if (target.classList.contains("item")) {
                 focusedItemRef.current = target as HTMLImageElement;
             } else if (target.classList.contains("slot")) {
                 focusedSlotRef.current = target;
