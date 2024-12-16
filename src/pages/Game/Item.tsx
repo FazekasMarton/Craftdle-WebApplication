@@ -1,6 +1,6 @@
 interface ItemProps {
     item: HTMLImageElement,
-    className: string
+    className?: string | ""
 }
 
 export function Item(props: ItemProps) {
