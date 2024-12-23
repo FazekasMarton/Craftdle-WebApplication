@@ -13,6 +13,21 @@ import gold from "./assets/imgs/profileBorders/Gold.png"
 import fox from "./assets/imgs/profilepictures/Fox.png"
 import op from "./assets/imgs/items/Oak_Planks.png"
 import stick from "./assets/imgs/items/Stick.png"
+import ironIngot from './assets/imgs/items/Iron_Ingot.png';
+import sprucePlanks from './assets/imgs/items/Spruce_Planks.png';
+import birchPlanks from './assets/imgs/items/Birch_Planks.png';
+import junglePlanks from './assets/imgs/items/Jungle_Planks.png';
+import acaciaPlanks from './assets/imgs/items/Acacia_Planks.png';
+import darkOakPlanks from './assets/imgs/items/Dark_Oak_Planks.png';
+import mangrovePlanks from './assets/imgs/items/Mangrove_Planks.png';
+import cherryPlanks from './assets/imgs/items/Cherry_Planks.png';
+import paleOakPlanks from './assets/imgs/items/Pale_Oak_Planks.png';
+import bambooPlanks from './assets/imgs/items/Bamboo_Planks.png';
+import crimsonPlanks from './assets/imgs/items/Crimson_Planks.png';
+import warpedPlanks from './assets/imgs/items/Warped_Planks.png';
+import gunpowder from './assets/imgs/items/Gunpowder.png';
+import paper from './assets/imgs/items/Paper.png';
+import fireworkStar from './assets/imgs/items/Firework_Star.png';
 
 export const handlers = [
     http.get('http://localhost:3000/users/login', () => {
@@ -327,14 +342,61 @@ export const handlers = [
     }),
 
     http.get('http://localhost:3000/items/:id', async ({ params }) => {
-        let img = op
+        let img = op;
         switch (params.id) {
             case "Oak_Planks.png":
-                img = op
+                img = op;
                 break;
             case "Stick.png":
-                img = stick
+                img = stick;
                 break;
+            case "Iron_Ingot.png":
+                img = ironIngot;
+                break;
+            case "Spruce_Planks.png":
+                img = sprucePlanks;
+                break;
+            case "Birch_Planks.png":
+                img = birchPlanks;
+                break;
+            case "Jungle_Planks.png":
+                img = junglePlanks;
+                break;
+            case "Acacia_Planks.png":
+                img = acaciaPlanks;
+                break;
+            case "Dark_Oak_Planks.png":
+                img = darkOakPlanks;
+                break;
+            case "Mangrove_Planks.png":
+                img = mangrovePlanks;
+                break;
+            case "Cherry_Planks.png":
+                img = cherryPlanks;
+                break;
+            case "Pale_Oak_Planks.png":
+                img = paleOakPlanks;
+                break;
+            case "Bamboo_Planks.png":
+                img = bambooPlanks;
+                break;
+            case "Crimson_Planks.png":
+                img = crimsonPlanks;
+                break;
+            case "Warped_Planks.png":
+                img = warpedPlanks;
+                break;
+            case "Gunpowder.png":
+                img = gunpowder;
+                break;
+            case "Paper.png":
+                img = paper;
+                break;
+            case "Firework_Star.png":
+                img = fireworkStar;
+                break;
+            default:
+                img = op;
         }
         const buffer = await fetch(img).then((response) => {
             if (!response.ok) {
