@@ -4,18 +4,21 @@ import craftingBook from "../../assets/imgs/icons/recipe_book.png"
 import { Item } from "./Item"
 import { craft } from "../../functions/craft"
 import { IRecipeCollection } from "../../interfaces/IRecipe"
+import { Items } from "../../classes/Items"
 
 interface CraftingTableProps {
     size: 2 | 3,
     craftingTable: Array<Array<HTMLImageElement | null>>,
-    recipes: IRecipeCollection
+    recipes: IRecipeCollection,
+    items: Items
 }
 
 export function CraftingTable(props: CraftingTableProps) {
     const [craftedItem, setCraftedItem] = useState<HTMLImageElement | null>(null)
 
     useEffect(() => {
-        setCraftedItem(craft(props.craftingTable))
+        let craftedItemId = craft(props.craftingTable, props.recipes)
+        setCraftedItem(craftedItemId ? props.items.getItem(craftedItemId) : null)
     }, [props.craftingTable])
 
     return <div id="craftingTable">
