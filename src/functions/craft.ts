@@ -4,6 +4,7 @@ type ICraftingTable = Array<Array<HTMLImageElement | null>>;
 
 function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
     let newRecipe = recipe.filter(row => row.some(cell => cell !== null));
+    if(newRecipe.length == 0) return newRecipe;
     const transpose = (matrix: any[][]) => matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
     const transposedRecipe = transpose(newRecipe);
     const filteredTransposedRecipe = transposedRecipe.filter(col => col.some(cell => cell !== null));
