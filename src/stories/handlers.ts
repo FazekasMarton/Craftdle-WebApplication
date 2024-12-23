@@ -28,6 +28,8 @@ import warpedPlanks from './assets/imgs/items/Warped_Planks.png';
 import gunpowder from './assets/imgs/items/Gunpowder.png';
 import paper from './assets/imgs/items/Paper.png';
 import fireworkStar from './assets/imgs/items/Firework_Star.png';
+import fireworkRocket from './assets/imgs/items/Firework_Rocket.png';
+import tripwireHook from './assets/imgs/items/Tripwire_Hook.png';
 
 export const handlers = [
     http.get('http://localhost:3000/users/login', () => {
@@ -395,6 +397,12 @@ export const handlers = [
             case "Firework_Star.png":
                 img = fireworkStar;
                 break;
+            case "Firework_Rocket.png":
+                img = fireworkRocket;
+                break;
+            case "Tripwire_Hook.png":
+                img = tripwireHook;
+                break;
             default:
                 img = op;
         }
@@ -406,7 +414,7 @@ export const handlers = [
         });
         return HttpResponse.arrayBuffer(buffer, {
             headers: {
-                'Content-Type': 'image/jpeg',
+                'Content-Type': 'image/png',
             },
         })
     }),

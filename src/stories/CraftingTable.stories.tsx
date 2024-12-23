@@ -111,7 +111,7 @@ let items = new Items([
         "id": "firework_star",
         "src": "Firework_Star.png"
     }
-])
+]);
 
 const recipes: IRecipeCollection = {
     "fireworkRocket0": [
@@ -165,30 +165,36 @@ const recipes: IRecipeCollection = {
             "src": "Tripwire_Hook.png"
         }
     ],
-}
+};
+
+items.addItems(Object.values(recipes).flat().map(recipe => ({
+    name: recipe.name,
+    id: recipe.id,
+    src: recipe.src
+})));
 
 export const DefaultNonShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
         [items.getItem("iron_ingot"), items.getItem("stick"), null],
         [null, null, null]
-    ])
+    ]);
 
     return <>
-        <CraftingTable recipes={recipes} craftingTable={tableContent} size={3} />
+        <CraftingTable recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
-    </>
-}
+    </>;
+};
 
 export const DefaultShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("paper"), null, null],
         [null, items.getItem("gunpowder"), null],
         [null, null, null]
-    ])
+    ]);
 
     return <>
-        <CraftingTable recipes={recipes} craftingTable={tableContent} size={3} />
+        <CraftingTable recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
-    </>
-}
+    </>;
+};
