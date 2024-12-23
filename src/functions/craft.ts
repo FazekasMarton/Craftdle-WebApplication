@@ -1,4 +1,4 @@
-import { INonShapelessRecipe, IRecipeCollection } from "../interfaces/IRecipe";
+import { INonShapelessRecipe, IRecipeCollection, IShapelessRecipe } from "../interfaces/IRecipe";
 
 type ICraftingTable = Array<Array<HTMLImageElement | null>>;
 
@@ -26,7 +26,61 @@ export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection)
     for (let recipeGroup in recipes) {
         for (let recipe of recipes[recipeGroup]) {
             if (recipe.shapeless) {
-                // Handle shapeless recipes
+                let items = filteredCraftingTable.flat(2).filter(cell => cell !== null);
+                let requiredItems = (recipe.recipe as IShapelessRecipe).required;
+                let optionalItems = (recipe.recipe as IShapelessRecipe).optional;
+                let match = true;
+                for(let i = 0; i < requiredItems.length; i++){
+                    if(Array.isArray(requiredItems[i])){
+                        let contain = false;
+                        for(let j = 0; j < requiredItems[i].length; j++){
+                            if(items.includes(requiredItems[i][j])){
+                                items.splice(items.indexOf(requiredItems[i][j]), 1);
+                                contain = true;
+                                break;
+                            }
+                        }
+                        if(!contain){
+                            match = false;
+                            break;
+                        }
+                    }else{
+                        if(!items.includes(requiredItems[i] as string)){
+                            match = false;
+                            break;
+                        }
+                        items.splice(items.indexOf(requiredItems[i] as string), 1);
+                    }
+                }
+
+                console.log(optionalItems);
+
+                if(optionalItems && items.length > 0){
+                    for(let i = 0; i < optionalItems.length; i++){
+                        if(Array.isArray(optionalItems[i])){
+                            let contain = false;
+                            for(let j = 0; j < optionalItems[i].length; j++){
+                                if(items.includes(optionalItems[i][j])){
+                                    items.splice(items.indexOf(optionalItems[i][j]), 1);
+                                    contain = true;
+                                    break;
+                                }
+                            }
+                            if(!contain){
+                                match = false;
+                                break;
+                            }
+                        }else{
+                            if(items.includes(optionalItems[i] as string)){
+                                items.splice(items.indexOf(optionalItems[i] as string), 1);
+                            }
+                        }
+                    }
+                }
+
+                if(match && items.length == 0){
+                    return recipe.id;
+                }
             } else {
                 const nonShapelessRecipe = recipe.recipe as INonShapelessRecipe;
                 const filteredRecipe = removeEmptyRows(nonShapelessRecipe);
