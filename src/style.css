@@ -701,7 +701,7 @@ input:-webkit-autofill:focus {
 
 /* - Slot - */
 
-.slot {
+.slot, .hintContainer {
     width: 8vmin;
     height: 8vmin;
     border-top: 0.2vmin solid rgb(51, 50, 50);
@@ -780,6 +780,36 @@ input:-webkit-autofill:focus {
 #craftedItem{
     grid-area: craftedItem;
     padding: 1vmin;
+}
+
+/* - Hints - */
+
+#hintsTitle{
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 4vmin;
+}
+
+#hintsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vmin;
+}
+
+#hints .button{
+    font-size: 3vmin;
+}
+
+.hintSlot{
+    display: grid;
+    height: 8vh;
+}
+
+.hintContainer{
+    width: auto;
+    height: auto;
+    text-align: center;
 }
 
 /* - Cursor - */
