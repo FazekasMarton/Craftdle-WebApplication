@@ -4,7 +4,8 @@ type ICraftingTable = Array<Array<HTMLImageElement | null>>;
 
 function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
     let newRecipe = recipe.filter(row => row.some(cell => cell !== null));
-    if(newRecipe.length == 0) return newRecipe;
+    if (newRecipe.length === 0) return newRecipe;
+
     const transpose = (matrix: any[][]) => matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
     const transposedRecipe = transpose(newRecipe);
     const filteredTransposedRecipe = transposedRecipe.filter(col => col.some(cell => cell !== null));
@@ -21,85 +22,86 @@ function convertToNonShapeless(craftingTable: ICraftingTable): INonShapelessReci
     })) as INonShapelessRecipe;
 }
 
+function matchRequiredItems(items: string[], requiredItems: Array<Array<string> | string>): boolean {
+    for (let requiredItem of requiredItems) {
+        if (Array.isArray(requiredItem)) {
+            let contain = false;
+            for (let item of requiredItem) {
+                if (items.includes(item)) {
+                    items.splice(items.indexOf(item), 1);
+                    contain = true;
+                    break;
+                }
+            }
+            if (!contain) return false;
+        } else {
+            if (!items.includes(requiredItem)) return false;
+            items.splice(items.indexOf(requiredItem), 1);
+        }
+    }
+    return true;
+}
+
+function matchOptionalItems(items: string[], optionalItems: Array<Array<string> | string>): boolean {
+    for (let optionalItem of optionalItems) {
+        if (Array.isArray(optionalItem)) {
+            let contain = false;
+            for (let item of optionalItem) {
+                if (items.includes(item)) {
+                    items.splice(items.indexOf(item), 1);
+                    contain = true;
+                    break;
+                }
+            }
+            if (!contain) return false;
+        } else {
+            if (items.includes(optionalItem)) {
+                items.splice(items.indexOf(optionalItem), 1);
+            }
+        }
+    }
+    return true;
+}
+
+function matchShapelessRecipe(items: string[], requiredItems: Array<Array<string> | string>, optionalItems?: Array<Array<string> | string>): boolean {
+    if (!matchRequiredItems(items, requiredItems)) return false;
+    if (optionalItems && !matchOptionalItems(items, optionalItems)) return false;
+    return items.length === 0;
+}
+
+function matchNonShapelessRecipe(filteredCraftingTable: Array<Array<string>>, filteredRecipe: INonShapelessRecipe): boolean {
+    if (filteredCraftingTable.length !== filteredRecipe.length || filteredCraftingTable[0].length !== filteredRecipe[0].length) {
+        return false;
+    }
+
+    for (let i = 0; i < filteredCraftingTable.length; i++) {
+        for (let j = 0; j < filteredCraftingTable[i].length; j++) {
+            if (!filteredRecipe[i][j]?.includes(filteredCraftingTable[i][j])) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection): string | null {
-    const filteredCraftingTable: INonShapelessRecipe = removeEmptyRows(convertToNonShapeless(craftingTable));
+    const filteredCraftingTable: Array<Array<string>> = removeEmptyRows(convertToNonShapeless(craftingTable));
 
     for (let recipeGroup in recipes) {
         for (let recipe of recipes[recipeGroup]) {
             if (recipe.shapeless) {
-                let items = filteredCraftingTable.flat(2).filter(cell => cell !== null);
-                let requiredItems = (recipe.recipe as IShapelessRecipe).required;
-                let optionalItems = (recipe.recipe as IShapelessRecipe).optional;
-                let match = true;
-                for(let i = 0; i < requiredItems.length; i++){
-                    if(Array.isArray(requiredItems[i])){
-                        let contain = false;
-                        for(let j = 0; j < requiredItems[i].length; j++){
-                            if(items.includes(requiredItems[i][j])){
-                                items.splice(items.indexOf(requiredItems[i][j]), 1);
-                                contain = true;
-                                break;
-                            }
-                        }
-                        if(!contain){
-                            match = false;
-                            break;
-                        }
-                    }else{
-                        if(!items.includes(requiredItems[i] as string)){
-                            match = false;
-                            break;
-                        }
-                        items.splice(items.indexOf(requiredItems[i] as string), 1);
-                    }
-                }
+                let items = filteredCraftingTable.flat(3).filter(cell => cell !== null);
+                const { required, optional } = recipe.recipe as IShapelessRecipe;
 
-                console.log(optionalItems);
-
-                if(optionalItems && items.length > 0){
-                    for(let i = 0; i < optionalItems.length; i++){
-                        if(Array.isArray(optionalItems[i])){
-                            let contain = false;
-                            for(let j = 0; j < optionalItems[i].length; j++){
-                                if(items.includes(optionalItems[i][j])){
-                                    items.splice(items.indexOf(optionalItems[i][j]), 1);
-                                    contain = true;
-                                    break;
-                                }
-                            }
-                            if(!contain){
-                                match = false;
-                                break;
-                            }
-                        }else{
-                            if(items.includes(optionalItems[i] as string)){
-                                items.splice(items.indexOf(optionalItems[i] as string), 1);
-                            }
-                        }
-                    }
-                }
-
-                if(match && items.length == 0){
+                if (matchShapelessRecipe(items, required, optional)) {
                     return recipe.id;
                 }
             } else {
                 const nonShapelessRecipe = recipe.recipe as INonShapelessRecipe;
                 const filteredRecipe = removeEmptyRows(nonShapelessRecipe);
 
-                if (filteredCraftingTable.length == filteredRecipe.length && filteredCraftingTable[0].length == filteredRecipe[0].length) {
-                    let match = true;
-                    for (let i = 0; i < filteredCraftingTable.length; i++) {
-                        for (let j = 0; j < filteredCraftingTable[i].length; j++) {
-                            if (!filteredRecipe[i][j]?.includes(filteredCraftingTable[i][j])) {
-                                match = false;
-                                break;
-                            }
-                        }
-                        if (!match) break;
-                    }
-                    if (match) {
-                        return recipe.id;
-                    }
+                if (matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe)) {
+                    return recipe.id;
                 }
             }
         }
