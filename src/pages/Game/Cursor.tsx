@@ -42,7 +42,7 @@ export function Cursor(props: CursorProps) {
             switch (control) {
                 case "copy":
                     setPickedUpItem(focusedItemRef.current);
-                    placeItem();
+                    if(!focusedSlotRef.current?.classList.contains("inventorySlot")) placeItem();
                     break;
                 case "remove":
                     removeItem()
