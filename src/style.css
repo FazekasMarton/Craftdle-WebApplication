@@ -701,7 +701,8 @@ input:-webkit-autofill:focus {
 
 /* - Slot - */
 
-.slot, .hintContainer {
+.slot,
+.hintContainer {
     width: 8vmin;
     height: 8vmin;
     border-top: 0.2vmin solid rgb(51, 50, 50);
@@ -732,7 +733,8 @@ input:-webkit-autofill:focus {
     border-radius: 25%;
 }
 
-.slot>img, .cursorItem{
+.slot>img,
+.cursorItem {
     max-width: 90%;
     max-height: 90%;
 }
@@ -748,9 +750,9 @@ input:-webkit-autofill:focus {
     display: grid;
     grid-template-columns: min-content max-content min-content min-content;
     grid-template-rows: min-content min-content;
-    grid-template-areas: 
-    ". craftingTitle craftingTitle ."
-    "craftingBook craftingTable craftingArrow craftedItem";
+    grid-template-areas:
+        ". craftingTitle craftingTitle ."
+        "craftingBook craftingTable craftingArrow craftedItem";
     align-items: center;
     gap: 0 2vmin;
 }
@@ -763,7 +765,7 @@ input:-webkit-autofill:focus {
     font-size: 5vmin;
 }
 
-#craftingBook{
+#craftingBook {
     grid-area: craftingBook;
 }
 
@@ -772,19 +774,19 @@ input:-webkit-autofill:focus {
     border-collapse: collapse;
 }
 
-#craftingArrow{
+#craftingArrow {
     grid-area: craftingArrow;
     width: 10vmin;
 }
 
-#craftedItem{
+#craftedItem {
     grid-area: craftedItem;
     padding: 1vmin;
 }
 
 /* - Hints - */
 
-#hintsTitle{
+#hintsTitle {
     margin: 0;
     color: rgb(85, 85, 85);
     font-weight: normal;
@@ -797,24 +799,80 @@ input:-webkit-autofill:focus {
     gap: 2vmin;
 }
 
-#hints .button{
+#hints .button {
     font-size: 3vmin;
 }
 
-.hintSlot{
+.hintSlot {
     display: grid;
     height: 8vh;
 }
 
-.hintContainer{
+.hintContainer {
     width: auto;
     height: auto;
     text-align: center;
 }
 
+/* - Inventory - */
+
+#inventoryHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px 10px 0;
+    justify-self: stretch;
+}
+
+#inventoryTitle {
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 3vmin;
+}
+
+.searchBar {
+    height: min-content;
+    background-color: rgb(55, 54, 54);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 20px;
+}
+
+.searchIcon {
+    height: 30px;
+}
+
+.search {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(1, 0, 1);
+    color: rgb(124, 125, 124);
+    font-family: MinecraftRegular;
+    border: 2px solid rgb(158, 158, 159);
+    padding: 5px;
+    font-size: 15px;
+}
+
+.search::placeholder {
+    color: rgb(124, 125, 124);
+    font-family: MinecraftItalic;
+}
+
+#inventoryContainer {
+    overflow-y: auto;
+}
+
+#inventoryContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+
 /* - Cursor - */
 
-#pickedUpItem{
+#pickedUpItem {
     position: absolute;
     width: 8vmin;
     height: 8vmin;
