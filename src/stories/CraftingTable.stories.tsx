@@ -198,3 +198,29 @@ export const DefaultShapeless = () => {
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
+
+export const PocketNonShapeless = () => {
+    const [tableContent, setTableContent] = useState([
+        [items.getItem("oak_planks"), null, null],
+        [items.getItem("iron_ingot"), items.getItem("stick"), null],
+        [null, null, null]
+    ]);
+
+    return <>
+        <CraftingTable recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
+        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+    </>;
+};
+
+export const PocketShapeless = () => {
+    const [tableContent, setTableContent] = useState([
+        [items.getItem("paper"), null, null],
+        [null, items.getItem("gunpowder"), null],
+        [null, null, null]
+    ]);
+
+    return <>
+        <CraftingTable recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
+        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+    </>;
+};
