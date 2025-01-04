@@ -59,7 +59,7 @@ export const userSlice = createSlice({
             });
             Object.assign(state, storageContent);
         },
-        clearUser: (state) => {
+        clearUser: (state, action: PayloadAction<boolean>) => {
             state.username = null;
             state.loginToken = null;
             state.isGuest = false,
@@ -67,8 +67,10 @@ export const userSlice = createSlice({
             state.profilePicture = null;
             state.profileBorder = null;
             state.settings = null;
-            sessionStorage.clear()
-            localStorage.clear()
+            if(action.payload) {
+                sessionStorage.clear()
+                localStorage.clear()
+            }
         }        
     }
 })

@@ -108,7 +108,7 @@ beforeEach(async () => {
 afterEach(async () => {
     localStorage.clear();
     sessionStorage.clear()
-    await store.dispatch(clearUser())
+    await store.dispatch(clearUser(true))
     vi.clearAllMocks();
 });
 
@@ -172,7 +172,7 @@ describe('User Slice', () => {
                 expect(localStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(localStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
             });
-            
+
             it('should store user settings in localStorage', () => {
                 const randomUser = generateUser();
                 randomUser.stayLoggedIn = true
@@ -188,7 +188,7 @@ describe('User Slice', () => {
             store.dispatch(saveUser(randomUser));
             const settings: ISettings[] = generateSettings();
             store.dispatch(saveSettings(settings));
-            await store.dispatch(clearUser());
+            await store.dispatch(clearUser(true));
             const updatedState = store.getState().user;
             expect(updatedState.username).toBeNull();
             expect(updatedState.loginToken).toBeNull();
@@ -198,7 +198,7 @@ describe('User Slice', () => {
             expect(updatedState.profileBorder).toBeNull();
             expect(updatedState.settings).toBeNull();
         });
-        
+
 
         describe('Load data from localStorage', () => {
             it('should load user data from localStorage', () => {
@@ -207,7 +207,7 @@ describe('User Slice', () => {
                 store.dispatch(saveUser(randomUser));
                 const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
-                store.dispatch(clearUser());
+                store.dispatch(clearUser(false));
                 store.dispatch(loadUser());
                 const state = store.getState().user;
                 expect(state.username).toBe(randomUser.username);
@@ -247,7 +247,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(register(randomUser));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/register", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/register", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -259,7 +259,7 @@ describe('User Slice', () => {
                         stayLoggedIn: randomUser.stayLoggedIn
                     })
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
             });
         });
@@ -275,13 +275,13 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(guestLogin());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/login", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/login", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
             });
         });
@@ -300,14 +300,14 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(tokenLogin());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/login", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/login", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     },
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
             });
         });
@@ -323,18 +323,21 @@ describe('User Slice', () => {
                     stayLoggedIn: randomUser.stayLoggedIn
                 };
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
-                const result = await store.dispatch(login(randomUser));
+                const result = await store.dispatch(login({
+                    usernameOrEmail: randomUser.username,
+                    ...randomUser
+                }));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/login", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/login", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        username: randomUser.username,
+                        usernameOrEmail: randomUser.username,
                         password: randomUser.password,
                         stayLoggedIn: randomUser.stayLoggedIn
                     })
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
             });
         });
@@ -347,14 +350,14 @@ describe('User Slice', () => {
                 const auth = btoa(`${randomUser.username}:${randomUser.loginToken}`)
                 const result = await store.dispatch(logout());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/login", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/login", {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Basic ${auth}`
                     }
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual({ message: "Logout successful" });
             });
         });
@@ -367,7 +370,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(forgotPassword(randomUser.email));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/password", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/password", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -375,7 +378,7 @@ describe('User Slice', () => {
                     },
                     body: JSON.stringify({ email: randomUser.email })
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
             });
         });
@@ -388,7 +391,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(changePassword(randomUser.password));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/password", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/password", {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -396,7 +399,7 @@ describe('User Slice', () => {
                     },
                     body: JSON.stringify({ password: randomUser.password })
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
             });
         });
@@ -409,14 +412,14 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeSettings);
                 const result = await store.dispatch(getSettings());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/settings", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/settings", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     }
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeSettings);
             });
         });
@@ -427,17 +430,19 @@ describe('User Slice', () => {
                 store.dispatch(saveUser(randomUser));
                 const newSettings = generateSettings();
                 const mockFetch = getSuccceedFetchMocker(200, { message: "Settings updated successfully" });
+                const { id, ...settingsWithoutId } = newSettings[0];
+
                 const result = await store.dispatch(changeSettings(newSettings[0]));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith(`http://localhost:3000/user/settings/${newSettings[0].id}`, {
+                expect(mockFetch).toHaveBeenCalledWith(`http://localhost:3000/users/settings/${newSettings[0].id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     },
-                    body: JSON.stringify(newSettings[0])
+                    body: JSON.stringify(settingsWithoutId)
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual({ message: "Settings updated successfully" });
             });
         });
@@ -450,14 +455,14 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeData);
                 const result = await store.dispatch(getStats());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/stats", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/stats", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     }
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeData);
             });
         });
@@ -470,14 +475,14 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeData);
                 const result = await store.dispatch(getCollection());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/user/collection", {
+                expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/collection", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     }
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeData);
             });
         });
@@ -487,9 +492,9 @@ describe('User Slice', () => {
                 const randomUser = generateUser();
                 store.dispatch(saveUser(randomUser));
                 const mockFetch = getSuccceedFetchMocker(200, { message: "Settings updated successfully" });
-                const result = await store.dispatch(changeProfilePics({profilePicture: 1, profileBorder:2}));
+                const result = await store.dispatch(changeProfilePics({ profilePicture: 1, profileBorder: 2 }));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith(`http://localhost:3000/user/profile`, {
+                expect(mockFetch).toHaveBeenCalledWith(`http://localhost:3000/users/profile`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -500,7 +505,7 @@ describe('User Slice', () => {
                         profileBorder: 2
                     })
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual({ message: "Settings updated successfully" });
             });
         });
@@ -520,7 +525,7 @@ describe('User Slice', () => {
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     }
                 });
-                expect((result.payload as any).response).toBe(200);
+                expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeData);
             });
         });
