@@ -702,7 +702,8 @@ input:-webkit-autofill:focus {
 /* - Slot - */
 
 .slot,
-.hintContainer {
+.hintContainer,
+.tipSlot {
     width: 8vmin;
     height: 8vmin;
     border-top: 0.2vmin solid rgb(51, 50, 50);
@@ -734,7 +735,8 @@ input:-webkit-autofill:focus {
 }
 
 .slot>img,
-.cursorItem {
+.cursorItem,
+.tipSlot>img {
     max-width: 90%;
     max-height: 90%;
 }
@@ -769,7 +771,8 @@ input:-webkit-autofill:focus {
     grid-area: craftingBook;
 }
 
-#craftingTable table {
+#craftingTable table,
+.tipCraftingTable{
     grid-area: craftingTable;
     border-collapse: collapse;
 }
@@ -879,6 +882,41 @@ input:-webkit-autofill:focus {
 
 #hearts > img{
     height: 10vmin;
+}
+
+/* - Tips - */
+
+#tipsTitle {
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 3vmin;
+}
+
+#tipsContainer{
+    overflow-y: auto;
+    margin-top: 2vmin;
+}
+
+#tipsContent{
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 4vmin;
+}
+
+.tipContent{
+    display: flex;
+    gap: 3vmin;
+    align-items: center;
+}
+
+.tipSlot{
+    width: 4vmin;
+    height: 4vmin;
+}
+
+.tipCraftingArrow{
+    width: 6vmin;
 }
 
 /* - Cursor - */
