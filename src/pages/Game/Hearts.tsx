@@ -3,13 +3,14 @@ import halfHeart from "../../assets/imgs/icons/hardcore_half.png"
 import emptyHeart from "../../assets/imgs/icons/hardcore_empty.png"
 
 interface HeartsProps {
-    turn: number
+    turn: number,
+    maxHearts: number
 }
 
-function getHearts(turn: number) {
-    const turnLeft = 20 - turn
+function getHearts(turn: number, maxHearts: number) {
+    const turnLeft = maxHearts * 2 - turn
     let hearts = []
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < maxHearts; i++) {
         if(i * 2 + 1 == turnLeft){
             hearts.push(halfHeart)
         }else if(i * 2 < turnLeft){
@@ -24,7 +25,7 @@ function getHearts(turn: number) {
 export function Hearts(props: HeartsProps) {
     return <div id="hearts">
         {
-            getHearts(props.turn).map((src) => {
+            getHearts(props.turn, props.maxHearts).map((src) => {
                 return <img src={src} alt="Heart" />
             })
         }
