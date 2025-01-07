@@ -870,6 +870,17 @@ input:-webkit-autofill:focus {
     justify-content: end;
 }
 
+/* - Heart - */
+
+#hearts{
+    display: flex;
+    gap: 1vmin;
+}
+
+#hearts > img{
+    height: 10vmin;
+}
+
 /* - Cursor - */
 
 #pickedUpItem {

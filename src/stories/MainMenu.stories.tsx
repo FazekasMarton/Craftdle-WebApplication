@@ -26,7 +26,7 @@ export default {
 };
 
 export const RegisteredUser = () => {
-    store.dispatch(clearUser())
+    store.dispatch(clearUser(true))
     const fakeUser = {
         username: "Martin Potter",
         loginToken: "1234-5678-9012-3456-7890",
@@ -51,7 +51,7 @@ export const RegisteredUser = () => {
 }
 
 export const Guest = () => {
-    store.dispatch(clearUser())
+    store.dispatch(clearUser(true))
     return <BrowserRouter>
         <MainMenu />
     </BrowserRouter>
