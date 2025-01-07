@@ -216,7 +216,7 @@ function LogoutForm(props: FormProps) {
             let response = await store.dispatch(logout())
             let res = (response.payload as any)
             if (res.response) {
-                await store.dispatch(clearUser())
+                await store.dispatch(clearUser(true))
                 props.openAuth(false)
                 let response = await store.dispatch(guestLogin())
                 let res = (response.payload as any)
