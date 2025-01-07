@@ -1,5 +1,5 @@
 import { Items } from "../../classes/Items";
-import { INonShapelessRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe"
+import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe"
 import searchIcon from "../../assets/imgs/icons/search_icon.png"
 import { useState } from "react";
 import { Item } from "./Item";
@@ -27,6 +27,30 @@ function convertToMatrix(recipe: IShapelessRecipe, craftingTableSize: number) {
     return convertedRecipe
 }
 
+function isSearchResult(recipeInfo: IRecipe, search: string) {
+    let result = false;
+    if (recipeInfo.name.toLowerCase().includes(search.toLowerCase())) {
+        result = true;
+    } else if(recipeInfo.shapeless) {
+        let recipe = recipeInfo.recipe as IShapelessRecipe;
+        const materials = recipe.required.flat(2).concat(recipe.optional?.flat(2) || []);
+        materials.forEach(material => {
+            if(material && material.toLowerCase().includes(search.toLowerCase())){
+                result = true;
+            }
+        });
+    }else{
+        let recipe = recipeInfo.recipe as INonShapelessRecipe;
+        recipe.flat(3).forEach(material => {
+            if(material && material.toLowerCase().includes(search.toLowerCase())){
+                result = true;
+            }
+        });
+
+    }
+    return result;
+}
+
 export function KnowledgeBook(props: KnowledgeBookProps) {
     const [search, setSearch] = useState("")
 
@@ -44,6 +68,9 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                     Object.keys(props.recipes).map((recipeGroupName) => {
                         const recipeGroup = props.recipes[recipeGroupName];
                         const recipeInfo = recipeGroup[0];
+                        if(!isSearchResult(recipeInfo, search)){
+                            return null;
+                        }
                         const recipe = recipeInfo.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo.recipe as INonShapelessRecipe;
                         if (recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
                             return null;
