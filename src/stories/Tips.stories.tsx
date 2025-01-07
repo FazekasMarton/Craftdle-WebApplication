@@ -171,6 +171,6 @@ const tips: ITips = [
     }
 ]
 
-export const DefaultNonShapeless = () => {
+export const Default = () => {
     return <Tips tips={tips} craftingTableSize={3} itemsCollection={items} />;
 };

@@ -703,7 +703,8 @@ input:-webkit-autofill:focus {
 
 .slot,
 .hintContainer,
-.tipSlot {
+.tipSlot,
+.recipeSlot {
     width: 8vmin;
     height: 8vmin;
     border-top: 0.2vmin solid rgb(51, 50, 50);
@@ -736,7 +737,8 @@ input:-webkit-autofill:focus {
 
 .slot>img,
 .cursorItem,
-.tipSlot>img {
+.tipSlot>img,
+.recipeSlot>img {
     max-width: 90%;
     max-height: 90%;
 }
@@ -772,7 +774,8 @@ input:-webkit-autofill:focus {
 }
 
 #craftingTable table,
-.tipCraftingTable{
+.tipCraftingTable,
+.recipeCraftingTable {
     grid-area: craftingTable;
     border-collapse: collapse;
 }
@@ -817,9 +820,9 @@ input:-webkit-autofill:focus {
     text-align: center;
 }
 
-/* - Inventory - */
+/* - Inventory & Knowledge Book - */
 
-#inventoryHeader{
+#inventoryHeader, #knowledgeBookHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -827,7 +830,7 @@ input:-webkit-autofill:focus {
     justify-self: stretch;
 }
 
-#inventoryTitle {
+#inventoryTitle, #knowledgeBookTitle {
     margin: 0;
     color: rgb(85, 85, 85);
     font-weight: normal;
@@ -863,14 +866,37 @@ input:-webkit-autofill:focus {
     font-family: MinecraftItalic;
 }
 
-#inventoryContainer {
+#inventoryContainer, #knowledgeBookContainer {
     overflow-y: auto;
 }
 
-#inventoryContent {
+#inventoryContent, #knowledgeBookContent {
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
+    gap: 2px;
+}
+
+/* - Knowledge Book's recipe - */
+
+#knowledgeBookContent{
+    gap: 1vmin;
+}
+
+.recipeContent{
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    padding: 2vmin;
+}
+
+.recipeSlot{
+    width: 5vmin;
+    height: 5vmin;
+}
+
+.recipeCraftingArrow{
+    width: 8vmin;
 }
 
 /* - Heart - */
@@ -904,7 +930,8 @@ input:-webkit-autofill:focus {
     gap: 4vmin;
 }
 
-.tipContent{
+.tipContent,
+.recipeContent{
     display: flex;
     gap: 3vmin;
     align-items: center;
@@ -917,6 +944,18 @@ input:-webkit-autofill:focus {
 
 .tipCraftingArrow{
     width: 6vmin;
+}
+
+#tips .wrong{
+    background-color: rgb(176, 46, 38);
+}
+
+#tips .semi-correct{
+    background-color: rgb(255, 170, 0);
+}
+
+#tips .correct{
+    background-color: rgb(59, 132, 39);
 }
 
 /* - Cursor - */
