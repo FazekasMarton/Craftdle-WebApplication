@@ -14,6 +14,7 @@ import { ITips } from "../interfaces/ITips";
 import { Inventory } from "../pages/Game/Inventory";
 import { StoneButton } from "../components/StoneButton";
 import { BrowserRouter } from "react-router-dom";
+import { KnowledgeBook } from "../pages/Game/KnowledgeBook";
 
 export default {
     title: "Components/Game",
@@ -265,13 +266,19 @@ export const DefaultWithTestData = () => {
         [null, null, null]
     ]);
 
+    const [isKnowledgeBookOpen, setIsKnowledgeBookOpen] = useState(false);
+
+    const craftingTableSize = 3;
+
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable craftingTable={tableContent} size={3} items={items} recipes={recipes} />
+            <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen}/>
             <Hints hints={hints} turn={18} />
-            <Tips tips={tips} craftingTableSize={3} itemsCollection={items} />
-            <Inventory items={items} itemsCollection={itemsCollection} />
+            <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
+            {
+                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
+            }
             <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
         </div>
     </BrowserRouter>
