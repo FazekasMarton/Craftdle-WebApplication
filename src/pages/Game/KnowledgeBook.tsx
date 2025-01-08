@@ -4,11 +4,13 @@ import searchIcon from "../../assets/imgs/icons/search_icon.png"
 import { useEffect, useState } from "react";
 import { Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png"
+import { SoundEffect } from "../../classes/Audio";
 
 interface KnowledgeBookProps {
     recipes: IRecipeCollection;
     items: Items;
     craftingTableSize: number;
+    setCraftingTable: (craftingTable: Array<Array<HTMLImageElement | null>>) => void;
 }
 
 function convertToMatrix(recipe: IShapelessRecipe, craftingTableSize: number) {
@@ -77,9 +79,9 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                     Object.keys(props.recipes).map((recipeGroupName) => {
                         const [recipeGroupIndex, setRecipeGroupIndex] = useState(0);
                         const [materialIndex, setMaterialIndex] = useState(-1);
-                        
+
                         const recipeGroup = props.recipes[recipeGroupName];
-                        const recipeInfo = recipeGroup[recipeGroupIndex % recipeGroup.length];	
+                        const recipeInfo = recipeGroup[recipeGroupIndex % recipeGroup.length];
                         const recipe = recipeInfo.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo.recipe as INonShapelessRecipe;
                         useEffect(() => {
                             let longestSlot = 0;
@@ -105,7 +107,21 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             return null;
                         }
 
-                        return <div className="recipeContent slotButton" key={recipeGroupName}>
+                        return <div className="recipeContent slotButton"
+                            key={recipeGroupName}
+                            onClick={() => {
+                                const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: props.craftingTableSize }).map(() => Array.from({ length: props.craftingTableSize }).map(() => null));
+                                recipe.forEach((row, rowIndex) => {
+                                    row.forEach((slot, colIndex) => {
+                                        if (slot) {
+                                            craftingTable[rowIndex][colIndex] = props.items.getItem(slot[materialIndex % slot.length]);
+                                        }
+                                    });
+                                });
+                                props.setCraftingTable(craftingTable);
+                                SoundEffect.play("click");
+                            }}
+                        >
                             <table className="recipeCraftingTable">
                                 {
                                     Array.from({ length: props.craftingTableSize }).map((_, rowIndex) => {

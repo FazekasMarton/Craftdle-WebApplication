@@ -702,10 +702,10 @@ input:-webkit-autofill:focus {
     grid-template-columns: min-content auto;
     grid-template-rows: min-content min-content min-content auto;
     grid-template-areas:
-        "exitButton inventory"
-        "craftingTable inventory"
-        "hintsAndHearts inventory"
-        "tips inventory";
+        "exitButton inventoryAndKnowledgeBook"
+        "craftingTable inventoryAndKnowledgeBook"
+        "hintsAndHearts inventoryAndKnowledgeBook"
+        "tips inventoryAndKnowledgeBook";
     padding: 5px;
     gap: 2vmin;
 }
@@ -851,8 +851,8 @@ input:-webkit-autofill:focus {
 
 /* - Inventory & Knowledge Book - */
 
-#inventory {
-    grid-area: inventory;
+#inventory, #knowledgeBook {
+    grid-area: inventoryAndKnowledgeBook;
 }
 
 #inventoryHeader,

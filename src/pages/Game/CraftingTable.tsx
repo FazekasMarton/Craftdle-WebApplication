@@ -5,12 +5,15 @@ import { Item } from "./Item"
 import { craft } from "../../functions/craft"
 import { IRecipeCollection } from "../../interfaces/IRecipe"
 import { Items } from "../../classes/Items"
+import { SoundEffect } from "../../classes/Audio"
 
 interface CraftingTableProps {
     size: 2 | 3,
     craftingTable: Array<Array<HTMLImageElement | null>>,
     recipes: IRecipeCollection,
-    items: Items
+    items: Items,
+    isKnowledgeBookOpen: boolean,
+    setIsKnowledgeBookOpen: (isOpen: boolean) => void
 }
 
 export function CraftingTable(props: CraftingTableProps) {
@@ -42,7 +45,10 @@ export function CraftingTable(props: CraftingTableProps) {
         <div id="craftedItem" className="slot">
             {craftedItem ? <Item item={craftedItem}/> : null}
         </div>
-        <div id="craftingBook" className="slotButton">
+        <div id="craftingBook" className="slotButton" onClick={() => {
+            props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
+            SoundEffect.play("click")
+        }}>
             <img src={craftingBook} alt="Crafting Book" />
         </div>
     </div>
