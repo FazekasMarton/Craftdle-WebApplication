@@ -134,7 +134,7 @@
     width: 100%;
     min-width: 8vmin;
     height: 8vmin;
-    padding: 0;
+    padding: 0.5vmin;
     color: rgb(255, 255, 255);
     border-top: gray 0.7vmin solid;
     border-right: rgb(88, 88, 88) 0.7vmin solid;
@@ -697,7 +697,30 @@ input:-webkit-autofill:focus {
 
 /* --- Game --- */
 
+#game {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content min-content min-content auto;
+    grid-template-areas:
+        "exitButton inventory"
+        "craftingTable inventory"
+        "hintsAndHearts inventory"
+        "tips inventory";
+    padding: 5px;
+    gap: 2vmin;
+}
+
 /* -- General -- */
+
+#game > .stoneButton{
+    width: fit-content;
+    height: fit-content;
+}
+
+#game > .stoneButton > button{
+    height: fit-content;
+    font-size: 2vmin;
+}
 
 /* - Slot - */
 
@@ -751,6 +774,7 @@ input:-webkit-autofill:focus {
 /* - Crafting Table - */
 
 #craftingTable {
+    grid-area: craftingTable;
     display: grid;
     grid-template-columns: min-content max-content min-content min-content;
     grid-template-rows: min-content min-content;
@@ -792,21 +816,25 @@ input:-webkit-autofill:focus {
 
 /* - Hints - */
 
+#hints {
+    grid-area: hintsAndHearts;
+}
+
 #hintsTitle {
     margin: 0;
     color: rgb(85, 85, 85);
     font-weight: normal;
-    font-size: 4vmin;
+    font-size: 3vmin;
 }
 
 #hintsContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2vmin;
+    gap: 1vmin;
 }
 
 #hints .button {
-    font-size: 3vmin;
+    font-size: 2.5vmin;
 }
 
 .hintSlot {
@@ -818,19 +846,27 @@ input:-webkit-autofill:focus {
     width: auto;
     height: auto;
     text-align: center;
+    font-size: 2vmin;
 }
 
 /* - Inventory & Knowledge Book - */
 
-#inventoryHeader, #knowledgeBookHeader {
+#inventory {
+    grid-area: inventory;
+}
+
+#inventoryHeader,
+#knowledgeBookHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 50px 10px 0;
     justify-self: stretch;
+    flex-wrap: wrap;
 }
 
-#inventoryTitle, #knowledgeBookTitle {
+#inventoryTitle,
+#knowledgeBookTitle {
     margin: 0;
     color: rgb(85, 85, 85);
     font-weight: normal;
@@ -866,11 +902,13 @@ input:-webkit-autofill:focus {
     font-family: MinecraftItalic;
 }
 
-#inventoryContainer, #knowledgeBookContainer {
+#inventoryContainer,
+#knowledgeBookContainer {
     overflow-y: auto;
 }
 
-#inventoryContent, #knowledgeBookContent {
+#inventoryContent,
+#knowledgeBookContent {
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
@@ -879,38 +917,42 @@ input:-webkit-autofill:focus {
 
 /* - Knowledge Book's recipe - */
 
-#knowledgeBookContent{
+#knowledgeBookContent {
     gap: 1vmin;
 }
 
-.recipeContent{
+.recipeContent {
     width: auto;
     height: auto;
     border-radius: 0;
     padding: 2vmin;
 }
 
-.recipeSlot{
+.recipeSlot {
     width: 5vmin;
     height: 5vmin;
 }
 
-.recipeCraftingArrow{
+.recipeCraftingArrow {
     width: 8vmin;
 }
 
 /* - Heart - */
 
-#hearts{
+#hearts {
     display: flex;
     gap: 1vmin;
 }
 
-#hearts > img{
+#hearts>img {
     height: 10vmin;
 }
 
 /* - Tips - */
+
+#tips {
+    grid-area: tips;
+}
 
 #tipsTitle {
     margin: 0;
@@ -919,42 +961,43 @@ input:-webkit-autofill:focus {
     font-size: 3vmin;
 }
 
-#tipsContainer{
+#tipsContainer {
     overflow-y: auto;
-    margin-top: 2vmin;
+    height: 30dvh;
 }
 
-#tipsContent{
+#tipsContent {
     display: flex;
     flex-direction: column-reverse;
+    align-items: center;
     gap: 4vmin;
 }
 
 .tipContent,
-.recipeContent{
+.recipeContent {
     display: flex;
     gap: 3vmin;
     align-items: center;
 }
 
-.tipSlot{
+.tipSlot {
     width: 4vmin;
     height: 4vmin;
 }
 
-.tipCraftingArrow{
+.tipCraftingArrow {
     width: 6vmin;
 }
 
-#tips .wrong{
+#tips .wrong {
     background-color: rgb(176, 46, 38);
 }
 
-#tips .semi-correct{
+#tips .semi-correct {
     background-color: rgb(255, 170, 0);
 }
 
-#tips .correct{
+#tips .correct {
     background-color: rgb(59, 132, 39);
 }
 
