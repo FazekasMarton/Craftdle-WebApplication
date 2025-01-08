@@ -163,6 +163,30 @@ const recipes: IRecipeCollection = {
             "src": "Tripwire_Hook.png"
         }
     ],
+    "sword0": [
+        {
+            "id": "ironSword",
+            "name": "Iron Sword",
+            "recipe": [
+                [null, ["iron_ingot"], null],
+                [null, ["iron_ingot"], null],
+                [null, ["stick"], null]
+            ],
+            "shapeless": false,
+            "src": "Tripwire_Hook.png"
+        },
+        {
+            "id": "woodenSword",
+            "name": "Wooden Sword",
+            "recipe": [
+                [null, ["oak_planks", "spruce_planks", "birch_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks", "cherry_planks", "pale_oak_planks", "bamboo_planks", "crimson_planks", "warped_planks"], null],
+                [null, ["oak_planks", "spruce_planks", "birch_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks", "cherry_planks", "pale_oak_planks", "bamboo_planks", "crimson_planks", "warped_planks"], null],
+                [null, ["stick"], null]
+            ],
+            "shapeless": false,
+            "src": "Firework_Star.png"
+        }
+    ],
 };
 
 items.addItems(Object.values(recipes).flat().map(recipe => ({

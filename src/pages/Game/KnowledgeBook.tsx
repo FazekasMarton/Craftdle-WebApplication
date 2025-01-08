@@ -1,7 +1,7 @@
 import { Items } from "../../classes/Items";
 import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe"
 import searchIcon from "../../assets/imgs/icons/search_icon.png"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png"
 
@@ -16,7 +16,7 @@ function convertToMatrix(recipe: IShapelessRecipe, craftingTableSize: number) {
     let colCounter = 0;
     let rowIndex = 0;
     recipe.required.forEach(materials => {
-        if(colCounter >= craftingTableSize){
+        if (colCounter >= craftingTableSize) {
             colCounter = 0;
             rowIndex++;
             convertedRecipe.push([]);
@@ -27,32 +27,41 @@ function convertToMatrix(recipe: IShapelessRecipe, craftingTableSize: number) {
     return convertedRecipe
 }
 
-function isSearchResult(recipeInfo: IRecipe, search: string) {
-    let result = false;
-    if (recipeInfo.name.toLowerCase().includes(search.toLowerCase())) {
-        result = true;
-    } else if(recipeInfo.shapeless) {
-        let recipe = recipeInfo.recipe as IShapelessRecipe;
-        const materials = recipe.required.flat(2).concat(recipe.optional?.flat(2) || []);
-        materials.forEach(material => {
-            if(material && material.toLowerCase().includes(search.toLowerCase())){
-                result = true;
+function isSearchResult(recipeGroup: IRecipe[], search: string) {
+    for (let recipeInfo of recipeGroup) {
+        if (recipeInfo.name.toLowerCase().includes(search.toLowerCase())) {
+            return true;
+        } else if (recipeInfo.shapeless) {
+            let recipe = recipeInfo.recipe as IShapelessRecipe;
+            const materials = recipe.required.flat(2).concat(recipe.optional?.flat(2) || []);
+            for (let material of materials) {
+                if (material && material.toLowerCase().includes(search.toLowerCase())) {
+                    return true;
+                }
             }
-        });
-    }else{
-        let recipe = recipeInfo.recipe as INonShapelessRecipe;
-        recipe.flat(3).forEach(material => {
-            if(material && material.toLowerCase().includes(search.toLowerCase())){
-                result = true;
+        } else {
+            let recipe = recipeInfo.recipe as INonShapelessRecipe;
+            for (let material of recipe.flat(3)) {
+                if (material && material.toLowerCase().includes(search.toLowerCase())) {
+                    return true;
+                }
             }
-        });
-
+        }
     }
-    return result;
+    return false;
 }
 
 export function KnowledgeBook(props: KnowledgeBookProps) {
-    const [search, setSearch] = useState("")
+    const [search, setSearch] = useState("");
+    const [counter, setCounter] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCounter(prevCounter => prevCounter + 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     return <div id="knowledgeBook">
         <header id="knowledgeBookHeader">
@@ -66,26 +75,48 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
             <div id="knowledgeBookContent">
                 {
                     Object.keys(props.recipes).map((recipeGroupName) => {
+                        const [recipeGroupIndex, setRecipeGroupIndex] = useState(0);
+                        const [materialIndex, setMaterialIndex] = useState(-1);
+                        
                         const recipeGroup = props.recipes[recipeGroupName];
-                        const recipeInfo = recipeGroup[0];
-                        if(!isSearchResult(recipeInfo, search)){
+                        const recipeInfo = recipeGroup[recipeGroupIndex % recipeGroup.length];	
+                        const recipe = recipeInfo.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo.recipe as INonShapelessRecipe;
+                        useEffect(() => {
+                            let longestSlot = 0;
+                            recipe.forEach(row => {
+                                row.forEach(slot => {
+                                    if (slot && slot.length > longestSlot) {
+                                        longestSlot = slot.length;
+                                    }
+                                });
+                            });
+                            if (materialIndex >= longestSlot - 1) {
+                                setMaterialIndex(0);
+                                setRecipeGroupIndex(prevIndex => prevIndex + 1);
+                            } else {
+                                setMaterialIndex(prevIndex => prevIndex + 1);
+                            }
+                        }, [counter]);
+
+                        if (!isSearchResult(recipeGroup, search)) {
                             return null;
                         }
-                        const recipe = recipeInfo.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo.recipe as INonShapelessRecipe;
                         if (recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
                             return null;
                         }
-                        return <div className="recipeContent slotButton">
+
+                        return <div className="recipeContent slotButton" key={recipeGroupName}>
                             <table className="recipeCraftingTable">
                                 {
                                     Array.from({ length: props.craftingTableSize }).map((_, rowIndex) => {
-                                        return <tr>
+                                        return <tr key={rowIndex}>
                                             {
                                                 Array.from({ length: props.craftingTableSize }).map((_, colIndex) => {
                                                     const item = recipe[rowIndex] ? recipe[rowIndex][colIndex] : null;
-                                                    return <td className="recipeSlot">
+                                                    const material = item ? item[materialIndex % item.length] : null;
+                                                    return <td className="recipeSlot" key={colIndex}>
                                                         {
-                                                            item ? <Item item={props.items.getItem(item[0])} /> : null
+                                                            material ? <Item item={props.items.getItem(material)} /> : null
                                                         }
                                                     </td>
                                                 })
