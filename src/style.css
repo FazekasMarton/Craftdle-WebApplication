@@ -46,6 +46,73 @@
 
 /* --- Components --- */
 
+/* -- Achievements -- */
+
+#achievements{
+    position: absolute;
+    right: 0;
+    translate: 150%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 5px;
+    animation: slide 9s forwards ease;
+}
+
+@keyframes slide {
+    0% {
+        translate: 150%;
+    }
+
+    35% {
+        translate: 0;
+    }
+
+    65% {
+        translate: 0;
+    }
+
+    100% {
+        translate: 150%;
+    }
+}
+
+.achievement {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "achievementImage achievementTitle"
+        "achievementImage achievementText";
+    justify-content: center;
+    align-items: center;
+    gap: 0 15px;
+    background-color: rgb(34, 34, 34);
+    padding: 5px 10px;
+    border: 3px solid rgb(87, 87, 87);
+    border-radius: 5px;
+    font-size: 20px;
+    width: auto;
+}
+
+.achievementTitle{
+    grid-area: achievementTitle;
+    margin: 0;
+    font-size: 4vmin;
+    font-weight: normal;
+}
+
+.achievementDescription{
+    grid-area: achievementText;
+    margin: 0;
+    font-size: 3.5vmin;
+}
+
+.achievementIcon{
+    grid-area: achievementImage;
+    width: 8vmin;
+    height: 8vmin;
+}
+
 /* -- InfoWindow -- */
 
 #infoWindow {
@@ -210,6 +277,7 @@ body,
     padding: 0;
     margin: 0;
     color: rgb(255, 255, 255);
+    overflow: hidden;
 }
 
 /* -- Main Menu -- */
