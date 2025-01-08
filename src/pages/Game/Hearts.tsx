@@ -11,11 +11,11 @@ function getHearts(turn: number, maxHearts: number) {
     const turnLeft = maxHearts * 2 - turn
     let hearts = []
     for (let i = 0; i < maxHearts; i++) {
-        if(i * 2 + 1 == turnLeft){
+        if (i * 2 + 1 == turnLeft) {
             hearts.push(halfHeart)
-        }else if(i * 2 < turnLeft){
+        } else if (i * 2 < turnLeft) {
             hearts.push(fullHeart)
-        } else{
+        } else {
             hearts.push(emptyHeart)
         }
     }
@@ -24,10 +24,13 @@ function getHearts(turn: number, maxHearts: number) {
 
 export function Hearts(props: HeartsProps) {
     return <div id="hearts">
-        {
-            getHearts(props.turn, props.maxHearts).map((src) => {
-                return <img src={src} alt="Heart" />
-            })
-        }
+        <h1 id="heartsTitle">HP:</h1>
+        <div id="heartsContainer">
+            {
+                getHearts(props.turn, props.maxHearts).map((src) => {
+                    return <img src={src} alt="Heart" />
+                })
+            }
+        </div>
     </div>
 }
