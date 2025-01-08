@@ -173,6 +173,10 @@ items.addItems(Object.values(recipes).flat().map(recipe => ({
     src: recipe.src
 })));
 
+function setIsKnowledgeBookOpen (value: boolean) {
+    console.log("Knowledge Book opened: " + value)
+}
+
 export const DefaultNonShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -181,7 +185,7 @@ export const DefaultNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
@@ -194,7 +198,7 @@ export const DefaultShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
@@ -207,7 +211,7 @@ export const PocketNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
@@ -220,7 +224,7 @@ export const PocketShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };

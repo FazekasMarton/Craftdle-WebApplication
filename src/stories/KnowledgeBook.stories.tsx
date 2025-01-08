@@ -195,10 +195,14 @@ items.addItems(Object.values(recipes).flat().map(recipe => ({
     src: recipe.src
 })));
 
+function setCraftingTable(value: (HTMLImageElement | null)[][]){
+    console.log("Crafting Table's content changed: ", value)
+}
+
 export const Default = () => {
-    return <KnowledgeBook recipes={recipes} items={items} craftingTableSize={3}/>
+    return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={3}/>
 };
 
 export const Pocket = () => {
-    return <KnowledgeBook recipes={recipes} items={items} craftingTableSize={2}/>
+    return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={2}/>
 };
