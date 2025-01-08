@@ -158,7 +158,7 @@ export function Cursor(props: CursorProps) {
             document.removeEventListener("contextmenu", disableRightContextmenu)
             document.removeEventListener("mouseup", handleMouseButtonRelease)
         };
-    }, [pickedUpItem, currentSettings.controls]);
+    }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots]);
 
     return pickedUpItem ? (
         <div id="pickedUpItem" style={{ top: cursorPos?.y, left: cursorPos?.x }}>

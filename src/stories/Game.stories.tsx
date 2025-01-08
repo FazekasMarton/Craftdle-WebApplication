@@ -270,6 +270,33 @@ export const DefaultWithTestData = () => {
 
     const craftingTableSize = 3;
 
+    console.log(tableContent);
+
+    return <BrowserRouter>
+        <div id="game">
+            <StoneButton href="/">Quit Game</StoneButton>
+            <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen}/>
+            <Hints hints={hints} turn={18} />
+            <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
+            {
+                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
+            }
+            <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+        </div>
+    </BrowserRouter>
+};
+
+export const PocketWithTestData = () => {
+    const [tableContent, setTableContent] = useState([
+        [items.getItem("oak_planks"), null, null],
+        [items.getItem("iron_ingot"), items.getItem("stick"), null],
+        [null, null, null]
+    ]);
+
+    const [isKnowledgeBookOpen, setIsKnowledgeBookOpen] = useState(false);
+
+    const craftingTableSize = 2;
+
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
