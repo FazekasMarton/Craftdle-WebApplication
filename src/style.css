@@ -51,7 +51,7 @@
 #achievements{
     position: absolute;
     right: 0;
-    translate: 150%;
+    translate: 110%;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -61,7 +61,7 @@
 
 @keyframes slide {
     0% {
-        translate: 150%;
+        translate: 110%;
     }
 
     35% {
@@ -73,11 +73,11 @@
     }
 
     100% {
-        translate: 150%;
+        translate: 110%;
     }
 }
 
-.achievement {
+.achievement, #maintenanceNotice {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-areas:
@@ -433,6 +433,23 @@ body,
     50% {
         scale: 1.05;
     }
+}
+
+#maintenanceNotice{
+    grid-area: maintenance;
+    display: block;
+}
+
+#maintenanceTitle{
+    margin: 0;
+    font-size: 4vmin;
+    font-weight: normal;
+}
+
+#maintenanceCountDown{
+    margin: 0;
+    color: rgb(255, 85, 255);
+    font-size: 3.5vmin;
 }
 
 #menu nav {
