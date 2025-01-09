@@ -28,7 +28,7 @@ export function Hints(props: HintsProps) {
         <div id="hintsContainer">
             {
                 props.hints.map((hint, index) => {
-                    return <div className="hintSlot">
+                    return <div key={index} className="hintSlot">
                         {HintButton(hint, index, props.turn)}
                     </div>
                 })

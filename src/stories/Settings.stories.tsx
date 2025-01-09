@@ -32,7 +32,7 @@ function generateSettings() {
 }
 
 export default {
-    title: "Page/Settings",
+    title: "Pages/Settings",
     component: Settings,
     decorators: [
         (Story: any) => (

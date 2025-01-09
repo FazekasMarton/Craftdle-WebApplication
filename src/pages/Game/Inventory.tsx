@@ -25,7 +25,7 @@ export function Inventory(props: InventoryProps) {
                     props.itemsCollection.map(item => {
                         const itemElement = props.items.getItem(item.id)
                         if (item && item.name.toLowerCase().includes(search.toLowerCase())) {
-                            return <div className="inventorySlot slot">
+                            return <div key={item.id} className="inventorySlot slot">
                                 <Item item={itemElement} className="item" />
                             </div>
                         }

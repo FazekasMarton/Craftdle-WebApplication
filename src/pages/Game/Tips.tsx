@@ -15,29 +15,32 @@ export function Tips(props: TipsProps) {
         <div id="tipsContainer">
             <div id="tipsContent">
                 {
-                    props.tips.map((tip) => {
+                    props.tips.map((tip, tipIndex) => {
                         props.itemsCollection.addItem(tip.item)
-                        return <div className="tipContent">
+                        return <div key={tipIndex} className="tipContent">
                             <table className="tipCraftingTable">
-                                {
-                                    Array.from({ length: props.craftingTableSize }).map((_, i) => {
-                                        return <tr>
-                                            {
-                                                Array.from({ length: props.craftingTableSize }).map((_, j) => {
-                                                    const slot = tip.table[i * props.craftingTableSize + j]
-                                                    if (slot !== null) {
-                                                        const item = props.itemsCollection.getItem(slot.item)
-                                                        return <td className={`tipSlot ${slot.status}`}>
-                                                            <Item item={item} />
-                                                        </td>
-                                                    } else {
-                                                        return <td className="tipSlot"></td>
-                                                    }
-                                                })
-                                            }
-                                        </tr>
-                                    })
-                                }
+                                <tbody>
+                                    {
+                                        Array.from({ length: props.craftingTableSize }).map((_, i) => {
+                                            return <tr key={i}>
+                                                {
+                                                    Array.from({ length: props.craftingTableSize }).map((_, j) => {
+                                                        const index = i * props.craftingTableSize + j
+                                                        const slot = tip.table[index]
+                                                        if (slot !== null) {
+                                                            const item = props.itemsCollection.getItem(slot.item)
+                                                            return <td key={index} className={`tipSlot ${slot.status}`}>
+                                                                <Item item={item} />
+                                                            </td>
+                                                        } else {
+                                                            return <td key={index} className="tipSlot"></td>
+                                                        }
+                                                    })
+                                                }
+                                            </tr>
+                                        })
+                                    }
+                                </tbody>
                             </table>
                             <img className="tipCraftingArrow" src={arrow} alt="arrow" />
                             <div className="tipSlot">

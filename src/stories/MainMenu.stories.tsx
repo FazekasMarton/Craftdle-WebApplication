@@ -9,7 +9,7 @@ import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
 import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 
 export default {
-    title: "Page/MainMenu",
+    title: "Pages/MainMenu",
     component: MainMenu,
     decorators: [
         (Story: any) => (

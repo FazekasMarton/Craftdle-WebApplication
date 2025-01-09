@@ -46,9 +46,64 @@
 
 /* --- Components --- */
 
+/* -- Error -- */
+
+#errorBorder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.575);
+}
+
+#error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(51, 50, 50);
+    background-image: url("./assets//imgs//backgrounds/error-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    max-width: 700px;
+    width: 70%;
+    height: 50%;
+    border: 3px solid rgb(51, 50, 50);
+}
+
+#errorContent {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.452);
+    gap: 5dvh;
+}
+
+#errorContent > *{
+    margin: 0 3vmin;
+    word-wrap: break-word;
+}
+
+#errorCode {
+    margin-top: 3vmin;
+    color: rgb(255, 170, 0);
+}
+
+#errorTitle {
+    color: rgb(255, 84, 84);
+}
+
+#errorContent .button{
+    width: fit-content;
+    height: fit-content;
+}
+
 /* -- Achievements -- */
 
-#achievements{
+#achievements {
     position: absolute;
     right: 0;
     translate: 110%;
@@ -77,7 +132,8 @@
     }
 }
 
-.achievement, #maintenanceNotice {
+.achievement,
+#maintenanceNotice {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-areas:
@@ -94,20 +150,20 @@
     width: auto;
 }
 
-.achievementTitle{
+.achievementTitle {
     grid-area: achievementTitle;
     margin: 0;
     font-size: 4vmin;
     font-weight: normal;
 }
 
-.achievementDescription{
+.achievementDescription {
     grid-area: achievementText;
     margin: 0;
     font-size: 3.5vmin;
 }
 
-.achievementIcon{
+.achievementIcon {
     grid-area: achievementImage;
     width: 8vmin;
     height: 8vmin;
@@ -435,18 +491,18 @@ body,
     }
 }
 
-#maintenanceNotice{
+#maintenanceNotice {
     grid-area: maintenance;
     display: block;
 }
 
-#maintenanceTitle{
+#maintenanceTitle {
     margin: 0;
     font-size: 4vmin;
     font-weight: normal;
 }
 
-#maintenanceCountDown{
+#maintenanceCountDown {
     margin: 0;
     color: rgb(255, 85, 255);
     font-size: 3.5vmin;
@@ -1112,7 +1168,7 @@ input:-webkit-autofill:focus {
 
 /* -- Maintenance -- */
 
-#maintenance{
+#maintenance {
     width: 100dvw;
     height: 100dvh;
     margin: 0;
@@ -1124,7 +1180,7 @@ input:-webkit-autofill:focus {
     overflow: hidden;
 }
 
-#maintenanceMessage{
+#maintenanceMessage {
     background-color: #00000093;
     padding: 5vmin;
     width: 461px;
@@ -1134,21 +1190,21 @@ input:-webkit-autofill:focus {
     overflow: hidden;
 }
 
-#craftdleMaintenanceTitle{
+#craftdleMaintenanceTitle {
     width: 70vmin;
     max-width: 100%;
 }
 
-#maintenanceTitle{
+#maintenanceTitle {
     color: rgb(85, 255, 255);
     text-align: start;
 }
 
-#maintenanceMessage p{
+#maintenanceMessage p {
     text-align: start;
 }
 
-#maintenanceCountdown{
+#maintenanceCountdown {
     display: block;
     color: rgb(255, 85, 255);
 }

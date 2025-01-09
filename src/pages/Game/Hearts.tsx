@@ -27,8 +27,8 @@ export function Hearts(props: HeartsProps) {
         <h1 id="heartsTitle">HP:</h1>
         <div id="heartsContainer">
             {
-                getHearts(props.turn, props.maxHearts).map((src) => {
-                    return <img src={src} alt="Heart" />
+                getHearts(props.turn, props.maxHearts).map((src, index) => {
+                    return <img key={index} src={src} alt="Heart" />
                 })
             }
         </div>

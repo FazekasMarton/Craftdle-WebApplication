@@ -9,7 +9,7 @@ import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 import { Gamemodes } from "../pages/Gamemodes/Gamemodes";
 
 export default {
-    title: "Page/Gamemodes",
+    title: "Pages/Gamemodes",
     component: Gamemodes,
     decorators: [
         (Story: any) => (

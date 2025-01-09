@@ -2,7 +2,7 @@ import { Maintenance } from "../pages/Maintenance/Maintenance";
 import "../style.css"
 
 export default {
-    title: "Page/Maintenance",
+    title: "Pages/Maintenance",
     component: Maintenance,
 };
 

@@ -18,7 +18,7 @@ import { KnowledgeBook } from "../pages/Game/KnowledgeBook";
 import { Hearts } from "../pages/Game/Hearts";
 
 export default {
-    title: "Page/Game",
+    title: "Pages/Game",
     component: Game,
     decorators: [
         (Story: any) => (

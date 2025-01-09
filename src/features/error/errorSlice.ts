@@ -16,8 +16,8 @@ const errorSlice = createSlice({
     name: 'error',
     initialState,
     reducers: {
-        setError: (state, action: PayloadAction<Error>) => {
-            const errorName = action.payload.name;
+        setError: (state, action: PayloadAction<string>) => {
+            const errorName = action.payload;
             switch (errorName) {
                 case 'TypeError':
                     state.status = 503;
