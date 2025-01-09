@@ -123,23 +123,26 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             }}
                         >
                             <table className="recipeCraftingTable">
-                                {
-                                    Array.from({ length: props.craftingTableSize }).map((_, rowIndex) => {
-                                        return <tr key={rowIndex}>
-                                            {
-                                                Array.from({ length: props.craftingTableSize }).map((_, colIndex) => {
-                                                    const item = recipe[rowIndex] ? recipe[rowIndex][colIndex] : null;
-                                                    const material = item ? item[materialIndex % item.length] : null;
-                                                    return <td className="recipeSlot" key={colIndex}>
-                                                        {
-                                                            material ? <Item item={props.items.getItem(material)} /> : null
-                                                        }
-                                                    </td>
-                                                })
-                                            }
-                                        </tr>
-                                    })
-                                }
+                                <tbody>
+
+                                    {
+                                        Array.from({ length: props.craftingTableSize }).map((_, rowIndex) => {
+                                            return <tr key={rowIndex}>
+                                                {
+                                                    Array.from({ length: props.craftingTableSize }).map((_, colIndex) => {
+                                                        const item = recipe[rowIndex] ? recipe[rowIndex][colIndex] : null;
+                                                        const material = item ? item[materialIndex % item.length] : null;
+                                                        return <td className="recipeSlot" key={colIndex}>
+                                                            {
+                                                                material ? <Item item={props.items.getItem(material)} /> : null
+                                                            }
+                                                        </td>
+                                                    })
+                                                }
+                                            </tr>
+                                        })
+                                    }
+                                </tbody>
                             </table>
                             <img className="recipeCraftingArrow" src={arrow} alt="arrow" />
                             <div className="recipeSlot">

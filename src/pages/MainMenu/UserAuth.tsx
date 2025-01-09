@@ -34,7 +34,7 @@ function LoginForm(props: FormProps) {
     return <div className='authForm'>
         <div>
             <label htmlFor="loginUsernameAndEmail">Username or Email:</label>
-            <input type="text" id='registerUsername' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
+            <input type="text" id='loginUsernameAndEmail' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
             <ul className='inputError'>{
                 usernameError?.map((err, index) => {
                     return <li key={index}>{err}</li>
