@@ -1208,3 +1208,91 @@ input:-webkit-autofill:focus {
     display: block;
     color: rgb(255, 85, 255);
 }
+
+/* -- Credits -- */
+
+#credits{
+    display: block;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    text-decoration: none;
+    color: rgb(170, 170, 170);
+    background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
+    position: relative;
+    font-size: 4vmin;
+}
+
+#creditsCraftdleTitle{
+    max-width: 60dvw;
+    max-height: 60dvh;
+    object-fit: contain;
+}
+
+#creditsContainer{
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    text-align: center;
+    animation: scrollUp 60s linear forwards;
+}
+
+@keyframes scrollUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(calc(-110% - 100vh));
+    }
+}
+
+#credits article{
+    margin: 10vmin 0;
+}
+
+#credits article article{
+    margin: 6vmin 0;
+}
+
+#credits h1, #credits h2, #credits h3{
+    margin: 0;
+}
+
+#credits h1{
+    font-size: 6vmin;
+    color: rgb(255, 170, 0);
+}
+
+#credits h2{
+    font-size: 5vmin;
+    color: rgb(255, 85, 255);
+}
+
+#credits h3{
+    font-size: 4vmin;
+    color: rgb(85, 255, 255);
+}
+
+.creditTextContainer, .creditMessageContainer{
+    display: grid;
+    gap: 4vmin;
+    margin: 2vmin 0;
+}
+
+.creditTextContainer{
+    grid-template-columns: 1fr 1fr;
+}
+
+.creditTitle{
+    justify-self: end;
+}
+
+.creditText{
+    justify-self: start;
+    text-align: start;
+}
+
+.creditMessageContainer .creditText{
+    justify-self: center;
+    text-align: center;
+}
