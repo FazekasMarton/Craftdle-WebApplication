@@ -1,5 +1,5 @@
 import { useState } from "react"
-import title from "../../assets/imgs/craftdle_title-react_edition.png"
+import title from "../../assets/imgs/title/craftdle_title-react_edition.png"
 
 const texts = [
     "Try it!",
