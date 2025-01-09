@@ -32,7 +32,9 @@ export function CraftingTable(props: CraftingTableProps) {
                     return <tr key={rowIndex}>
                         {Array.from({ length: props.size }).map((_, slotIndex) => {
                             const item = props.craftingTable[rowIndex]?.[slotIndex]
-                            item?.classList.remove("item")
+                            if (!item?.parentElement?.classList.contains("inventorySlot")) {
+                                item?.classList.remove("item")
+                            }
                             return <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot">
                                 {item ? <Item item={item} className="item" /> : null}
                             </td>
@@ -43,7 +45,7 @@ export function CraftingTable(props: CraftingTableProps) {
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" />
         <div id="craftedItem" className="slot">
-            {craftedItem ? <Item item={craftedItem}/> : null}
+            {craftedItem ? <Item item={craftedItem} /> : null}
         </div>
         <div id="craftingBook" className="slotButton" onClick={() => {
             props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
