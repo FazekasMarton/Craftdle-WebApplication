@@ -1109,3 +1109,46 @@ input:-webkit-autofill:focus {
     translate: -50% -50%;
     pointer-events: none;
 }
+
+/* -- Maintenance -- */
+
+#maintenance{
+    width: 100dvw;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    background-image: url("./assets/imgs/backgrounds/maintenance-bg.png");
+    background-size: cover;
+    display: grid;
+    grid-template-columns: min-content auto;
+    overflow: hidden;
+}
+
+#maintenanceMessage{
+    background-color: #00000093;
+    padding: 5vmin;
+    width: 461px;
+    max-width: 90dvw;
+    font-size: 0.95rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+#craftdleMaintenanceTitle{
+    width: 70vmin;
+    max-width: 100%;
+}
+
+#maintenanceTitle{
+    color: rgb(85, 255, 255);
+    text-align: start;
+}
+
+#maintenanceMessage p{
+    text-align: start;
+}
+
+#maintenanceCountdown{
+    display: block;
+    color: rgb(255, 85, 255);
+}
