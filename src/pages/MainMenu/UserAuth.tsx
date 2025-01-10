@@ -83,7 +83,7 @@ function LoginForm(props: FormProps) {
                     setRememberMe(false)
                     props.openAuth(false)
                     loadSettings()
-                    connectSocket(props.socket)
+                    connectSocket()
                 } else {
                     res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
                     res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
@@ -203,7 +203,7 @@ function RegisterForm(props: FormProps) {
                     setAcceptTOU(false)
                     props.openAuth(false)
                     loadSettings()
-                    connectSocket(props.socket)
+                    connectSocket()
                 } else {
                     res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
                     res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
@@ -226,7 +226,7 @@ function LogoutForm(props: FormProps) {
                 let response = await store.dispatch(guestLogin())
                 let res = (response.payload as any)
                 await store.dispatch(saveUser(res.data.data))
-                connectSocket(props.socket)
+                connectSocket()
             }
         }}>Log Out</Button>
     </div>

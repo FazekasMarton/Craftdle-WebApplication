@@ -13,6 +13,8 @@ import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
 import { Socket } from "socket.io-client"
 import { connectSocket } from "./functions/connectSocket"
+import { PatchNotes } from "./pages/PatchNotes/PatchNotes"
+import { Credits } from "./pages/Credits/Credits"
 
 let socket: Socket | null = null
 
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
     {
         path: "play",
         element: <Game />
+    },
+    {
+        path: "patchNotes",
+        element: <PatchNotes />
+    },
+    {
+        path: "credits",
+        element: <Credits />
     },
     {
         path: "*",
@@ -66,7 +76,7 @@ function App() {
         const token = store.getState().user.loginToken;
         await autoLogin(token);
         socket?.disconnect()
-        connectSocket(socket)
+        connectSocket()
     }
 
     useEffect(() => {
