@@ -11,11 +11,15 @@ import { RootState, store } from "./app/store"
 import { loadUser, saveUser } from "./features/user/userSlice"
 import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
+import { Socket } from "socket.io-client"
+import { connectSocket } from "./functions/connectSocket"
+
+let socket: Socket | null = null
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MainMenu />,
+        element: <MainMenu socket={socket} />,
         index: true
     },
     {
@@ -36,7 +40,7 @@ const router = createBrowserRouter([
     },
 ])
 
-async function autoLogin(token: string | null){
+async function autoLogin(token: string | null) {
     let error = true
     if (token) {
         let response = await store.dispatch(tokenLogin())
@@ -46,25 +50,27 @@ async function autoLogin(token: string | null){
             error = false
         }
     }
-    if(error){
+    if (error) {
         let response = await store.dispatch(guestLogin())
         let res = (response.payload as any)
-        store.dispatch(saveUser(res.data.data))
+        await store.dispatch(saveUser(res.data.data))
     }
     await loadSettings()
 }
 
 function App() {
     const user = useSelector((state: RootState) => state.user);
-    
+
     async function loadSavedUser() {
         await store.dispatch(loadUser());
         const token = store.getState().user.loginToken;
         await autoLogin(token);
+        socket?.disconnect()
+        connectSocket(socket)
     }
 
     useEffect(() => {
-        if(!user.username){
+        if (!user.username) {
             loadSavedUser()
         }
     }, [])
