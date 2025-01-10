@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
+import { Socket } from 'socket.io-client';
+import { connectSocket } from '../../functions/connectSocket';
 
 interface UserAuthNavProps {
     isGuest: boolean,
@@ -22,7 +24,8 @@ function UserAuthNav(props: UserAuthNavProps) {
 }
 
 interface FormProps {
-    openAuth: (value: boolean) => void
+    openAuth: (value: boolean) => void;
+    socket: Socket | null
 }
 
 function LoginForm(props: FormProps) {
@@ -74,12 +77,13 @@ function LoginForm(props: FormProps) {
                 }))
                 let res = (response.payload as any)
                 if (res.response) {
-                    store.dispatch(saveUser(res.data.data))
+                    await store.dispatch(saveUser(res.data.data))
                     setUsername("")
                     setPassword("")
                     setRememberMe(false)
                     props.openAuth(false)
                     loadSettings()
+                    connectSocket(props.socket)
                 } else {
                     res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
                     res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
@@ -190,7 +194,7 @@ function RegisterForm(props: FormProps) {
                 }))
                 let res = (response.payload as any)
                 if (res.response) {
-                    store.dispatch(saveUser(res.data.data))
+                    await store.dispatch(saveUser(res.data.data))
                     setUsername("")
                     setEmail("")
                     setPassword("")
@@ -199,6 +203,7 @@ function RegisterForm(props: FormProps) {
                     setAcceptTOU(false)
                     props.openAuth(false)
                     loadSettings()
+                    connectSocket(props.socket)
                 } else {
                     res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
                     res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
@@ -220,22 +225,24 @@ function LogoutForm(props: FormProps) {
                 props.openAuth(false)
                 let response = await store.dispatch(guestLogin())
                 let res = (response.payload as any)
-                store.dispatch(saveUser(res.data.data))
+                await store.dispatch(saveUser(res.data.data))
+                connectSocket(props.socket)
             }
         }}>Log Out</Button>
     </div>
 }
 
-function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: boolean) => void) {
+function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: boolean) => void, socket: Socket | null) {
     switch (formName) {
-        case "Login": return <LoginForm openAuth={openAuth} />
-        case 'Register': return <RegisterForm openAuth={openAuth} />
-        case 'Logout': return <LogoutForm openAuth={openAuth} />
+        case "Login": return <LoginForm openAuth={openAuth} socket={socket} />
+        case 'Register': return <RegisterForm openAuth={openAuth} socket={socket} />
+        case 'Logout': return <LogoutForm openAuth={openAuth} socket={socket} />
     }
 }
 
 interface UserAuthProps {
-    openAuth: (value: boolean) => void
+    openAuth: (value: boolean) => void;
+    socket: Socket | null;
 }
 
 export function UserAuth(props: UserAuthProps) {
@@ -244,6 +251,6 @@ export function UserAuth(props: UserAuthProps) {
     return <div id="userAuth">
         <button id='authExit' onClick={() => props.openAuth(false)}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
-        {getForm(form, props.openAuth)}
+        {getForm(form, props.openAuth, props.socket)}
     </div>
 }

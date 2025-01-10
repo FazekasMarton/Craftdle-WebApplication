@@ -10,8 +10,13 @@ import { useState } from "react"
 import { UserAuth } from "./UserAuth"
 import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
+import { Socket } from "socket.io-client"
 
-export function MainMenu() {
+interface MainMenuProps{
+    socket: Socket | null
+}
+
+export function MainMenu(props: MainMenuProps) {
     const [authForm, setUserForm] = useState(false)
     const user = useSelector((state: RootState) => state.user);
     
@@ -50,6 +55,6 @@ export function MainMenu() {
                 </p>
             </footer>
         </section>
-        {authForm ? <UserAuth openAuth={setUserForm} /> : null}
+        {authForm ? <UserAuth openAuth={setUserForm} socket={props.socket} /> : null}
     </main>
 }
