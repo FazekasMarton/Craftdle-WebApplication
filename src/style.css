@@ -1296,3 +1296,98 @@ input:-webkit-autofill:focus {
     justify-self: center;
     text-align: center;
 }
+
+/* -- Patch Notes -- */
+
+#patchNotes {
+    background-image: url("./assets/imgs/backgrounds/stone_bricks-bg.png");
+    color: rgb(0, 0, 0);
+    position: relative;
+    overflow: auto;
+    height: 100dvh;
+}
+
+#patchNotes #patchNotesHeader{
+    background-image: url("./assets/imgs/backgrounds/log.jpg");
+    background-size: contain;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-rows: min-content min-content;
+    gap: 10px;
+    box-shadow: 0 0 3vmin 3vmin black;
+    z-index: 2;
+}
+
+#patchNotes .stoneButton, #patchNotes .stoneButton button{
+    width: fit-content;
+    height: fit-content;
+    font-size: 2vmin;
+}
+
+#patchNotes .chain{
+    position: absolute;
+    background-image: url("./assets/imgs/backgrounds/chain.png");
+    background-color: rgb(0, 0, 0);
+    background-size: contain;
+    width: 5dvw;
+    height: 100%;
+    box-shadow: 0 0 3vmin 2vmin black;
+}
+
+#leftChain{
+    left: 10vmin
+}
+
+#rightChain{
+    right: 10vmin
+}
+
+#patchNotesContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10vmin;
+    padding: 0 10vmin;
+    margin-bottom: 10dvh;
+}
+
+.patchNote{
+    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-size: 50vmin;
+    padding: 5vmin;
+    box-shadow: 0 0 3vmin 2vmin black;
+    z-index: 1;
+    font-size: 3vmin;
+}
+
+.patchNote:nth-child(3){
+    margin-top: 10vmin;
+}
+
+#patchNotes ul {
+    list-style: square;
+}
+
+#patchNotes h1 {
+    justify-self: center;
+    margin: 0;
+    color: rgb(255, 255, 255);
+}
+
+#patchNotes h2 {
+    color: rgb(85, 255, 255);
+}
+
+#patchNotes .new {
+    color: rgb(85, 255, 85);
+}
+
+#patchNotes .change {
+    color: rgb(255, 255, 85);
+}
+
+#patchNotes .remove {
+    color: rgb(170, 0, 0);
+}
