@@ -1,16 +1,14 @@
 import "../style.css"
-import { CraftingTable } from "../pages/Game/CraftingTable";
-import { useState } from "react";
 import { Items } from "../classes/Items";
 import { handlers } from "./handlers";
 import { Provider } from "react-redux";
 import { store } from "../app/store";
-import { Cursor } from "../pages/Game/Cursor";
 import { IRecipeCollection } from "../interfaces/IRecipe";
+import { KnowledgeBook } from "../pages/Game/KnowledgeBook";
 
 export default {
-    title: "Components/CraftingTable",
-    component: CraftingTable,
+    title: "Components/KnowledgeBook",
+    component: KnowledgeBook,
     decorators: [
         (Story: any) => (
             <Provider store={store}>
@@ -165,6 +163,30 @@ const recipes: IRecipeCollection = {
             "src": "Tripwire_Hook.png"
         }
     ],
+    "sword0": [
+        {
+            "id": "ironSword",
+            "name": "Iron Sword",
+            "recipe": [
+                [null, ["iron_ingot"], null],
+                [null, ["iron_ingot"], null],
+                [null, ["stick"], null]
+            ],
+            "shapeless": false,
+            "src": "Tripwire_Hook.png"
+        },
+        {
+            "id": "woodenSword",
+            "name": "Wooden Sword",
+            "recipe": [
+                [null, ["oak_planks", "spruce_planks", "birch_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks", "cherry_planks", "pale_oak_planks", "bamboo_planks", "crimson_planks", "warped_planks"], null],
+                [null, ["oak_planks", "spruce_planks", "birch_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks", "cherry_planks", "pale_oak_planks", "bamboo_planks", "crimson_planks", "warped_planks"], null],
+                [null, ["stick"], null]
+            ],
+            "shapeless": false,
+            "src": "Firework_Star.png"
+        }
+    ],
 };
 
 items.addItems(Object.values(recipes).flat().map(recipe => ({
@@ -173,58 +195,14 @@ items.addItems(Object.values(recipes).flat().map(recipe => ({
     src: recipe.src
 })));
 
-function setIsKnowledgeBookOpen (value: boolean) {
-    console.log("Knowledge Book opened: " + value)
+function setCraftingTable(value: (HTMLImageElement | null)[][]){
+    console.log("Crafting Table's content changed: ", value)
 }
 
-export const DefaultNonShapeless = () => {
-    const [tableContent, setTableContent] = useState([
-        [items.getItem("oak_planks"), null, null],
-        [items.getItem("iron_ingot"), items.getItem("stick"), null],
-        [null, null, null]
-    ]);
-
-    return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
-    </>;
+export const Default = () => {
+    return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={3}/>
 };
 
-export const DefaultShapeless = () => {
-    const [tableContent, setTableContent] = useState([
-        [items.getItem("paper"), null, null],
-        [null, items.getItem("gunpowder"), null],
-        [null, null, null]
-    ]);
-
-    return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
-    </>;
-};
-
-export const PocketNonShapeless = () => {
-    const [tableContent, setTableContent] = useState([
-        [items.getItem("oak_planks"), null, null],
-        [items.getItem("iron_ingot"), items.getItem("stick"), null],
-        [null, null, null]
-    ]);
-
-    return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
-    </>;
-};
-
-export const PocketShapeless = () => {
-    const [tableContent, setTableContent] = useState([
-        [items.getItem("paper"), null, null],
-        [null, items.getItem("gunpowder"), null],
-        [null, null, null]
-    ]);
-
-    return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
-    </>;
+export const Pocket = () => {
+    return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={2}/>
 };

@@ -4,18 +4,24 @@ import craftingBook from "../../assets/imgs/icons/recipe_book.png"
 import { Item } from "./Item"
 import { craft } from "../../functions/craft"
 import { IRecipeCollection } from "../../interfaces/IRecipe"
+import { Items } from "../../classes/Items"
+import { SoundEffect } from "../../classes/Audio"
 
 interface CraftingTableProps {
     size: 2 | 3,
     craftingTable: Array<Array<HTMLImageElement | null>>,
-    recipes: IRecipeCollection
+    recipes: IRecipeCollection,
+    items: Items,
+    isKnowledgeBookOpen: boolean,
+    setIsKnowledgeBookOpen: (isOpen: boolean) => void
 }
 
 export function CraftingTable(props: CraftingTableProps) {
     const [craftedItem, setCraftedItem] = useState<HTMLImageElement | null>(null)
 
     useEffect(() => {
-        setCraftedItem(craft(props.craftingTable))
+        let craftedItemId = craft(props.craftingTable, props.recipes)
+        setCraftedItem(craftedItemId ? props.items.getItem(craftedItemId) : null)
     }, [props.craftingTable])
 
     return <div id="craftingTable">
@@ -26,7 +32,9 @@ export function CraftingTable(props: CraftingTableProps) {
                     return <tr key={rowIndex}>
                         {Array.from({ length: props.size }).map((_, slotIndex) => {
                             const item = props.craftingTable[rowIndex]?.[slotIndex]
-                            item?.classList.remove("item")
+                            if (!item?.parentElement?.classList.contains("inventorySlot")) {
+                                item?.classList.remove("item")
+                            }
                             return <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot">
                                 {item ? <Item item={item} className="item" /> : null}
                             </td>
@@ -37,9 +45,12 @@ export function CraftingTable(props: CraftingTableProps) {
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" />
         <div id="craftedItem" className="slot">
-            {craftedItem ? <Item item={craftedItem}/> : null}
+            {craftedItem ? <Item item={craftedItem} /> : null}
         </div>
-        <div id="craftingBook" className="slotButton">
+        <div id="craftingBook" className="slotButton" onClick={() => {
+            props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
+            SoundEffect.play("click")
+        }}>
             <img src={craftingBook} alt="Crafting Book" />
         </div>
     </div>

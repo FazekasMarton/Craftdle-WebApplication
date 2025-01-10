@@ -27,7 +27,7 @@ export default {
 export const Default = () => <App />;
 
 export const RegisteredUser = () => {
-    store.dispatch(clearUser())
+    store.dispatch(clearUser(true))
     const fakeUser = {
         username: "Martin Potter",
         loginToken: "1234-5678-9012-3456-7890",

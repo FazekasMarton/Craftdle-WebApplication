@@ -10,9 +10,9 @@ export interface IRecipe {
     src: string
 }
 
-export type IShapelessRecipe = Array<Array<string | null | Array<String>> | null>
+export type INonShapelessRecipe = Array<Array<Array<string> | null>>
 
-export interface INonShapelessRecipe{
+export interface IShapelessRecipe{
     required: Array<Array<string> | string>
     optional?: Array<Array<string> | string>
 }

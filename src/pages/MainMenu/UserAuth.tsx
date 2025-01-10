@@ -34,7 +34,7 @@ function LoginForm(props: FormProps) {
     return <div className='authForm'>
         <div>
             <label htmlFor="loginUsernameAndEmail">Username or Email:</label>
-            <input type="text" id='registerUsername' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
+            <input type="text" id='loginUsernameAndEmail' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
             <ul className='inputError'>{
                 usernameError?.map((err, index) => {
                     return <li key={index}>{err}</li>
@@ -216,7 +216,7 @@ function LogoutForm(props: FormProps) {
             let response = await store.dispatch(logout())
             let res = (response.payload as any)
             if (res.response) {
-                await store.dispatch(clearUser())
+                await store.dispatch(clearUser(true))
                 props.openAuth(false)
                 let response = await store.dispatch(guestLogin())
                 let res = (response.payload as any)

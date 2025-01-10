@@ -9,7 +9,7 @@ import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 import { Gamemodes } from "../pages/Gamemodes/Gamemodes";
 
 export default {
-    title: "Page/Gamemodes",
+    title: "Pages/Gamemodes",
     component: Gamemodes,
     decorators: [
         (Story: any) => (
@@ -26,7 +26,7 @@ export default {
 };
 
 export const Singleplayer = () => {
-    store.dispatch(clearUser())
+    store.dispatch(clearUser(true))
     const fakeUser = {
         username: "Martin Potter",
         loginToken: "1234-5678-9012-3456-7890",

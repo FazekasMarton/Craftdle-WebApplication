@@ -1,4 +1,4 @@
-export interface Item{
+export interface IItem{
     id: string
     name: string,
     src: string
@@ -7,19 +7,19 @@ export interface Item{
 export class Items{
     private items: {[key: string]: HTMLImageElement} = {}
 
-    constructor(items?: Array<Item>){
+    constructor(items?: Array<IItem>){
         if(items){
             this.addItems(items)
         }
     }
 
-    addItems(items: Array<Item>){
+    addItems(items: Array<IItem>){
         items.forEach(item => {
             this.addItem(item)
         });
     }
 
-    addItem(item: Item){
+    addItem(item: IItem){
         let image = new Image()
         image.className = item.id
         image.alt = item.name

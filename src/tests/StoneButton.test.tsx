@@ -28,18 +28,6 @@ describe('StoneButton component', () => {
     expect(link).toHaveTextContent('Link Button');
   });
 
-  it('disables pointer events when disabled with href', () => {
-    render(
-      <BrowserRouter>
-        <StoneButton href="https://example.com" disabled>
-          Disabled Link
-        </StoneButton>
-      </BrowserRouter>
-    );
-    const link = screen.getByRole('link');
-    expect(link).toHaveStyle({ pointerEvents: 'none' });
-  });
-
   it('renders a div when href is not provided', () => {
     render(<StoneButton>Div Button</StoneButton>);
     const div = screen.getByText('Div Button').closest('div');

@@ -46,6 +46,129 @@
 
 /* --- Components --- */
 
+/* -- Error -- */
+
+#errorBorder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.575);
+}
+
+#error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(51, 50, 50);
+    background-image: url("./assets//imgs//backgrounds/error-bg.jpg");
+    background-position: center;
+    background-size: cover;
+    max-width: 700px;
+    width: 70%;
+    height: 50%;
+    border: 3px solid rgb(51, 50, 50);
+}
+
+#errorContent {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.452);
+    gap: 5dvh;
+}
+
+#errorContent > *{
+    margin: 0 3vmin;
+    word-wrap: break-word;
+}
+
+#errorCode {
+    margin-top: 3vmin;
+    color: rgb(255, 170, 0);
+}
+
+#errorTitle {
+    color: rgb(255, 84, 84);
+}
+
+#errorContent .button{
+    width: fit-content;
+    height: fit-content;
+}
+
+/* -- Achievements -- */
+
+#achievements {
+    position: absolute;
+    right: 0;
+    translate: 110%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 5px;
+    animation: slide 9s forwards ease;
+}
+
+@keyframes slide {
+    0% {
+        translate: 110%;
+    }
+
+    35% {
+        translate: 0;
+    }
+
+    65% {
+        translate: 0;
+    }
+
+    100% {
+        translate: 110%;
+    }
+}
+
+.achievement,
+#maintenanceNotice {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "achievementImage achievementTitle"
+        "achievementImage achievementText";
+    justify-content: center;
+    align-items: center;
+    gap: 0 15px;
+    background-color: rgb(34, 34, 34);
+    padding: 5px 10px;
+    border: 3px solid rgb(87, 87, 87);
+    border-radius: 5px;
+    font-size: 20px;
+    width: auto;
+}
+
+.achievementTitle {
+    grid-area: achievementTitle;
+    margin: 0;
+    font-size: 4vmin;
+    font-weight: normal;
+}
+
+.achievementDescription {
+    grid-area: achievementText;
+    margin: 0;
+    font-size: 3.5vmin;
+}
+
+.achievementIcon {
+    grid-area: achievementImage;
+    width: 8vmin;
+    height: 8vmin;
+}
+
 /* -- InfoWindow -- */
 
 #infoWindow {
@@ -134,7 +257,7 @@
     width: 100%;
     min-width: 8vmin;
     height: 8vmin;
-    padding: 0;
+    padding: 0.5vmin;
     color: rgb(255, 255, 255);
     border-top: gray 0.7vmin solid;
     border-right: rgb(88, 88, 88) 0.7vmin solid;
@@ -210,6 +333,7 @@ body,
     padding: 0;
     margin: 0;
     color: rgb(255, 255, 255);
+    overflow: hidden;
 }
 
 /* -- Main Menu -- */
@@ -365,6 +489,23 @@ body,
     50% {
         scale: 1.05;
     }
+}
+
+#maintenanceNotice {
+    grid-area: maintenance;
+    display: block;
+}
+
+#maintenanceTitle {
+    margin: 0;
+    font-size: 4vmin;
+    font-weight: normal;
+}
+
+#maintenanceCountDown {
+    margin: 0;
+    color: rgb(255, 85, 255);
+    font-size: 3.5vmin;
 }
 
 #menu nav {
@@ -697,11 +838,38 @@ input:-webkit-autofill:focus {
 
 /* --- Game --- */
 
+#game {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content min-content min-content auto;
+    grid-template-areas:
+        "exitButton inventoryAndKnowledgeBook"
+        "craftingTable inventoryAndKnowledgeBook"
+        "hintsAndHearts inventoryAndKnowledgeBook"
+        "tips inventoryAndKnowledgeBook";
+    padding: 5px;
+    gap: 2vmin;
+    height: 100%;
+}
+
 /* -- General -- */
+
+#game>.stoneButton {
+    width: fit-content;
+    height: fit-content;
+}
+
+#game>.stoneButton>button {
+    height: fit-content;
+    font-size: 2vmin;
+}
 
 /* - Slot - */
 
-.slot {
+.slot,
+.hintContainer,
+.tipSlot,
+.recipeSlot {
     width: 8vmin;
     height: 8vmin;
     border-top: 0.2vmin solid rgb(51, 50, 50);
@@ -732,7 +900,10 @@ input:-webkit-autofill:focus {
     border-radius: 25%;
 }
 
-.slot>img, .cursorItem{
+.slot>img,
+.cursorItem,
+.tipSlot>img,
+.recipeSlot>img {
     max-width: 90%;
     max-height: 90%;
 }
@@ -745,12 +916,13 @@ input:-webkit-autofill:focus {
 /* - Crafting Table - */
 
 #craftingTable {
+    grid-area: craftingTable;
     display: grid;
     grid-template-columns: min-content max-content min-content min-content;
     grid-template-rows: min-content min-content;
-    grid-template-areas: 
-    ". craftingTitle craftingTitle ."
-    "craftingBook craftingTable craftingArrow craftedItem";
+    grid-template-areas:
+        ". craftingTitle craftingTitle ."
+        "craftingBook craftingTable craftingArrow craftedItem";
     align-items: center;
     gap: 0 2vmin;
 }
@@ -763,28 +935,227 @@ input:-webkit-autofill:focus {
     font-size: 5vmin;
 }
 
-#craftingBook{
+#craftingBook {
     grid-area: craftingBook;
 }
 
-#craftingTable table {
+#craftingTable table,
+.tipCraftingTable,
+.recipeCraftingTable {
     grid-area: craftingTable;
     border-collapse: collapse;
 }
 
-#craftingArrow{
+#craftingArrow {
     grid-area: craftingArrow;
     width: 10vmin;
 }
 
-#craftedItem{
+#craftedItem {
     grid-area: craftedItem;
     padding: 1vmin;
 }
 
+/* - Hints - */
+
+#hints {
+    grid-area: hintsAndHearts;
+}
+
+#hintsTitle {
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 3vmin;
+}
+
+#hintsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1vmin;
+}
+
+#hints .button {
+    font-size: 2.5vmin;
+}
+
+.hintSlot {
+    display: grid;
+    height: 8vh;
+}
+
+.hintContainer {
+    width: auto;
+    height: auto;
+    text-align: center;
+    font-size: 2vmin;
+}
+
+/* - Inventory & Knowledge Book - */
+
+#inventory,
+#knowledgeBook {
+    grid-area: inventoryAndKnowledgeBook;
+}
+
+#inventoryHeader,
+#knowledgeBookHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px 10px 0;
+    justify-self: stretch;
+    flex-wrap: wrap;
+}
+
+#inventoryTitle,
+#knowledgeBookTitle {
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 3vmin;
+}
+
+.searchBar {
+    height: min-content;
+    background-color: rgb(55, 54, 54);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 20px;
+}
+
+.searchIcon {
+    height: 30px;
+}
+
+.search {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(1, 0, 1);
+    color: rgb(124, 125, 124);
+    font-family: MinecraftRegular;
+    border: 2px solid rgb(158, 158, 159);
+    padding: 5px;
+    font-size: 15px;
+}
+
+.search::placeholder {
+    color: rgb(124, 125, 124);
+    font-family: MinecraftItalic;
+}
+
+#inventoryContainer,
+#knowledgeBookContainer {
+    overflow-y: auto;
+}
+
+#inventoryContent,
+#knowledgeBookContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    gap: 2px;
+}
+
+/* - Knowledge Book's recipe - */
+
+#knowledgeBookContent {
+    gap: 1vmin;
+}
+
+.recipeContent {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    padding: 2vmin;
+}
+
+.recipeSlot {
+    width: 5vmin;
+    height: 5vmin;
+}
+
+.recipeCraftingArrow {
+    width: 8vmin;
+}
+
+/* - Heart - */
+
+#heartsTitle {
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 3vmin;
+}
+
+#heartsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1vmin;
+}
+
+#hearts img {
+    height: 5vmin;
+}
+
+/* - Tips - */
+
+#tips {
+    grid-area: tips;
+    align-self: self-end;
+}
+
+#tipsTitle {
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-weight: normal;
+    font-size: 3vmin;
+}
+
+#tipsContainer {
+    overflow-y: auto;
+    height: 30dvh;
+}
+
+#tipsContent {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 4vmin;
+}
+
+.tipContent,
+.recipeContent {
+    display: flex;
+    gap: 3vmin;
+    align-items: center;
+}
+
+.tipSlot {
+    width: 4vmin;
+    height: 4vmin;
+}
+
+.tipCraftingArrow {
+    width: 6vmin;
+}
+
+#tips .wrong {
+    background-color: rgb(176, 46, 38);
+}
+
+#tips .semi-correct {
+    background-color: rgb(255, 170, 0);
+}
+
+#tips .correct {
+    background-color: rgb(59, 132, 39);
+}
+
 /* - Cursor - */
 
-#pickedUpItem{
+#pickedUpItem {
     position: absolute;
     width: 8vmin;
     height: 8vmin;
@@ -793,4 +1164,230 @@ input:-webkit-autofill:focus {
     align-items: center;
     translate: -50% -50%;
     pointer-events: none;
+}
+
+/* -- Maintenance -- */
+
+#maintenance {
+    width: 100dvw;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    background-image: url("./assets/imgs/backgrounds/maintenance-bg.png");
+    background-size: cover;
+    display: grid;
+    grid-template-columns: min-content auto;
+    overflow: hidden;
+}
+
+#maintenanceMessage {
+    background-color: #00000093;
+    padding: 5vmin;
+    width: 461px;
+    max-width: 90dvw;
+    font-size: 0.95rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+#craftdleMaintenanceTitle {
+    width: 70vmin;
+    max-width: 100%;
+}
+
+#maintenanceTitle {
+    color: rgb(85, 255, 255);
+    text-align: start;
+}
+
+#maintenanceMessage p {
+    text-align: start;
+}
+
+#maintenanceCountdown {
+    display: block;
+    color: rgb(255, 85, 255);
+}
+
+/* -- Credits -- */
+
+#credits{
+    display: block;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    text-decoration: none;
+    color: rgb(170, 170, 170);
+    background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
+    position: relative;
+    font-size: 4vmin;
+}
+
+#creditsCraftdleTitle{
+    max-width: 60dvw;
+    max-height: 60dvh;
+    object-fit: contain;
+}
+
+#creditsContainer{
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    text-align: center;
+    animation: scrollUp 60s linear forwards;
+}
+
+@keyframes scrollUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(calc(-110% - 100vh));
+    }
+}
+
+#credits article{
+    margin: 10vmin 0;
+}
+
+#credits article article{
+    margin: 6vmin 0;
+}
+
+#credits h1, #credits h2, #credits h3{
+    margin: 0;
+}
+
+#credits h1{
+    font-size: 6vmin;
+    color: rgb(255, 170, 0);
+}
+
+#credits h2{
+    font-size: 5vmin;
+    color: rgb(255, 85, 255);
+}
+
+#credits h3{
+    font-size: 4vmin;
+    color: rgb(85, 255, 255);
+}
+
+.creditTextContainer, .creditMessageContainer{
+    display: grid;
+    gap: 4vmin;
+    margin: 2vmin 0;
+}
+
+.creditTextContainer{
+    grid-template-columns: 1fr 1fr;
+}
+
+.creditTitle{
+    justify-self: end;
+}
+
+.creditText{
+    justify-self: start;
+    text-align: start;
+}
+
+.creditMessageContainer .creditText{
+    justify-self: center;
+    text-align: center;
+}
+
+/* -- Patch Notes -- */
+
+#patchNotes {
+    background-image: url("./assets/imgs/backgrounds/stone_bricks-bg.png");
+    color: rgb(0, 0, 0);
+    position: relative;
+    overflow: auto;
+    height: 100dvh;
+}
+
+#patchNotes #patchNotesHeader{
+    background-image: url("./assets/imgs/backgrounds/log.jpg");
+    background-size: contain;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-rows: min-content min-content;
+    gap: 10px;
+    box-shadow: 0 0 3vmin 3vmin black;
+    z-index: 2;
+}
+
+#patchNotes .stoneButton, #patchNotes .stoneButton button{
+    width: fit-content;
+    height: fit-content;
+    font-size: 2vmin;
+}
+
+#patchNotes .chain{
+    position: absolute;
+    background-image: url("./assets/imgs/backgrounds/chain.png");
+    background-color: rgb(0, 0, 0);
+    background-size: contain;
+    width: 5dvw;
+    height: 100%;
+    box-shadow: 0 0 3vmin 2vmin black;
+}
+
+#leftChain{
+    left: 10vmin
+}
+
+#rightChain{
+    right: 10vmin
+}
+
+#patchNotesContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10vmin;
+    padding: 0 10vmin;
+    margin-bottom: 10dvh;
+}
+
+.patchNote{
+    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-size: 50vmin;
+    padding: 5vmin;
+    box-shadow: 0 0 3vmin 2vmin black;
+    z-index: 1;
+    font-size: 3vmin;
+}
+
+.patchNote:nth-child(3){
+    margin-top: 10vmin;
+}
+
+#patchNotes ul {
+    list-style: square;
+}
+
+#patchNotes h1 {
+    justify-self: center;
+    margin: 0;
+    color: rgb(255, 255, 255);
+}
+
+#patchNotes h2 {
+    color: rgb(85, 255, 255);
+}
+
+#patchNotes .new {
+    color: rgb(85, 255, 85);
+}
+
+#patchNotes .change {
+    color: rgb(255, 255, 85);
+}
+
+#patchNotes .remove {
+    color: rgb(170, 0, 0);
 }
