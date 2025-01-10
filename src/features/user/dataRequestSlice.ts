@@ -31,7 +31,6 @@ async function communicate(
     try {
         const response = await fetch(url, options);
         const data = await response.json();
-        console.log(data)
         return { data: data, response: response.ok };
     } catch (err: any) {
         dispatch(setError(err.name));

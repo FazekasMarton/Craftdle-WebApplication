@@ -271,8 +271,6 @@ export const DefaultWithTestData = () => {
 
     const craftingTableSize = 3;
 
-    console.log(tableContent);
-
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
@@ -322,9 +320,7 @@ export const HardcoreWithTestData = () => {
     const [isKnowledgeBookOpen, setIsKnowledgeBookOpen] = useState(false);
 
     const craftingTableSize = 3;
-
-    console.log(tableContent);
-
+    
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
