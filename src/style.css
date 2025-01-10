@@ -178,14 +178,13 @@
     box-shadow: 0 0 0 0.3vmin black;
     border-radius: 5px;
     color: rgb(170, 170, 170);
+    margin: 0 50px;
     padding: 0.5vmin;
     font-size: 3vmin;
     z-index: 10;
-    width: 250px;
+    width: fit-content;
     max-width: 250px;
-    white-space: normal;
-    overflow-wrap: break-word;
-    contain: layout paint;
+    translate: 0 -50%;
 }
 
 #infoTitle{
@@ -346,6 +345,7 @@ body,
     padding: 0;
     margin: 0;
     color: rgb(255, 255, 255);
+    background-color: rgb(194, 195, 195);
     overflow: hidden;
 }
 
@@ -854,11 +854,12 @@ input:-webkit-autofill:focus {
 #game {
     display: grid;
     grid-template-columns: min-content auto;
-    grid-template-rows: min-content min-content min-content auto;
+    grid-template-rows: min-content min-content min-content min-content auto;
     grid-template-areas:
         "exitButton inventoryAndKnowledgeBook"
         "craftingTable inventoryAndKnowledgeBook"
-        "hintsAndHearts inventoryAndKnowledgeBook"
+        "hearts inventoryAndKnowledgeBook"
+        "hints inventoryAndKnowledgeBook"
         "tips inventoryAndKnowledgeBook";
     padding: 5px;
     gap: 2vmin;
@@ -866,16 +867,6 @@ input:-webkit-autofill:focus {
 }
 
 /* -- General -- */
-
-#game>.stoneButton {
-    width: fit-content;
-    height: fit-content;
-}
-
-#game>.stoneButton>button {
-    height: fit-content;
-    font-size: 2vmin;
-}
 
 /* - Slot - */
 
@@ -926,6 +917,23 @@ input:-webkit-autofill:focus {
     max-height: 100%;
 }
 
+/* - Buttons - */
+
+#game nav{
+    display: flex;
+    gap: 20px;
+}
+
+#game nav .stoneButton {
+    width: fit-content;
+    height: fit-content;
+}
+
+#game nav .stoneButton>button {
+    height: fit-content;
+    font-size: 2vmin;
+}
+
 /* - Crafting Table - */
 
 #craftingTable {
@@ -972,7 +980,7 @@ input:-webkit-autofill:focus {
 /* - Hints - */
 
 #hints {
-    grid-area: hintsAndHearts;
+    grid-area: hints;
 }
 
 #hintsTitle {
@@ -1093,7 +1101,11 @@ input:-webkit-autofill:focus {
     width: 8vmin;
 }
 
-/* - Heart - */
+/* - Hearts - */
+
+#hearts{
+    grid-area: hearts;
+}
 
 #heartsTitle {
     margin: 0;
