@@ -11,7 +11,7 @@ export function Info(){
         left: info.position?.x,
         translate: `${isOutOfScreen ? "calc(-5vmin + -100%)" : "5vmin"} -50%`
     }}>
-        <div style={{color: info.titlecolor}}>{info.title}</div>
-        <div>{info.text}</div>
+        <div id="infoTitle" style={{color: info.titlecolor}}>{info.title}</div>
+        <div id="infoText">{info.text}</div>
     </div>
 }

@@ -181,8 +181,21 @@
     padding: 0.5vmin;
     font-size: 3vmin;
     z-index: 10;
+    width: 250px;
     max-width: 250px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    contain: layout paint;
+}
+
+#infoTitle{
+    font-size: 25px;
+}
+
+#infoText{
+    font-size: 20px;
     width: fit-content;
+    max-width: 250px;
 }
 
 /* -- Button -- */
@@ -1308,7 +1321,7 @@ input:-webkit-autofill:focus {
 }
 
 #patchNotes #patchNotesHeader{
-    background-image: url("./assets/imgs/backgrounds/log.jpg");
+    background-image: url("./assets/imgs/backgrounds/log.png");
     background-size: contain;
     padding: 10px;
     position: sticky;
