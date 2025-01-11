@@ -17,7 +17,7 @@ function getCountdownText(seconds: number){
     if (hours > 0) result.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
     if (minutes > 0) result.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
     if (remainingSeconds > 0 || result.length === 0) 
-        result.push(`${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''}`);
+        result.push(`${Math.round(remainingSeconds)} second${remainingSeconds > 1 ? 's' : ''}`);
 
     return result.length > 1 
         ? result.slice(0, -1).join(', ') + ' and ' + result[result.length - 1] 
