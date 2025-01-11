@@ -1,11 +1,11 @@
+import { useSelector } from "react-redux";
 import craftdleTitle from "../../assets/imgs/title/craftdle_title.png"
-import { CountDown } from "../../components/CountDown"
+import { Countdown } from "../../components/Countdown"
+import { RootState } from "../../app/store";
 
-interface MaintenanceProps {
-    time: number
-}
+export function Maintenance() {
+    const maintenance = useSelector((state: RootState) => state.maintenance);
 
-export function Maintenance(props: MaintenanceProps) {
     return <div id="maintenance">
         <div id="maintenanceMessage">
             <img id="craftdleMaintenanceTitle" src={craftdleTitle} alt="craftdle title" />
@@ -13,7 +13,7 @@ export function Maintenance(props: MaintenanceProps) {
             <p>Craftdle is currently undergoing scheduled maintenance. We apologize for any inconvenience and appreciate your patience.</p>
             <p>Thank you,<br />The Guideian Angel Team</p>
             <p>Estimated End of Maintenance:<span id="maintenanceCountdown">
-                <CountDown time={props.time}/>
+                <Countdown time={maintenance.countdown || 0}/>
             </span></p>
         </div>
     </div>

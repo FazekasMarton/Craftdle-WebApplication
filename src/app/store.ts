@@ -3,13 +3,15 @@ import userReducer from '../features/user/userSlice';
 import errorReducer from '../features/error/errorSlice';
 import infoReducer from '../features/info/infoSlice';
 import socketReducer from "../features/socket/socketSlice";
+import maintenanceReducer from "../features/maintenance/maintenanceSlice";
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
         error: errorReducer,
         info: infoReducer,
-        socket: socketReducer
+        socket: socketReducer,
+        maintenance: maintenanceReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

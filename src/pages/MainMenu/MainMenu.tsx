@@ -10,19 +10,17 @@ import { useState } from "react"
 import { UserAuth } from "./UserAuth"
 import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
-import { Socket } from "socket.io-client"
+import { MaintenanceNotice } from "./MaintenanceNotice"
 
-interface MainMenuProps{
-    socket: Socket | null
-}
-
-export function MainMenu(props: MainMenuProps) {
+export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
     const user = useSelector((state: RootState) => state.user);
+    const maintenance = useSelector((state: RootState) => state.maintenance);
     
     return <main id="mainMenu">
         <Background />
         <section id="menu">
+            {maintenance.countdown != null ? <MaintenanceNotice /> : null}
             <Profile openAuth={setUserForm} />
             <Title />
             <nav id="mainButtons">
@@ -55,6 +53,6 @@ export function MainMenu(props: MainMenuProps) {
                 </p>
             </footer>
         </section>
-        {authForm ? <UserAuth openAuth={setUserForm} socket={props.socket} /> : null}
+        {authForm ? <UserAuth openAuth={setUserForm} /> : null}
     </main>
 }

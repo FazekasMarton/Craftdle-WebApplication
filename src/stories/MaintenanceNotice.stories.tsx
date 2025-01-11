@@ -6,8 +6,4 @@ export default {
     component: MaintenanceNotice,
 };
 
-export const OneMinute = () => <MaintenanceNotice time={67}/>
-
-export const OneHour = () => <MaintenanceNotice time={3667}/>
-
-export const OneDay = () => <MaintenanceNotice time={90067}/>
+export const Default = () => <MaintenanceNotice />

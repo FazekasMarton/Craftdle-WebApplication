@@ -1,14 +1,14 @@
-import { CountDown } from "../../components/CountDown"
+import { useSelector } from "react-redux";
+import { Countdown } from "../../components/Countdown"
+import { RootState } from "../../app/store";
 
-interface MaintenanceNoticeProps{
-    time: number
-}
+export function MaintenanceNotice(){
+    const maintenance = useSelector((state: RootState) => state.maintenance);
 
-export function MaintenanceNotice(props: MaintenanceNoticeProps){
     return <div id="maintenanceNotice">
-        <h1 id="maintenanceTitle">Start of Estimated Maintenance:</h1>
-        <p id="maintenanceCountDown">
-            <CountDown time={props.time} />
+        <h1 id="maintenanceNoticeTitle">Start of Estimated Maintenance:</h1>
+        <p id="maintenanceNoticeCountdown">
+            <Countdown time={maintenance.countdown || 0} />
         </p>
     </div>
 }

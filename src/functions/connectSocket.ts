@@ -3,6 +3,7 @@ import { store } from "../app/store";
 import { setSocket } from "../features/socket/socketSlice";
 
 export function connectSocket() {
+    store.getState().socket.socket?.disconnect()
     const token = store.getState().user.loginToken;
     const socket: Socket = io("http://localhost:3000", {
         auth: {

@@ -6,8 +6,4 @@ export default {
     component: Maintenance,
 };
 
-export const OneMinute = () => <Maintenance time={67}/>
-
-export const OneHour = () => <Maintenance time={3667}/>
-
-export const OneDay = () => <Maintenance time={90067}/>
+export const Default = () => <Maintenance />
