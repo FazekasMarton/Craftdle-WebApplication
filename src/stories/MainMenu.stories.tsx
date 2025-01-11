@@ -46,13 +46,13 @@ export const RegisteredUser = () => {
     const dispatch = useDispatch()
     dispatch(saveUser(fakeUser))
     return <BrowserRouter>
-        <MainMenu socket={null}/>
+        <MainMenu />
     </BrowserRouter>
 }
 
 export const Guest = () => {
     store.dispatch(clearUser(true))
     return <BrowserRouter>
-        <MainMenu socket={null}/>
+        <MainMenu />
     </BrowserRouter>
 }

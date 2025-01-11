@@ -11,17 +11,17 @@ import { RootState, store } from "./app/store"
 import { loadUser, saveUser } from "./features/user/userSlice"
 import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
-import { Socket } from "socket.io-client"
 import { connectSocket } from "./functions/connectSocket"
 import { PatchNotes } from "./pages/PatchNotes/PatchNotes"
 import { Credits } from "./pages/Credits/Credits"
+import { IMaintenance } from "./interfaces/IMaintenance"
+import { Maintenance } from "./pages/Maintenance/Maintenance"
+import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 
-let socket: Socket | null = null
-
-const router = createBrowserRouter([
+const normalRouter = createBrowserRouter([
     {
         path: "/",
-        element: <MainMenu socket={socket} />,
+        element: <MainMenu />,
         index: true
     },
     {
@@ -50,6 +50,18 @@ const router = createBrowserRouter([
     },
 ])
 
+const maintenanceRouter = createBrowserRouter([
+    {
+        path: "/",
+        element: <Maintenance />,
+        index: true
+    },
+    {
+        path: "*",
+        element: <Navigate to="/" />
+    },
+])
+
 async function autoLogin(token: string | null) {
     let error = true
     if (token) {
@@ -70,12 +82,13 @@ async function autoLogin(token: string | null) {
 
 function App() {
     const user = useSelector((state: RootState) => state.user);
+    const socket = useSelector((state: RootState) => state.socket.socket);
+    const maintenance = useSelector((state: RootState) => state.maintenance);
 
     async function loadSavedUser() {
         await store.dispatch(loadUser());
         const token = store.getState().user.loginToken;
         await autoLogin(token);
-        socket?.disconnect()
         connectSocket()
     }
 
@@ -85,9 +98,15 @@ function App() {
         }
     }, [])
 
+    useEffect(() => {
+        socket?.on("maintenance", (maintenanceData: IMaintenance) => {
+            store.dispatch(setMaintenance(maintenanceData))
+        })
+    }, [socket])
+
     return (
         <>
-            <RouterProvider router={router} />
+            <RouterProvider router={maintenance.started ? maintenanceRouter : normalRouter} />
             <Info />
         </>
     )
