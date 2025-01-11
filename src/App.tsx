@@ -106,7 +106,7 @@ function App() {
 
     return (
         <>
-            <RouterProvider router={maintenance.started ? maintenanceRouter : normalRouter} />
+            <RouterProvider router={maintenance.started && maintenance.countdown ? maintenanceRouter : normalRouter} />
             <Info />
         </>
     )

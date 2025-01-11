@@ -20,7 +20,7 @@ export function MainMenu() {
     return <main id="mainMenu">
         <Background />
         <section id="menu">
-            {maintenance.countdown != null ? <MaintenanceNotice /> : null}
+            {maintenance.countdown != null ? <MaintenanceNotice key={maintenance.countdown} /> : null}
             <Profile openAuth={setUserForm} />
             <Title />
             <nav id="mainButtons">
