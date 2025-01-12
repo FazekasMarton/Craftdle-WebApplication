@@ -67,10 +67,11 @@
     background-image: url("./assets//imgs//backgrounds/error-bg.jpg");
     background-position: center;
     background-size: cover;
-    max-width: 700px;
+    max-width: 1000px;
     width: 70%;
     height: 50%;
     border: 3px solid rgb(51, 50, 50);
+    font-size: 2.5vmin;
 }
 
 #errorContent {
