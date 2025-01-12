@@ -1,5 +1,5 @@
 import { Navigate, RouterProvider } from "react-router"
-import { createBrowserRouter } from "react-router-dom"
+import { BrowserRouter, createBrowserRouter } from "react-router-dom"
 import { MainMenu } from "./pages/MainMenu/MainMenu"
 import { Settings } from "./pages/Settings/Settings"
 import { Info } from "./components/Info"
@@ -18,6 +18,7 @@ import { IMaintenance } from "./interfaces/IMaintenance"
 import { Maintenance } from "./pages/Maintenance/Maintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { Docs } from "./pages/Docs/Docs"
+import { Error } from "./components/Error"
 
 const normalRouter = createBrowserRouter([
     {
@@ -113,6 +114,9 @@ function App() {
         <>
             <RouterProvider router={maintenance.started && maintenance.countdown ? maintenanceRouter : normalRouter} />
             <Info />
+            <BrowserRouter>
+                <Error />
+            </BrowserRouter>
         </>
     )
 }
