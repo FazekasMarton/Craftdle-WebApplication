@@ -17,6 +17,7 @@ import { Credits } from "./pages/Credits/Credits"
 import { IMaintenance } from "./interfaces/IMaintenance"
 import { Maintenance } from "./pages/Maintenance/Maintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
+import { Docs } from "./pages/Docs/Docs"
 
 const normalRouter = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ const normalRouter = createBrowserRouter([
     {
         path: "credits",
         element: <Credits />
+    },
+    {
+        path: "docs",
+        element: <Docs />
     },
     {
         path: "*",

@@ -1420,3 +1420,73 @@ input:-webkit-autofill:focus {
 #patchNotes .remove {
     color: rgb(170, 0, 0);
 }
+
+/* -- Docs -- */
+
+#docs{
+    color: rgb(170, 170, 170);
+    width: auto;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-size: 30vmin;
+    padding: 0 10vw;
+    font-size: 3vmin;
+}
+
+#docs header{
+    height: min-content;
+}
+
+#docs img{
+    width: 100%;
+}
+
+#docs main{
+    background-image: url("./assets/imgs/backgrounds/book_inner.png");
+    background-size: contain;
+    padding: 1px 10vw;
+}
+
+#docs #backToMainArrow{
+    display: block;
+    width: 10vmin;
+    height: 10vmin;
+    background-image: url("./assets/imgs/icons/page_backward.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+#docs #backToMainArrow:hover{
+    background-image: url("./assets/imgs/icons/page_backward_highlighted.png");
+}
+
+#docs h1{
+    color: rgb(85, 85, 255);
+}
+
+#docs h2{
+    color: rgb(0, 170, 0);
+}
+
+#docs ul{
+    list-style: square;
+}
+
+#docs ol > li::marker{
+    color: rgb(0, 170, 0);
+    font-size: 4.5vmin;
+    font-weight: bold;
+}
+
+#docs b{
+    color: rgb(255, 85, 85)
+}
+
+#docs ul{
+    color: rgb(255, 85, 255);
+    font-weight: bold;
+}
