@@ -1,9 +1,23 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
+import { useEffect, useState } from "react";
 
 export function Info() {
     const info = useSelector((state: RootState) => state.info)
-    const isOutOfScreen = window.innerWidth <= (info.position?.x ?? 0) + 400
+    const [isOutOfScreen, setIsOutOfScreen] = useState(false);
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsOutOfScreen(window.innerWidth <= (info.position?.x ?? 0) + 400);
+        };
+
+        checkScreenSize();
+        window.addEventListener("resize", checkScreenSize);
+
+        return () => {
+            window.removeEventListener("resize", checkScreenSize);
+        };
+    }, [info.position?.x]);
     
     return (
         <div
