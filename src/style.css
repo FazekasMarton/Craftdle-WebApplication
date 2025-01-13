@@ -58,6 +58,7 @@
     width: 100dvw;
     height: 100dvh;
     background-color: rgba(0, 0, 0, 0.575);
+    z-index: 20;
 }
 
 #error {
@@ -724,7 +725,13 @@ input:-webkit-autofill:focus {
     justify-content: center;
 }
 
-#settingsHeader>nav>*,
+#settingsHeader>nav{
+    width: 70vmin;
+}
+
+#settingsHeader>nav>*{
+    flex-basis: 100%;
+}
 #settingsFooter>div>*,
 #gamemodesFooter>div>* {
     width: 20dvw;
@@ -735,6 +742,7 @@ input:-webkit-autofill:focus {
 #gamemodesMain {
     background-color: rgba(0, 0, 0, 0.5);
     overflow: auto;
+    padding: 5px;
 }
 
 /* - Settings Content - */
@@ -868,7 +876,7 @@ input:-webkit-autofill:focus {
         "tips inventoryAndKnowledgeBook";
     padding: 5px;
     gap: 2vmin;
-    height: 100%;
+    height: auto;
 }
 
 /* -- General -- */
@@ -1022,6 +1030,10 @@ input:-webkit-autofill:focus {
 #inventory,
 #knowledgeBook {
     grid-area: inventoryAndKnowledgeBook;
+    display: grid;
+    grid-template-rows: min-content auto;
+    padding-bottom: 2vmin;
+    height: 98dvh;
 }
 
 #inventoryHeader,
@@ -1103,7 +1115,7 @@ input:-webkit-autofill:focus {
 }
 
 .recipeCraftingArrow {
-    width: 8vmin;
+    width: 7vmin;
 }
 
 /* - Hearts - */
@@ -1543,5 +1555,33 @@ input:-webkit-autofill:focus {
         color: rgb(170, 170, 170);
     }
 
-    
+    .patchNote {
+        font-size: 4vmin;
+    }
+
+    #patchNotesHeader .stoneButton button{
+        font-size: 4vmin;
+    }
+
+    #docs{
+        font-size: 4vmin;
+        padding: 0 5px;
+    }
+
+    #docs ol>li::marker {
+        font-size: 6vmin;
+    }
+
+    #error{
+        background-position: right;
+        font-size: 4vmin;
+    }
+
+    #errorContent{
+        width: auto;
+    }
+
+    #errorContent .button{
+        font-size: 4vmin;
+    }
 }

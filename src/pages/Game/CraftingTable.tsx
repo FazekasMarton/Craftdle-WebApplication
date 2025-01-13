@@ -6,6 +6,7 @@ import { craft } from "../../functions/craft"
 import { IRecipeCollection } from "../../interfaces/IRecipe"
 import { Items } from "../../classes/Items"
 import { SoundEffect } from "../../classes/Audio"
+import { Socket } from "socket.io-client"
 
 interface CraftingTableProps {
     size: 2 | 3,
@@ -13,15 +14,18 @@ interface CraftingTableProps {
     recipes: IRecipeCollection,
     items: Items,
     isKnowledgeBookOpen: boolean,
-    setIsKnowledgeBookOpen: (isOpen: boolean) => void
+    setIsKnowledgeBookOpen: (isOpen: boolean) => void,
+    socket: Socket | null
 }
 
 export function CraftingTable(props: CraftingTableProps) {
-    const [craftedItem, setCraftedItem] = useState<HTMLImageElement | null>(null)
+    const [craftedItemGroup, setCraftedItemGroup] = useState<string | null>(null)
+    const [craftedItemId, setCraftedItemId] = useState<HTMLImageElement | null>(null)
 
     useEffect(() => {
-        let craftedItemId = craft(props.craftingTable, props.recipes)
-        setCraftedItem(craftedItemId ? props.items.getItem(craftedItemId) : null)
+        let craftedItem = craft(props.craftingTable, props.recipes)
+        setCraftedItemGroup(craftedItem?.group ?? null)
+        setCraftedItemId(craftedItem?.id ? props.items.getItem(craftedItem.id) : null)
     }, [props.craftingTable])
 
     return <div id="craftingTable">
@@ -44,8 +48,23 @@ export function CraftingTable(props: CraftingTableProps) {
             </tbody>
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" />
-        <div id="craftedItem" className="slot">
-            {craftedItem ? <Item item={craftedItem} /> : null}
+        <div id="craftedItem" className="slot" onClick={() => {
+            if (craftedItemGroup && craftedItemId) {
+                let guess = {
+                    item: {
+                        group: craftedItemGroup,
+                        id: craftedItemId.className
+                    },
+                    table: props.craftingTable.flat(2).map(slot => {
+                        let item = slot?.cloneNode() as HTMLImageElement
+                        item?.classList.remove("item")
+                        return item?.className ?? null
+                    })
+                }
+                props.socket?.emit("guess", guess)
+            }
+        }}>
+            {craftedItemId ? <Item item={craftedItemId} /> : null}
         </div>
         <div id="craftingBook" className="slotButton" onClick={() => {
             props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
