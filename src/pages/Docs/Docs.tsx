@@ -20,7 +20,7 @@ export function Docs() {
         <img src={bookTop} alt="Book top" draggable={false}/>
         <main>
             <Link to="/" id="backToMainArrow" onClick={() => {SoundEffect.play("click")}}></Link>
-            <section>
+            <section id="privacyPolicy">
                 <h1>Privacy Policy</h1>
                 <ol>
                     <li>
@@ -88,8 +88,8 @@ export function Docs() {
                     </li>
                 </ol>
             </section>
-            <section>
-                <h1 id="termsOfUse">Terms of Use</h1>
+            <section id="termsOfUse">
+                <h1>Terms of Use</h1>
                 <ol>
                     <li>
                         <h2>Introduction</h2>

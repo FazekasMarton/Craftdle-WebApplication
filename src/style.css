@@ -58,6 +58,7 @@
     width: 100dvw;
     height: 100dvh;
     background-color: rgba(0, 0, 0, 0.575);
+    z-index: 20;
 }
 
 #error {
@@ -1565,5 +1566,18 @@ input:-webkit-autofill:focus {
 
     #docs ol>li::marker {
         font-size: 6vmin;
+    }
+
+    #error{
+        background-position: right;
+        font-size: 4vmin;
+    }
+
+    #errorContent{
+        width: auto;
+    }
+
+    #errorContent .button{
+        font-size: 4vmin;
     }
 }
