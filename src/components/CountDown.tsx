@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
+import { store } from "../app/store";
+import { setMaintenance } from "../features/maintenance/maintenanceSlice";
 
-interface CountDownProps{
+interface CountdownProps{
     time: number
 }
 
-function getCountDownText(seconds: number){
+function getCountdownText(seconds: number){
     const days = Math.floor(seconds / 86400);
     const hours = Math.floor((seconds % 86400) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -15,25 +17,31 @@ function getCountDownText(seconds: number){
     if (hours > 0) result.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
     if (minutes > 0) result.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
     if (remainingSeconds > 0 || result.length === 0) 
-        result.push(`${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''}`);
+        result.push(`${Math.round(remainingSeconds)} second${remainingSeconds > 1 ? 's' : ''}`);
 
     return result.length > 1 
         ? result.slice(0, -1).join(', ') + ' and ' + result[result.length - 1] 
         : result[0];
 }
 
-export function CountDown(props: CountDownProps){
+export function Countdown(props: CountdownProps){
     const [time, setTime] = useState(props.time)
-    const [countDownText, setCountDownText] = useState(getCountDownText(time))
+    const [countdownText, setCountdownText] = useState(getCountdownText(time))
 
     useEffect(() => {
-        const countDown = setTimeout(() => {
-            setCountDownText(getCountDownText(time - 1))
+        const countdown = setTimeout(() => {
+            setCountdownText(getCountdownText(time - 1))
             setTime(prevValue => prevValue - 1)
+            if(time <= 0){
+                store.dispatch(setMaintenance({
+                    started: !store.getState().maintenance.started,
+                    countdown: null
+                }))
+            }
         }, 1000)
 
-        return () => clearTimeout(countDown)
+        return () => clearTimeout(countdown)
     }, [time])
 
-    return <>{countDownText}</>
+    return <>{countdownText}</>
 }

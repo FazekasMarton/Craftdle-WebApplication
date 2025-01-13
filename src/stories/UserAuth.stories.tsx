@@ -41,7 +41,7 @@ export const RegisteredUser = () => {
     const dispatch = useDispatch()
     dispatch(saveUser(fakeUser))
     return <BrowserRouter>
-        <UserAuth openAuth={setAuthOpened}/>
+        <UserAuth openAuth={setAuthOpened} />
     </BrowserRouter>
 }
 
@@ -65,6 +65,6 @@ export const Guest = () => {
     const dispatch = useDispatch()
     dispatch(saveUser(fakeUser))
     return <BrowserRouter>
-        <UserAuth openAuth={setAuthOpened}/>
+        <UserAuth openAuth={setAuthOpened} />
     </BrowserRouter>
 }

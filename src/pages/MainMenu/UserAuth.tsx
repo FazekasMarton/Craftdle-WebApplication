@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
-import { Socket } from 'socket.io-client';
 import { connectSocket } from '../../functions/connectSocket';
 
 interface UserAuthNavProps {
@@ -25,7 +24,6 @@ function UserAuthNav(props: UserAuthNavProps) {
 
 interface FormProps {
     openAuth: (value: boolean) => void;
-    socket: Socket | null
 }
 
 function LoginForm(props: FormProps) {
@@ -83,7 +81,7 @@ function LoginForm(props: FormProps) {
                     setRememberMe(false)
                     props.openAuth(false)
                     loadSettings()
-                    connectSocket(props.socket)
+                    connectSocket()
                 } else {
                     res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
                     res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
@@ -203,7 +201,7 @@ function RegisterForm(props: FormProps) {
                     setAcceptTOU(false)
                     props.openAuth(false)
                     loadSettings()
-                    connectSocket(props.socket)
+                    connectSocket()
                 } else {
                     res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
                     res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
@@ -226,23 +224,22 @@ function LogoutForm(props: FormProps) {
                 let response = await store.dispatch(guestLogin())
                 let res = (response.payload as any)
                 await store.dispatch(saveUser(res.data.data))
-                connectSocket(props.socket)
+                connectSocket()
             }
         }}>Log Out</Button>
     </div>
 }
 
-function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: boolean) => void, socket: Socket | null) {
+function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: boolean) => void) {
     switch (formName) {
-        case "Login": return <LoginForm openAuth={openAuth} socket={socket} />
-        case 'Register': return <RegisterForm openAuth={openAuth} socket={socket} />
-        case 'Logout': return <LogoutForm openAuth={openAuth} socket={socket} />
+        case "Login": return <LoginForm openAuth={openAuth} />
+        case 'Register': return <RegisterForm openAuth={openAuth} />
+        case 'Logout': return <LogoutForm openAuth={openAuth} />
     }
 }
 
 interface UserAuthProps {
     openAuth: (value: boolean) => void;
-    socket: Socket | null;
 }
 
 export function UserAuth(props: UserAuthProps) {
@@ -251,6 +248,6 @@ export function UserAuth(props: UserAuthProps) {
     return <div id="userAuth">
         <button id='authExit' onClick={() => props.openAuth(false)}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
-        {getForm(form, props.openAuth, props.socket)}
+        {getForm(form, props.openAuth)}
     </div>
 }

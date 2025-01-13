@@ -1,3 +1,5 @@
+/* ---- Landscape Devices ---- */
+
 @font-face {
     font-family: MinecraftRegular;
     src: url("assets/minecraft-font/MinecraftRegular-Bmg3.otf");
@@ -67,10 +69,11 @@
     background-image: url("./assets//imgs//backgrounds/error-bg.jpg");
     background-position: center;
     background-size: cover;
-    max-width: 700px;
+    max-width: 1000px;
     width: 70%;
     height: 50%;
     border: 3px solid rgb(51, 50, 50);
+    font-size: 2.5vmin;
 }
 
 #errorContent {
@@ -82,7 +85,7 @@
     gap: 5dvh;
 }
 
-#errorContent > *{
+#errorContent>* {
     margin: 0 3vmin;
     word-wrap: break-word;
 }
@@ -96,7 +99,7 @@
     color: rgb(255, 84, 84);
 }
 
-#errorContent .button{
+#errorContent .button {
     width: fit-content;
     height: fit-content;
 }
@@ -178,11 +181,23 @@
     box-shadow: 0 0 0 0.3vmin black;
     border-radius: 5px;
     color: rgb(170, 170, 170);
+    margin: 0 50px;
     padding: 0.5vmin;
     font-size: 3vmin;
     z-index: 10;
-    max-width: 250px;
     width: fit-content;
+    max-width: 250px;
+    translate: 0 -50%;
+}
+
+#infoTitle {
+    font-size: 25px;
+}
+
+#infoText {
+    font-size: 20px;
+    width: fit-content;
+    max-width: 250px;
 }
 
 /* -- Button -- */
@@ -333,6 +348,7 @@ body,
     padding: 0;
     margin: 0;
     color: rgb(255, 255, 255);
+    background-color: rgb(194, 195, 195);
     overflow: hidden;
 }
 
@@ -405,10 +421,9 @@ body,
 #menu {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: min-content min-content min-content auto min-content;
+    grid-template-rows: min-content min-content auto min-content;
     grid-template-areas:
         "title title title"
-        ". maintenance ."
         ". mainButtons ."
         "leftSideButtons additionalButtons rightSideButtons"
         "footer footer footer";
@@ -436,8 +451,8 @@ body,
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(16, 1fr);
-    width: 32px;
-    height: 32px;
+    width: 5vmin;
+    height: 5vmin;
     background-size: contain;
     background-position: center;
     overflow: hidden;
@@ -455,6 +470,7 @@ body,
 #profileName {
     margin: 0;
     font-weight: normal;
+    font-size: 5vmin;
 }
 
 #craftleTitle {
@@ -462,19 +478,19 @@ body,
     width: min-content;
     justify-self: center;
     position: relative;
-    padding-top: 5vmin;
+    margin: 13vmin 0 5vmin 0;
 }
 
 #craftdleLogo {
-    height: 20vmin;
+    height: 15vmin;
 }
 
 #yellowText {
     width: 31vw;
     max-width: max-content;
     position: absolute;
-    right: 10%;
-    bottom: 50%;
+    right: 5%;
+    bottom: 30%;
     transform: translate(50%, 50%) rotate(-20deg);
     color: rgb(255, 255, 0);
     font-size: 3.5vmin;
@@ -492,20 +508,22 @@ body,
 }
 
 #maintenanceNotice {
-    grid-area: maintenance;
     display: block;
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
 }
 
-#maintenanceTitle {
+#maintenanceNoticeTitle {
     margin: 0;
-    font-size: 4vmin;
+    font-size: 3vmin;
     font-weight: normal;
 }
 
-#maintenanceCountDown {
+#maintenanceNoticeCountdown {
     margin: 0;
     color: rgb(255, 85, 255);
-    font-size: 3.5vmin;
+    font-size: 2.5vmin;
 }
 
 #menu nav {
@@ -701,16 +719,16 @@ input:-webkit-autofill:focus {
 #settingsFooter>div,
 #gamemodesFooter>div {
     display: flex;
-    width: 60%;
     margin: auto;
     gap: 5vmin;
-
+    justify-content: center;
 }
 
 #settingsHeader>nav>*,
 #settingsFooter>div>*,
 #gamemodesFooter>div>* {
-    flex-basis: 100%;
+    width: 20dvw;
+    min-width: max-content;
 }
 
 #settingsMain,
@@ -750,19 +768,18 @@ input:-webkit-autofill:focus {
     justify-content: center;
     align-items: center;
     gap: 2vmin;
-    width: fit-content;
     margin: 2vmin auto;
 }
 
 #gamemodesList>article {
     display: grid;
-    grid-template-columns: min-content auto 1fr 6vmin;
+    grid-template-columns: min-content auto 1fr 10vmin;
     grid-template-rows: auto 1fr;
     grid-template-areas:
         "icon name difficulty warning"
         "icon description description warning";
-    width: 90%;
-    max-width: 700px;
+    width: 100%;
+    max-width: 60dvw;
     align-items: start;
     justify-content: start;
     gap: 10px 20px;
@@ -783,6 +800,7 @@ input:-webkit-autofill:focus {
     background-size: contain;
     display: flex;
     justify-content: center;
+    align-self: center;
 }
 
 .playButton {
@@ -841,11 +859,12 @@ input:-webkit-autofill:focus {
 #game {
     display: grid;
     grid-template-columns: min-content auto;
-    grid-template-rows: min-content min-content min-content auto;
+    grid-template-rows: min-content min-content min-content min-content auto;
     grid-template-areas:
         "exitButton inventoryAndKnowledgeBook"
         "craftingTable inventoryAndKnowledgeBook"
-        "hintsAndHearts inventoryAndKnowledgeBook"
+        "hearts inventoryAndKnowledgeBook"
+        "hints inventoryAndKnowledgeBook"
         "tips inventoryAndKnowledgeBook";
     padding: 5px;
     gap: 2vmin;
@@ -853,16 +872,6 @@ input:-webkit-autofill:focus {
 }
 
 /* -- General -- */
-
-#game>.stoneButton {
-    width: fit-content;
-    height: fit-content;
-}
-
-#game>.stoneButton>button {
-    height: fit-content;
-    font-size: 2vmin;
-}
 
 /* - Slot - */
 
@@ -913,6 +922,23 @@ input:-webkit-autofill:focus {
     max-height: 100%;
 }
 
+/* - Buttons - */
+
+#game nav {
+    display: flex;
+    gap: 20px;
+}
+
+#game nav .stoneButton {
+    width: fit-content;
+    height: fit-content;
+}
+
+#game nav .stoneButton>button {
+    height: fit-content;
+    font-size: 2vmin;
+}
+
 /* - Crafting Table - */
 
 #craftingTable {
@@ -959,7 +985,7 @@ input:-webkit-autofill:focus {
 /* - Hints - */
 
 #hints {
-    grid-area: hintsAndHearts;
+    grid-area: hints;
 }
 
 #hintsTitle {
@@ -1080,7 +1106,11 @@ input:-webkit-autofill:focus {
     width: 8vmin;
 }
 
-/* - Heart - */
+/* - Hearts - */
+
+#hearts {
+    grid-area: hearts;
+}
 
 #heartsTitle {
     margin: 0;
@@ -1185,7 +1215,7 @@ input:-webkit-autofill:focus {
     padding: 5vmin;
     width: 461px;
     max-width: 90dvw;
-    font-size: 0.95rem;
+    font-size: 2dvh;
     text-align: center;
     overflow: hidden;
 }
@@ -1198,20 +1228,23 @@ input:-webkit-autofill:focus {
 #maintenanceTitle {
     color: rgb(85, 255, 255);
     text-align: start;
+    font-size: 4dvh;
 }
 
 #maintenanceMessage p {
     text-align: start;
+    font-size: 2dvh;
 }
 
 #maintenanceCountdown {
     display: block;
     color: rgb(255, 85, 255);
+    font-size: 2dvh;
 }
 
 /* -- Credits -- */
 
-#credits{
+#credits {
     display: block;
     width: 100dvw;
     height: 100dvh;
@@ -1223,13 +1256,13 @@ input:-webkit-autofill:focus {
     font-size: 4vmin;
 }
 
-#creditsCraftdleTitle{
+#creditsCraftdleTitle {
     max-width: 60dvw;
     max-height: 60dvh;
     object-fit: contain;
 }
 
-#creditsContainer{
+#creditsContainer {
     width: 100%;
     position: absolute;
     top: 100%;
@@ -1241,58 +1274,62 @@ input:-webkit-autofill:focus {
     0% {
         transform: translateY(0);
     }
+
     100% {
         transform: translateY(calc(-110% - 100vh));
     }
 }
 
-#credits article{
+#credits article {
     margin: 10vmin 0;
 }
 
-#credits article article{
+#credits article article {
     margin: 6vmin 0;
 }
 
-#credits h1, #credits h2, #credits h3{
+#credits h1,
+#credits h2,
+#credits h3 {
     margin: 0;
 }
 
-#credits h1{
+#credits h1 {
     font-size: 6vmin;
     color: rgb(255, 170, 0);
 }
 
-#credits h2{
+#credits h2 {
     font-size: 5vmin;
     color: rgb(255, 85, 255);
 }
 
-#credits h3{
+#credits h3 {
     font-size: 4vmin;
     color: rgb(85, 255, 255);
 }
 
-.creditTextContainer, .creditMessageContainer{
+.creditTextContainer,
+.creditMessageContainer {
     display: grid;
     gap: 4vmin;
     margin: 2vmin 0;
 }
 
-.creditTextContainer{
+.creditTextContainer {
     grid-template-columns: 1fr 1fr;
 }
 
-.creditTitle{
+.creditTitle {
     justify-self: end;
 }
 
-.creditText{
+.creditText {
     justify-self: start;
     text-align: start;
 }
 
-.creditMessageContainer .creditText{
+.creditMessageContainer .creditText {
     justify-self: center;
     text-align: center;
 }
@@ -1307,8 +1344,8 @@ input:-webkit-autofill:focus {
     height: 100dvh;
 }
 
-#patchNotes #patchNotesHeader{
-    background-image: url("./assets/imgs/backgrounds/log.jpg");
+#patchNotes #patchNotesHeader {
+    background-image: url("./assets/imgs/backgrounds/log.png");
     background-size: contain;
     padding: 10px;
     position: sticky;
@@ -1320,13 +1357,14 @@ input:-webkit-autofill:focus {
     z-index: 2;
 }
 
-#patchNotes .stoneButton, #patchNotes .stoneButton button{
+#patchNotes .stoneButton,
+#patchNotes .stoneButton button {
     width: fit-content;
     height: fit-content;
     font-size: 2vmin;
 }
 
-#patchNotes .chain{
+#patchNotes .chain {
     position: absolute;
     background-image: url("./assets/imgs/backgrounds/chain.png");
     background-color: rgb(0, 0, 0);
@@ -1336,11 +1374,11 @@ input:-webkit-autofill:focus {
     box-shadow: 0 0 3vmin 2vmin black;
 }
 
-#leftChain{
+#leftChain {
     left: 10vmin
 }
 
-#rightChain{
+#rightChain {
     right: 10vmin
 }
 
@@ -1353,7 +1391,7 @@ input:-webkit-autofill:focus {
     margin-bottom: 10dvh;
 }
 
-.patchNote{
+.patchNote {
     background-image: url("./assets/imgs/backgrounds/sign.png");
     background-size: 50vmin;
     padding: 5vmin;
@@ -1362,7 +1400,7 @@ input:-webkit-autofill:focus {
     font-size: 3vmin;
 }
 
-.patchNote:nth-child(3){
+.patchNote:nth-child(3) {
     margin-top: 10vmin;
 }
 
@@ -1390,4 +1428,120 @@ input:-webkit-autofill:focus {
 
 #patchNotes .remove {
     color: rgb(170, 0, 0);
+}
+
+/* -- Docs -- */
+
+#docs {
+    color: rgb(170, 170, 170);
+    width: auto;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-size: 30vmin;
+    padding: 0 10vw;
+    font-size: 3vmin;
+}
+
+#docs header {
+    height: min-content;
+}
+
+#docs img {
+    width: 100%;
+}
+
+#docs main {
+    background-image: url("./assets/imgs/backgrounds/book_inner.png");
+    background-size: contain;
+    padding: 1px 10vw;
+}
+
+#docs #backToMainArrow {
+    display: block;
+    width: 10vmin;
+    height: 10vmin;
+    background-image: url("./assets/imgs/icons/page_backward.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+#docs #backToMainArrow:hover {
+    background-image: url("./assets/imgs/icons/page_backward_highlighted.png");
+}
+
+#docs h1 {
+    color: rgb(85, 85, 255);
+}
+
+#docs h2 {
+    color: rgb(0, 170, 0);
+}
+
+#docs ul {
+    list-style: square;
+}
+
+#docs ol>li::marker {
+    color: rgb(0, 170, 0);
+    font-size: 4.5vmin;
+    font-weight: bold;
+}
+
+#docs b {
+    color: rgb(255, 85, 85)
+}
+
+#docs ul {
+    color: rgb(255, 85, 255);
+    font-weight: bold;
+}
+
+@media (pointer:coarse) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* ---- Portrait Devices ---- */
+
+@media (orientation: portrait) {
+    /* --- Main Menu --- */
+
+    #userAuth .button {
+        font-size: 4dvw;
+    }
+
+    #menu {
+        grid-template-rows: 1fr min-content min-content 1fr;
+    }
+
+    #craftleTitle,
+    #menu footer {
+        align-self: self-end;
+    }
+
+    #settingsHeader>nav>*,
+    #settingsFooter>div>*,
+    #gamemodesFooter>div>* {
+        width: 25dvw;
+        min-width: max-content;
+    }
+
+    #gamemodesList > article{
+        max-width: none;
+        width: auto;
+    }
+
+    .gamemodeDescription {
+        grid-area: description;
+        margin: 0;
+        font-size: 4vmin;
+        color: rgb(170, 170, 170);
+    }
+
+    
 }
