@@ -6,7 +6,7 @@ import { KnowledgeBook } from "./KnowledgeBook";
 import { Tips } from "./Tips";
 import { IItem, Items } from "../../classes/Items";
 import { Inventory } from "./Inventory";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ITips } from "../../interfaces/ITips";
 import { IRecipeCollection } from "../../interfaces/IRecipe";
 import { useSearchParams } from "react-router-dom";
@@ -40,7 +40,7 @@ export function Game() {
     const [hints, setHints] = useState<Array<string | null> | null>(null)
     const [maxHearts, setMaxHearts] = useState<number | null>(null)
     const [result, setResult] = useState(false)
-    const items = new Items()
+    const items = useRef(new Items())
 
     function startGame(gamemode: string | null, newGame: string | null) {
         socket?.emit("startGame", {
@@ -54,12 +54,26 @@ export function Game() {
 
         socket?.on("guess", (data: IGuess) => {
             console.log(data)
-            if (data.items) setItemsCollection(data.items)
-            if (data.recipes) setRecipes(data.recipes)
+            if (data.items) {
+                setItemsCollection(data.items)
+                items.current.addItems(data.items)
+            }
+            if (data.recipes) {
+                setRecipes(data.recipes)
+                let recipesItems: IItem[] = []
+                Object.keys(data.recipes).forEach(recipeGroup => {
+                    const currentRecipe = data.recipes[recipeGroup]
+                    currentRecipe.forEach(recipe => {
+                        recipesItems.push(recipe)
+                    });
+                });
+                items.current.addItems(recipesItems)
+            }
             setTips(data.tips)
             setHints(data.hints)
             setMaxHearts(data.hearts)
             setResult(data.result)
+            setTableContent(Array.from({ length: craftingTableSize }, () => Array(3).fill(null)))
         })
 
         return () => { socket?.off("guess") }
@@ -72,12 +86,14 @@ export function Game() {
                 startGame(gamemodeId, searchParams.get("newGame"))
             }}>New Game</StoneButton>
         </nav>
-        <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} />
+        <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
         {maxHearts && <Hearts turn={tips.length} maxHearts={maxHearts} />}
         {hints && <Hints hints={hints} turn={tips.length - (result ? 0 : 1)} />}
-        <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
+        <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
         {
-            isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
+            itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
+                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
+            ) : null
         }
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </div>
