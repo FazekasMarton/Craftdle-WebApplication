@@ -19,6 +19,7 @@ import { Maintenance } from "./pages/Maintenance/Maintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { Docs } from "./pages/Docs/Docs"
 import { Error } from "./components/Error"
+import { isUserPlayingOnPC } from "./functions/isUserPlayingOnPC"
 
 const normalRouter = createBrowserRouter([
     {
@@ -113,7 +114,7 @@ function App() {
     return (
         <>
             <RouterProvider router={maintenance.started && maintenance.countdown ? maintenanceRouter : normalRouter} />
-            <Info />
+            {isUserPlayingOnPC() ? <Info /> : null}
             <BrowserRouter>
                 <Error />
             </BrowserRouter>

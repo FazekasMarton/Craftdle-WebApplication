@@ -50,7 +50,7 @@ export function Game() {
     }
 
     useEffect(() => {
-        startGame(gamemodeId, searchParams.get("newGamemode"))
+        startGame(gamemodeId, searchParams.get("newGame"))
 
         socket?.on("guess", (data: IGuess) => {
             console.log(data)
@@ -69,7 +69,7 @@ export function Game() {
         <nav>
             <StoneButton href="/singleplayer">Quit Game</StoneButton>
             <StoneButton onClick={() => {
-                startGame(gamemodeId, searchParams.get("newGamemode"))
+                startGame(gamemodeId, searchParams.get("newGame"))
             }}>New Game</StoneButton>
         </nav>
         <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} />
