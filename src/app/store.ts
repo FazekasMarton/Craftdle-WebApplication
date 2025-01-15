@@ -4,6 +4,7 @@ import errorReducer from '../features/error/errorSlice';
 import infoReducer from '../features/info/infoSlice';
 import socketReducer from "../features/socket/socketSlice";
 import maintenanceReducer from "../features/maintenance/maintenanceSlice";
+import gameReducer from "../features/game/gameSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         error: errorReducer,
         info: infoReducer,
         socket: socketReducer,
-        maintenance: maintenanceReducer
+        maintenance: maintenanceReducer,
+        game: gameReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

@@ -2,6 +2,7 @@ import { StoneButton } from "../../components/StoneButton";
 import warning from "../../assets/imgs/icons/error_highlighted.png"
 import { ISettings } from "../../interfaces/ISettings";
 import { isEqual } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 
 interface SettingsHeaderProps{
@@ -21,6 +22,8 @@ function removeIsSet(obj: ISettings | null) {
 }
 
 export function SettingsHeader(props: SettingsHeaderProps) {
+    const navigate = useNavigate();
+
     function changeNextProfile(){
         props.setActiveProfile((props.activeProfile + 1) % 3)
     }
@@ -33,7 +36,7 @@ export function SettingsHeader(props: SettingsHeaderProps) {
     return <header id="settingsHeader">
         <h1>Settings</h1>
         <nav>
-            <StoneButton href="/" info={saveable ? {
+            <StoneButton onClick={() => navigate(-1)} info={saveable ? {
                 title: "Warning",
                 titleColor: "#AA0000",
                 text: "Unsaved changes exist"
