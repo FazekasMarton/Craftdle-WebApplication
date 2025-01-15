@@ -11,8 +11,9 @@ import { ITips } from "../../interfaces/ITips";
 import { IRecipeCollection } from "../../interfaces/IRecipe";
 import { useSearchParams } from "react-router-dom";
 import { Hints } from "./Hints";
-import { RootState } from "../../app/store";
+import { RootState, store } from "../../app/store";
 import { useSelector } from "react-redux";
+import { setNewGame } from "../../features/game/gameSlice";
 
 interface IGuess {
     items: Array<IItem>,
@@ -25,8 +26,10 @@ interface IGuess {
 
 export function Game() {
     const socket = useSelector((state: RootState) => state.socket.socket)
-    const [searchParams] = useSearchParams();
-    const gamemodeId = searchParams.get("gamemode")
+    const [searchParams, setSearchParams] = useSearchParams();
+    const gamemode = searchParams.get("gamemode");
+    const isGamemodeValid = isNaN(Number(gamemode)) || gamemode == null || Number(gamemode) > 7 || Number(gamemode) < 1
+    const gamemodeId = isGamemodeValid ? "1" : gamemode;
     const craftingTableSize = gamemodeId == "5" ? 2 : 3;
     const [tableContent, setTableContent] = useState<Array<Array<HTMLImageElement | null>>>(
         Array.from({ length: craftingTableSize }, () =>
@@ -42,7 +45,7 @@ export function Game() {
     const [result, setResult] = useState(false)
     const items = useRef(new Items())
 
-    function startGame(gamemode: string | null, newGame: string | null) {
+    function startGame(gamemode: string, newGame: boolean) {
         socket?.emit("startGame", {
             gamemode: gamemode,
             newGame: newGame
@@ -50,7 +53,12 @@ export function Game() {
     }
 
     useEffect(() => {
-        startGame(gamemodeId, searchParams.get("newGame"))
+        if (isGamemodeValid) {
+            searchParams.set("gamemode", gamemodeId)
+            setSearchParams(searchParams)
+        }
+
+        startGame(gamemodeId, store.getState().game.newGame)
 
         socket?.on("guess", (data: IGuess) => {
             console.log(data)
@@ -77,14 +85,21 @@ export function Game() {
         })
 
         return () => { socket?.off("guess") }
-    }, [socket])
+    }, [socket, searchParams, setSearchParams])
+
+    useEffect(() => {
+        console.log(document.referrer)
+    }, [])
 
     return <div id="game">
         <nav>
             <StoneButton href="/singleplayer">Quit Game</StoneButton>
             <StoneButton onClick={() => {
-                startGame(gamemodeId, searchParams.get("newGame"))
+                startGame(gamemodeId, true)
             }}>New Game</StoneButton>
+            <StoneButton href="/settings" onClick={() => {
+                store.dispatch(setNewGame(false))
+            }}>Settings</StoneButton>
         </nav>
         <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
         {maxHearts && <Hearts turn={tips.length} maxHearts={maxHearts} />}

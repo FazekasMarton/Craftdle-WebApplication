@@ -141,16 +141,33 @@ export function Cursor(props: CursorProps) {
             }
         }
 
+        function handleKeyPressed(e: KeyboardEvent) {
+            const control = getKeyAndIndexByValue(currentSettings.controls, e.key.toUpperCase());
+            if (control === "copy") {
+                isHoldingCopy.current = true
+            }
+        }
+
+        function handleKeyRelease(e: KeyboardEvent) {
+            const button = e.key.toUpperCase()
+            if(button) handleControl(button)
+            if(button) stopHolding(button)
+        }
+
         document.addEventListener("mousemove", updateLocation);
         document.addEventListener("mouseover", saveFocus);
         document.addEventListener("mousedown", handleMouseButtonPressed);
         document.addEventListener("mouseup", handleMouseButtonRelease)
-
+        document.addEventListener("keydown", handleKeyPressed);
+        document.addEventListener("keyup", handleKeyRelease)
+        
         return () => {
             document.removeEventListener("mousemove", updateLocation);
             document.removeEventListener("mouseover", saveFocus);
             document.removeEventListener("mousedown", handleMouseButtonPressed);
             document.removeEventListener("mouseup", handleMouseButtonRelease)
+            document.removeEventListener("keydown", handleKeyPressed);
+            document.removeEventListener("keyup", handleKeyRelease)
         };
     }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots]);
 
