@@ -350,7 +350,7 @@ body,
     margin: 0;
 }
 
-#wrapper{
+#wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -987,6 +987,11 @@ input:-webkit-autofill:focus {
     border-collapse: collapse;
 }
 
+.recipeCraftingTable tr{
+    height: min-content;
+    line-height: 0;
+} 
+
 #craftingArrow {
     grid-area: craftingArrow;
     width: 10vmin;
@@ -1114,15 +1119,6 @@ input:-webkit-autofill:focus {
     height: auto;
     border-radius: 0;
     padding: 2vmin;
-}
-
-.recipeSlot {
-    width: 5vmin;
-    height: 5vmin;
-}
-
-.recipeCraftingArrow {
-    width: 7vmin;
 }
 
 /* - Hearts - */
@@ -1647,21 +1643,24 @@ input:-webkit-autofill:focus {
 
     #inventoryContent,
     #knowledgeBookContent {
-        flex-direction: column;
-        width: max-content;
+        flex-flow: column;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: max-content;
+        justify-content: center;
         max-height: 25dvh;
-        justify-content: start;
+        margin: auto;
     }
 
-    #craftingTable{
+    #craftingTable {
         justify-self: center;
     }
 
-    .hintSlot{
+    .hintSlot {
         height: min-content;
     }
 
-    #hints .button{
+    #hints .button {
         font-size: 3.4vmin;
         padding: 5px;
     }

@@ -128,10 +128,6 @@ export function Cursor(props: CursorProps) {
             return key
         }
 
-        function disableRightContextmenu(e: Event) {
-            e.preventDefault()
-        }
-
         function handleMouseButtonRelease(e: MouseEvent) {
             const button = getMouseButton(e)
             if(button) handleControl(button)
@@ -148,14 +144,12 @@ export function Cursor(props: CursorProps) {
         document.addEventListener("mousemove", updateLocation);
         document.addEventListener("mouseover", saveFocus);
         document.addEventListener("mousedown", handleMouseButtonPressed);
-        document.addEventListener("contextmenu", disableRightContextmenu)
         document.addEventListener("mouseup", handleMouseButtonRelease)
 
         return () => {
             document.removeEventListener("mousemove", updateLocation);
             document.removeEventListener("mouseover", saveFocus);
             document.removeEventListener("mousedown", handleMouseButtonPressed);
-            document.removeEventListener("contextmenu", disableRightContextmenu)
             document.removeEventListener("mouseup", handleMouseButtonRelease)
         };
     }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots]);

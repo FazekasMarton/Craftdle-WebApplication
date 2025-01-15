@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png"
 import { SoundEffect } from "../../classes/Audio";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { DefaultSettings } from "../../classes/DefaultSettings";
 
 interface KnowledgeBookProps {
     recipes: IRecipeCollection;
@@ -54,8 +57,11 @@ function isSearchResult(recipeGroup: IRecipe[], search: string) {
 }
 
 export function KnowledgeBook(props: KnowledgeBookProps) {
+    const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
+    const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
     const [search, setSearch] = useState("");
     const [counter, setCounter] = useState(0);
+    const size = `${currentSettings.imagesSize / 25 + 2.5}vmin`
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -132,7 +138,10 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                                     Array.from({ length: props.craftingTableSize }).map((_, colIndex) => {
                                                         const item = recipe[rowIndex] ? recipe[rowIndex][colIndex] : null;
                                                         const material = item ? item[materialIndex % item.length] : null;
-                                                        return <td className="recipeSlot" key={colIndex}>
+                                                        return <td className="recipeSlot" key={colIndex} style={{
+                                                            width: size,
+                                                            height: size
+                                                        }}>
                                                             {
                                                                 material ? <Item item={props.items.getItem(material)} /> : null
                                                             }
@@ -144,8 +153,13 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                     }
                                 </tbody>
                             </table>
-                            <img className="recipeCraftingArrow" src={arrow} alt="arrow" />
-                            <div className="recipeSlot">
+                            <img className="recipeCraftingArrow" src={arrow} alt="arrow" style={{
+                                height: size
+                            }} />
+                            <div className="recipeSlot" style={{
+                                width: size,
+                                height: size
+                            }}>
                                 <Item item={props.items.getItem(recipeInfo.id)} />
                             </div>
                         </div>
