@@ -44,6 +44,7 @@ export function Game() {
     const [maxHearts, setMaxHearts] = useState<number | null>(null)
     const [result, setResult] = useState(false)
     const items = useRef(new Items())
+    const turn = tips.length - (result ? 1 : 0)
 
     function startGame(gamemode: string, newGame: boolean) {
         socket?.emit("startGame", {
@@ -102,8 +103,8 @@ export function Game() {
             }}>Settings</StoneButton>
         </nav>
         <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
-        {maxHearts && <Hearts turn={tips.length} maxHearts={maxHearts} />}
-        {hints && <Hints hints={hints} turn={tips.length - (result ? 0 : 1)} />}
+        {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
+        {hints && <Hints hints={hints} turn={turn} />}
         <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
         {
             itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (

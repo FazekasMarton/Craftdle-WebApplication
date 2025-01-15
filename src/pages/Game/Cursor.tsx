@@ -5,6 +5,8 @@ import { DefaultSettings } from "../../classes/DefaultSettings";
 import { loadSettings } from "../../functions/loadSettings";
 import { IControls } from "../../interfaces/ISettings";
 import { Item } from "./Item";
+import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
+import { SoundEffect } from "../../classes/Audio";
 
 function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
     for (const key of Object.keys(obj)) {
@@ -33,6 +35,10 @@ export function Cursor(props: CursorProps) {
     const isHoldingCopy = useRef<boolean>(false);
     const [pickedUpItem, setPickedUpItem] = useState<HTMLImageElement | null>(null);
     const [cursorPos, setCursorPos] = useState<{ x: number, y: number }>();
+
+    const isPCControl = isUserPlayingOnPC() && !currentSettings.controls.isTapMode
+
+    console.log()
 
     useEffect(() => { loadSettings() }, []);
 
@@ -83,7 +89,9 @@ export function Cursor(props: CursorProps) {
             const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
                 const currentSlotItem = addToSlot(slots, slotNumber, pickedUpItem)
-                setPickedUpItem(currentSlotItem || null);
+                if(isPCControl){
+                    setPickedUpItem(currentSlotItem || null);
+                }
             }
         }
 
@@ -162,12 +170,46 @@ export function Cursor(props: CursorProps) {
             if(button) stopHolding(button)
         }
 
-        document.addEventListener("mousemove", updateLocation);
-        document.addEventListener("mouseover", saveFocus);
-        document.addEventListener("mousedown", handleMouseButtonPressed);
-        document.addEventListener("mouseup", handleMouseButtonRelease)
-        document.addEventListener("keydown", handleKeyPressed);
-        document.addEventListener("keyup", handleKeyRelease)
+        function handleTouch(e: MouseEvent){
+            let target = e.target as HTMLElement
+            if(target?.classList?.contains("inventorySlot")){
+                selectSlot(target, target.childNodes[0] as HTMLImageElement)
+            }else if(target.parentElement?.classList.contains("inventorySlot")){
+                selectSlot(target.parentElement, target as HTMLImageElement)
+            } else if(target?.classList?.contains("craftingTableSlot")){
+                focusedSlotRef.current = target
+                if(target.childNodes.length > 0){
+                    removeItem()
+                } else {
+                    placeItem()
+                }
+            } else if(target?.parentElement?.classList?.contains("craftingTableSlot")) {
+                focusedSlotRef.current = target?.parentElement
+                if(target.parentElement.childNodes.length > 0){
+                    removeItem()
+                } else {
+                    placeItem()
+                }
+            }
+        }
+
+        function selectSlot(slot: HTMLElement, item: HTMLImageElement){
+            setPickedUpItem(item)
+            document.getElementById("selectedInventorySlot")?.removeAttribute("id")
+            slot.id = "selectedInventorySlot"
+            SoundEffect.play("click")
+        }
+
+        if(isPCControl){
+            document.addEventListener("mousemove", updateLocation);
+            document.addEventListener("mouseover", saveFocus);
+            document.addEventListener("mousedown", handleMouseButtonPressed);
+            document.addEventListener("mouseup", handleMouseButtonRelease)
+            document.addEventListener("keydown", handleKeyPressed);
+            document.addEventListener("keyup", handleKeyRelease);
+        }else{
+            document.addEventListener("mousedown", handleTouch);
+        }
         
         return () => {
             document.removeEventListener("mousemove", updateLocation);
@@ -175,11 +217,13 @@ export function Cursor(props: CursorProps) {
             document.removeEventListener("mousedown", handleMouseButtonPressed);
             document.removeEventListener("mouseup", handleMouseButtonRelease)
             document.removeEventListener("keydown", handleKeyPressed);
-            document.removeEventListener("keyup", handleKeyRelease)
+            document.removeEventListener("keyup", handleKeyRelease);
+
+            document.removeEventListener("mousedown", handleTouch);
         };
     }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots]);
 
-    return pickedUpItem ? (
+    return pickedUpItem && isPCControl ? (
         <div id="pickedUpItem" style={{ top: cursorPos?.y, left: cursorPos?.x }}>
             <Item item={pickedUpItem} className="cursorItem" />
         </div>

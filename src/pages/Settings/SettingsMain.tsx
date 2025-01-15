@@ -90,7 +90,7 @@ export function SettingsMain(props: SettingsMainProps) {
 
                 <span>Enable Tap Mode</span>
                 <StoneButton onClick={() => { changeControls("isTapMode", !profile.controls.isTapMode); }}>
-                    {profile.controls.isTapMode ? "Disable" : "Enable"}
+                    {profile.controls.isTapMode ? "Enabled" : "Disabled"}
                 </StoneButton>
                 <StoneButton
                     disabled={profile.controls.isTapMode === defaultSettings.controls.isTapMode}
