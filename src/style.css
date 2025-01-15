@@ -987,10 +987,10 @@ input:-webkit-autofill:focus {
     border-collapse: collapse;
 }
 
-.recipeCraftingTable tr{
+.recipeCraftingTable tr {
     height: min-content;
     line-height: 0;
-} 
+}
 
 #craftingArrow {
     grid-area: craftingArrow;
@@ -1108,6 +1108,14 @@ input:-webkit-autofill:focus {
     gap: 2px;
 }
 
+#selectedInventorySlot {
+    background-color: rgb(59, 132, 39);
+    border-top: 0.2vmin solid rgb(101, 157, 80);
+    border-right: 0.2vmin solid rgb(28, 63, 19);
+    border-bottom: 0.2vmin solid rgb(22, 79, 14);
+    border-left: 0.2vmin solid rgb(66, 115, 52);
+}
+
 /* - Knowledge Book's recipe - */
 
 #knowledgeBookContent {
@@ -1136,7 +1144,7 @@ input:-webkit-autofill:focus {
 
 #heartsContainer {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     gap: 1vmin;
 }
 

@@ -185,7 +185,7 @@ export const DefaultNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
@@ -198,7 +198,7 @@ export const DefaultShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
@@ -211,7 +211,7 @@ export const PocketNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
@@ -224,7 +224,7 @@ export const PocketShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items}/>
+        <CraftingTable setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
