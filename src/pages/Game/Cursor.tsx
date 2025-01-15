@@ -38,7 +38,12 @@ export function Cursor(props: CursorProps) {
 
     useEffect(() => {
         function handleControl(key: string) {
-            const control = getKeyAndIndexByValue(currentSettings.controls, key);
+            let control = getKeyAndIndexByValue(currentSettings.controls, key);
+            let slotNumber: number | null = null
+            if(control?.includes("tableMapping")){
+                slotNumber = Number(control.replace("tableMapping", ""))
+                control = "tableMapping"
+            }
             switch (control) {
                 case "copy":
                     setPickedUpItem(focusedItemRef.current);
@@ -46,6 +51,9 @@ export function Cursor(props: CursorProps) {
                     break;
                 case "remove":
                     removeItem()
+                    break;
+                case "tableMapping":
+                    typeof slotNumber === "number" && addToSlot(props.craftingTableSlots, slotNumber, focusedItemRef.current)
                     break;
             }
         }
