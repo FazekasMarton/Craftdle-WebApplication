@@ -1525,6 +1525,102 @@ input:-webkit-autofill:focus {
     font-weight: bold;
 }
 
+/* -- Guide -- */
+
+#guide {
+    display: grid;
+    grid-template-columns: max-content auto;
+    height: 100dvh;
+    color: rgb(85, 85, 85);
+}
+
+#guide b:not(.indicator) {
+    color: rgb(255, 85, 85);
+}
+
+#guide .stoneButton button {
+    font-size: 3vmin;
+    height: min-content;
+}
+
+/* - Content Table - */
+
+#guideContentTable {
+    overflow-y: auto;
+    padding: 0.5vmin;
+    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-size: 10vmin;
+}
+
+#guideContentTable ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    line-height: 20px;
+}
+
+#guideContentTable>ul {
+    padding: 0;
+    margin: 2vmin 5vmin;
+}
+
+#guideContentTable li {
+    list-style: none;
+}
+
+#guideContentTable>ul a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+#guideContentTable>ul a:hover {
+    color: rgb(255, 85, 255);
+}
+
+/* - Content - */
+
+#guideContent {
+    overflow-y: auto;
+    padding: 2vmin;
+    scroll-behavior: smooth;
+    font-size: 4vmin;
+}
+
+#guideContent .stoneButton{
+    width: min-content;
+    display: none;
+}
+
+#guideContent li{
+    list-style: square;
+}
+
+#controlContent{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#controlContent > article {
+    flex-flow: 100%;
+    width: 30%;
+}
+
+#controlContent > article video {
+    width: 100%;
+}
+
+#redIndicator {
+    color: rgb(170, 0, 0);
+}
+
+#yellowIndicator {
+    color: rgb(255, 170, 0);
+}
+
+#greenIndicator {
+    color: rgb(0, 170, 0);
+}
+
 @media (pointer:coarse) {
     ::-webkit-scrollbar {
         display: none;
@@ -1549,12 +1645,16 @@ input:-webkit-autofill:focus {
         align-self: self-end;
     }
 
+    /* --- Settings --- */
+
     #settingsHeader>nav>*,
     #settingsFooter>div>*,
     #gamemodesFooter>div>* {
         width: 25dvw;
         min-width: max-content;
     }
+
+    /* --- Gamemodes --- */
 
     #gamemodesList>article {
         max-width: none;
@@ -1568,6 +1668,8 @@ input:-webkit-autofill:focus {
         color: rgb(170, 170, 170);
     }
 
+    /* --- Patch Notes --- */
+
     .patchNote {
         font-size: 4vmin;
     }
@@ -1575,6 +1677,8 @@ input:-webkit-autofill:focus {
     #patchNotesHeader .stoneButton button {
         font-size: 4vmin;
     }
+
+    /* --- Docs --- */
 
     #docs {
         font-size: 4vmin;
@@ -1584,6 +1688,8 @@ input:-webkit-autofill:focus {
     #docs ol>li::marker {
         font-size: 6vmin;
     }
+
+    /* --- Error --- */
 
     #error {
         background-position: right;
@@ -1597,6 +1703,8 @@ input:-webkit-autofill:focus {
     #errorContent .button {
         font-size: 4vmin;
     }
+
+    /* --- Game --- */
 
     #game {
         grid-template-columns: 1fr;
@@ -1671,5 +1779,23 @@ input:-webkit-autofill:focus {
     #hints .button {
         font-size: 3.4vmin;
         padding: 5px;
+    }
+
+    /* --- Guide --- */
+
+    #guide{
+        grid-template-columns: 100dvw;
+    }
+
+    #guideContentTable{
+        display: none;
+    }
+
+    #guideContent .stoneButton{
+        display: block;
+    }
+
+    #controlContent > article {
+        width: auto;
     }
 }
