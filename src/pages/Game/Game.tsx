@@ -102,13 +102,13 @@ export function Game() {
                 store.dispatch(setNewGame(false))
             }}>Settings</StoneButton>
         </nav>
-        <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
+        <CraftingTable isHardcore={gamemodeId == "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
         {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
         {hints && <Hints hints={hints} turn={turn} />}
         <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
         {
             itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
-                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
+                isKnowledgeBookOpen && gamemodeId != "7" ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
             ) : null
         }
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />

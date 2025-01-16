@@ -20,6 +20,7 @@ import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { Docs } from "./pages/Docs/Docs"
 import { Error } from "./components/Error"
 import { isUserPlayingOnPC } from "./functions/isUserPlayingOnPC"
+import { Guide } from "./pages/Guide/Guide"
 
 const normalRouter = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ const normalRouter = createBrowserRouter([
     {
         path: "docs",
         element: <Docs />
+    },
+    {
+        path: "guide",
+        element: <Guide />
     },
     {
         path: "*",

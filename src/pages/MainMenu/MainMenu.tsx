@@ -29,7 +29,7 @@ export function MainMenu() {
                 <StoneButton href="/collection" disabled={user.isGuest} info={user.isGuest ? {text: "You're not logged in"} : undefined}>Collection</StoneButton>
             </nav>
             <nav id="additionalButtons">
-                <StoneButton href="/howtoplay">How to Play</StoneButton>
+                <StoneButton href="/guide">How to Play</StoneButton>
                 <StoneButton href="https://patreon.com/Craftdle">Support Us</StoneButton>
                 <StoneButton href="/credits">Credits</StoneButton>
                 <StoneButton>Install App</StoneButton>

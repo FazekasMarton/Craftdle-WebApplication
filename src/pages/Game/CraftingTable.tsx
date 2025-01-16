@@ -15,7 +15,8 @@ interface CraftingTableProps {
     items: Items,
     isKnowledgeBookOpen: boolean,
     setIsKnowledgeBookOpen: (isOpen: boolean) => void,
-    socket: Socket | null
+    socket: Socket | null,
+    isHardcore: boolean
 }
 
 export function CraftingTable(props: CraftingTableProps) {
@@ -66,11 +67,14 @@ export function CraftingTable(props: CraftingTableProps) {
         }}>
             {craftedItemId ? <Item item={craftedItemId} /> : null}
         </div>
-        <div id="craftingBook" className="slotButton" onClick={() => {
-            props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
-            SoundEffect.play("click")
-        }}>
-            <img src={craftingBook} alt="Crafting Book" />
-        </div>
+        {props.isHardcore ? (
+            <div id="craftingBook" className="slotButton" onClick={() => {
+                props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
+                SoundEffect.play("click")
+            }}>
+                <img src={craftingBook} alt="Crafting Book" />
+            </div>
+        ) : null
+        }
     </div>
 }
