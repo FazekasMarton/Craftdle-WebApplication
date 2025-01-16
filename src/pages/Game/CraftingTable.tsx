@@ -39,7 +39,7 @@ export function CraftingTable(props: CraftingTableProps) {
                             if (!item?.parentElement?.classList.contains("inventorySlot")) {
                                 item?.classList.remove("item")
                             }
-                            return <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot">
+                            return <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot craftingTableSlot">
                                 {item ? <Item item={item} className="item" /> : null}
                             </td>
                         })}

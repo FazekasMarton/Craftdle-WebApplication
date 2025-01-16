@@ -5,6 +5,8 @@ import { DefaultSettings } from "../../classes/DefaultSettings";
 import { loadSettings } from "../../functions/loadSettings";
 import { IControls } from "../../interfaces/ISettings";
 import { Item } from "./Item";
+import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
+import { SoundEffect } from "../../classes/Audio";
 
 function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
     for (const key of Object.keys(obj)) {
@@ -34,11 +36,20 @@ export function Cursor(props: CursorProps) {
     const [pickedUpItem, setPickedUpItem] = useState<HTMLImageElement | null>(null);
     const [cursorPos, setCursorPos] = useState<{ x: number, y: number }>();
 
+    const isPCControl = isUserPlayingOnPC() && !currentSettings.controls.isTapMode
+
+    console.log()
+
     useEffect(() => { loadSettings() }, []);
 
     useEffect(() => {
         function handleControl(key: string) {
-            const control = getKeyAndIndexByValue(currentSettings.controls, key);
+            let control = getKeyAndIndexByValue(currentSettings.controls, key);
+            let slotNumber: number | null = null
+            if(control?.includes("tableMapping")){
+                slotNumber = Number(control.replace("tableMapping", ""))
+                control = "tableMapping"
+            }
             switch (control) {
                 case "copy":
                     setPickedUpItem(focusedItemRef.current);
@@ -46,6 +57,9 @@ export function Cursor(props: CursorProps) {
                     break;
                 case "remove":
                     removeItem()
+                    break;
+                case "tableMapping":
+                    typeof slotNumber === "number" && addToSlot(props.craftingTableSlots, slotNumber, focusedItemRef.current)
                     break;
             }
         }
@@ -75,7 +89,9 @@ export function Cursor(props: CursorProps) {
             const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
                 const currentSlotItem = addToSlot(slots, slotNumber, pickedUpItem)
-                setPickedUpItem(currentSlotItem || null);
+                if(isPCControl){
+                    setPickedUpItem(currentSlotItem || null);
+                }
             }
         }
 
@@ -128,10 +144,6 @@ export function Cursor(props: CursorProps) {
             return key
         }
 
-        function disableRightContextmenu(e: Event) {
-            e.preventDefault()
-        }
-
         function handleMouseButtonRelease(e: MouseEvent) {
             const button = getMouseButton(e)
             if(button) handleControl(button)
@@ -145,22 +157,73 @@ export function Cursor(props: CursorProps) {
             }
         }
 
-        document.addEventListener("mousemove", updateLocation);
-        document.addEventListener("mouseover", saveFocus);
-        document.addEventListener("mousedown", handleMouseButtonPressed);
-        document.addEventListener("contextmenu", disableRightContextmenu)
-        document.addEventListener("mouseup", handleMouseButtonRelease)
+        function handleKeyPressed(e: KeyboardEvent) {
+            const control = getKeyAndIndexByValue(currentSettings.controls, e.key.toUpperCase());
+            if (control === "copy") {
+                isHoldingCopy.current = true
+            }
+        }
 
+        function handleKeyRelease(e: KeyboardEvent) {
+            const button = e.key.toUpperCase()
+            if(button) handleControl(button)
+            if(button) stopHolding(button)
+        }
+
+        function handleTouch(e: MouseEvent){
+            let target = e.target as HTMLElement
+            if(target?.classList?.contains("inventorySlot")){
+                selectSlot(target, target.childNodes[0] as HTMLImageElement)
+            }else if(target.parentElement?.classList.contains("inventorySlot")){
+                selectSlot(target.parentElement, target as HTMLImageElement)
+            } else if(target?.classList?.contains("craftingTableSlot")){
+                focusedSlotRef.current = target
+                if(target.childNodes.length > 0){
+                    removeItem()
+                } else {
+                    placeItem()
+                }
+            } else if(target?.parentElement?.classList?.contains("craftingTableSlot")) {
+                focusedSlotRef.current = target?.parentElement
+                if(target.parentElement.childNodes.length > 0){
+                    removeItem()
+                } else {
+                    placeItem()
+                }
+            }
+        }
+
+        function selectSlot(slot: HTMLElement, item: HTMLImageElement){
+            setPickedUpItem(item)
+            document.getElementById("selectedInventorySlot")?.removeAttribute("id")
+            slot.id = "selectedInventorySlot"
+            SoundEffect.play("click")
+        }
+
+        if(isPCControl){
+            document.addEventListener("mousemove", updateLocation);
+            document.addEventListener("mouseover", saveFocus);
+            document.addEventListener("mousedown", handleMouseButtonPressed);
+            document.addEventListener("mouseup", handleMouseButtonRelease)
+            document.addEventListener("keydown", handleKeyPressed);
+            document.addEventListener("keyup", handleKeyRelease);
+        }else{
+            document.addEventListener("mousedown", handleTouch);
+        }
+        
         return () => {
             document.removeEventListener("mousemove", updateLocation);
             document.removeEventListener("mouseover", saveFocus);
             document.removeEventListener("mousedown", handleMouseButtonPressed);
-            document.removeEventListener("contextmenu", disableRightContextmenu)
             document.removeEventListener("mouseup", handleMouseButtonRelease)
+            document.removeEventListener("keydown", handleKeyPressed);
+            document.removeEventListener("keyup", handleKeyRelease);
+
+            document.removeEventListener("mousedown", handleTouch);
         };
     }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots]);
 
-    return pickedUpItem ? (
+    return pickedUpItem && isPCControl ? (
         <div id="pickedUpItem" style={{ top: cursorPos?.y, left: cursorPos?.x }}>
             <Item item={pickedUpItem} className="cursorItem" />
         </div>

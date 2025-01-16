@@ -348,6 +348,12 @@ body,
     height: 100dvh;
     padding: 0;
     margin: 0;
+}
+
+#wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
     color: rgb(255, 255, 255);
     background-color: rgb(194, 195, 195);
     overflow: hidden;
@@ -725,13 +731,14 @@ input:-webkit-autofill:focus {
     justify-content: center;
 }
 
-#settingsHeader>nav{
+#settingsHeader>nav {
     width: 70vmin;
 }
 
-#settingsHeader>nav>*{
+#settingsHeader>nav>* {
     flex-basis: 100%;
 }
+
 #settingsFooter>div>*,
 #gamemodesFooter>div>* {
     width: 20dvw;
@@ -867,16 +874,16 @@ input:-webkit-autofill:focus {
 #game {
     display: grid;
     grid-template-columns: min-content auto;
-    grid-template-rows: min-content min-content min-content min-content auto;
+    grid-template-rows: min-content min-content min-content min-content 1fr;
     grid-template-areas:
         "exitButton inventoryAndKnowledgeBook"
         "craftingTable inventoryAndKnowledgeBook"
         "hearts inventoryAndKnowledgeBook"
         "hints inventoryAndKnowledgeBook"
         "tips inventoryAndKnowledgeBook";
-    padding: 5px;
+    padding: 0.5dvh;
     gap: 2vmin;
-    height: auto;
+    height: min-content
 }
 
 /* -- General -- */
@@ -932,17 +939,17 @@ input:-webkit-autofill:focus {
 
 /* - Buttons - */
 
-#game nav {
+#game>nav {
     display: flex;
     gap: 20px;
 }
 
-#game nav .stoneButton {
+#game>nav .stoneButton {
     width: fit-content;
     height: fit-content;
 }
 
-#game nav .stoneButton>button {
+#game>nav .stoneButton>button {
     height: fit-content;
     font-size: 2vmin;
 }
@@ -978,6 +985,11 @@ input:-webkit-autofill:focus {
 .recipeCraftingTable {
     grid-area: craftingTable;
     border-collapse: collapse;
+}
+
+.recipeCraftingTable tr {
+    height: min-content;
+    line-height: 0;
 }
 
 #craftingArrow {
@@ -1033,7 +1045,7 @@ input:-webkit-autofill:focus {
     display: grid;
     grid-template-rows: min-content auto;
     padding-bottom: 2vmin;
-    height: 98dvh;
+    height: 97dvh;
 }
 
 #inventoryHeader,
@@ -1096,6 +1108,14 @@ input:-webkit-autofill:focus {
     gap: 2px;
 }
 
+#selectedInventorySlot {
+    background-color: rgb(59, 132, 39);
+    border-top: 0.2vmin solid rgb(101, 157, 80);
+    border-right: 0.2vmin solid rgb(28, 63, 19);
+    border-bottom: 0.2vmin solid rgb(22, 79, 14);
+    border-left: 0.2vmin solid rgb(66, 115, 52);
+}
+
 /* - Knowledge Book's recipe - */
 
 #knowledgeBookContent {
@@ -1107,15 +1127,6 @@ input:-webkit-autofill:focus {
     height: auto;
     border-radius: 0;
     padding: 2vmin;
-}
-
-.recipeSlot {
-    width: 5vmin;
-    height: 5vmin;
-}
-
-.recipeCraftingArrow {
-    width: 7vmin;
 }
 
 /* - Hearts - */
@@ -1133,7 +1144,7 @@ input:-webkit-autofill:focus {
 
 #heartsContainer {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     gap: 1vmin;
 }
 
@@ -1146,6 +1157,9 @@ input:-webkit-autofill:focus {
 #tips {
     grid-area: tips;
     align-self: self-end;
+    display: grid;
+    grid-template-rows: min-content auto;
+    height: 100%;
 }
 
 #tipsTitle {
@@ -1157,7 +1171,6 @@ input:-webkit-autofill:focus {
 
 #tipsContainer {
     overflow-y: auto;
-    height: 30dvh;
 }
 
 #tipsContent {
@@ -1543,7 +1556,7 @@ input:-webkit-autofill:focus {
         min-width: max-content;
     }
 
-    #gamemodesList > article{
+    #gamemodesList>article {
         max-width: none;
         width: auto;
     }
@@ -1559,11 +1572,11 @@ input:-webkit-autofill:focus {
         font-size: 4vmin;
     }
 
-    #patchNotesHeader .stoneButton button{
+    #patchNotesHeader .stoneButton button {
         font-size: 4vmin;
     }
 
-    #docs{
+    #docs {
         font-size: 4vmin;
         padding: 0 5px;
     }
@@ -1572,16 +1585,91 @@ input:-webkit-autofill:focus {
         font-size: 6vmin;
     }
 
-    #error{
+    #error {
         background-position: right;
         font-size: 4vmin;
     }
 
-    #errorContent{
+    #errorContent {
         width: auto;
     }
 
-    #errorContent .button{
+    #errorContent .button {
         font-size: 4vmin;
+    }
+
+    #game {
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content min-content min-content min-content min-content 1fr;
+        grid-template-areas:
+            "exitButton"
+            "inventoryAndKnowledgeBook"
+            "craftingTable"
+            "hearts"
+            "hints"
+            "tips";
+        padding: 5px;
+        gap: 2vmin;
+        height: auto;
+    }
+
+    #game>nav .stoneButton {
+        flex-basis: 100%;
+    }
+
+    #game>nav .stoneButton button {
+        font-size: 3vmin;
+    }
+
+    #inventory,
+    #knowledgeBook {
+        height: fit-content;
+    }
+
+    #inventoryHeader,
+    #knowledgeBookHeader {
+        padding: 5px;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #inventoryTitle,
+    #knowledgeBookTitle,
+    #hintsTitle,
+    #tipsTitle {
+        font-size: 3.5vmin;
+    }
+
+    .searchIcon {
+        height: 20px;
+    }
+
+    .search {
+        height: 10px;
+        font-size: 10px;
+    }
+
+    #inventoryContent,
+    #knowledgeBookContent {
+        flex-flow: column;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: max-content;
+        justify-content: center;
+        max-height: 25dvh;
+        margin: auto;
+    }
+
+    #craftingTable {
+        justify-self: center;
+    }
+
+    .hintSlot {
+        height: min-content;
+    }
+
+    #hints .button {
+        font-size: 3.4vmin;
+        padding: 5px;
     }
 }
