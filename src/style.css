@@ -348,13 +348,13 @@ body,
     height: 100dvh;
     padding: 0;
     margin: 0;
+    color: rgb(255, 255, 255);
 }
 
 #wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    color: rgb(255, 255, 255);
     background-color: rgb(194, 195, 195);
     overflow: hidden;
 }
@@ -440,7 +440,7 @@ body,
     z-index: 1;
 }
 
-#account {
+.account {
     position: absolute;
     top: 0;
     right: 0;
@@ -454,7 +454,7 @@ body,
     z-index: 10;
 }
 
-#profileBorder {
+.profileBorder {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: repeat(16, 1fr);
@@ -465,7 +465,7 @@ body,
     overflow: hidden;
 }
 
-#profilePicture {
+.profilePicture {
     width: 100%;
     height: 100%;
     grid-column: 2 / 16;
@@ -474,7 +474,7 @@ body,
     object-position: top left;
 }
 
-#profileName {
+.profileName {
     margin: 0;
     font-weight: normal;
     font-size: 5vmin;
@@ -697,7 +697,9 @@ input:-webkit-autofill:focus {
 /* -- Settings & Gamemodes -- */
 
 #settings,
-#gamemodes {
+#gamemodes,
+#stats,
+#patchNotes {
     background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
     display: grid;
     grid-template-columns: 1fr;
@@ -707,7 +709,8 @@ input:-webkit-autofill:focus {
 }
 
 #settingsHeader h1,
-#gamemodesHeader h1 {
+#gamemodesHeader h1,
+#statsHeader h1 {
     text-align: center;
     font-weight: normal;
     margin-top: 0;
@@ -716,7 +719,8 @@ input:-webkit-autofill:focus {
 #settingsHeader,
 #settingsFooter,
 #gamemodesHeader,
-#gamemodesFooter {
+#gamemodesFooter,
+#statsHeader {
     padding: 2vmin;
     box-shadow: 0 0 5dvh 1dvh black;
     z-index: 3;
@@ -724,7 +728,8 @@ input:-webkit-autofill:focus {
 
 #settingsHeader>nav,
 #settingsFooter>div,
-#gamemodesFooter>div {
+#gamemodesFooter>div,
+#gamemodesHeader>nav {
     display: flex;
     margin: auto;
     gap: 5vmin;
@@ -746,7 +751,8 @@ input:-webkit-autofill:focus {
 }
 
 #settingsMain,
-#gamemodesMain {
+#gamemodesMain,
+#statsMain {
     background-color: rgba(0, 0, 0, 0.5);
     overflow: auto;
     padding: 5px;
@@ -1364,29 +1370,47 @@ input:-webkit-autofill:focus {
 #patchNotes {
     background-image: url("./assets/imgs/backgrounds/stone_bricks-bg.png");
     color: rgb(0, 0, 0);
-    position: relative;
-    overflow: auto;
-    height: 100dvh;
+    grid-template-rows: min-content 1fr;
 }
 
-#patchNotes #patchNotesHeader {
+#patchNotesHeader,
+#statsHeader {
     background-image: url("./assets/imgs/backgrounds/log.png");
     background-size: contain;
     padding: 10px;
     position: sticky;
     top: 0;
     display: grid;
-    grid-template-rows: min-content min-content;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     gap: 10px;
     box-shadow: 0 0 3vmin 3vmin black;
     z-index: 2;
 }
 
-#patchNotes .stoneButton,
-#patchNotes .stoneButton button {
+#patchNotesHeader h1,
+#statsHeader h1 {
+    margin: 0;
+}
+
+#patchNotesHeader .stoneButton,
+#patchNotes button,
+#statsHeader .stoneButton,
+#stats button {
     width: fit-content;
-    height: fit-content;
-    font-size: 2vmin;
+    height: max-content;
+}
+
+#patchNotesContainer{
+    overflow-y: auto;
+}
+
+#patchNotesBackground {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10vmin;
+    padding: 0 10vmin 15dvh 10vmin;
 }
 
 #patchNotes .chain {
@@ -1395,25 +1419,17 @@ input:-webkit-autofill:focus {
     background-color: rgb(0, 0, 0);
     background-size: contain;
     width: 5dvw;
-    height: 100%;
     box-shadow: 0 0 3vmin 2vmin black;
+    top: 0;
+    bottom: 15dvh;
 }
 
 #leftChain {
-    left: 10vmin
+    left: 10vmin;
 }
 
 #rightChain {
-    right: 10vmin
-}
-
-#patchNotesContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 10vmin;
-    padding: 0 10vmin;
-    margin-bottom: 10dvh;
+    right: 10vmin;
 }
 
 .patchNote {
@@ -1440,7 +1456,7 @@ input:-webkit-autofill:focus {
 }
 
 #patchNotes h2 {
-    color: rgb(85, 255, 255);
+    color: rgb(0, 170, 170);
 }
 
 #patchNotes .new {
@@ -1452,7 +1468,7 @@ input:-webkit-autofill:focus {
 }
 
 #patchNotes .remove {
-    color: rgb(170, 0, 0);
+    color: rgb(255, 85, 85);
 }
 
 /* -- Docs -- */
@@ -1585,27 +1601,27 @@ input:-webkit-autofill:focus {
     font-size: 4vmin;
 }
 
-#guideContent .stoneButton{
+#guideContent .stoneButton {
     width: min-content;
     display: none;
 }
 
-#guideContent li{
+#guideContent li {
     list-style: square;
 }
 
-#controlContent{
+#controlContent {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
-#controlContent > article {
+#controlContent>article {
     flex-flow: 100%;
     width: 30%;
 }
 
-#controlContent > article video {
+#controlContent>article video {
     width: 100%;
 }
 
@@ -1619,6 +1635,34 @@ input:-webkit-autofill:focus {
 
 #greenIndicator {
     color: rgb(0, 170, 0);
+}
+
+/* -- Stats -- */
+
+#statsHeader {
+    background: transparent;
+}
+
+#statsMain {
+    font-size: 4vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#stats .account {
+    position: unset;
+    margin: 0;
+    cursor: auto;
+}
+
+#stats .account .profileName {
+    font-size: 8vmin;
+}
+
+#stats .account .profileBorder {
+    width: 8vmin;
+    height: 8vmin;
 }
 
 @media (pointer:coarse) {
@@ -1783,19 +1827,19 @@ input:-webkit-autofill:focus {
 
     /* --- Guide --- */
 
-    #guide{
+    #guide {
         grid-template-columns: 100dvw;
     }
 
-    #guideContentTable{
+    #guideContentTable {
         display: none;
     }
 
-    #guideContent .stoneButton{
+    #guideContent .stoneButton {
         display: block;
     }
 
-    #controlContent > article {
+    #controlContent>article {
         width: auto;
     }
 }

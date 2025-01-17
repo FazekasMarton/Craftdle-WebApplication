@@ -3,12 +3,14 @@ import "../style.css"
 import { store } from "../app/store";
 import { clearUser, saveUser } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
-import { MainMenu } from "../pages/MainMenu/MainMenu";
 import { handlers } from './handlers';
+import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
+import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
+import { Stats } from "../pages/Stats/Stats";
 
 export default {
-    title: "Pages/MainMenu",
-    component: MainMenu,
+    title: "Pages/Stats",
+    component: Stats,
     decorators: [
         (Story: any) => (
             <Provider store={store}>
@@ -23,7 +25,7 @@ export default {
     },
 };
 
-export const RegisteredUser = () => {
+export const Default = () => {
     store.dispatch(clearUser(true))
     const fakeUser = {
         username: "Martin Potter",
@@ -33,24 +35,17 @@ export const RegisteredUser = () => {
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: "Test_Picture.png"
+            src: villager
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: "Test_Border.png"
+            src: wood
         }
     }
     const dispatch = useDispatch()
     dispatch(saveUser(fakeUser))
     return <BrowserRouter>
-        <MainMenu />
-    </BrowserRouter>
-}
-
-export const Guest = () => {
-    store.dispatch(clearUser(true))
-    return <BrowserRouter>
-        <MainMenu />
+        <Stats />
     </BrowserRouter>
 }

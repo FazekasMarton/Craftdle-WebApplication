@@ -418,6 +418,64 @@ export const handlers = [
             },
         })
     }),
+
+    http.get('http://localhost:3000/users/stats', () => {
+        return HttpResponse.json({
+            data: {
+                username: "MartinPotter",
+                profilePicture: {
+                    id: "picture",
+                    name: "test_picture",
+                    src: "Desert_Nitwit.png"
+                },
+                profileBorder: {
+                    id: "border",
+                    name: "test_border",
+                    src: "Spruce_Planks.png"
+                },
+                streak: 3,
+                gamemodes: [
+                    {
+                        gamemodeName: "Classic",
+                        played: 4,
+                        solved: 3,
+                        fastestSolve: 12,
+                        color: "FFFF55"
+                    },
+                    {
+                        gamemodeName: "All in One",
+                        played: 0,
+                        solved: 0,
+                        fastestSolve: null,
+                        color: "FFAA00"
+                    },
+                    {
+                        gamemodeName: "Daily",
+                        played: 1,
+                        solved: 1,
+                        fastestSolve: 18,
+                        color: "FFFF55"
+                    },
+                    {
+                        gamemodeName: "Hardcore",
+                        played: 2,
+                        solved: 0,
+                        fastestSolve: null,
+                        color: "AA0000"
+                    }
+                ],
+                registrationDate: "2021-05-12",
+                performedAchievements: {
+                    collected: 2,
+                    collectable: 5
+                },
+                collectedRecipes: {
+                    collected: 5,
+                    collectable: 10
+                }
+            }
+        })
+    })
 ];
 
 const worker = setupWorker(...handlers)
