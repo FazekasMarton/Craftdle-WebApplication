@@ -35,7 +35,7 @@ export function Inventory(props: InventoryProps) {
                                 width: size,
                                 height: size
                             }}>
-                                <Item item={itemElement} className="item" />
+                                <Item item={itemElement} className="item" info={{text: item.name}} />
                             </div>
                         }
                     })
