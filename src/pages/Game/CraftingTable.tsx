@@ -59,7 +59,7 @@ export function CraftingTable(props: CraftingTableProps) {
                     table: props.craftingTable.flat(2).map(slot => {
                         let item = slot?.cloneNode() as HTMLImageElement
                         item?.classList.remove("item")
-                        return item?.className ?? null
+                        return item?.className ? [item?.className] : null
                     })
                 }
                 props.socket?.emit("guess", guess)

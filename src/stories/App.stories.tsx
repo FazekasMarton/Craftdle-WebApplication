@@ -3,8 +3,6 @@ import App from "../App";
 import { store } from "../app/store";
 import { handlers } from "./handlers";
 import { clearUser, saveUser } from "../features/user/userSlice";
-import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
-import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 import "../style.css"
 
 export default {
@@ -36,12 +34,12 @@ export const RegisteredUser = () => {
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: villager
+            src: "Test_Picture.png"
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: wood
+            src: "Test_Border.png"
         }
     }
     const dispatch = useDispatch()
