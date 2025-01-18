@@ -10,7 +10,11 @@ import hardcore from "./assets/imgs/gamemodes/Hardcore.png"
 import { ISettings } from '../interfaces/ISettings';
 import { IGamemode } from '../interfaces/IGamemode';
 import gold from "./assets/imgs/profileBorders/Gold.png"
+import amethyst from "./assets/imgs/profileBorders/Amethyst.png";
+import iron from "./assets/imgs/profileBorders/Iron.png";
 import fox from "./assets/imgs/profilepictures/Fox.png"
+import enderman from "./assets/imgs/profilepictures/Enderman.png";
+import chicken from "./assets/imgs/profilepictures/Chicken.png";
 import op from "./assets/imgs/items/Oak_Planks.png"
 import stick from "./assets/imgs/items/Stick.png"
 import ironIngot from './assets/imgs/items/Iron_Ingot.png';
@@ -261,7 +265,7 @@ export const handlers = [
             },
             {
                 "id": 7,
-                "icon": "Hardcore.png",
+                "icon": "Hardcore",
                 "name": "Hardcore",
                 "description": "Similar to Classic, but no hints are available, and the game is played with health points.",
                 "difficulty": {
@@ -280,8 +284,20 @@ export const handlers = [
         })
     }),
 
-    http.get('http://localhost:3000/profileBorders/:id', async () => {
-        const buffer = await fetch(gold).then((response) => {
+    http.get('http://localhost:3000/profileBorders/:id', async ({ params }) => {
+        let img = gold;
+        switch (params.id) {
+            case "Gold.png":
+                img = gold;
+                break;
+            case "Amethyst.png":
+                img = amethyst;
+                break;
+            case "Iron.png":
+                img = iron;
+                break;
+        }
+        const buffer = await fetch(img).then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -294,8 +310,20 @@ export const handlers = [
         })
     }),
 
-    http.get('http://localhost:3000/profilepictures/:id', async () => {
-        const buffer = await fetch(fox).then((response) => {
+    http.get('http://localhost:3000/profilepictures/:id', async ({ params }) => {
+        let img = fox;
+        switch (params.id) {
+            case "Fox.png":
+                img = fox;
+                break;
+            case "Enderman.png":
+                img = enderman;
+                break;
+            case "Chicken.png":
+                img = chicken;
+                break;
+        }
+        const buffer = await fetch(img).then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -308,7 +336,7 @@ export const handlers = [
         })
     }),
 
-    http.get('http://localhost:3000/gamemodes/:id', async ({ params }) => {
+    http.get('http://localhost:3000/achievements/:id', async ({ params }) => {
         let img = tutorial
         switch (params.id) {
             case "Classic.png":
@@ -475,7 +503,204 @@ export const handlers = [
                 }
             }
         })
-    })
+    }),
+
+    http.get('http://localhost:3000/users/collection', () => {
+        return HttpResponse.json({
+            data: {
+                inventory: [
+                    {
+                        id: 1,
+                        name: "Oak Planks",
+                        src: "Oak_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 2,
+                        name: "Stick",
+                        src: "Stick.png",
+                        collected: false
+                    },
+                    {
+                        id: 3,
+                        name: "Iron Ingot",
+                        src: "Iron_Ingot.png",
+                        collected: true
+                    },
+                    {
+                        id: 4,
+                        name: "Spruce Planks",
+                        src: "Spruce_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 5,
+                        name: "Birch Planks",
+                        src: "Birch_Planks.png",
+                        collected: true
+                    },
+                    {
+                        id: 6,
+                        name: "Jungle Planks",
+                        src: "Jungle_Planks.png",
+                        collected: true
+                    },
+                    {
+                        id: 7,
+                        name: "Acacia Planks",
+                        src: "Acacia_Planks.png",
+                        collected: true
+                    },
+                    {
+                        id: 8,
+                        name: "Dark Oak Planks",
+                        src: "Dark_Oak_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 9,
+                        name: "Mangrove Planks",
+                        src: "Mangrove_Planks.png",
+                        collected: true
+                    },
+                    {
+                        id: 10,
+                        name: "Cherry Planks",
+                        src: "Cherry_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 11,
+                        name: "Pale Oak Planks",
+                        src: "Pale_Oak_Planks.png",
+                        collected: true
+                    },
+                    {
+                        id: 12,
+                        name: "Bamboo Planks",
+                        src: "Bamboo_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 13,
+                        name: "Crimson Planks",
+                        src: "Crimson_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 14,
+                        name: "Warped Planks",
+                        src: "Warped_Planks.png",
+                        collected: false
+                    },
+                    {
+                        id: 15,
+                        name: "Gunpowder",
+                        src: "Gunpowder.png",
+                        collected: true
+                    },
+                    {
+                        id: 16,
+                        name: "Paper",
+                        src: "Paper.png",
+                        collected: true
+                    },
+                    {
+                        id: 17,
+                        name: "Firework Star",
+                        src: "Firework_Star.png",
+                        collected: false
+                    },
+                    {
+                        id: 18,
+                        name: "Firework Rocket",
+                        src: "Firework_Rocket.png",
+                        collected: true
+                    },
+                    {
+                        id: 19,
+                        name: "Tripwire Hook",
+                        src: "Tripwire_Hook.png",
+                        collected: false
+                    }
+                ],
+                profilePicture: [
+                    {
+                        id: "fox",
+                        name: "Fox",
+                        src: "Fox.png",
+                        collected: true
+                    },
+                    {
+                        id: "enderman",
+                        name: "Enderman",
+                        src: "Enderman.png",
+                        collected: true
+                    },
+                    {
+                        id: "chicken",
+                        name: "Chicken",
+                        src: "Chicken.png",
+                        collected: false
+                    }
+                ],
+                profileBorder: [
+                    {
+                        id: "gold",
+                        name: "Gold",
+                        src: "Gold.png",
+                        collected: true
+                    },
+                    {
+                        id: "amethyst",
+                        name: "Amethyst",
+                        src: "Amethyst.png",
+                        collected: false
+                    },
+                    {
+                        id: "Iron",
+                        name: "Iron",
+                        src: "Iron.png",
+                        collected: false
+                    }
+                ],
+                achievement: [
+                    {
+                        title: "First steps",
+                        description: "You have collected your first item!",
+                        icon: "Tutorial.png",
+                        progress: 1,
+                        goal: 1,
+                        rarity: 1
+                    },
+                    {
+                        title: "The Collector I",
+                        description: "You have collected 30 item!",
+                        icon: "Hardcore.png",
+                        progress: 6,
+                        goal: 30,
+                        rarity: 2
+                    },
+                    {
+                        title: "The Collector II",
+                        description: "You have collected 50 item!",
+                        icon: "Pocket.png",
+                        progress: 25,
+                        goal: 50,
+                        rarity: 1
+                    },
+                    {
+                        title: "???",
+                        description: "???",
+                        icon: "AllInOne.png",
+                        progress: 2,
+                        goal: 30,
+                        rarity: 2
+                    }
+                ]
+            }
+        })
+    }),
 ];
 
 const worker = setupWorker(...handlers)

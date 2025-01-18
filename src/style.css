@@ -694,12 +694,13 @@ input:-webkit-autofill:focus {
     height: min-content;
 }
 
-/* -- Settings & Gamemodes -- */
+/* -- Settings, Gamemodes, Stats & Patch Notes-- */
 
 #settings,
 #gamemodes,
 #stats,
-#patchNotes {
+#patchNotes,
+#collection {
     background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
     display: grid;
     grid-template-columns: 1fr;
@@ -1374,7 +1375,8 @@ input:-webkit-autofill:focus {
 }
 
 #patchNotesHeader,
-#statsHeader {
+#statsHeader,
+#collectionHeader {
     background-image: url("./assets/imgs/backgrounds/log.png");
     background-size: contain;
     padding: 10px;
@@ -1396,7 +1398,9 @@ input:-webkit-autofill:focus {
 #patchNotesHeader .stoneButton,
 #patchNotes button,
 #statsHeader .stoneButton,
-#stats button {
+#stats button,
+#collection .stoneButton,
+#collection button {
     width: fit-content;
     height: max-content;
 }
@@ -1665,6 +1669,80 @@ input:-webkit-autofill:focus {
     height: 8vmin;
 }
 
+/* -- Collection -- */
+
+#collectionMain {
+    overflow-y: auto;
+}
+
+#collectionContainer {
+    padding: 5vmin;
+    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-size: 30vmin;
+}
+
+#collectionContainer h2 {
+    color: rgb(255, 85, 255);
+    font-size: 5vmin;
+    text-align: center;
+}
+
+#collection section > article{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vmin;
+}
+
+.itemFrame{
+    background-image: url("./assets/imgs/backgrounds/item_frame.png");
+    background-size: cover;
+    width: 20vmin;
+    height: 20vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemFrame:not(.uncollectedItem):hover{
+    background-image: url("./assets/imgs/backgrounds/glow_item_frame.png");
+}
+
+.itemFrame img{
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+}
+
+.itemFrame.uncollectedItem, .uncollectedItem > .achievement{
+    filter: grayscale(100%);
+}
+
+#collectionAchievements article{
+    flex-direction: row;
+    justify-content: center;
+}
+
+#collectionAchievements article > div{
+    width: min-content;
+}
+
+#collection .achievement{
+    width: 40dvw;
+    height: min-content;
+}
+
+.progressBar{
+    width: 100%;
+    line-height: 0;
+    background-image: url("./assets/imgs/backgrounds/experience_bar_background.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.xp{
+    width: 100%;
+}
+
 @media (pointer:coarse) {
     ::-webkit-scrollbar {
         display: none;
@@ -1841,5 +1919,16 @@ input:-webkit-autofill:focus {
 
     #controlContent>article {
         width: auto;
+    }
+
+    /* --- Collection --- */
+
+    #collectionAchievements article > div{
+        width: 100%;
+    }
+
+    #collection .achievement{
+        width: auto;
+        height: min-content;
     }
 }
