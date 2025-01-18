@@ -3,11 +3,11 @@ import "../style.css"
 import { store } from "../app/store";
 import { BrowserRouter } from "react-router-dom";
 import { handlers } from './handlers';
-import { Stats } from "../pages/Stats/Stats";
+import { Collection } from "../pages/Collection/Collection";
 
 export default {
-    title: "Pages/Stats",
-    component: Stats,
+    title: "Pages/Collection",
+    component: Collection,
     decorators: [
         (Story: any) => (
             <Provider store={store}>
@@ -24,6 +24,6 @@ export default {
 
 export const Default = () => {
     return <BrowserRouter>
-        <Stats />
+        <Collection />
     </BrowserRouter>
 }
