@@ -629,19 +629,22 @@ export const handlers = [
                         id: "fox",
                         name: "Fox",
                         src: "Fox.png",
-                        collected: true
+                        collected: true,
+                        active: false
                     },
                     {
                         id: "enderman",
                         name: "Enderman",
                         src: "Enderman.png",
-                        collected: true
+                        collected: true,
+                        active: true
                     },
                     {
                         id: "chicken",
                         name: "Chicken",
                         src: "Chicken.png",
-                        collected: false
+                        collected: false,
+                        active: false
                     }
                 ],
                 profileBorder: [
@@ -649,19 +652,22 @@ export const handlers = [
                         id: "gold",
                         name: "Gold",
                         src: "Gold.png",
-                        collected: true
+                        collected: true,
+                        active: true
                     },
                     {
                         id: "amethyst",
                         name: "Amethyst",
                         src: "Amethyst.png",
-                        collected: false
+                        collected: false,
+                        active: false
                     },
                     {
                         id: "Iron",
                         name: "Iron",
                         src: "Iron.png",
-                        collected: false
+                        collected: false,
+                        active: false
                     }
                 ],
                 achievement: [
@@ -685,7 +691,7 @@ export const handlers = [
                         title: "The Collector II",
                         description: "You have collected 50 item!",
                         icon: "Pocket.png",
-                        progress: 25,
+                        progress: 6,
                         goal: 50,
                         rarity: 1
                     },
@@ -701,6 +707,11 @@ export const handlers = [
             }
         })
     }),
+    http.put('http://localhost:3000/users/profile', () => {
+        return HttpResponse.json({
+            message: "Siker!"
+        })
+    })
 ];
 
 const worker = setupWorker(...handlers)
