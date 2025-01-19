@@ -1701,16 +1701,40 @@ input:-webkit-autofill:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .itemFrame:not(.uncollectedItem):hover{
     background-image: url("./assets/imgs/backgrounds/glow_item_frame.png");
 }
 
-.itemFrame img{
+.itemFrame img:not(.activeProfileImage, .activeableProfileImage){
     width: 50%;
     height: 50%;
     object-fit: contain;
+}
+
+.activeProfileImage, .activeableProfileImage, .uncollectedProfileImage{
+    position: absolute;
+    width: 25%;
+    right: 10%;
+    bottom: 10%;
+}
+
+.activeableProfileImage{
+    display: none;
+    opacity: 0.5;
+}
+
+.uncollectedProfileImage{
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.itemFrame:hover .activeableProfileImage, .itemFrame:hover .uncollectedProfileImage{
+    display: block;
 }
 
 .itemFrame.uncollectedItem, .uncollectedItem > .achievement{
@@ -1732,15 +1756,21 @@ input:-webkit-autofill:focus {
 }
 
 .progressBar{
+    position: relative;
     width: 100%;
     line-height: 0;
-    background-image: url("./assets/imgs/backgrounds/experience_bar_background.png");
-    background-size: contain;
-    background-repeat: no-repeat;
+}
+
+.xpBar{
+    width: 100%;
 }
 
 .xp{
+    position: absolute;
     width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @media (pointer:coarse) {
