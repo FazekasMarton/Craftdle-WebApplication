@@ -124,7 +124,7 @@ export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection)
                 const nonShapelessRecipe = recipe.recipe as INonShapelessRecipe;
                 const filteredRecipe = removeEmptyRows(nonShapelessRecipe);
 
-                if (matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe)) {
+                if (matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe) || matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe.map(row => row.reverse()))) {
                     return {
                         group: recipeGroup,
                         id: recipe.id
