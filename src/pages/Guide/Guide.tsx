@@ -79,54 +79,57 @@ export function Guide() {
         </nav>
         <main id="guideContent">
             <StoneButton href="/">Exit</StoneButton>
+            <header>
+                <h1>How to Play</h1>
+            </header>
             <section id="controlGuide">
-                <h1>Control</h1>
+                <h2>Control</h2>
                 <p>The controls can be changed in the settings. (This guide uses the default controls.)</p>
                 <div id="controlContent">
                     <article id="controlPickUp">
-                        <h3>Pick Up</h3>
+                        <h4>Pick Up</h4>
                         <video src={pickUpControl} autoPlay loop muted />
                         <p>
                             You can pick up items from a slot by pressing the <b>left mouse button</b>.
                         </p>
                     </article>
                     <article id="controlDrop">
-                        <h3>Drop</h3>
+                        <h4>Drop</h4>
                         <video src={dropControl} autoPlay loop muted />
                         <p>
                             You can drop an item from your hand by pressing the <b>left mouse button</b>. You can land it in the slots of the Crafting Table or in the void.
                         </p>
                     </article>
                     <article id="controlReplace">
-                        <h3>Replace</h3>
+                        <h4>Replace</h4>
                         <video src={replaceControl} autoPlay loop muted />
                         <p>
                             You can replace a held item with an other by pressing the <b>left mouse button</b>.
                         </p>
                     </article>
                     <article id="controlCopy">
-                        <h3>Copy</h3>
+                        <h4>Copy</h4>
                         <video src={copyControl} autoPlay loop muted />
                         <p>
                             You can copy a held item by holding the <b>left mouse button</b>.
                         </p>
                     </article>
                     <article id="controlRemove">
-                        <h3>Remove</h3>
+                        <h4>Remove</h4>
                         <video src={removeControl} autoPlay loop muted />
                         <p>
                             You can remove an item from the Crafting Table with by pressing the <b>right mouse button</b>.
                         </p>
                     </article>
                     <article id="controlPlace">
-                        <h3>Place</h3>
+                        <h4>Place</h4>
                         <video src={placeControl} autoPlay loop muted />
                         <p>
                             You can place an item directly from the inventory to the Crafting Table by pressing a <b>key</b> from <b>1-9</b>.
                         </p>
                     </article>
                     <article id="controlTap">
-                        <h3>Tap</h3>
+                        <h4>Tap</h4>
                         <video src={tapControl} autoPlay loop muted />
                         <p>
                             You can select an item from the inventory, remove items from the Crafting Table or place the selected item to the Crafting Table by <b>touching</b> the items and the slots.
@@ -138,7 +141,7 @@ export function Guide() {
                 </p>
             </section>
             <section id="gameplayGuide">
-                <h1>Gameplay and Rules</h1>
+                <h2>Gameplay and Rules</h2>
                 <p>
                     You have to solve a crafting riddle by guessing crafting recipes.
                     You will get some hints during the game.
@@ -171,7 +174,7 @@ export function Guide() {
                 </p>
                 <div id="gameplayContent">
                     <article id="gameplayGuessing">
-                        <h2>Guessing Rules</h2>
+                        <h3>Guessing Rules</h3>
                         <ul>
                             <li>You can only guess an existing item's recipe</li>
                             <li>
@@ -181,7 +184,7 @@ export function Guide() {
                         </ul>
                     </article>
                     <article id="outcome">
-                        <h2>Outcome</h2>
+                        <h3>Outcome</h3>
                         <p>
                             After you guess, you'll find out how many materials were correct
                             in the recipe, with three types of indications:
@@ -213,9 +216,9 @@ export function Guide() {
                 </div>
             </section>
             <section id="gamemodesGuide">
-                <h1>Gamemodes</h1>
+                <h2>Gamemodes</h2>
                 <article id="classicMode">
-                    <h2>Classic</h2>
+                    <h3>Classic</h3>
                     <div>Rules: </div>
                     <ul>
                         <li>Crafting Table size: 3x3</li>
@@ -227,7 +230,7 @@ export function Guide() {
                     </ul>
                 </article>
                 <article id="tutorialMode">
-                    <h2>Tutorial</h2>
+                    <h3>Tutorial</h3>
                     <div>Based on: Classic Mode</div>
                     <div>Rule changes: </div>
                     <ul>
@@ -236,7 +239,7 @@ export function Guide() {
                     </ul>
                 </article>
                 <article id="dailyMode">
-                    <h2>Daily</h2>
+                    <h3>Daily</h3>
                     <div>Based on: Classic Mode</div>
                     <div>Rule changes: </div>
                     <ul>
@@ -244,7 +247,7 @@ export function Guide() {
                     </ul>
                 </article>
                 <article id="allInOneMode">
-                    <h2>All in One</h2>
+                    <h3>All in One</h3>
                     <div>Based on: Classic Mode</div>
                     <div>Rule changes: </div>
                     <ul>
@@ -252,7 +255,7 @@ export function Guide() {
                     </ul>
                 </article>
                 <article id="pocketMode">
-                    <h2>Pocket</h2>
+                    <h3>Pocket</h3>
                     <div>Based on: All in One Mode</div>
                     <div>Rule changes: </div>
                     <ul>
@@ -261,7 +264,7 @@ export function Guide() {
                     </ul>
                 </article>
                 <article id="resourceMode">
-                    <h2>Resource</h2>
+                    <h3>Resource</h3>
                     <div>Based on: Classic</div>
                     <div>Rule changes: </div>
                     <ul>
@@ -269,7 +272,7 @@ export function Guide() {
                     </ul>
                 </article>
                 <article id="hardcoreMode">
-                    <h2>Hardcore</h2>
+                    <h3>Hardcore</h3>
                     <div>Based on: Classic</div>
                     <div>Rule changes: </div>
                     <ul>
