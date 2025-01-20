@@ -67,7 +67,7 @@ export function Stats() {
             </section>
             <div>
                 <section id="basicStats">
-                    <h2>Basic Stats</h2>
+                    <h3>Basic Stats</h3>
                     <article>
                         <p>Streak: {stats?.streak}</p>
                         <p>Registration Date: {stats?.registrationDate}</p>
@@ -77,13 +77,13 @@ export function Stats() {
                 </section>
                 <section id="gamemodeStats">
                     <article>
-                        <h2>Gamemode Stats</h2>
+                        <h3>Gamemode Stats</h3>
                         {
                             stats?.gamemodes.map(gamemode => {
                                 gameStats.totalSolved += gamemode.solved
                                 gameStats.totalPlayed += gamemode.played
                                 return <div key={gamemode.gamemodeName}>
-                                    <h3 style={{color: `#${gamemode.color}`}}>{gamemode.gamemodeName}</h3>
+                                    <h4 style={{color: `#${gamemode.color}`}}>{gamemode.gamemodeName}</h4>
                                     <ul>
                                         <li>Played: {gamemode.played}</li>
                                         <li>Solved: {gamemode.solved}</li>

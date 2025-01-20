@@ -92,12 +92,12 @@ export function Collection() {
                                     {
                                         item.collected ? (
                                             item.active ? (
-                                                <img className="activeProfileImage" src={active} alt="Active" />
+                                                <img className="activeProfileImage" src={active} alt="Active Profile Picture" />
                                             ) : (
-                                                <img className="activeableProfileImage" src={active} alt="Active" />
+                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Picture" />
                                             )
                                         ) : (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected" />
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Picture" />
                                         )
                                     }
                                 </div>
@@ -110,17 +110,28 @@ export function Collection() {
                     <article>
                         {
                             collection?.profileBorder.map((item, index) => {
-                                return <div className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`} key={index}>
+                                return <div
+                                    className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`}
+                                    key={index}
+                                    onClick={() => {
+                                        if (item.collected && !item.active) {
+                                            collection.profileBorder.forEach((element) => {
+                                                element.active = element.id === item.id
+                                            })
+                                            saveProfileChanges({ ...collection }, setCollection)
+                                        }
+                                    }}
+                                >
                                     <img src={`http://localhost:3000/profileBorders/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
-                                                <img className="activeProfileImage" src={active} alt="Active" />
+                                                <img className="activeProfileImage" src={active} alt="Active Profile Border" />
                                             ) : (
-                                                <img className="activeableProfileImage" src={active} alt="Active" />
+                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Border" />
                                             )
                                         ) : (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected" />
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Border" />
                                         )
                                     }
                                 </div>
@@ -137,7 +148,7 @@ export function Collection() {
                                     <img src={`http://localhost:3000/items/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         !item.collected ? (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected" />
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" />
                                         ) : (
                                             null
                                         )

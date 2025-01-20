@@ -1237,6 +1237,7 @@ input:-webkit-autofill:focus {
     padding: 0;
     background-image: url("./assets/imgs/backgrounds/maintenance-bg.png");
     background-size: cover;
+    background-position: center;
     display: grid;
     grid-template-columns: min-content auto;
     overflow: hidden;
@@ -1245,9 +1246,8 @@ input:-webkit-autofill:focus {
 #maintenanceMessage {
     background-color: #00000093;
     padding: 5vmin;
-    width: 461px;
-    max-width: 90dvw;
-    font-size: 2dvh;
+    width: 33dvw;
+    font-size: 2vmax;
     text-align: center;
     overflow: hidden;
 }
@@ -1265,13 +1265,11 @@ input:-webkit-autofill:focus {
 
 #maintenanceMessage p {
     text-align: start;
-    font-size: 2dvh;
 }
 
 #maintenanceCountdown {
     display: block;
     color: rgb(255, 85, 255);
-    font-size: 2dvh;
 }
 
 /* -- Credits -- */
@@ -1312,11 +1310,11 @@ input:-webkit-autofill:focus {
     }
 }
 
-#credits article {
+#credits section, #credits footer {
     margin: 10vmin 0;
 }
 
-#credits article article {
+#credits section article {
     margin: 6vmin 0;
 }
 
@@ -1326,17 +1324,17 @@ input:-webkit-autofill:focus {
     margin: 0;
 }
 
-#credits h1 {
+#credits h2 {
     font-size: 6vmin;
     color: rgb(255, 170, 0);
 }
 
-#credits h2 {
+#credits h3 {
     font-size: 5vmin;
     color: rgb(255, 85, 255);
 }
 
-#credits h3 {
+#credits h4 {
     font-size: 4vmin;
     color: rgb(85, 255, 255);
 }
@@ -1420,7 +1418,7 @@ input:-webkit-autofill:focus {
 #patchNotes .chain {
     position: absolute;
     background-image: url("./assets/imgs/backgrounds/chain.png");
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.863);
     background-size: contain;
     width: 5dvw;
     box-shadow: 0 0 3vmin 2vmin black;
@@ -1443,6 +1441,8 @@ input:-webkit-autofill:focus {
     box-shadow: 0 0 3vmin 2vmin black;
     z-index: 1;
     font-size: 3vmin;
+    color: #aaaaaa;
+    text-shadow: 0 0 5px #000000;
 }
 
 .patchNote:nth-child(3) {
@@ -1460,7 +1460,7 @@ input:-webkit-autofill:focus {
 }
 
 #patchNotes h2 {
-    color: rgb(0, 170, 170);
+    color: #55ffff;
 }
 
 #patchNotes .new {
@@ -1498,7 +1498,7 @@ input:-webkit-autofill:focus {
     width: 100%;
 }
 
-#docs main {
+#docs #docsContent {
     background-image: url("./assets/imgs/backgrounds/book_inner.png");
     background-size: contain;
     padding: 1px 10vw;
@@ -1519,10 +1519,14 @@ input:-webkit-autofill:focus {
 }
 
 #docs h1 {
-    color: rgb(85, 85, 255);
+    color: #000000;
 }
 
 #docs h2 {
+    color: rgb(85, 85, 255);
+}
+
+#docs h3 {
     color: rgb(0, 170, 0);
 }
 
@@ -1532,7 +1536,7 @@ input:-webkit-autofill:focus {
 
 #docs ol>li::marker {
     color: rgb(0, 170, 0);
-    font-size: 4.5vmin;
+    font-size: 3.5vmin;
     font-weight: bold;
 }
 
@@ -1556,6 +1560,7 @@ input:-webkit-autofill:focus {
 
 #guide b:not(.indicator) {
     color: rgb(255, 85, 85);
+    text-shadow: 0 0 5px #000000;
 }
 
 #guide .stoneButton button {
@@ -1568,14 +1573,15 @@ input:-webkit-autofill:focus {
 #guideContentTable {
     overflow-y: auto;
     padding: 0.5vmin;
-    background-image: url("./assets/imgs/backgrounds/sign.png");
+    background-image: url("./assets/imgs/backgrounds/dark_oak_planks.png");
     background-size: 10vmin;
+    font-size: 1.5dvw;
 }
 
 #guideContentTable ul {
     margin-bottom: 20px;
     padding-left: 20px;
-    line-height: 20px;
+    line-height: 2dvw;
 }
 
 #guideContentTable>ul {
@@ -1617,7 +1623,7 @@ input:-webkit-autofill:focus {
 #controlContent {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 #controlContent>article {
@@ -1627,6 +1633,10 @@ input:-webkit-autofill:focus {
 
 #controlContent>article video {
     width: 100%;
+}
+
+.indicator {
+    text-shadow: 0 0 5px #000000;
 }
 
 #redIndicator {
@@ -1960,5 +1970,11 @@ input:-webkit-autofill:focus {
     #collection .achievement{
         width: auto;
         height: min-content;
+    }
+
+    /* --- Maintenance --- */
+
+    #maintenanceMessage {
+        width: 90dvw;
     }
 }
