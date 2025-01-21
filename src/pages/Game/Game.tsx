@@ -16,6 +16,8 @@ import { useSelector } from "react-redux";
 import { setNewGame } from "../../features/game/gameSlice";
 import { Meta } from "../../components/Meta";
 import { GameOver } from "./GameOver";
+import { SoundEffect } from "../../classes/Audio";
+import { Tutorial } from "./Tutorial";
 
 /**
  * Gamemode names mapping.
@@ -113,6 +115,14 @@ export function Game() {
             setMaxHearts(data.hearts)
             setResult(data.result)
             setTableContent(Array.from({ length: craftingTableSize }, () => Array(3).fill(null)))
+            if(data.tips.length > 0) {
+                if(gamemodeId == "7" && !data.result) {
+                    SoundEffect.play("hit")
+
+                } else {
+                    SoundEffect.play("drop")
+                }
+            }
             setTimeout(() => {
                 const tipContainer = document.getElementById("tipsContainer")
                 tipContainer?.scrollTo({
@@ -158,6 +168,7 @@ export function Game() {
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />
                 ) : null
             }
+            <Tutorial key={newTurn} turn={turn} />
         </div>
     </>
 }
