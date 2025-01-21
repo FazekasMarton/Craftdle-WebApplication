@@ -15,6 +15,7 @@ import { RootState, store } from "../../app/store";
 import { useSelector } from "react-redux";
 import { setNewGame } from "../../features/game/gameSlice";
 import { Meta } from "../../components/Meta";
+import { GameOver } from "./GameOver";
 
 /**
  * Gamemode names mapping.
@@ -143,6 +144,11 @@ export function Game() {
                 ) : null
             }
             <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+            {
+                maxHearts && turn >= maxHearts * 2 ? (
+                    <GameOver startGame={() => { startGame(gamemodeId, true) }} />
+                ) : null
+            }
         </div>
     </>
 }

@@ -1228,6 +1228,39 @@ input:-webkit-autofill:focus {
     pointer-events: none;
 }
 
+/* - Game Over - */
+
+#gameOver{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(45, 4, 4, 0.559);
+}
+
+#gameOverContent{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 2dvh;
+    font-size: 4vmin;
+    text-align: center;
+    width: 50dvw;
+}
+
+#gameOverContent h1{
+    text-shadow: 1vmin 1vmin 0 rgb(34, 34, 34);
+}
+
+#gameOverContent > *{
+    margin: 0;
+}
+
 /* -- Maintenance -- */
 
 #maintenance {
