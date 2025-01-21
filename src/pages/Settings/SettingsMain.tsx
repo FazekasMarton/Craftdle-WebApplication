@@ -4,12 +4,20 @@ import { StoneSlider } from "../../components/StoneSlider";
 import { IControls, ISettings } from "../../interfaces/ISettings";
 import { DefaultSettings } from "../../classes/DefaultSettings";
 
+/**
+ * Props for the SettingsMain component.
+ */
 interface SettingsMainProps {
     profile: number;
     profiles: Array<ISettings>;
     setSettings: (value: Array<ISettings>) => void;
 }
 
+/**
+ * SettingsMain component to display and manage the main settings.
+ * @param props - The properties for the SettingsMain component.
+ * @returns The SettingsMain component.
+ */
 export function SettingsMain(props: SettingsMainProps) {
     const profile = props.profiles[props.profile];
     const defaultSettings = DefaultSettings.getDefaultSettings()

@@ -4,11 +4,18 @@ import { Button } from "./Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { resetError } from "../features/error/errorSlice";
 
+/**
+ * Error component to handle and display error messages.
+ * @returns The Error component.
+ */
 export function Error() {
     const error = useSelector((state: RootState) => state.error)
     const navigate = useNavigate();
     const location = useLocation();
 
+    /**
+     * Function to reload the page and reset the error state.
+     */
     async function reload() {
         const urlParams = new URLSearchParams(location.search);
 
@@ -25,8 +32,6 @@ export function Error() {
     
         window.location.reload();
     }
-    
-
 
     return error.status != 200 ? (
         <div id="errorBorder">

@@ -1,11 +1,19 @@
 import { Helmet } from "react-helmet-async"
 
+/**
+ * Props for the Meta component.
+ */
 interface MetaProps {
     title?: string,
     description?: string,
     keywords?: string
 }
 
+/**
+ * Meta component to manage the document head for SEO purposes.
+ * @param props - The properties for the Meta component.
+ * @returns The Meta component.
+ */
 export function Meta(props: MetaProps) {
     return <Helmet>
         <title>{props.title ? `${props.title} - ` : ""}Craftdle</title>

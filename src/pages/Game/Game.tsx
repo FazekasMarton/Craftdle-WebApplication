@@ -16,6 +16,9 @@ import { useSelector } from "react-redux";
 import { setNewGame } from "../../features/game/gameSlice";
 import { Meta } from "../../components/Meta";
 
+/**
+ * Gamemode names mapping.
+ */
 const gamemodeNames = {
     "1": "Tutorial",
     "2": "Classic",
@@ -26,6 +29,9 @@ const gamemodeNames = {
     "7": "Hardcore"
 }
 
+/**
+ * Interface for the guess data.
+ */
 interface IGuess {
     items: Array<IItem>,
     recipes: IRecipeCollection,
@@ -35,6 +41,10 @@ interface IGuess {
     result: boolean
 }
 
+/**
+ * Game component to display the game interface.
+ * @returns The Game component.
+ */
 export function Game() {
     const socket = useSelector((state: RootState) => state.socket.socket)
     const [searchParams, setSearchParams] = useSearchParams();
@@ -58,6 +68,11 @@ export function Game() {
     const items = useRef(new Items())
     const turn = tips.length - (result ? 1 : 0)
 
+    /**
+     * Start a new game.
+     * @param gamemode - The gamemode to start.
+     * @param newGame - Whether to start a new game.
+     */
     function startGame(gamemode: string, newGame: boolean) {
         socket?.emit("startGame", {
             gamemode: gamemode,

@@ -22,6 +22,10 @@ export default {
     },
 };
 
+/**
+ * Default story for the Stats component.
+ * @returns The Default story.
+ */
 export const Default = () => {
     return <BrowserRouter>
         <Stats />

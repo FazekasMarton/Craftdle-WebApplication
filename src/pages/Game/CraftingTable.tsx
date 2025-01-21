@@ -8,6 +8,9 @@ import { Items } from "../../classes/Items"
 import { SoundEffect } from "../../classes/Audio"
 import { Socket } from "socket.io-client"
 
+/**
+ * Props for the CraftingTable component.
+ */
 interface CraftingTableProps {
     size: 2 | 3,
     craftingTable: Array<Array<HTMLImageElement | null>>,
@@ -19,6 +22,11 @@ interface CraftingTableProps {
     isHardcore: boolean
 }
 
+/**
+ * CraftingTable component to display the crafting table and handle crafting logic.
+ * @param props - The properties for the CraftingTable component.
+ * @returns The CraftingTable component.
+ */
 export function CraftingTable(props: CraftingTableProps) {
     const [craftedItemGroup, setCraftedItemGroup] = useState<string | null>(null)
     const [craftedItemId, setCraftedItemId] = useState<HTMLImageElement | null>(null)

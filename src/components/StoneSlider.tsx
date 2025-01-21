@@ -1,6 +1,9 @@
 import { ISettings } from "../interfaces/ISettings"
 
-interface StoneSliderProps{
+/**
+ * Props for the StoneSlider component.
+ */
+interface StoneSliderProps {
     min: number,
     max: number,
     value: number,
@@ -10,8 +13,19 @@ interface StoneSliderProps{
     }
 }
 
-export function StoneSlider(props: StoneSliderProps){
+/**
+ * StoneSlider component to render a slider input.
+ * @param props - The properties for the StoneSlider component.
+ * @returns The StoneSlider component.
+ */
+export function StoneSlider(props: StoneSliderProps) {
     return <div className="stoneSlider">
-        <input type="range" min={props.min} max={props.max} value={props.value} onChange={(e) => {props.setValue.fun(props.setValue.key, Number(e.currentTarget.value))}}/>
+        <input 
+            type="range" 
+            min={props.min} 
+            max={props.max} 
+            value={props.value} 
+            onChange={(e) => {props.setValue.fun(props.setValue.key, Number(e.currentTarget.value))}}
+        />
     </div>
 }

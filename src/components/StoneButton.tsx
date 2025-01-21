@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { store } from "../app/store";
 import { deleteInfo, setInfo } from "../features/info/infoSlice";
 
+/**
+ * Props for the StoneButton component.
+ */
 interface StoneButtonProps {
     href?: string;
     children: ReactNode;
@@ -16,6 +19,11 @@ interface StoneButtonProps {
     };
 }
 
+/**
+ * StoneButton component to display a button with optional link and info tooltip.
+ * @param props - The properties for the StoneButton component.
+ * @returns The StoneButton component.
+ */
 export function StoneButton(props: StoneButtonProps) {
     return (
         <Border href={props.href} disabled={props.disabled} onClick={props.onClick} info={props.info}>
@@ -29,6 +37,11 @@ export function StoneButton(props: StoneButtonProps) {
     );
 }
 
+/**
+ * Border component to handle the button's border and interactions.
+ * @param props - The properties for the Border component.
+ * @returns The Border component.
+ */
 function Border(props: StoneButtonProps) {
     let click = props.onClick ? props.onClick : () => {}
     const commonProps: React.HTMLAttributes<HTMLElement> = {

@@ -4,14 +4,21 @@ import { ISettings } from "../../interfaces/ISettings";
 import { isEqual } from "lodash";
 import { useNavigate } from "react-router-dom";
 
-
-interface SettingsHeaderProps{
+/**
+ * Props for the SettingsHeader component.
+ */
+interface SettingsHeaderProps {
     activeProfile: number;
     setActiveProfile: (value: number) => void;
     profiles: Array<ISettings>;
     originalSettings: Array<ISettings> | null;
 }
 
+/**
+ * Remove the isSet property from the settings object.
+ * @param obj - The settings object.
+ * @returns The settings object without the isSet property.
+ */
 function removeIsSet(obj: ISettings | null) {
     if (obj === null) {
         return {} as ISettings;
@@ -21,10 +28,15 @@ function removeIsSet(obj: ISettings | null) {
     return newObj;
 }
 
+/**
+ * SettingsHeader component to display the header with navigation buttons.
+ * @param props - The properties for the SettingsHeader component.
+ * @returns The SettingsHeader component.
+ */
 export function SettingsHeader(props: SettingsHeaderProps) {
     const navigate = useNavigate();
 
-    function changeNextProfile(){
+    function changeNextProfile() {
         props.setActiveProfile((props.activeProfile + 1) % 3)
     }
 

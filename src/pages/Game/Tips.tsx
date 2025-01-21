@@ -3,12 +3,20 @@ import { ITips } from "../../interfaces/ITips"
 import { Item } from "./Item"
 import arrow from "../../assets/imgs/icons/arrow.png"
 
+/**
+ * Props for the Tips component.
+ */
 interface TipsProps {
     tips: ITips,
     craftingTableSize: number,
     itemsCollection: Items
 }
 
+/**
+ * Tips component to display crafting tips.
+ * @param props - The properties for the Tips component.
+ * @returns The Tips component.
+ */
 export function Tips(props: TipsProps) {
     return <div id="tips">
         <h1 id="tipsTitle">Tips:</h1>

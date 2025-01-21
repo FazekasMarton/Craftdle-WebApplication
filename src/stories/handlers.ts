@@ -1,22 +1,22 @@
 import { http, HttpResponse } from 'msw';
-import { setupWorker } from 'msw/browser'
-import tutorial from "./assets/imgs/gamemodes/Tutorial.png"
-import classic from "./assets/imgs/gamemodes/Classic.png"
-import daily from "./assets/imgs/gamemodes/Daily.png"
-import allinone from "./assets/imgs/gamemodes/All_in_One.png"
-import pocket from "./assets/imgs/gamemodes/Pocket.png"
-import resource from "./assets/imgs/gamemodes/Resource.png"
-import hardcore from "./assets/imgs/gamemodes/Hardcore.png"
+import { setupWorker } from 'msw/browser';
+import tutorial from "./assets/imgs/gamemodes/Tutorial.png";
+import classic from "./assets/imgs/gamemodes/Classic.png";
+import daily from "./assets/imgs/gamemodes/Daily.png";
+import allinone from "./assets/imgs/gamemodes/All_in_One.png";
+import pocket from "./assets/imgs/gamemodes/Pocket.png";
+import resource from "./assets/imgs/gamemodes/Resource.png";
+import hardcore from "./assets/imgs/gamemodes/Hardcore.png";
 import { ISettings } from '../interfaces/ISettings';
 import { IGamemode } from '../interfaces/IGamemode';
-import gold from "./assets/imgs/profileBorders/Gold.png"
+import gold from "./assets/imgs/profileBorders/Gold.png";
 import amethyst from "./assets/imgs/profileBorders/Amethyst.png";
 import iron from "./assets/imgs/profileBorders/Iron.png";
-import fox from "./assets/imgs/profilepictures/Fox.png"
+import fox from "./assets/imgs/profilepictures/Fox.png";
 import enderman from "./assets/imgs/profilepictures/Enderman.png";
 import chicken from "./assets/imgs/profilepictures/Chicken.png";
-import op from "./assets/imgs/items/Oak_Planks.png"
-import stick from "./assets/imgs/items/Stick.png"
+import op from "./assets/imgs/items/Oak_Planks.png";
+import stick from "./assets/imgs/items/Stick.png";
 import ironIngot from './assets/imgs/items/Iron_Ingot.png';
 import sprucePlanks from './assets/imgs/items/Spruce_Planks.png';
 import birchPlanks from './assets/imgs/items/Birch_Planks.png';
@@ -35,7 +35,11 @@ import fireworkStar from './assets/imgs/items/Firework_Star.png';
 import fireworkRocket from './assets/imgs/items/Firework_Rocket.png';
 import tripwireHook from './assets/imgs/items/Tripwire_Hook.png';
 
+/**
+ * Handlers for mocking API requests.
+ */
 export const handlers = [
+    // Handler for user login
     http.get('http://localhost:3000/users/login', () => {
         return HttpResponse.json({
             data: {
@@ -54,9 +58,10 @@ export const handlers = [
                     src: "Amethyst.png"
                 }
             }
-        })
+        });
     }),
 
+    // Handler for user login with POST request
     http.post('http://localhost:3000/users/login', async ({ request }) => {
         let data: any;
 
@@ -74,7 +79,7 @@ export const handlers = [
                         password: ["Túl hosszú!"]
                     }
                 }
-            }, { status: 400 })
+            }, { status: 400 });
         }
 
         return HttpResponse.json({
@@ -94,11 +99,12 @@ export const handlers = [
                     src: "Amethyst.png"
                 }
             }
-        })
+        });
     }),
 
+    // Handler for user registration
     http.post('http://localhost:3000/users/register', async ({ request }) => {
-        let data: any = await request.json()
+        let data: any = await request.json();
 
         if (data.username == "Test123") {
             return HttpResponse.json({
@@ -109,7 +115,7 @@ export const handlers = [
                         password: ["Túl hosszú!"]
                     }
                 }
-            }, { status: 400 })
+            }, { status: 400 });
         }
 
         return HttpResponse.json({
@@ -129,15 +135,17 @@ export const handlers = [
                     src: "Amethyst.png"
                 }
             }
-        })
+        });
     }),
 
+    // Handler for user logout
     http.delete('http://localhost:3000/users/login', () => {
         return HttpResponse.json({
             message: "Siker!"
-        })
+        });
     }),
 
+    // Handler for getting user settings
     http.get('http://localhost:3000/users/settings', () => {
         const settings: ISettings[] = [
             {
@@ -176,19 +184,21 @@ export const handlers = [
                     tableMapping: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 }
             }
-        ]
+        ];
 
         return HttpResponse.json({
             data: settings
-        })
+        });
     }),
 
+    // Handler for updating user settings
     http.put('http://localhost:3000/users/settings/:id', () => {
         return HttpResponse.json({
             message: "Siker!"
-        })
+        });
     }),
 
+    // Handler for getting singleplayer game modes
     http.get('http://localhost:3000/game/singleplayer', () => {
         const gamemodes: IGamemode[] = [
             {
@@ -275,15 +285,16 @@ export const handlers = [
                 "continueGame": true,
                 "playedBefore": true
             }
-        ]
+        ];
 
         return HttpResponse.json({
             data: {
                 gamemodes: gamemodes
             }
-        })
+        });
     }),
 
+    // Handler for getting profile borders
     http.get('http://localhost:3000/profileBorders/:id', async ({ params }) => {
         let img = gold;
         switch (params.id) {
@@ -307,9 +318,10 @@ export const handlers = [
             headers: {
                 'Content-Type': 'image/jpeg',
             },
-        })
+        });
     }),
 
+    // Handler for getting profile pictures
     http.get('http://localhost:3000/profilepictures/:id', async ({ params }) => {
         let img = fox;
         switch (params.id) {
@@ -333,29 +345,30 @@ export const handlers = [
             headers: {
                 'Content-Type': 'image/jpeg',
             },
-        })
+        });
     }),
 
+    // Handler for getting achievements
     http.get('http://localhost:3000/achievements/:id', async ({ params }) => {
-        let img = tutorial
+        let img = tutorial;
         switch (params.id) {
             case "Classic.png":
-                img = classic
+                img = classic;
                 break;
             case "AllInOne.png":
-                img = allinone
+                img = allinone;
                 break;
             case "Daily.png":
-                img = daily
+                img = daily;
                 break;
             case "Hardcore.png":
-                img = hardcore
+                img = hardcore;
                 break;
             case "Resource.png":
-                img = resource
+                img = resource;
                 break;
             case "Pocket.png":
-                img = pocket
+                img = pocket;
                 break;
         }
         const buffer = await fetch(img).then((response) => {
@@ -368,9 +381,10 @@ export const handlers = [
             headers: {
                 'Content-Type': 'image/jpeg',
             },
-        })
+        });
     }),
 
+    // Handler for getting items
     http.get('http://localhost:3000/items/:id', async ({ params }) => {
         let img = op;
         switch (params.id) {
@@ -444,9 +458,10 @@ export const handlers = [
             headers: {
                 'Content-Type': 'image/png',
             },
-        })
+        });
     }),
 
+    // Handler for getting user stats
     http.get('http://localhost:3000/users/stats', () => {
         return HttpResponse.json({
             data: {
@@ -502,9 +517,10 @@ export const handlers = [
                     collectable: 10
                 }
             }
-        })
+        });
     }),
 
+    // Handler for getting user collection
     http.get('http://localhost:3000/users/collection', () => {
         return HttpResponse.json({
             data: {
@@ -705,14 +721,19 @@ export const handlers = [
                     }
                 ]
             }
-        })
+        });
     }),
+
+    // Handler for updating user profile
     http.put('http://localhost:3000/users/profile', () => {
         return HttpResponse.json({
             message: "Siker!"
-        })
+        });
     })
 ];
 
-const worker = setupWorker(...handlers)
-await worker.start()
+/**
+ * Sets up and starts the service worker.
+ */
+const worker = setupWorker(...handlers);
+await worker.start();

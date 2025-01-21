@@ -25,6 +25,10 @@ export default {
     },
 };
 
+/**
+ * Singleplayer story for the Gamemodes component.
+ * @returns The Singleplayer story.
+ */
 export const Singleplayer = () => {
     store.dispatch(clearUser(true))
     const fakeUser = {

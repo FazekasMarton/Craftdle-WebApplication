@@ -2,11 +2,20 @@ import fullHeart from "../../assets/imgs/icons/hardcore_full.png"
 import halfHeart from "../../assets/imgs/icons/hardcore_half.png"
 import emptyHeart from "../../assets/imgs/icons/hardcore_empty.png"
 
+/**
+ * Props for the Hearts component.
+ */
 interface HeartsProps {
     turn: number,
     maxHearts: number
 }
 
+/**
+ * Get the hearts images based on the current turn and max hearts.
+ * @param turn - The current turn.
+ * @param maxHearts - The maximum number of hearts.
+ * @returns An array of heart images.
+ */
 function getHearts(turn: number, maxHearts: number) {
     const turnLeft = maxHearts * 2 - turn
     let hearts = []
@@ -22,6 +31,11 @@ function getHearts(turn: number, maxHearts: number) {
     return hearts
 }
 
+/**
+ * Hearts component to display the player's health.
+ * @param props - The properties for the Hearts component.
+ * @returns The Hearts component.
+ */
 export function Hearts(props: HeartsProps) {
     return <div id="hearts">
         <h1 id="heartsTitle">HP:</h1>

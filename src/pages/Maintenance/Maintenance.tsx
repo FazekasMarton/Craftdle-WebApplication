@@ -3,6 +3,10 @@ import craftdleTitle from "../../assets/imgs/title/craftdle_title.png"
 import { Countdown } from "../../components/Countdown"
 import { RootState } from "../../app/store";
 
+/**
+ * Maintenance component to display the maintenance message and countdown.
+ * @returns The Maintenance component.
+ */
 export function Maintenance() {
     const maintenance = useSelector((state: RootState) => state.maintenance);
 

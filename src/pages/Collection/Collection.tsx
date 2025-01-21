@@ -8,6 +8,9 @@ import lock from "../../assets/imgs/icons/lock.png";
 import xp from "../../assets/imgs/backgrounds/experience_bar_progress.png";
 import xpBar from "../../assets/imgs/backgrounds/experience_bar_background.png";
 
+/**
+ * Interface for the collection data.
+ */
 interface ICollection {
     inventory: Array<{
         id: number;
@@ -39,6 +42,11 @@ interface ICollection {
     }>;
 }
 
+/**
+ * Save profile changes to the store.
+ * @param collection - The collection data.
+ * @param setCollection - The function to update the collection state.
+ */
 function saveProfileChanges(collection: ICollection, setCollection: (value: ICollection) => void) {
     store.dispatch(changeProfilePics({
         profilePicture: collection.profilePicture.find((item) => item.active)?.id || 0,
@@ -47,9 +55,16 @@ function saveProfileChanges(collection: ICollection, setCollection: (value: ICol
     setCollection(collection)
 }
 
+/**
+ * Collection component to display the user's collection of items, profile pictures, borders, and achievements.
+ * @returns The Collection component.
+ */
 export function Collection() {
     const [collection, setCollection] = useState<ICollection | null>(null);
 
+    /**
+     * Fetch the user's collection from the server.
+     */
     async function getUserCollection() {
         let response = await store.dispatch(getCollection())
         let res = (response.payload as any)

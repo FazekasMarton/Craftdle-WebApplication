@@ -8,12 +8,20 @@ import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
 import { connectSocket } from '../../functions/connectSocket';
 
+/**
+ * Props for the UserAuthNav component.
+ */
 interface UserAuthNavProps {
     isGuest: boolean,
     form: "Login" | "Register" | "Logout"
     setForm: (value: "Login" | "Register" | "Logout") => void
 }
 
+/**
+ * UserAuthNav component to display navigation buttons for user authentication.
+ * @param props - The properties for the UserAuthNav component.
+ * @returns The UserAuthNav component.
+ */
 function UserAuthNav(props: UserAuthNavProps) {
     return <div id="userAuthNav">
         <Button color={props.form == "Login" ? "gray" : "green"} onClick={() => props.setForm("Login")}>Log In</Button>
@@ -22,10 +30,18 @@ function UserAuthNav(props: UserAuthNavProps) {
     </div>
 }
 
+/**
+ * Props for the form components.
+ */
 interface FormProps {
     openAuth: (value: boolean) => void;
 }
 
+/**
+ * LoginForm component to handle user login.
+ * @param props - The properties for the LoginForm component.
+ * @returns The LoginForm component.
+ */
 function LoginForm(props: FormProps) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -91,6 +107,11 @@ function LoginForm(props: FormProps) {
     </div>
 }
 
+/**
+ * RegisterForm component to handle user registration.
+ * @param props - The properties for the RegisterForm component.
+ * @returns The RegisterForm component.
+ */
 function RegisterForm(props: FormProps) {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
@@ -212,6 +233,11 @@ function RegisterForm(props: FormProps) {
     </div>
 }
 
+/**
+ * LogoutForm component to handle user logout.
+ * @param props - The properties for the LogoutForm component.
+ * @returns The LogoutForm component.
+ */
 function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
@@ -230,6 +256,12 @@ function LogoutForm(props: FormProps) {
     </div>
 }
 
+/**
+ * Get the appropriate form component based on the form name.
+ * @param formName - The name of the form.
+ * @param openAuth - The function to open the authentication form.
+ * @returns The form component.
+ */
 function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: boolean) => void) {
     switch (formName) {
         case "Login": return <LoginForm openAuth={openAuth} />
@@ -238,10 +270,18 @@ function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: bo
     }
 }
 
+/**
+ * Props for the UserAuth component.
+ */
 interface UserAuthProps {
     openAuth: (value: boolean) => void;
 }
 
+/**
+ * UserAuth component to handle user authentication.
+ * @param props - The properties for the UserAuth component.
+ * @returns The UserAuth component.
+ */
 export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout">("Login")

@@ -7,6 +7,10 @@ import { useEffect, useState } from "react";
 import { ISettings } from "../../interfaces/ISettings";
 import { loadSettings } from "../../functions/loadSettings";
 
+/**
+ * Settings component to display and manage user settings.
+ * @returns The Settings component.
+ */
 export function Settings() {
     const originalSettings = useSelector((state: RootState) => state.user.settings);
     const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings> | null>(structuredClone(originalSettings))

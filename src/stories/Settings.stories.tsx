@@ -1,5 +1,5 @@
 import { Provider, useDispatch } from "react-redux";
-import "../style.css"
+import "../style.css";
 import { store } from "../app/store";
 import { saveSettings } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
@@ -8,12 +8,16 @@ import { Settings } from "../pages/Settings/Settings";
 import { ISettings } from "../interfaces/ISettings";
 import { faker } from "@faker-js/faker";
 
+/**
+ * Generate fake settings for testing.
+ * @returns An array of fake settings.
+ */
 function generateSettings() {
-    let settings = []
+    let settings = [];
     for (let i = 0; i < 3; i++) {
-        let mapping = []
+        let mapping = [];
         for (let i = 0; i < 9; i++) {
-            mapping.push(faker.string.alphanumeric(1))
+            mapping.push(faker.string.alphanumeric(1));
         }
         settings.push({
             id: i,
@@ -26,9 +30,9 @@ function generateSettings() {
                 remove: faker.string.alphanumeric(1),
                 tableMapping: mapping
             }
-        })
+        });
     }
-    return settings
+    return settings;
 }
 
 export default {
@@ -48,11 +52,15 @@ export default {
     },
 };
 
-export const Deafault = () => {
-    const fakeSettings: Array<ISettings> = generateSettings()
-    const dispatch = useDispatch()
-    dispatch(saveSettings(fakeSettings))
+/**
+ * Default story for the Settings component.
+ * @returns The Default story.
+ */
+export const Default = () => {
+    const fakeSettings: Array<ISettings> = generateSettings();
+    const dispatch = useDispatch();
+    dispatch(saveSettings(fakeSettings));
     return <BrowserRouter>
         <Settings />
-    </BrowserRouter>
-}
+    </BrowserRouter>;
+};

@@ -1,3 +1,6 @@
+/**
+ * Interface for a gamemode.
+ */
 export interface IGamemode {
     id: number,
     icon: string,

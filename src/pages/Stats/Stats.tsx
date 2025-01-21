@@ -4,11 +4,17 @@ import { store } from "../../app/store"
 import { getStats } from "../../features/user/dataRequestSlice"
 import { StoneButton } from "../../components/StoneButton"
 
+/**
+ * Interface for collection statistics.
+ */
 interface ICollectStat {
     collected: number
     collectable: number
 }
 
+/**
+ * Interface for user statistics.
+ */
 interface IStats {
     username: string
     profilePicture: IProfileImage
@@ -26,6 +32,10 @@ interface IStats {
     collectedRecipes: ICollectStat
 }
 
+/**
+ * Stats component to display user statistics.
+ * @returns The Stats component.
+ */
 export function Stats() {
     const [stats, setStats] = useState<IStats | null>(null)
     const gameStats = {
@@ -33,6 +43,9 @@ export function Stats() {
         totalPlayed: 0
     }
 
+    /**
+     * Fetch the user's statistics from the server.
+     */
     async function getUserStats() {
         let response = await store.dispatch(getStats())
         let res = (response.payload as any)

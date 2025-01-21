@@ -8,6 +8,12 @@ import { Item } from "./Item";
 import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
 import { SoundEffect } from "../../classes/Audio";
 
+/**
+ * Get the key and index by value from the controls object.
+ * @param obj - The controls object.
+ * @param value - The value to find.
+ * @returns The key and index as a string.
+ */
 function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
     for (const key of Object.keys(obj)) {
         const currentValue = obj[key as keyof IControls];
@@ -21,11 +27,19 @@ function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
     return undefined;
 }
 
+/**
+ * Props for the Cursor component.
+ */
 interface CursorProps {
     craftingTableSlots: Array<Array<HTMLImageElement | null>>;
     setCraftingTableSlots: (value: Array<Array<HTMLImageElement | null>>) => void;
 }
 
+/**
+ * Cursor component to handle item interactions with the crafting table.
+ * @param props - The properties for the Cursor component.
+ * @returns The Cursor component.
+ */
 export function Cursor(props: CursorProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();

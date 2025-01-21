@@ -12,6 +12,11 @@ interface AchievementProps {
 
 const rarityColors = ["#FFFF55", "#55FFFF", "#FF55FF"];
 
+/**
+ * Achievements component to display a list of achievements.
+ * @param props - The props for the component.
+ * @returns The Achievements component.
+ */
 export function Achievements(props: AchievementsProps) {
     const [animKey, setAnimKey] = useState(0);
 
@@ -29,6 +34,11 @@ export function Achievements(props: AchievementsProps) {
     </div>
 }
 
+/**
+ * Achievement component to display an achievement.
+ * @param props - The props for the component.
+ * @returns The Achievement component.
+ */
 export function Achievement(props: AchievementProps) {
     const achievement = props.achievement;
     return <div className="achievement">

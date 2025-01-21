@@ -4,12 +4,20 @@ import { deleteInfo, setInfo } from "../../features/info/infoSlice"
 import { IGamemode } from "../../interfaces/IGamemode"
 import { setNewGame } from "../../features/game/gameSlice"
 
+/**
+ * Props for the GamemodesMain component.
+ */
 interface GamemodesMainProps {
     gamemodes: Array<IGamemode>,
     selectedGamemode: number | null,
     setSelectedGamemode: (value: number | null) => void
 }
 
+/**
+ * GamemodesMain component to display the list of gamemodes.
+ * @param props - The properties for the GamemodesMain component.
+ * @returns The GamemodesMain component.
+ */
 export function GamemodesMain(props: GamemodesMainProps) {
     return <section id="gamemodesMain">
         <div id="gamemodesList">
