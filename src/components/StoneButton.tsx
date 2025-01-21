@@ -33,6 +33,7 @@ function Border(props: StoneButtonProps) {
     let click = props.onClick ? props.onClick : () => {}
     const commonProps: React.HTMLAttributes<HTMLElement> = {
         className: props.disabled ? "disabledStoneButton" : "stoneButton",
+        "aria-disabled": props.disabled,
         onClick: () => {
             SoundEffect.play("click");
             click();
