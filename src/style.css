@@ -1230,9 +1230,113 @@ input:-webkit-autofill:focus {
     pointer-events: none;
 }
 
+/* - Tutorial - */
+
+#tutorial {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-color: rgba(0, 0, 0, 0.575);
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+}
+
+.showTutorial{
+    opacity: 1;
+    animation: show 0.5s ease-in-out forwards;
+    pointer-events: all;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.hideTutorial{
+    opacity: 0;
+    animation: hide 0.5s ease-in-out forwards;
+    pointer-events: none;
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+#allay {
+    position: absolute;
+    top: 40%;
+    right: 10%;
+    transform: translate(0, -50%);
+    height: 50vmin;
+    animation: fly-up 1s ease-in-out forwards;
+}
+
+@keyframes fly-up {
+    0% {
+        top: 150%;     
+    }
+    100% {
+        top: 40%
+    }
+}
+
+
+#tutorialContent {
+    margin: 10vmin;
+    width: 50%;
+    font-size: 5vmin;
+}
+
+.tutorialText {
+    overflow-wrap: break-word;
+}
+
+.tutorialWord {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.showTutorial .tutorialText span, .showTutorial #tryIt {
+    display: inline-block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fade-in 0.2s ease-in-out forwards;
+}
+
+#tutorial #tryIt {
+    width: fit-content;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+}
+
 /* - Game Over - */
 
-#gameOver{
+#gameOver {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1245,7 +1349,7 @@ input:-webkit-autofill:focus {
     background-color: rgba(45, 4, 4, 0.559);
 }
 
-#gameOverContent{
+#gameOverContent {
     width: fit-content;
     display: flex;
     flex-direction: column;
@@ -1255,11 +1359,11 @@ input:-webkit-autofill:focus {
     width: 50dvw;
 }
 
-#gameOverContent h1{
+#gameOverContent h1 {
     text-shadow: 1vmin 1vmin 0 rgb(34, 34, 34);
 }
 
-#gameOverContent > *{
+#gameOverContent>* {
     margin: 0;
 }
 
@@ -1345,7 +1449,8 @@ input:-webkit-autofill:focus {
     }
 }
 
-#credits section, #credits footer {
+#credits section,
+#credits footer {
     margin: 10vmin 0;
 }
 
@@ -1438,7 +1543,7 @@ input:-webkit-autofill:focus {
     height: max-content;
 }
 
-#patchNotesContainer{
+#patchNotesContainer {
     overflow-y: auto;
 }
 
@@ -1732,13 +1837,13 @@ input:-webkit-autofill:focus {
     text-align: center;
 }
 
-#collection section > article{
+#collection section>article {
     display: flex;
     flex-wrap: wrap;
     gap: 2vmin;
 }
 
-.itemFrame{
+.itemFrame {
     background-image: url("./assets/imgs/backgrounds/item_frame.png");
     background-size: cover;
     width: 20vmin;
@@ -1749,68 +1854,72 @@ input:-webkit-autofill:focus {
     position: relative;
 }
 
-.itemFrame:not(.uncollectedItem):hover{
+.itemFrame:not(.uncollectedItem):hover {
     background-image: url("./assets/imgs/backgrounds/glow_item_frame.png");
 }
 
-.itemFrame img:not(.activeProfileImage, .activeableProfileImage){
+.itemFrame img:not(.activeProfileImage, .activeableProfileImage) {
     width: 50%;
     height: 50%;
     object-fit: contain;
 }
 
-.activeProfileImage, .activeableProfileImage, .uncollectedProfileImage{
+.activeProfileImage,
+.activeableProfileImage,
+.uncollectedProfileImage {
     position: absolute;
     width: 25%;
     right: 10%;
     bottom: 10%;
 }
 
-.activeableProfileImage{
+.activeableProfileImage {
     display: none;
     opacity: 0.5;
 }
 
-.uncollectedProfileImage{
+.uncollectedProfileImage {
     display: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.itemFrame:hover .activeableProfileImage, .itemFrame:hover .uncollectedProfileImage{
+.itemFrame:hover .activeableProfileImage,
+.itemFrame:hover .uncollectedProfileImage {
     display: block;
 }
 
-.itemFrame.uncollectedItem, .uncollectedItem > .achievement{
+.itemFrame.uncollectedItem,
+.uncollectedItem>.achievement {
     filter: grayscale(100%);
 }
 
-#collectionAchievements article{
+#collectionAchievements article {
     flex-direction: row;
     justify-content: center;
 }
 
-#collectionAchievements article > div{
+#collectionAchievements article>div {
     width: min-content;
 }
 
-#collection .achievement{
+#collection .achievement {
     width: 40dvw;
     height: min-content;
 }
 
-.progressBar{
+.progressBar {
     position: relative;
     width: 100%;
     line-height: 0;
 }
 
-.xpBar{
+.xpBar {
     width: 100%;
 }
 
-.xp{
+.xp {
     position: absolute;
     width: 100%;
     top: 50%;
@@ -2003,11 +2112,11 @@ input:-webkit-autofill:focus {
 
     /* --- Collection --- */
 
-    #collectionAchievements article > div{
+    #collectionAchievements article>div {
         width: 100%;
     }
 
-    #collection .achievement{
+    #collection .achievement {
         width: auto;
         height: min-content;
     }
