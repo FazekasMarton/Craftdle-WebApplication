@@ -6,6 +6,12 @@ interface HintsProps {
     hints: Array<string | null>;
 }
 
+interface HintButtonProps {
+    hint: string | null;
+    index: number;
+    turn: number;
+}
+
 /**
  * Component to render a hint button with countdown.
  * @param hint - The hint text.
@@ -13,16 +19,17 @@ interface HintsProps {
  * @param turn - The current turn number.
  * @returns The HintButton component.
  */
-function HintButton(hint: string | null, index: number, turn: number) {
+function HintButton(props: HintButtonProps) {
     const [showHint, setShowHint] = useState(false);
-    let countdown = (index + 1) * 5 - turn;
+
+    let countdown = (props.index + 1) * 5 - props.turn;
     let countdownText = countdown > 0 ? (
         `Hint after ${countdown} turn${countdown == 1 ? "" : "s"}!`
     ) : "Reveal hint!";
 
     return showHint ? (
         <div className="hintContainer">
-            <div className="hintContent">{hint}</div>
+            <div className="hintContent">{props.hint}</div>
         </div>
     ) : (
         <Button color="green" onClick={() => { if (countdown <= 0) setShowHint(true) }}>{countdownText}</Button>
@@ -41,7 +48,7 @@ export function Hints(props: HintsProps) {
             <div id="hintsContainer">
                 {props.hints.map((hint, index) => (
                     <div key={index} className="hintSlot">
-                        {HintButton(hint, index, props.turn)}
+                        <HintButton hint={hint} index={index} turn={props.turn} />
                     </div>
                 ))}
             </div>

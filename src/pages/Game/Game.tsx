@@ -66,6 +66,7 @@ export function Game() {
     const [hints, setHints] = useState<Array<string | null> | null>(null)
     const [maxHearts, setMaxHearts] = useState<number | null>(null)
     const [result, setResult] = useState(false)
+    const [newTurn, setNewTurn] = useState(0)
     const items = useRef(new Items())
     const turn = tips.length - (result ? 1 : 0)
 
@@ -79,6 +80,7 @@ export function Game() {
             gamemode: gamemode,
             newGame: newGame
         })
+        setNewTurn(prev => prev + 1)
     }
 
     useEffect(() => {
@@ -111,6 +113,13 @@ export function Game() {
             setMaxHearts(data.hearts)
             setResult(data.result)
             setTableContent(Array.from({ length: craftingTableSize }, () => Array(3).fill(null)))
+            setTimeout(() => {
+                const tipContainer = document.getElementById("tipsContainer")
+                tipContainer?.scrollTo({
+                    top: tipContainer.scrollHeight * -1,
+                    behavior: "smooth"
+                })
+            }, 0);
         })
 
         return () => { socket?.off("guess") }
@@ -136,7 +145,7 @@ export function Game() {
             </nav>
             <CraftingTable isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
-            {hints && <Hints hints={hints} turn={turn} />}
+            {hints && <Hints key={newTurn} hints={hints} turn={turn} />}
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
             {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (

@@ -356,7 +356,6 @@ body,
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     background-color: rgb(194, 195, 195);
-    overflow: hidden;
 }
 
 /* -- Main Menu -- */
@@ -890,7 +889,7 @@ input:-webkit-autofill:focus {
         "tips inventoryAndKnowledgeBook";
     padding: 0.5dvh;
     gap: 2vmin;
-    height: min-content
+    height: 99dvh
 }
 
 /* -- General -- */
@@ -994,7 +993,9 @@ input:-webkit-autofill:focus {
     border-collapse: collapse;
 }
 
-.recipeCraftingTable tr {
+.recipeCraftingTable tr,
+.tipCraftingTable tr,
+#craftingTable table tr {
     height: min-content;
     line-height: 0;
 }
@@ -1163,10 +1164,10 @@ input:-webkit-autofill:focus {
 
 #tips {
     grid-area: tips;
-    align-self: self-end;
-    display: grid;
-    grid-template-rows: min-content auto;
+    display: flex;
+    flex-flow: column;
     height: 100%;
+    overflow-y: auto;
 }
 
 #tipsTitle {
@@ -1178,6 +1179,7 @@ input:-webkit-autofill:focus {
 
 #tipsContainer {
     overflow-y: auto;
+    height: 100%;
 }
 
 #tipsContent {
@@ -1959,7 +1961,7 @@ input:-webkit-autofill:focus {
         width: 100%;
         max-width: max-content;
         justify-content: center;
-        max-height: 25dvh;
+        max-height: 20dvh;
         margin: auto;
     }
 
@@ -1974,6 +1976,11 @@ input:-webkit-autofill:focus {
     #hints .button {
         font-size: 3.4vmin;
         padding: 5px;
+    }
+
+    #tips .tipSlot {
+        width: 6vmin;
+        height: 6vmin;
     }
 
     /* --- Guide --- */
