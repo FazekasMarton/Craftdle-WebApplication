@@ -26,13 +26,13 @@ export function GamemodesMain(props: GamemodesMainProps) {
                     onMouseLeave={gamemode.id == 1 && !gamemode.playedBefore ? () => {
                         store.dispatch(deleteInfo())
                     } : undefined}>
-                    <div className="gamemodeIcon" style={{ backgroundImage: `url(http://localhost:3000/gamemodes/${gamemode.icon})` }}>
+                    <div className="gamemodeIcon" aria-label={`${gamemode.name} mode icon`} style={{ backgroundImage: `url(http://localhost:3000/gamemodes/${gamemode.icon})` }}>
                         <Link className="playButton" to={`/play?gamemode=${gamemode.id}`} onClick={() => {
                             store.dispatch(setNewGame(!gamemode.continueGame))
                         }}></Link>
                     </div>
                     <h2 className="gamemodeName">{gamemode.name}</h2>
-                    <span className="gamemodeDifficulty" style={{ color: `#${gamemode.difficulty.color}` }}>{gamemode.difficulty.name}</span>
+                    <div className="gamemodeDifficulty" style={{ color: `#${gamemode.difficulty.color}` }}>{gamemode.difficulty.name}</div>
                     <p className="gamemodeDescription">{gamemode.description}</p>
                     {gamemode.id == 1 && !gamemode.playedBefore ? <div className="gamemodeWarning"></div> : null}
                 </article>

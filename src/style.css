@@ -1692,7 +1692,7 @@ input:-webkit-autofill:focus {
 }
 
 #collectionContainer h2 {
-    color: rgb(255, 85, 255);
+    color: #55ff55;
     font-size: 5vmin;
     text-align: center;
 }

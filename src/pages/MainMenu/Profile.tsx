@@ -15,7 +15,7 @@ export function Profile(props: ProfileProps){
                 backgroundImage: `url(http://localhost:3000/profileBorders/${profileBorder?.src})`
             } : {}}
         >
-            {profilePicture ? <img className="profilePicture" src={`http://localhost:3000/profilePictures/${profilePicture?.src}`} alt={profilePicture?.name} /> : null}
+            {profilePicture ? <img className="profilePicture" src={`http://localhost:3000/profilePictures/${profilePicture?.src}`} alt={`Profile picture of ${profilePicture?.name}`} /> : null}
         </div>
         <h1 className="profileName">{username}</h1>
     </div>
