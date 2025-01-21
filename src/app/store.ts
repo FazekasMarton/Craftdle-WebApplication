@@ -6,6 +6,9 @@ import socketReducer from "../features/socket/socketSlice";
 import maintenanceReducer from "../features/maintenance/maintenanceSlice";
 import gameReducer from "../features/game/gameSlice";
 
+/**
+ * Configure the Redux store with user, error, info, socket, maintenance, and game reducers.
+ */
 export const store = configureStore({
     reducer: {
         user: userReducer,
@@ -21,5 +24,12 @@ export const store = configureStore({
         }),
 });
 
+/**
+ * Type for the root state of the Redux store.
+ */
 export type RootState = ReturnType<typeof store.getState>;
+
+/**
+ * Type for the dispatch function of the Redux store.
+ */
 export type AppDispatch = typeof store.dispatch;

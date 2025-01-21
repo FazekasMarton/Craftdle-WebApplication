@@ -4,6 +4,10 @@ import { Link, useLocation } from "react-router-dom"
 import { SoundEffect } from "../../classes/Audio"
 import { useEffect } from "react";
 
+/**
+ * Docs component to display the privacy policy and terms of use.
+ * @returns The Docs component.
+ */
 export function Docs() {
     const location = useLocation();
 

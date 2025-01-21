@@ -1,5 +1,9 @@
 import { StoneButton } from "../../components/StoneButton"
 
+/**
+ * PatchNotes component to display the patch notes.
+ * @returns The PatchNotes component.
+ */
 export function PatchNotes() {
     return <div id="patchNotes">
         <header id="patchNotesHeader">

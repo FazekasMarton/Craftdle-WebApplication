@@ -83,6 +83,10 @@ const achievementList: IAchievement[] = [
     }
 ];
 
+/**
+ * Default story for the Achievement component.
+ * @returns The Default story.
+ */
 export function Default() {
     const [achievements, setAchievements] = useState(achievementList);
     const [achievementsToShow, setAchievementsToShow] = useState<IAchievement[]>(achievementList.slice(0, 5));

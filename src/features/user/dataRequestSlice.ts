@@ -3,6 +3,16 @@ import { RootState } from "../../app/store";
 import { setError } from "../error/errorSlice";
 import { ISettings } from "../../interfaces/ISettings";
 
+/**
+ * Function to handle communication with the server.
+ * @param state - The current state.
+ * @param dispatch - The dispatch function.
+ * @param url - The URL to communicate with.
+ * @param method - The HTTP method to use.
+ * @param auth - The authentication type.
+ * @param body - The request body.
+ * @returns The response data and status.
+ */
 async function communicate(
     state: RootState,
     dispatch: Function,
@@ -37,6 +47,7 @@ async function communicate(
     }
 }
 
+// Define async thunks for various user actions
 export const register = createAsyncThunk(
     "user/register",
     async (

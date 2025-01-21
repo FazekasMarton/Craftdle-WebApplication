@@ -2,6 +2,10 @@ import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
 import { useEffect, useState } from "react";
 
+/**
+ * Info component to display information based on the Redux state.
+ * @returns The Info component.
+ */
 export function Info() {
     const info = useSelector((state: RootState) => state.info)
     const [calculatedPosition, setCalculatedPosition] = useState<{
@@ -10,6 +14,9 @@ export function Info() {
         top?: number
     }>({});
 
+    /**
+     * Effect to update the position of the info window based on the info state.
+     */
     useEffect(() => {
         const updatePosition = () => {
             if (!info.position?.x || !info.position?.y) return;
@@ -19,6 +26,7 @@ export function Info() {
             const x = info.position.x;
             const y = info.position.y;
 
+            // Calculate the position of the info window
             if (x + elementWidth > windowWidth) {
                 setCalculatedPosition({ right: windowWidth - x, top: y });
             } else {
@@ -29,6 +37,7 @@ export function Info() {
         updatePosition();
         window.addEventListener("resize", updatePosition);
 
+        // Cleanup event listener on component unmount
         return () => {
             window.removeEventListener("resize", updatePosition);
         };

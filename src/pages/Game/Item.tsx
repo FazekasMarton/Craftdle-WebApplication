@@ -1,6 +1,9 @@
 import { store } from "../../app/store";
 import { deleteInfo, setInfo } from "../../features/info/infoSlice";
 
+/**
+ * Props for the Item component.
+ */
 interface ItemProps {
     item: HTMLImageElement,
     className?: string | "",
@@ -11,6 +14,11 @@ interface ItemProps {
     }
 }
 
+/**
+ * Item component to display an item with optional info tooltip.
+ * @param props - The properties for the Item component.
+ * @returns The Item component.
+ */
 export function Item(props: ItemProps) {
     const item = props.item
     const commonProps: React.HTMLAttributes<HTMLElement> = {

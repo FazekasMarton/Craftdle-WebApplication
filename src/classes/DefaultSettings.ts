@@ -1,5 +1,8 @@
 import { ISettings } from "../interfaces/ISettings";
 
+/**
+ * Default settings object.
+ */
 const defaultSettings: ISettings = {
     id: 0,
     isSet: false,
@@ -13,8 +16,15 @@ const defaultSettings: ISettings = {
     }
 };
 
-export class DefaultSettings{
-    static getDefaultSettings() {
+/**
+ * Class to handle default settings.
+ */
+export class DefaultSettings {
+    /**
+     * Get the default settings.
+     * @returns The default settings.
+     */
+    static getDefaultSettings(): ISettings {
         return structuredClone(defaultSettings);
-    }    
+    }
 }

@@ -6,6 +6,11 @@ interface CountdownProps{
     time: number
 }
 
+/**
+ * Get the countdown text from the given seconds.
+ * @param seconds - The number of seconds.
+ * @returns The formatted countdown text.
+ */
 function getCountdownText(seconds: number){
     const days = Math.floor(seconds / 86400);
     const hours = Math.floor((seconds % 86400) / 3600);
@@ -24,6 +29,11 @@ function getCountdownText(seconds: number){
         : result[0];
 }
 
+/**
+ * Countdown component to render a countdown timer.
+ * @param props - The props for the component.
+ * @returns The Countdown component.
+ */
 export function Countdown(props: CountdownProps){
     const [time, setTime] = useState(props.time)
     const [countdownText, setCountdownText] = useState(getCountdownText(time))

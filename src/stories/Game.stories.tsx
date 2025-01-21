@@ -260,6 +260,10 @@ const tips: ITips = [
     }
 ]
 
+/**
+ * DefaultWithTestData story for the Game component.
+ * @returns The DefaultWithTestData story.
+ */
 export const DefaultWithTestData = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -285,6 +289,10 @@ export const DefaultWithTestData = () => {
     </BrowserRouter>
 };
 
+/**
+ * PocketWithTestData story for the Game component.
+ * @returns The PocketWithTestData story.
+ */
 export const PocketWithTestData = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -310,6 +318,10 @@ export const PocketWithTestData = () => {
     </BrowserRouter>
 };
 
+/**
+ * HardcoreWithTestData story for the Game component.
+ * @returns The HardcoreWithTestData story.
+ */
 export const HardcoreWithTestData = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],

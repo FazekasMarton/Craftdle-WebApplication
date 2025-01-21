@@ -5,13 +5,21 @@ import { saveSettings } from "../../features/user/userSlice";
 import { ISettings } from "../../interfaces/ISettings";
 import isEqual from 'lodash/isEqual';
 
-interface SettingsFooterProps{
+/**
+ * Props for the SettingsFooter component.
+ */
+interface SettingsFooterProps {
     profile: number;
     profiles: Array<ISettings>;
     originalSettings: Array<ISettings> | null;
     setSettings: (value: Array<ISettings>) => void;
 }
 
+/**
+ * Remove the isSet property from the settings object.
+ * @param obj - The settings object.
+ * @returns The settings object without the isSet property.
+ */
 function removeIsSet(obj: ISettings | null) {
     if (obj === null) {
         return {} as ISettings;
@@ -21,13 +29,18 @@ function removeIsSet(obj: ISettings | null) {
     return newObj;
 }
 
+/**
+ * SettingsFooter component to display the footer with action buttons.
+ * @param props - The properties for the SettingsFooter component.
+ * @returns The SettingsFooter component.
+ */
 export function SettingsFooter(props: SettingsFooterProps) {
     let saveable = !isEqual(
         removeIsSet(props.originalSettings && props.originalSettings[props.profile]),
         removeIsSet(props.profiles[props.profile])
     );
 
-    function save(currentSettings: ISettings[], originalSettings: ISettings[]){
+    function save(currentSettings: ISettings[], originalSettings: ISettings[]) {
         let settings: Array<ISettings> = JSON.parse(JSON.stringify(originalSettings));
         settings[props.profile] = currentSettings[props.profile]
         store.dispatch(saveSettings(settings))

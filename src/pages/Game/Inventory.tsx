@@ -6,11 +6,19 @@ import { DefaultSettings } from "../../classes/DefaultSettings"
 import { RootState } from "../../app/store"
 import { useSelector } from "react-redux"
 
+/**
+ * Props for the Inventory component.
+ */
 interface InventoryProps {
     itemsCollection: IItem[]
     items: Items
 }
 
+/**
+ * Inventory component to display the player's inventory.
+ * @param props - The properties for the Inventory component.
+ * @returns The Inventory component.
+ */
 export function Inventory(props: InventoryProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();

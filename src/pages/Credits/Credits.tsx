@@ -3,15 +3,26 @@ import { Link } from "react-router-dom";
 import craftdleTitle from "../../assets/imgs/title/craftdle_title.png"
 import { SoundEffect } from "../../classes/Audio";
 
+/**
+ * Simulate a click event on the credits link.
+ */
 function simulateClick() {
     document.getElementById("credits")?.click()
 }
 
+/**
+ * Props for the Credit component.
+ */
 interface CreditProps {
     children: ReactNode
     credit?: string
 }
 
+/**
+ * Credit component to display individual credits.
+ * @param props - The properties for the Credit component.
+ * @returns The Credit component.
+ */
 function Credit(props: CreditProps) {
     return <p className={props.credit ? "creditTextContainer" : "creditMessageContainer"}>
         {props.credit ? <strong className="creditTitle">{props.credit}</strong> : null}
@@ -19,6 +30,10 @@ function Credit(props: CreditProps) {
     </p>
 }
 
+/**
+ * Credits component to display the credits page.
+ * @returns The Credits component.
+ */
 export function Credits() {
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 

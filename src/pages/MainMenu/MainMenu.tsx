@@ -12,6 +12,10 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
 import { MaintenanceNotice } from "./MaintenanceNotice"
 
+/**
+ * MainMenu component to display the main menu of the application.
+ * @returns The MainMenu component.
+ */
 export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
     const user = useSelector((state: RootState) => state.user);

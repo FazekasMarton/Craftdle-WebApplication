@@ -23,6 +23,7 @@ export default {
     },
 };
 
+// Story for a registered user
 export const RegisteredUser = () => {
     store.dispatch(clearUser(true))
     const fakeUser = {
@@ -48,6 +49,7 @@ export const RegisteredUser = () => {
     </BrowserRouter>
 }
 
+// Story for a guest user
 export const Guest = () => {
     store.dispatch(clearUser(true))
     return <BrowserRouter>

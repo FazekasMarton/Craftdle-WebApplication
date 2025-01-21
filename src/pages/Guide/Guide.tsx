@@ -7,6 +7,10 @@ import removeControl from "/videos/removeControl.mp4"
 import placeControl from "/videos/placeControl.mp4"
 import tapControl from "/videos/tapControl.mp4"
 
+/**
+ * Guide component to display the game guide and controls.
+ * @returns The Guide component.
+ */
 export function Guide() {
     return <div id="guide">
         <nav id="guideContentTable">

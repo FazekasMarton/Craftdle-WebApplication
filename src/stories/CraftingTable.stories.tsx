@@ -1,4 +1,4 @@
-import "../style.css"
+import "../style.css";
 import { CraftingTable } from "../pages/Game/CraftingTable";
 import { useState } from "react";
 import { Items } from "../classes/Items";
@@ -25,6 +25,7 @@ export default {
     },
 };
 
+// Initialize items
 let items = new Items([
     {
         "name": "Oak Planks",
@@ -113,6 +114,7 @@ let items = new Items([
     }
 ]);
 
+// Define recipes
 const recipes: IRecipeCollection = {
     "fireworkRocket0": [
         {
@@ -167,16 +169,25 @@ const recipes: IRecipeCollection = {
     ],
 };
 
+// Add items to the Items instance
 items.addItems(Object.values(recipes).flat().map(recipe => ({
     name: recipe.name,
     id: recipe.id,
     src: recipe.src
 })));
 
-function setIsKnowledgeBookOpen (value: boolean) {
-    console.log("Knowledge Book opened: " + value)
+/**
+ * Function to handle opening the Knowledge Book.
+ * @param value - Boolean indicating if the Knowledge Book is open.
+ */
+function setIsKnowledgeBookOpen(value: boolean) {
+    console.log("Knowledge Book opened: " + value);
 }
 
+/**
+ * Default non-shapeless story.
+ * @returns The DefaultNonShapeless component.
+ */
 export const DefaultNonShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -185,11 +196,15 @@ export const DefaultNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null}/>
+        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null} />
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
 
+/**
+ * Default shapeless story.
+ * @returns The DefaultShapeless component.
+ */
 export const DefaultShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("paper"), null, null],
@@ -198,11 +213,15 @@ export const DefaultShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null}/>
+        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null} />
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
 
+/**
+ * Pocket non-shapeless story.
+ * @returns The PocketNonShapeless component.
+ */
 export const PocketNonShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -211,11 +230,15 @@ export const PocketNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null}/>
+        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null} />
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
 
+/**
+ * Pocket shapeless story.
+ * @returns The PocketShapeless component.
+ */
 export const PocketShapeless = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("paper"), null, null],
@@ -224,7 +247,7 @@ export const PocketShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null}/>
+        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null} />
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };

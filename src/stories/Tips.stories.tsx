@@ -1,4 +1,4 @@
-import "../style.css"
+import "../style.css";
 import { Items } from "../classes/Items";
 import { handlers } from "./handlers";
 import { Tips } from "../pages/Game/Tips";
@@ -171,6 +171,10 @@ const tips: ITips = [
     }
 ]
 
+/**
+ * Default story for the Tips component.
+ * @returns The Default story.
+ */
 export const Default = () => {
     return <Tips tips={tips} craftingTableSize={3} itemsCollection={items} />;
 };

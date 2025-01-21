@@ -1,10 +1,15 @@
 import { vi } from "vitest";
 import { ISettings } from "../interfaces/ISettings";
 import { faker } from "@faker-js/faker";
-import { saveSettings, saveUser, clearUser, loadUser } from "../features/user/userSlice"
+import { saveSettings, saveUser, clearUser, loadUser } from "../features/user/userSlice";
 import { store } from "../app/store";
 import { changePassword, changeProfilePics, changeSettings, forgotPassword, getCollection, getGamemodes, getSettings, getStats, guestLogin, login, logout, register, tokenLogin } from "../features/user/dataRequestSlice";
 
+/**
+ * Mock localStorage or sessionStorage.
+ * @param storageType - The type of storage to mock.
+ * @returns The mocked storage functions.
+ */
 function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
     const storage: Record<string, string> = {};
 
@@ -40,6 +45,10 @@ function getStorageMocker(storageType: "localStorage" | "sessionStorage") {
     };
 }
 
+/**
+ * Generate a random user.
+ * @returns The generated user.
+ */
 function generateUser() {
     return {
         username: faker.person.fullName(),
@@ -50,23 +59,31 @@ function generateUser() {
         profileBorder: generateImage(),
         email: `${faker.food.ethnicCategory()}@gmail.com`,
         password: faker.string.alphanumeric(16)
-    }
+    };
 }
 
+/**
+ * Generate a random image.
+ * @returns The generated image.
+ */
 function generateImage() {
     return {
         id: faker.string.uuid(),
         name: faker.string.alpha(10),
         src: faker.image.url()
-    }
+    };
 }
 
+/**
+ * Generate random settings.
+ * @returns The generated settings.
+ */
 function generateSettings() {
-    let settings = []
+    let settings = [];
     for (let i = 0; i < 3; i++) {
-        let mapping = []
+        let mapping = [];
         for (let i = 0; i < 9; i++) {
-            mapping.push(faker.string.alphanumeric(1))
+            mapping.push(faker.string.alphanumeric(1));
         }
         settings.push({
             id: i,
@@ -79,11 +96,17 @@ function generateSettings() {
                 remove: faker.string.alphanumeric(1),
                 tableMapping: mapping
             }
-        })
+        });
     }
-    return settings
+    return settings;
 }
 
+/**
+ * Mock a successful fetch request.
+ * @param status - The status code of the response.
+ * @param body - The body of the response.
+ * @returns The mocked fetch function.
+ */
 function getSuccceedFetchMocker(status: number, body: object) {
     const mockFetch = vi.fn(() =>
         Promise.resolve(
@@ -97,18 +120,20 @@ function getSuccceedFetchMocker(status: number, body: object) {
         )
     );
     global.fetch = mockFetch;
-    return mockFetch
+    return mockFetch;
 }
 
+// Setup before each test
 beforeEach(async () => {
     getStorageMocker("localStorage");
     getStorageMocker("sessionStorage");
 });
 
+// Cleanup after each test
 afterEach(async () => {
     localStorage.clear();
-    sessionStorage.clear()
-    await store.dispatch(clearUser(true))
+    sessionStorage.clear();
+    await store.dispatch(clearUser(true));
     vi.clearAllMocks();
 });
 
@@ -135,53 +160,53 @@ describe('User Slice', () => {
                 const state = store.getState().user;
                 expect(state.settings).toEqual(settings);
             });
-        })
+        });
 
         describe('Store in sessionStorage', () => {
             it('should store user data in sessionStorage', () => {
                 const randomUser = generateUser();
-                randomUser.stayLoggedIn = false
+                randomUser.stayLoggedIn = false;
                 store.dispatch(saveUser(randomUser));
                 expect(sessionStorage.getItem("username")).toBe(randomUser.username);
                 expect(sessionStorage.getItem("loginToken")).toBe(randomUser.loginToken);
-                expect(sessionStorage.getItem("isGuest")).toBe(randomUser.isGuest);
-                expect(sessionStorage.getItem("stayLoggedIn")).toBe(false);
+                expect(sessionStorage.getItem("isGuest")).toBe(String(randomUser.isGuest));
+                expect(sessionStorage.getItem("stayLoggedIn")).toBe(String(randomUser.stayLoggedIn));
                 expect(sessionStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(sessionStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
             });
 
             it('should store user settings in sessionStorage', () => {
                 const randomUser = generateUser();
-                randomUser.stayLoggedIn = false
+                randomUser.stayLoggedIn = false;
                 store.dispatch(saveUser(randomUser));
                 const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
                 expect(sessionStorage.getItem("settings")).toBe(JSON.stringify(settings));
             });
-        })
+        });
 
         describe('Store in localStorage', () => {
             it('should store user data in localStorage', () => {
                 const randomUser = generateUser();
-                randomUser.stayLoggedIn = true
+                randomUser.stayLoggedIn = true;
                 store.dispatch(saveUser(randomUser));
                 expect(localStorage.getItem("username")).toBe(randomUser.username);
                 expect(localStorage.getItem("loginToken")).toBe(randomUser.loginToken);
-                expect(localStorage.getItem("isGuest")).toBe(randomUser.isGuest);
-                expect(localStorage.getItem("stayLoggedIn")).toBe(true);
+                expect(localStorage.getItem("isGuest")).toBe(String(randomUser.isGuest));
+                expect(localStorage.getItem("stayLoggedIn")).toBe(String(randomUser.stayLoggedIn));
                 expect(localStorage.getItem("profilePicture")).toBe(JSON.stringify(randomUser.profilePicture));
                 expect(localStorage.getItem("profileBorder")).toBe(JSON.stringify(randomUser.profileBorder));
             });
 
             it('should store user settings in localStorage', () => {
                 const randomUser = generateUser();
-                randomUser.stayLoggedIn = true
+                randomUser.stayLoggedIn = true;
                 store.dispatch(saveUser(randomUser));
                 const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
                 expect(localStorage.getItem("settings")).toBe(JSON.stringify(settings));
             });
-        })
+        });
 
         it('should clear user data', async () => {
             const randomUser = generateUser();
@@ -199,11 +224,10 @@ describe('User Slice', () => {
             expect(updatedState.settings).toBeNull();
         });
 
-
         describe('Load data from localStorage', () => {
             it('should load user data from localStorage', () => {
                 const randomUser = generateUser();
-                randomUser.stayLoggedIn = true
+                randomUser.stayLoggedIn = true;
                 store.dispatch(saveUser(randomUser));
                 const settings: ISettings[] = generateSettings();
                 store.dispatch(saveSettings(settings));
@@ -230,7 +254,7 @@ describe('User Slice', () => {
                 expect(state.profileBorder).toBeNull();
                 expect(state.settings).toBeNull();
             });
-        })
+        });
     });
 
     describe('Data request', () => {
@@ -289,7 +313,7 @@ describe('User Slice', () => {
         describe('Token Login', () => {
             it('should return data and response for a successful token login', async () => {
                 const randomUser = generateUser();
-                randomUser.stayLoggedIn = true
+                randomUser.stayLoggedIn = true;
                 store.dispatch(saveUser(randomUser));
                 const fakeBody = {
                     loginToken: faker.string.uuid(),
@@ -347,7 +371,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, { message: "Logout successful" });
                 const randomUser = generateUser();
                 store.dispatch(saveUser(randomUser));
-                const auth = btoa(`${randomUser.username}:${randomUser.loginToken}`)
+                const auth = btoa(`${randomUser.username}:${randomUser.loginToken}`);
                 const result = await store.dispatch(logout());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
                 expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/login", {
@@ -530,4 +554,4 @@ describe('User Slice', () => {
             });
         });
     });
-})
+});

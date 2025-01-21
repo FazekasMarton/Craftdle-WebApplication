@@ -22,8 +22,16 @@ export default {
     },
 };
 
+/**
+ * Default story for the App component.
+ * @returns The Default story.
+ */
 export const Default = () => <App />;
 
+/**
+ * RegisteredUser story for the App component.
+ * @returns The RegisteredUser story.
+ */
 export const RegisteredUser = () => {
     store.dispatch(clearUser(true))
     const fakeUser = {
