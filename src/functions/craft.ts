@@ -163,9 +163,9 @@ export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection)
                 }
             } else {
                 const nonShapelessRecipe = recipe.recipe as INonShapelessRecipe;
-                const filteredRecipe = removeEmptyRows(nonShapelessRecipe);
+                const filteredRecipe = removeEmptyRows(nonShapelessRecipe.map(row => row.slice()));
 
-                if (matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe) || matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe.map(row => row.reverse()))) {
+                if (matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe) || matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe.map(row => row.slice().reverse()))) {
                     return {
                         group: recipeGroup,
                         id: recipe.id
