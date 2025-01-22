@@ -155,7 +155,7 @@ export function Game() {
             </nav>
             <CraftingTable turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
-            {hints && <Hints key={newTurn} hints={hints} turn={turn} />}
+            {hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />}
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
             {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
@@ -168,7 +168,7 @@ export function Game() {
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />
                 ) : null
             }
-            <Tutorial key={newTurn} turn={turn} />
+            <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
         </div>
     </>
 }

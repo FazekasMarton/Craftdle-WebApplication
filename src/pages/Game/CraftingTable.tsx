@@ -7,7 +7,9 @@ import { IRecipeCollection } from "../../interfaces/IRecipe"
 import { Items } from "../../classes/Items"
 import { SoundEffect } from "../../classes/Audio"
 import { Socket } from "socket.io-client"
-import { getScript } from "../../features/game/gameSlice"
+import { setHelp } from "../../features/game/gameSlice"
+import { store } from "../../app/store"
+import { getTutorialScript } from "../../functions/getTutorialScript"
 
 /**
  * Props for the CraftingTable component.
@@ -60,7 +62,7 @@ export function CraftingTable(props: CraftingTableProps) {
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" />
         <div id="craftedItem" className="slot" onClick={() => {
-            let requiredItemByTutorial = getScript()[props.turn]?.guess
+            let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
             if (craftedItemGroup && craftedItemId && (requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial)) {
                 let guess = {
                     item: {
@@ -74,6 +76,8 @@ export function CraftingTable(props: CraftingTableProps) {
                     })
                 }
                 props.socket?.emit("guess", guess)
+            } else {
+                store.dispatch(setHelp(true))
             }
         }}>
             {craftedItemId ? <Item item={craftedItemId} /> : null}
