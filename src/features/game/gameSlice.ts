@@ -7,12 +7,14 @@ interface GameState {
     newGame: boolean;
     allay: boolean;
     help: boolean;
+    requiredControl: string[];
 }
 
 const initialState: GameState = {
     newGame: false,
     allay: true,
-    help: false
+    help: false,
+    requiredControl: []
 };
 
 // Create the game slice
@@ -37,10 +39,22 @@ const gameSlice = createSlice({
         setHelp: (state, action: PayloadAction<boolean>) => {
             state.allay = action.payload
             state.help = action.payload
+        },
+
+        setRequiredControl: (state, action: PayloadAction<string[]>) => {
+            state.requiredControl = action.payload
+        },
+
+        resetRequiredControl: (state) => {
+            state.requiredControl = []
+        },
+
+        removeRequiredControl: (state, action: PayloadAction<string>) => {
+            state.requiredControl = state.requiredControl.filter(control => control !== action.payload)
         }
     },
 });
 
 // Export the actions and reducer
-export const { setNewGame, setAllay, setHelp } = gameSlice.actions;
+export const { setNewGame, setAllay, setHelp, setRequiredControl, resetRequiredControl, removeRequiredControl } = gameSlice.actions;
 export default gameSlice.reducer;

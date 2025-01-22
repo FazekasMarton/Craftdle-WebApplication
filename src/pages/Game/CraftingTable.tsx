@@ -63,7 +63,9 @@ export function CraftingTable(props: CraftingTableProps) {
         <img id="craftingArrow" src={arrow} alt="arrow" />
         <div id="craftedItem" className="slot" onClick={() => {
             let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
-            if (craftedItemGroup && craftedItemId && (requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial)) {
+            let requiredItemByTutorialControl = store.getState().game.requiredControl
+            console.log(requiredItemByTutorialControl)
+            if (craftedItemGroup && craftedItemId && (requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredItemByTutorialControl?.length === 0) {
                 let guess = {
                     item: {
                         group: craftedItemGroup,

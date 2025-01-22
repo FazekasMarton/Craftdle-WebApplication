@@ -13,11 +13,12 @@ import { useSearchParams } from "react-router-dom";
 import { Hints } from "./Hints";
 import { RootState, store } from "../../app/store";
 import { useSelector } from "react-redux";
-import { setNewGame } from "../../features/game/gameSlice";
+import { setHelp, setNewGame } from "../../features/game/gameSlice";
 import { Meta } from "../../components/Meta";
 import { GameOver } from "./GameOver";
 import { SoundEffect } from "../../classes/Audio";
 import { Tutorial } from "./Tutorial";
+import { Button } from "../../components/Button";
 
 /**
  * Gamemode names mapping.
@@ -115,8 +116,8 @@ export function Game() {
             setMaxHearts(data.hearts)
             setResult(data.result)
             setTableContent(Array.from({ length: craftingTableSize }, () => Array(3).fill(null)))
-            if(data.tips.length > 0) {
-                if(gamemodeId == "7" && !data.result) {
+            if (data.tips.length > 0) {
+                if (gamemodeId == "7" && !data.result) {
                     SoundEffect.play("hit")
 
                 } else {
@@ -155,7 +156,14 @@ export function Game() {
             </nav>
             <CraftingTable turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
-            {hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />}
+            {gamemodeId !== "1" ? (
+                hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />
+            ) : (
+                <>
+                    <Button onClick={() => { store.dispatch(setHelp(true)) }} color="green">Ask Allay</Button>
+                    <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
+                </>
+            )}
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
             {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
@@ -168,7 +176,6 @@ export function Game() {
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />
                 ) : null
             }
-            <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
         </div>
     </>
 }
