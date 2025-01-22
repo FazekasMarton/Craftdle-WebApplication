@@ -153,7 +153,7 @@ export function Game() {
                     store.dispatch(setNewGame(false))
                 }}>Settings</StoneButton>
             </nav>
-            <CraftingTable isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
+            <CraftingTable turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
             {hints && <Hints key={newTurn} hints={hints} turn={turn} />}
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
