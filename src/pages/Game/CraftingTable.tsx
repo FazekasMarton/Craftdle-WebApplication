@@ -7,6 +7,7 @@ import { IRecipeCollection } from "../../interfaces/IRecipe"
 import { Items } from "../../classes/Items"
 import { SoundEffect } from "../../classes/Audio"
 import { Socket } from "socket.io-client"
+import { getScript } from "../../features/game/gameSlice"
 
 /**
  * Props for the CraftingTable component.
@@ -19,7 +20,8 @@ interface CraftingTableProps {
     isKnowledgeBookOpen: boolean,
     setIsKnowledgeBookOpen: (isOpen: boolean) => void,
     socket: Socket | null,
-    isHardcore: boolean
+    isHardcore: boolean,
+    turn: number,
 }
 
 /**
@@ -58,7 +60,8 @@ export function CraftingTable(props: CraftingTableProps) {
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" />
         <div id="craftedItem" className="slot" onClick={() => {
-            if (craftedItemGroup && craftedItemId) {
+            let requiredItemByTutorial = getScript()[props.turn]?.guess
+            if (craftedItemGroup && craftedItemId && (requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial)) {
                 let guess = {
                     item: {
                         group: craftedItemGroup,
