@@ -1241,6 +1241,8 @@ input:-webkit-autofill:focus {
     height: 100%;
     width: 100%;
     overflow-y: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .showTutorial{
@@ -1275,12 +1277,16 @@ input:-webkit-autofill:focus {
     }
 }
 
+.hideTutorial #tutorialContent {
+    display: none;
+}
+
 #allay {
     position: absolute;
-    top: 40%;
-    right: 10%;
-    transform: translate(0, -50%);
-    height: 50vmin;
+    top: 50%;
+    right: 25%;
+    transform: translate(50%, -50%);
+    height: 30dvw;
     animation: fly-up 1s ease-in-out forwards;
 }
 
@@ -1288,16 +1294,11 @@ input:-webkit-autofill:focus {
     0% {
         top: 150%;     
     }
-    100% {
-        top: 40%
-    }
 }
 
-
 #tutorialContent {
-    margin: 10vmin;
-    width: 50%;
-    font-size: 5vmin;
+    padding: 5vmin;
+    font-size: 3vmax;
 }
 
 .tutorialText {
@@ -2090,6 +2091,17 @@ input:-webkit-autofill:focus {
     #tips .tipSlot {
         width: 6vmin;
         height: 6vmin;
+    }
+
+    #tutorial {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    #tutorial #allay{
+        top: 75%;
+        right: 50%;
+        height: 80dvw;
     }
 
     /* --- Guide --- */
