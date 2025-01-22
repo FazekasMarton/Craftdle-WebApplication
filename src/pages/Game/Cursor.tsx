@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState, store } from "../../app/store";
 import { DefaultSettings } from "../../classes/DefaultSettings";
 import { loadSettings } from "../../functions/loadSettings";
 import { IControls } from "../../interfaces/ISettings";
 import { Item } from "./Item";
 import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
 import { SoundEffect } from "../../classes/Audio";
+import { removeRequiredControl } from "../../features/game/gameSlice";
 
 /**
  * Get the key and index by value from the controls object.
@@ -52,28 +53,28 @@ export function Cursor(props: CursorProps) {
 
     const isPCControl = isUserPlayingOnPC() && !currentSettings.controls.isTapMode
 
-    console.log()
-
     useEffect(() => { loadSettings() }, []);
 
     useEffect(() => {
         function handleControl(key: string) {
             let control = getKeyAndIndexByValue(currentSettings.controls, key);
             let slotNumber: number | null = null
-            if(control?.includes("tableMapping")){
+            if (control?.includes("tableMapping")) {
                 slotNumber = Number(control.replace("tableMapping", ""))
                 control = "tableMapping"
             }
             switch (control) {
                 case "copy":
                     setPickedUpItem(focusedItemRef.current);
-                    if(!focusedSlotRef.current?.classList.contains("inventorySlot")) placeItem();
+                    if (!focusedSlotRef.current?.classList.contains("inventorySlot")) placeItem();
+                    if (focusedItemRef.current) store.dispatch(removeRequiredControl("PickUp"))
                     break;
                 case "remove":
                     removeItem()
                     break;
                 case "tableMapping":
                     typeof slotNumber === "number" && addToSlot(props.craftingTableSlots, slotNumber, focusedItemRef.current)
+                    focusedItemRef.current && store.dispatch(removeRequiredControl("Place"))
                     break;
             }
         }
@@ -103,7 +104,7 @@ export function Cursor(props: CursorProps) {
             const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
                 const currentSlotItem = addToSlot(slots, slotNumber, pickedUpItem)
-                if(isPCControl){
+                if (isPCControl) {
                     setPickedUpItem(currentSlotItem || null);
                 }
             }
@@ -129,6 +130,7 @@ export function Cursor(props: CursorProps) {
                 const slotNumber = getSlotIndex()
                 if (slotNumber || slotNumber === 0) {
                     addToSlot(slots, slotNumber, pickedUpItem)
+                    store.dispatch(removeRequiredControl("Copy"))
                 }
             }
         }
@@ -140,7 +142,7 @@ export function Cursor(props: CursorProps) {
             }
         }
 
-        function getMouseButton(e: MouseEvent){
+        function getMouseButton(e: MouseEvent) {
             let key = undefined
             if (e.button >= 0 && e.button <= 2) {
                 switch (e.button) {
@@ -160,8 +162,8 @@ export function Cursor(props: CursorProps) {
 
         function handleMouseButtonRelease(e: MouseEvent) {
             const button = getMouseButton(e)
-            if(button) handleControl(button)
-            if(button) stopHolding(button)
+            if (button) handleControl(button)
+            if (button) stopHolding(button)
         }
 
         function stopHolding(key: string) {
@@ -180,26 +182,26 @@ export function Cursor(props: CursorProps) {
 
         function handleKeyRelease(e: KeyboardEvent) {
             const button = e.key.toUpperCase()
-            if(button) handleControl(button)
-            if(button) stopHolding(button)
+            if (button) handleControl(button)
+            if (button) stopHolding(button)
         }
 
-        function handleTouch(e: MouseEvent){
+        function handleTouch(e: MouseEvent) {
             let target = e.target as HTMLElement
-            if(target?.classList?.contains("inventorySlot")){
+            if (target?.classList?.contains("inventorySlot")) {
                 selectSlot(target, target.childNodes[0] as HTMLImageElement)
-            }else if(target.parentElement?.classList.contains("inventorySlot")){
+            } else if (target.parentElement?.classList.contains("inventorySlot")) {
                 selectSlot(target.parentElement, target as HTMLImageElement)
-            } else if(target?.classList?.contains("craftingTableSlot")){
+            } else if (target?.classList?.contains("craftingTableSlot")) {
                 focusedSlotRef.current = target
-                if(target.childNodes.length > 0){
+                if (target.childNodes.length > 0) {
                     removeItem()
                 } else {
                     placeItem()
                 }
-            } else if(target?.parentElement?.classList?.contains("craftingTableSlot")) {
+            } else if (target?.parentElement?.classList?.contains("craftingTableSlot")) {
                 focusedSlotRef.current = target?.parentElement
-                if(target.parentElement.childNodes.length > 0){
+                if (target.parentElement.childNodes.length > 0) {
                     removeItem()
                 } else {
                     placeItem()
@@ -207,24 +209,24 @@ export function Cursor(props: CursorProps) {
             }
         }
 
-        function selectSlot(slot: HTMLElement, item: HTMLImageElement){
+        function selectSlot(slot: HTMLElement, item: HTMLImageElement) {
             setPickedUpItem(item)
             document.getElementById("selectedInventorySlot")?.removeAttribute("id")
             slot.id = "selectedInventorySlot"
             SoundEffect.play("click")
         }
 
-        if(isPCControl){
+        if (isPCControl) {
             document.addEventListener("mousemove", updateLocation);
             document.addEventListener("mouseover", saveFocus);
             document.addEventListener("mousedown", handleMouseButtonPressed);
             document.addEventListener("mouseup", handleMouseButtonRelease)
             document.addEventListener("keydown", handleKeyPressed);
             document.addEventListener("keyup", handleKeyRelease);
-        }else{
+        } else {
             document.addEventListener("mousedown", handleTouch);
         }
-        
+
         return () => {
             document.removeEventListener("mousemove", updateLocation);
             document.removeEventListener("mouseover", saveFocus);

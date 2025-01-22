@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { SoundEffect } from "../../classes/Audio"
 import { useSelector } from "react-redux"
 import { RootState, store } from "../../app/store";
-import { setAllay } from "../../features/game/gameSlice"
+import { setAllay, setRequiredControl } from "../../features/game/gameSlice"
 import { getTutorialScript } from "../../functions/getTutorialScript"
 
 interface TutorialProps {
@@ -18,6 +18,7 @@ export function Tutorial(props: TutorialProps) {
 
     useEffect(() => {
         store.dispatch(setAllay(true))
+        store.dispatch(setRequiredControl(currentStep.requiredControl))
         if (text) {
             setTimeout(() => {
                 SoundEffect.play("allay")

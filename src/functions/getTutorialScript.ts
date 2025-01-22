@@ -14,8 +14,8 @@ export function getTutorialScript() {
         {
             guess: "planks0",
             requiredControl: ["PickUp"],
-            text: `Welcome to the tutorial! Let's start by crafting a {{wooden planks}}, like in Minecraft. {{Pick up}} any type of {{log}} and {{drop it}} on the {{crafting table}} with the {{${settings?.controls.copy} key}}. If you put too much materials on the crafting table, you can {{remove it}} with the {{${settings?.controls.remove} key}}.`,
-            help: `You have to {{pick up}} a {{log}} and {{drop it}} on the {{crafting table}}, to craft a {{wooden planks}}.`
+            text: `Welcome to the tutorial! Let's start by crafting a {{planks}}, like in Minecraft. {{Pick up}} any type of {{log}} and {{drop it}} on the {{crafting table}} with the {{${settings?.controls.copy} key}}. If you put too much materials on the crafting table, you can {{remove it}} with the {{${settings?.controls.remove} key}}.`,
+            help: `You have to {{pick up}} a {{log}} and {{drop it}} on the {{crafting table}}, to craft a {{planks}}.`
         },
         {
             guess: "armorStand0",
