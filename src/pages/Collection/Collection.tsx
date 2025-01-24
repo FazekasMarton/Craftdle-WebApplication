@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { store } from "../../app/store";
+import { RootState, store } from "../../app/store";
 import { changeProfilePics, getCollection } from "../../features/user/dataRequestSlice";
 import { StoneButton } from "../../components/StoneButton";
 import { Achievement } from "../../components/Achievement";
@@ -7,6 +7,7 @@ import active from "../../assets/imgs/icons/checkmark.png";
 import lock from "../../assets/imgs/icons/lock.png";
 import xp from "../../assets/imgs/backgrounds/experience_bar_progress.png";
 import xpBar from "../../assets/imgs/backgrounds/experience_bar_background.png";
+import { useSelector } from "react-redux";
 
 /**
  * Interface for the collection data.
@@ -18,21 +19,21 @@ interface ICollection {
         src: string;
         collected: boolean;
     }>;
-    profilePicture: Array<{
+    profilePictures: Array<{
         id: number;
         name: string;
         src: string;
         collected: boolean;
         active: boolean;
     }>;
-    profileBorder: Array<{
+    profileBorders: Array<{
         id: number;
         name: string;
         src: string;
         collected: boolean;
         active: boolean;
     }>;
-    achievement: Array<{
+    achievements: Array<{
         title: string;
         description: string;
         icon: string;
@@ -49,8 +50,8 @@ interface ICollection {
  */
 function saveProfileChanges(collection: ICollection, setCollection: (value: ICollection) => void) {
     store.dispatch(changeProfilePics({
-        profilePicture: collection.profilePicture.find((item) => item.active)?.id || 0,
-        profileBorder: collection.profileBorder.find((item) => item.active)?.id || 0
+        profilePicture: collection.profilePictures.find((item) => item.active)?.id || 0,
+        profileBorder: collection.profileBorders.find((item) => item.active)?.id || 0
     }))
     setCollection(collection)
 }
@@ -60,6 +61,7 @@ function saveProfileChanges(collection: ICollection, setCollection: (value: ICol
  * @returns The Collection component.
  */
 export function Collection() {
+    const user = useSelector((state: RootState) => state.user);
     const [collection, setCollection] = useState<ICollection | null>(null);
 
     /**
@@ -75,7 +77,9 @@ export function Collection() {
 
     useEffect(() => {
         getUserCollection()
-    }, []);
+    }, [user]);
+
+    console.log(collection)
 
     return <div id="collection">
         <header id="collectionHeader">
@@ -90,13 +94,13 @@ export function Collection() {
                     <h2>Profile Pictures</h2>
                     <article>
                         {
-                            collection?.profilePicture.map((item, index) => {
+                            collection?.profilePictures?.map((item, index) => {
                                 return <div
                                     className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`}
                                     key={index}
                                     onClick={() => {
                                         if (item.collected && !item.active) {
-                                            collection.profilePicture.forEach((element) => {
+                                            collection.profilePictures.forEach((element) => {
                                                 element.active = element.id === item.id
                                             })
                                             saveProfileChanges({ ...collection }, setCollection)
@@ -124,13 +128,13 @@ export function Collection() {
                     <h2>Profile Borders</h2>
                     <article>
                         {
-                            collection?.profileBorder.map((item, index) => {
+                            collection?.profileBorders?.map((item, index) => {
                                 return <div
                                     className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`}
                                     key={index}
                                     onClick={() => {
                                         if (item.collected && !item.active) {
-                                            collection.profileBorder.forEach((element) => {
+                                            collection.profileBorders.forEach((element) => {
                                                 element.active = element.id === item.id
                                             })
                                             saveProfileChanges({ ...collection }, setCollection)
@@ -158,7 +162,7 @@ export function Collection() {
                     <h2>Inventory</h2>
                     <article>
                         {
-                            collection?.inventory.map((item, index) => {
+                            collection?.inventory?.map((item, index) => {
                                 return <div className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`} key={index}>
                                     <img src={`http://localhost:3000/items/${item.src}`} alt={item.name} draggable={false} />
                                     {
@@ -177,15 +181,17 @@ export function Collection() {
                     <h2>Achievements</h2>
                     <article>
                         {
-                            collection?.achievement.map((achievement, index) => {
-                                return <div className={achievement.goal === achievement.progress ? "" : "uncollectedItem"} key={index}>
+                            collection?.achievements?.map((achievement, index) => {
+                                return <div className={achievement.progress && achievement.goal && achievement.goal === achievement.progress ? "" : "uncollectedItem"} key={index}>
                                     <Achievement key={index} achievement={achievement} />
-                                    <div className="progressBar">
-                                        <img className="xpBar" src={xpBar} alt="XP bar" />
-                                        <img className="xp" src={xp} alt="XP" style={{
-                                            clipPath: `inset(0 ${100 - (achievement.progress / achievement.goal) * 100}% 0 0)`
-                                        }} />
-                                    </div>
+                                    {achievement.goal && achievement.progress ? (
+                                        <div className="progressBar">
+                                            <img className="xpBar" src={xpBar} alt="XP bar" />
+                                            <img className="xp" src={xp} alt="XP" style={{
+                                                clipPath: `inset(0 ${100 - (achievement.progress / achievement.goal) * 100}% 0 0)`
+                                            }} />
+                                        </div>
+                                    ) : null}
                                 </div>
                             })
                         }
