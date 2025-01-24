@@ -24,6 +24,7 @@ interface CraftingTableProps {
     socket: Socket | null,
     isHardcore: boolean,
     turn: number,
+    gamemode: number
 }
 
 /**
@@ -63,9 +64,9 @@ export function CraftingTable(props: CraftingTableProps) {
         <img id="craftingArrow" src={arrow} alt="arrow" />
         <div id="craftedItem" className="slot" onClick={() => {
             let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
-            let requiredItemByTutorialControl = store.getState().game.requiredControl
-            console.log(requiredItemByTutorialControl)
-            if (craftedItemGroup && craftedItemId && (requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredItemByTutorialControl?.length === 0) {
+            let requiredControlByTutorial = store.getState().game.requiredControl
+            console.log(craftedItemGroup, craftedItemId, requiredItemByTutorial, requiredControlByTutorial)
+            if (craftedItemGroup && craftedItemId && (((requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredControlByTutorial?.length === 0) || props.gamemode != 1)) {
                 let guess = {
                     item: {
                         group: craftedItemGroup,
@@ -78,6 +79,11 @@ export function CraftingTable(props: CraftingTableProps) {
                     })
                 }
                 props.socket?.emit("guess", guess)
+                console.log(props.craftingTable.flat(2).map(slot => {
+                    let item = slot?.cloneNode() as HTMLImageElement
+                    item?.classList.remove("item")
+                    return item?.className ? [item?.className] : null
+                }))
             } else {
                 store.dispatch(setHelp(true))
             }

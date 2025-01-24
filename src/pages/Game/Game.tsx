@@ -136,10 +136,6 @@ export function Game() {
         return () => { socket?.off("guess") }
     }, [socket, searchParams, setSearchParams])
 
-    useEffect(() => {
-        console.log(document.referrer)
-    }, [])
-
     return <>
         <Meta
             title={gamemodeName}
@@ -154,23 +150,23 @@ export function Game() {
                     store.dispatch(setNewGame(false))
                 }}>Settings</StoneButton>
             </nav>
-            <CraftingTable turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
+            <CraftingTable gamemode={Number(gamemodeId)} turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
             {gamemodeId !== "1" ? (
                 hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />
             ) : (
                 <>
-                    <Button onClick={() => { store.dispatch(setHelp(true)) }} color="green">Ask Allay</Button>
+                    <Button onClick={!result ? () => { store.dispatch(setHelp(true)) } : undefined} color="green">Ask Allay</Button>
                     <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
                 </>
             )}
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
             {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
-                    isKnowledgeBookOpen && gamemodeId != "7" ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
+                    isKnowledgeBookOpen && gamemodeId != "7" ? <KnowledgeBook result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
                 ) : null
             }
-            <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+            {!result && <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />}
             {
                 maxHearts && turn >= maxHearts * 2 ? (
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />

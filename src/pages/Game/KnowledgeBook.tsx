@@ -14,6 +14,7 @@ interface KnowledgeBookProps {
     items: Items;
     craftingTableSize: number;
     setCraftingTable: (craftingTable: Array<Array<HTMLImageElement | null>>) => void;
+    result: boolean;
 }
 
 /**
@@ -140,7 +141,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
-                                onClick={() => {
+                                onClick={!props.result ? () => {
                                     const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: props.craftingTableSize }).map(() => Array.from({ length: props.craftingTableSize }).map(() => null));
                                     recipe.forEach((row, rowIndex) => {
                                         row.forEach((slot, colIndex) => {
@@ -151,7 +152,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                     });
                                     props.setCraftingTable(craftingTable);
                                     SoundEffect.play("click");
-                                }}
+                                }: () => {}}
                             >
                                 <table className="recipeCraftingTable">
                                     <tbody>

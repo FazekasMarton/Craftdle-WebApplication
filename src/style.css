@@ -889,7 +889,8 @@ input:-webkit-autofill:focus {
         "tips inventoryAndKnowledgeBook";
     padding: 0.5dvh;
     gap: 2vmin;
-    height: 99dvh
+    height: 99dvh;
+    overflow: hidden;
 }
 
 /* -- General -- */
@@ -1230,6 +1231,12 @@ input:-webkit-autofill:focus {
     pointer-events: none;
 }
 
+/* Tutorial Button */
+
+#game button{
+    grid-area: hints;
+}
+
 /* - Tutorial - */
 
 #tutorial {
@@ -1298,7 +1305,7 @@ input:-webkit-autofill:focus {
 
 #tutorialContent {
     padding: 5vmin;
-    font-size: 3vmax;
+    font-size: 23px;
 }
 
 .tutorialText {
@@ -2102,6 +2109,10 @@ input:-webkit-autofill:focus {
         top: 75%;
         right: 50%;
         height: 80dvw;
+    }
+
+    #tutorialContent {
+        font-size: 20px;
     }
 
     /* --- Guide --- */
