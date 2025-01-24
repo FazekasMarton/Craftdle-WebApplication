@@ -1031,13 +1031,14 @@ input:-webkit-autofill:focus {
     gap: 1vmin;
 }
 
-#hints .button {
-    font-size: 2.5vmin;
+.hintSlot {
+    display: flex;
+    height: 8vh;
 }
 
-.hintSlot {
-    display: grid;
-    height: 8vh;
+#hints .button {
+    flex-basis: 100%;
+    font-size: 2.5vmin;
 }
 
 .hintContainer {
