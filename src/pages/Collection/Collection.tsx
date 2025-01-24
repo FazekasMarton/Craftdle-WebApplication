@@ -40,6 +40,7 @@ interface ICollection {
         progress: number;
         goal: number;
         rarity: number;
+        collected: boolean;
     }>;
 }
 
@@ -54,6 +55,10 @@ function saveProfileChanges(collection: ICollection, setCollection: (value: ICol
         profileBorder: collection.profileBorders.find((item) => item.active)?.id || 0
     }))
     setCollection(collection)
+}
+
+function counter(list: Array<{collected: boolean}> | undefined){
+    return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`
 }
 
 /**
@@ -91,7 +96,7 @@ export function Collection() {
         <main id="collectionMain">
             <div id="collectionContainer">
                 <section id="collectionProfilePicture">
-                    <h2>Profile Pictures</h2>
+                    <h2>Profile Pictures {counter(collection?.profilePictures)}</h2>
                     <article>
                         {
                             collection?.profilePictures?.map((item, index) => {
@@ -107,7 +112,7 @@ export function Collection() {
                                         }
                                     }}
                                 >
-                                    <img src={`http://localhost:3000/profilePictures/${item.src}`} alt={item.name} draggable={false} />
+                                    <img src={`http://localhost:3000/assets/profilePictures/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
@@ -125,7 +130,7 @@ export function Collection() {
                     </article>
                 </section>
                 <section id="collectionProfileBorder">
-                    <h2>Profile Borders</h2>
+                    <h2>Profile Borders {counter(collection?.profileBorders)}</h2>
                     <article>
                         {
                             collection?.profileBorders?.map((item, index) => {
@@ -141,7 +146,7 @@ export function Collection() {
                                         }
                                     }}
                                 >
-                                    <img src={`http://localhost:3000/profileBorders/${item.src}`} alt={item.name} draggable={false} />
+                                    <img src={`http://localhost:3000/assets/profileBorders/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
@@ -159,12 +164,12 @@ export function Collection() {
                     </article>
                 </section>
                 <section id="collectionInventory">
-                    <h2>Inventory</h2>
+                    <h2>Inventory {counter(collection?.inventory)}</h2>
                     <article>
                         {
                             collection?.inventory?.map((item, index) => {
                                 return <div className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`} key={index}>
-                                    <img src={`http://localhost:3000/items/${item.src}`} alt={item.name} draggable={false} />
+                                    <img src={`http://localhost:3000/assets/items/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         !item.collected ? (
                                             <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" />
@@ -178,7 +183,7 @@ export function Collection() {
                     </article>
                 </section>
                 <section id="collectionAchievements">
-                    <h2>Achievements</h2>
+                    <h2>Achievements {counter(collection?.achievements)}</h2>
                     <article>
                         {
                             collection?.achievements?.map((achievement, index) => {
