@@ -52,7 +52,7 @@ export function SettingsHeader(props: SettingsHeaderProps) {
                 title: "Warning",
                 titleColor: "#AA0000",
                 text: "Unsaved changes exist"
-            } : undefined}>{saveable ? <img src={warning} alt="warning"/> : null}Back to Menu</StoneButton>
+            } : undefined}>{saveable ? <img src={warning} alt="warning"/> : null}Exit</StoneButton>
             <StoneButton onClick={changeNextProfile}>Profile {props.activeProfile + 1}</StoneButton>
         </nav>
     </header>

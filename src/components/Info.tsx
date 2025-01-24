@@ -1,17 +1,21 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../app/store"
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../app/store";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { deleteInfo } from "../features/info/infoSlice";
 
 /**
  * Info component to display information based on the Redux state.
  * @returns The Info component.
  */
 export function Info() {
-    const info = useSelector((state: RootState) => state.info)
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const info = useSelector((state: RootState) => state.info);
     const [calculatedPosition, setCalculatedPosition] = useState<{
-        left?: number,
-        right?: number,
-        top?: number
+        left?: number;
+        right?: number;
+        top?: number;
     }>({});
 
     /**
@@ -43,12 +47,19 @@ export function Info() {
         };
     }, [info.position]);
 
+    /**
+     * Effect to reset the info state when the route changes.
+     */
+    useEffect(() => {
+        dispatch(deleteInfo());
+    }, [location, dispatch]);
+
     return (
         <div
             id="infoWindow"
             style={{
                 display: info.position?.x && info.position?.y ? "block" : "none",
-                ...calculatedPosition
+                ...calculatedPosition,
             }}
         >
             <div id="infoTitle" style={{ color: info.titlecolor }}>
@@ -56,5 +67,5 @@ export function Info() {
             </div>
             <div id="infoText">{info.text}</div>
         </div>
-    )
+    );
 }
