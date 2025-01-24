@@ -34,6 +34,7 @@ function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
 interface CursorProps {
     craftingTableSlots: Array<Array<HTMLImageElement | null>>;
     setCraftingTableSlots: (value: Array<Array<HTMLImageElement | null>>) => void;
+    craftingTableSize: number;
 }
 
 /**
@@ -86,7 +87,10 @@ export function Cursor(props: CursorProps) {
 
         function addToSlot(slots: Array<Array<HTMLImageElement | null>>, slotNumber: number, itemToPlace: HTMLImageElement | null) {
             const currentSlotItem = slots[Math.floor(slotNumber / 3)][slotNumber % 3];
-            slots[Math.floor(slotNumber / 3)][slotNumber % 3] = itemToPlace || null;
+            const row = Math.floor(slotNumber / 3);
+            const column = slotNumber % 3;
+            if(row < props.craftingTableSize && column < props.craftingTableSize)
+            slots[row][column] = itemToPlace || null;
             props.setCraftingTableSlots([...slots]);
             return currentSlotItem
         }

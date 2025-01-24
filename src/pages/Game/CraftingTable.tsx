@@ -46,18 +46,18 @@ export function CraftingTable(props: CraftingTableProps) {
         <h1 id="craftingTitle">Crafting</h1>
         <table>
             <tbody>
-                {Array.from({ length: props.size }).map((_, rowIndex) => {
-                    return <tr key={rowIndex}>
-                        {Array.from({ length: props.size }).map((_, slotIndex) => {
-                            const item = props.craftingTable[rowIndex]?.[slotIndex]
-                            if (!item?.parentElement?.classList.contains("inventorySlot")) {
-                                item?.classList.remove("item")
-                            }
-                            return <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot craftingTableSlot">
-                                {item ? <Item item={item} className="item" /> : null}
-                            </td>
-                        })}
-                    </tr>
+                {props.craftingTable.map((row, rowIndex) => {
+                    return rowIndex < props.size ? (
+                        <tr key={rowIndex}>
+                            {row.map((slot, slotIndex) => {
+                                return slotIndex < props.size ? (
+                                    <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot craftingTableSlot">
+                                        {slot ? <Item item={slot} className="item" /> : null}
+                                    </td>
+                                ) : null
+                            })}
+                        </tr>
+                    ) : null
                 })}
             </tbody>
         </table>
@@ -65,7 +65,6 @@ export function CraftingTable(props: CraftingTableProps) {
         <div id="craftedItem" className="slot" onClick={() => {
             let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
             let requiredControlByTutorial = store.getState().game.requiredControl
-            console.log(craftedItemGroup, craftedItemId, requiredItemByTutorial, requiredControlByTutorial)
             if (craftedItemGroup && craftedItemId && (((requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredControlByTutorial?.length === 0) || props.gamemode != 1)) {
                 let guess = {
                     item: {
@@ -79,11 +78,6 @@ export function CraftingTable(props: CraftingTableProps) {
                     })
                 }
                 props.socket?.emit("guess", guess)
-                console.log(props.craftingTable.flat(2).map(slot => {
-                    let item = slot?.cloneNode() as HTMLImageElement
-                    item?.classList.remove("item")
-                    return item?.className ? [item?.className] : null
-                }))
             } else {
                 store.dispatch(setHelp(true))
             }
