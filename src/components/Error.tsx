@@ -30,7 +30,9 @@ export function Error() {
             search: urlParams.toString(),
         });
     
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 
     return error.status != 200 ? (
