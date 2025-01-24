@@ -34,7 +34,7 @@ export function GamemodesMain(props: GamemodesMainProps) {
                     onMouseLeave={gamemode.id == 1 && !gamemode.playedBefore ? () => {
                         store.dispatch(deleteInfo())
                     } : undefined}>
-                    <div className="gamemodeIcon" aria-label={`${gamemode.name} mode icon`} style={{ backgroundImage: `url(http://localhost:3000/gamemodes/${gamemode.icon})` }}>
+                    <div className="gamemodeIcon" aria-label={`${gamemode.name} mode icon`} style={{ backgroundImage: `url(http://localhost:3000/assets/gamemodes/${gamemode.icon})` }}>
                         <Link className="playButton" to={`/play?gamemode=${gamemode.id}`} onClick={() => {
                             store.dispatch(setNewGame(!gamemode.continueGame))
                         }}></Link>

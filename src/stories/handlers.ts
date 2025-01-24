@@ -295,7 +295,7 @@ export const handlers = [
     }),
 
     // Handler for getting profile borders
-    http.get('http://localhost:3000/profileBorders/:id', async ({ params }) => {
+    http.get('http://localhost:3000/assets/profileBorders/:id', async ({ params }) => {
         let img = gold;
         switch (params.id) {
             case "Gold.png":
@@ -322,7 +322,7 @@ export const handlers = [
     }),
 
     // Handler for getting profile pictures
-    http.get('http://localhost:3000/profilepictures/:id', async ({ params }) => {
+    http.get('http://localhost:3000/assets/profilepictures/:id', async ({ params }) => {
         let img = fox;
         switch (params.id) {
             case "Fox.png":
@@ -385,7 +385,7 @@ export const handlers = [
     }),
 
     // Handler for getting items
-    http.get('http://localhost:3000/items/:id', async ({ params }) => {
+    http.get('http://localhost:3000/assets/items/:id', async ({ params }) => {
         let img = op;
         switch (params.id) {
             case "Oak_Planks.png":

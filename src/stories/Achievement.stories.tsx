@@ -18,67 +18,67 @@ const achievementList: IAchievement[] = [
     {
         title: "Achievement 1 Completed!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/Hardcore.png",
+        icon: "http://localhost:3000/assets/gamemodes/Hardcore.png",
         rarity: 0
     },
     {
         title: "Achievement 2 Completed!",
         description: "You have completed an achievement!",
-        icon: "http://localhost:3000/gamemodes/AllInOne.png",
+        icon: "http://localhost:3000/assets/gamemodes/AllInOne.png",
         rarity: 2
     },
     {
         title: "Achievement 3 Unlocked!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/Pocket.png",
+        icon: "http://localhost:3000/assets/gamemodes/Pocket.png",
         rarity: 2
     },
     {
         title: "Achievement 4 Unlocked!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/Resource.png",
+        icon: "http://localhost:3000/assets/gamemodes/Resource.png",
         rarity: 0
     },
     {
         title: "Achievement 5 Completed!",
         description: "You have completed an achievement!",
-        icon: "http://localhost:3000/gamemodes/Classic.png",
+        icon: "http://localhost:3000/assets/gamemodes/Classic.png",
         rarity: 0
     },
     {
         title: "Achievement 6 Unlocked!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/Tutorial.png",
+        icon: "http://localhost:3000/assets/gamemodes/Tutorial.png",
         rarity: 2
     },
     {
         title: "Achievement 7 Unlocked!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/Pocket.png",
+        icon: "http://localhost:3000/assets/gamemodes/Pocket.png",
         rarity: 1
     },
     {
         title: "Achievement 8 Completed!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/Hardcore.png",
+        icon: "http://localhost:3000/assets/gamemodes/Hardcore.png",
         rarity: 0
     },
     {
         title: "Achievement 9 Unlocked!",
         description: "You have completed an achievement!",
-        icon: "http://localhost:3000/gamemodes/AllInOne.png",
+        icon: "http://localhost:3000/assets/gamemodes/AllInOne.png",
         rarity: 1
     },
     {
         title: "Achievement 10 Completed!",
         description: "You have unlocked an achievement!",
-        icon: "http://localhost:3000/gamemodes/AllInOne.png",
+        icon: "http://localhost:3000/assets/gamemodes/AllInOne.png",
         rarity: 0
     },
     {
         title: "Achievement 11 Unlocked!",
         description: "You have completed an achievement!",
-        icon: "http://localhost:3000/gamemodes/Hardcore.png",
+        icon: "http://localhost:3000/assets/gamemodes/Hardcore.png",
         rarity: 1
     }
 ];
