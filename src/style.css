@@ -1839,6 +1839,7 @@ input:-webkit-autofill:focus {
     padding: 5vmin;
     background-image: url("./assets/imgs/backgrounds/sign.png");
     background-size: 30vmin;
+    min-height: calc(100% - 10vmin);
 }
 
 #collectionContainer h2 {
