@@ -84,8 +84,6 @@ export function Collection() {
         getUserCollection()
     }, [user]);
 
-    console.log(collection)
-
     return <div id="collection">
         <header id="collectionHeader">
             <nav>

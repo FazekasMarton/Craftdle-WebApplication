@@ -1829,6 +1829,19 @@ input:-webkit-autofill:focus {
     height: 8vmin;
 }
 
+#stats section > article {
+    padding-left: 10vmin;
+}
+
+#stats section > article h4 {
+    margin-bottom: 0;
+}
+
+#stats section > article ul {
+    margin-top: 0;
+    list-style: square;
+}
+
 /* -- Collection -- */
 
 #collectionMain {
