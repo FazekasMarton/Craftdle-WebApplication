@@ -44,6 +44,6 @@ export function Achievement(props: AchievementProps) {
     return <div className="achievement">
         <h1 className="achievementTitle" style={{color: rarityColors[achievement.rarity]}}>{achievement.title}</h1>
         <p className="achievementDescription">{achievement.description}</p>
-        <img className="achievementIcon" src={`http://localhost:3000/achievements/${achievement.icon}`} alt="Achievement Icon" />
+        <img className="achievementIcon" src={`http://localhost:3000/assets/achievements/${achievement.icon}`} alt="Achievement Icon" />
     </div>
 }

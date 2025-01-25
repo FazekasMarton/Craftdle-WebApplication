@@ -1,5 +1,4 @@
 import { Navigate, Outlet, RouterProvider } from "react-router"
-import { createBrowserRouter } from "react-router-dom"
 import { MainMenu } from "./pages/MainMenu/MainMenu"
 import { Settings } from "./pages/Settings/Settings"
 import { Info } from "./components/Info"
@@ -24,8 +23,9 @@ import { Guide } from "./pages/Guide/Guide"
 import { Meta } from "./components/Meta"
 import { Collection } from "./pages/Collection/Collection"
 import { Stats } from "./pages/Stats/Stats"
+import { createBrowserRouter } from "react-router-dom"
 
-const normalRouter = createBrowserRouter([
+const generalRouter = createBrowserRouter([
     {
         path: "/",
         element: <>
@@ -40,17 +40,6 @@ const normalRouter = createBrowserRouter([
                     <MainMenu />
                 </>,
                 index: true
-            },
-            {
-                path: "settings",
-                element: <>
-                    <Meta
-                        title="Settings"
-                        description="Customize your game settings in Craftdle, including controls, audio, and icon sizes for a personalized experience on PC or mobile."
-                        keywords="Craftdle, Game Settings, Controls, Audio, Icon Size, Customize Appearance, Game Preferences, Minecraft Puzzle Settings, Guideian Angel"
-                    />
-                    <Settings />
-                </>
             },
             {
                 path: "singleplayer",
@@ -110,34 +99,48 @@ const normalRouter = createBrowserRouter([
                     />
                     <Guide />
                 </>
-            },
-            {
-                path: "collection",
-                element: <>
-                    <Meta
-                        title="Collection"
-                        description="View your collection in Craftdle! Track your progress, view your achievements, and explore the puzzles you've completed. Play now on PC or mobile."
-                        keywords="Craftdle, Collection, Achievements, Progress, Puzzles, Crafting Game, Puzzle Game, Guideian Angel"
-                    />
-                    <Collection />
-                </>
-            },
-            {
-                path: "stats",
-                element: <>
-                    <Meta
-                        title="Player Stats and Achievements - Craftdle"
-                        description="Explore your personal game statistics, including your achievements, progress in different gamemodes, high scores, and overall performance in Craftdle."
-                        keywords="Craftdle, Player Stats, Achievements, Game Progress, High Scores, Player Performance, Craftdle Achievements, Game Stats, Milestones, Puzzle Game Performance, Crafting Game Stats, Guideian Angel"
-                    />
-                    <Stats />
-                </>
-            },
-            {
-                path: "*",
-                element: <Navigate to="/" />
-            },
+            }
         ]
+    },
+    {
+        path: "*",
+        element: <Navigate to="/" />
+    }
+])
+
+const exlusiveRouter = createBrowserRouter([
+    {
+        path: "collection",
+        element: <>
+            <Meta
+                title="Collection"
+                description="View your collection in Craftdle! Track your progress, view your achievements, and explore the puzzles you've completed. Play now on PC or mobile."
+                keywords="Craftdle, Collection, Achievements, Progress, Puzzles, Crafting Game, Puzzle Game, Guideian Angel"
+            />
+            <Collection />
+        </>
+    },
+    {
+        path: "stats",
+        element: <>
+            <Meta
+                title="Player Stats and Achievements - Craftdle"
+                description="Explore your personal game statistics, including your achievements, progress in different gamemodes, high scores, and overall performance in Craftdle."
+                keywords="Craftdle, Player Stats, Achievements, Game Progress, High Scores, Player Performance, Craftdle Achievements, Game Stats, Milestones, Puzzle Game Performance, Crafting Game Stats, Guideian Angel"
+            />
+            <Stats />
+        </>
+    },
+    {
+        path: "settings",
+        element: <>
+            <Meta
+                title="Settings"
+                description="Customize your game settings in Craftdle, including controls, audio, and icon sizes for a personalized experience on PC or mobile."
+                keywords="Craftdle, Game Settings, Controls, Audio, Icon Size, Customize Appearance, Game Preferences, Minecraft Puzzle Settings, Guideian Angel"
+            />
+            <Settings />
+        </>
     }
 ])
 
@@ -178,7 +181,7 @@ async function autoLogin(token: string | null) {
     await loadSettings()
 }
 
-function App() {
+export function App() {
     const user = useSelector((state: RootState) => state.user);
     const socket = useSelector((state: RootState) => state.socket.socket);
     const maintenance = useSelector((state: RootState) => state.maintenance);
@@ -202,9 +205,29 @@ function App() {
         })
     }, [socket])
 
+    const router = maintenance.started && maintenance.countdown
+        ? maintenanceRouter
+        : user.isGuest
+            ? generalRouter
+            : createBrowserRouter([
+                {
+                    ...generalRouter.routes[0],
+                    id: "general",
+                    children: user.isGuest
+                        ? generalRouter.routes[0].children as any
+                        : [
+                            ...(generalRouter.routes[0].children || []),
+                            ...exlusiveRouter.routes.map(route => ({
+                                ...route,
+                                id: `exclusive-${route.id}`
+                            })),
+                        ] as any,
+                },
+            ]);
+
     return (
         <>
-            <RouterProvider router={maintenance.started && maintenance.countdown ? maintenanceRouter : normalRouter} />
+            <RouterProvider router={router} />
         </>
     )
 }

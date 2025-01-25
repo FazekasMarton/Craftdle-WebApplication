@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { IProfileImage } from "../../interfaces/IProfileImage"
-import { store } from "../../app/store"
+import { RootState, store } from "../../app/store"
 import { getStats } from "../../features/user/dataRequestSlice"
 import { StoneButton } from "../../components/StoneButton"
+import { useSelector } from "react-redux"
 
 /**
  * Interface for collection statistics.
@@ -37,6 +38,7 @@ interface IStats {
  * @returns The Stats component.
  */
 export function Stats() {
+    const user = useSelector((state: RootState) => state.user);
     const [stats, setStats] = useState<IStats | null>(null)
     const gameStats = {
         totalSolved: 0,
@@ -58,7 +60,7 @@ export function Stats() {
 
     useEffect(() => {
         getUserStats()
-    }, [])
+    }, [user])
 
     return <div id="stats">
         <header id="statsHeader">
@@ -84,19 +86,19 @@ export function Stats() {
                     <article>
                         <p>Streak: {stats?.streak}</p>
                         <p>Registration Date: {stats?.registrationDate}</p>
-                        <p>Performed Achievements: {stats?.performedAchievements.collected}/{stats?.performedAchievements.collectable}</p>
-                        <p>Collected Recipes: {stats?.collectedRecipes.collected}/{stats?.collectedRecipes.collectable}</p>
+                        <p>Performed Achievements: {stats?.performedAchievements?.collected}/{stats?.performedAchievements?.collectable}</p>
+                        <p>Collected Recipes: {stats?.collectedRecipes?.collected}/{stats?.collectedRecipes?.collectable}</p>
                     </article>
                 </section>
                 <section id="gamemodeStats">
+                    <h3>Gamemode Stats</h3>
                     <article>
-                        <h3>Gamemode Stats</h3>
                         {
-                            stats?.gamemodes.map(gamemode => {
+                            stats?.gamemodes?.map(gamemode => {
                                 gameStats.totalSolved += gamemode.solved
                                 gameStats.totalPlayed += gamemode.played
                                 return <div key={gamemode.gamemodeName}>
-                                    <h4 style={{color: `#${gamemode.color}`}}>{gamemode.gamemodeName}</h4>
+                                    <h4 style={{ color: `#${gamemode.color}` }}>{gamemode.gamemodeName}</h4>
                                     <ul>
                                         <li>Played: {gamemode.played}</li>
                                         <li>Solved: {gamemode.solved}</li>
