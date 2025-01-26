@@ -685,9 +685,45 @@ input:-webkit-autofill:focus {
     padding: 0;
 }
 
-.link {
+#forgotPassword {
+    text-align: end;
+    margin: 5px 0;
+}
+
+#forgotPasswordItemContainer{
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: min-content min-content;
+    grid-template-areas: 
+    "forgotPasswordTitle forgotPasswordItem"
+    "forgotPasswordText forgotPasswordItem";
+    gap: 0 50px;
+}
+
+#forgotPasswordItem{
+    grid-area: forgotPasswordItem;
+    padding: 5px;
+    width: 15vmin;
+    height: 15vmin;
+    object-fit: contain;
+    background-color: rgb(19, 19, 19);
+    border: rgb(81, 81, 81) solid 3px;
+}
+
+#forgotPasswordTitle{
+    grid-area: forgotPasswordTitle;
+}
+
+#forgotPasswordText{
+    grid-area: forgotPasswordText;
+    text-align: justify;
+}
+
+.link, #forgotPassword {
     color: rgb(0, 170, 0);
     font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .authForm button {
