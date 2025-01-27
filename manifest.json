@@ -4,65 +4,65 @@
   "description": "Craftdle is an engaging puzzle game where you solve crafting riddles by guessing recipes.\nThe game offers a variety of modes including Classic, All in One, and Pocket.\nThe app supports both PC and mobile interfaces.\nReceive hints and feedback on your guesses to improve your crafting skills.",
   "icons": [
     {
-      "src": "/img/logos/craftdle_icon_small.png",
+      "src": "/imgs/logos/craftdle_icon_small.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/img/logos/craftdle_icon.png",
+      "src": "/imgs/logos/craftdle_icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
   "screenshots": [
     {
-      "src": "/screenshots/Menu_Mobile.png",
-      "sizes": "459x944",
+      "src": "/imgs/screenshots/MenuMobile.png",
+      "sizes": "538x1106",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Crafting_Mobile.png",
-      "sizes": "459x944",
+      "src": "/imgs/screenshots/GamemodesMobile.png",
+      "sizes": "534x1104",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Pocket_Mobile.png",
-      "sizes": "459x944",
+      "src": "/imgs/screenshots/TutorialMobile.png",
+      "sizes": "534x1106",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Game_Over_Mobile.png",
-      "sizes": "459x944",
+      "src": "/imgs/screenshots/CollectionMobile.png",
+      "sizes": "535x1107",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Menu_PC.png",
-      "sizes": "1920x1089",
+      "src": "/imgs/screenshots/MenuPC.png",
+      "sizes": "1919x1199",
       "form_factor": "wide",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Crafting_PC.png",
-      "sizes": "1920x1089",
+      "src": "/imgs/screenshots/GamemodesPC.png",
+      "sizes": "1919x1199",
       "form_factor": "wide",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Pocket_PC.png",
-      "sizes": "1920x1089",
+      "src": "/imgs/screenshots/TutorialPC.png",
+      "sizes": "1919x1199",
       "form_factor": "wide",
       "type": "image/png",
       "label": "Application"
     },
     {
-      "src": "/screenshots/Game_Over__PC.png",
-      "sizes": "1920x1089",
+      "src": "/imgs/screenshots/CollectionPC.png",
+      "sizes": "1919x1199",
       "form_factor": "wide",
       "type": "image/png",
       "label": "Application"
