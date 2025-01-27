@@ -2,7 +2,11 @@ import { useSelector } from "react-redux";
 import { Countdown } from "../../components/Countdown"
 import { RootState } from "../../app/store";
 
-export function MaintenanceNotice(){
+/**
+ * MaintenanceNotice component to display the maintenance countdown.
+ * @returns The MaintenanceNotice component.
+ */
+export function MaintenanceNotice() {
     const maintenance = useSelector((state: RootState) => state.maintenance);
 
     return <div id="maintenanceNotice">

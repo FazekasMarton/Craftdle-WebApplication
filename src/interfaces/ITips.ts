@@ -1,3 +1,6 @@
+/**
+ * Type definition for tips.
+ */
 export type ITips = Array<{
     item: {
         id: string,

@@ -1,33 +1,56 @@
-export interface IItem{
-    id: string
-    name: string,
-    src: string
-} 
+/**
+ * Interface representing an item.
+ */
+export interface IItem {
+    id: string;
+    name: string;
+    src: string;
+}
 
-export class Items{
-    private items: {[key: string]: HTMLImageElement} = {}
+/**
+ * Class to handle items.
+ */
+export class Items {
+    private items: { [key: string]: HTMLImageElement } = {};
 
-    constructor(items?: Array<IItem>){
-        if(items){
-            this.addItems(items)
+    /**
+     * Create an instance of Items.
+     * @param items - The initial items.
+     */
+    constructor(items?: Array<IItem>) {
+        if (items) {
+            this.addItems(items);
         }
     }
 
-    addItems(items: Array<IItem>){
+    /**
+     * Add items to the collection.
+     * @param items - The items to add.
+     */
+    addItems(items: Array<IItem>) {
         items.forEach(item => {
-            this.addItem(item)
+            this.addItem(item);
         });
     }
 
-    addItem(item: IItem){
-        let image = new Image()
-        image.className = item.id
-        image.alt = item.name
-        image.src = `http://localhost:3000/items/${item.src}`
-        this.items[item.id] = image
+    /**
+     * Add an item to the collection.
+     * @param item - The item to add.
+     */
+    addItem(item: IItem) {
+        let image = new Image();
+        image.className = item.id;
+        image.alt = item.name;
+        image.src = `http://localhost:3000/assets/items/${item.src}`;
+        this.items[item.id] = image;
     }
 
-    getItem(itemId: string){
-        return this.items[itemId]
+    /**
+     * Get an item by its ID.
+     * @param itemId - The ID of the item.
+     * @returns The item or undefined if not found.
+     */
+    getItem(itemId: string) {
+        return this.items[itemId];
     }
 }

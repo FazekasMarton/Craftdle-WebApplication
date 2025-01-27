@@ -2,13 +2,13 @@ import { useState } from "react";
 import { IItem, Items } from "../classes/Items";
 import { Cursor } from "../pages/Game/Cursor";
 import { Inventory } from "../pages/Game/Inventory";
-import "../style.css"
+import "../style.css";
 import { Provider } from "react-redux";
 import { store } from "../app/store";
 import { handlers } from "./handlers";
 
 export default {
-    title: "Components/Invenory",
+    title: "Components/Inventory",
     component: Inventory,
     decorators: [
         (Story: any) => (
@@ -114,6 +114,10 @@ const itemsCollection: IItem[] = [
 
 let items = new Items(itemsCollection);
 
+/**
+ * Default story for the Inventory component.
+ * @returns The Default story.
+ */
 export const Default = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -125,4 +129,4 @@ export const Default = () => {
         <Inventory itemsCollection={itemsCollection} items={items}/>
         <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
-}
+};

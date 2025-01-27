@@ -3,17 +3,25 @@ import { RootState, store } from '../../app/store';
 import { useSelector } from "react-redux";
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
-import { guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
+import { changePassword, forgotPassword, guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
 import { connectSocket } from '../../functions/connectSocket';
 
+/**
+ * Props for the UserAuthNav component.
+ */
 interface UserAuthNavProps {
     isGuest: boolean,
-    form: "Login" | "Register" | "Logout"
-    setForm: (value: "Login" | "Register" | "Logout") => void
+    form: "Login" | "Register" | "Logout" | "ForgotPassword"
+    setForm: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void
 }
 
+/**
+ * UserAuthNav component to display navigation buttons for user authentication.
+ * @param props - The properties for the UserAuthNav component.
+ * @returns The UserAuthNav component.
+ */
 function UserAuthNav(props: UserAuthNavProps) {
     return <div id="userAuthNav">
         <Button color={props.form == "Login" ? "gray" : "green"} onClick={() => props.setForm("Login")}>Log In</Button>
@@ -22,10 +30,19 @@ function UserAuthNav(props: UserAuthNavProps) {
     </div>
 }
 
+/**
+ * Props for the form components.
+ */
 interface FormProps {
     openAuth: (value: boolean) => void;
+    setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
 }
 
+/**
+ * LoginForm component to handle user login.
+ * @param props - The properties for the LoginForm component.
+ * @returns The LoginForm component.
+ */
 function LoginForm(props: FormProps) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -45,6 +62,7 @@ function LoginForm(props: FormProps) {
         <div>
             <label htmlFor="loginPassword">Password:</label>
             <input type="password" id='loginPassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
+            <span id='forgotPassword' onClick={() => { props.setForm && props.setForm("ForgotPassword") }}>Forgot password?</span>
             <ul className='inputError'>{
                 passwordError?.map((err, index) => {
                     return <li key={index}>{err}</li>
@@ -91,6 +109,56 @@ function LoginForm(props: FormProps) {
     </div>
 }
 
+function ForgotPasswordForm() {
+    const [email, setEmail] = useState("")
+    const [emailError, setEmailError] = useState<Array<string>>()
+    const [item, setItem] = useState<{
+        item_id: string,
+        name: string,
+        src: string
+    } | null>(null)
+    return <div className='authForm'>
+        <div>
+            <label htmlFor="forgotPasswordEmail">Email:</label>
+            <input type="email" id='forgotPasswordEmail' onChange={(e) => { setEmail(e.currentTarget.value) }} value={email} />
+            <ul className='inputError'>{
+                emailError?.map((err, index) => {
+                    return <li key={index}>{err}</li>
+                })
+            }</ul>
+        </div>
+        {item && <div id='forgotPasswordItemContainer'>
+            <img id='forgotPasswordItem' src={`http://localhost:3000/assets/items/${item.src}`} alt={item.name} />
+            <h2 id='forgotPasswordTitle'>Email Sent!</h2>
+            <div id='forgotPasswordText'>
+                <p>We’ve sent an email to the address you provided. The email contains three Minecraft items—select the correct one as shown on this page to complete the password reset process.</p>
+                <p>If you don’t see the email, please check your spam or promotions folder!</p>
+            </div>
+        </div>}
+        <Button color="green" onClick={async () => {
+            let emailErr = []
+            if (!/\S+@\S+\.\S+/.test(email)) {
+                emailErr.push("Email must be valid!")
+            }
+            setEmailError(emailErr)
+            if (emailErr.length === 0) {
+                let response = await store.dispatch(forgotPassword(email))
+                let res = (response.payload as any)
+                if (res.response) {
+                    setItem(res.data.data.item)
+                } else {
+                    res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
+                }
+            }
+        }}>{item ? "Resend Email" : "Send Email"}</Button>
+    </div>
+}
+
+/**
+ * RegisterForm component to handle user registration.
+ * @param props - The properties for the RegisterForm component.
+ * @returns The RegisterForm component.
+ */
 function RegisterForm(props: FormProps) {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
@@ -212,10 +280,15 @@ function RegisterForm(props: FormProps) {
     </div>
 }
 
+/**
+ * LogoutForm component to handle user logout.
+ * @param props - The properties for the LogoutForm component.
+ * @returns The LogoutForm component.
+ */
 function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
-        <Button color="green" onClick={async() => {
+        <Button color="green" onClick={async () => {
             let response = await store.dispatch(logout())
             let res = (response.payload as any)
             if (res.response) {
@@ -230,24 +303,39 @@ function LogoutForm(props: FormProps) {
     </div>
 }
 
-function getForm(formName: "Login" | "Register" | "Logout", openAuth: (value: boolean) => void) {
+/**
+ * Get the appropriate form component based on the form name.
+ * @param formName - The name of the form.
+ * @param openAuth - The function to open the authentication form.
+ * @returns The form component.
+ */
+function getForm(formName: "Login" | "Register" | "Logout" | "ForgotPassword", openAuth: (value: boolean) => void, setForm: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void) {
     switch (formName) {
-        case "Login": return <LoginForm openAuth={openAuth} />
+        case "Login": return <LoginForm openAuth={openAuth} setForm={setForm} />
         case 'Register': return <RegisterForm openAuth={openAuth} />
         case 'Logout': return <LogoutForm openAuth={openAuth} />
+        case 'ForgotPassword': return <ForgotPasswordForm />
     }
 }
 
+/**
+ * Props for the UserAuth component.
+ */
 interface UserAuthProps {
     openAuth: (value: boolean) => void;
 }
 
+/**
+ * UserAuth component to handle user authentication.
+ * @param props - The properties for the UserAuth component.
+ * @returns The UserAuth component.
+ */
 export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
-    const [form, setForm] = useState<"Login" | "Register" | "Logout">("Login")
+    const [form, setForm] = useState<"Login" | "Register" | "Logout" | "ForgotPassword">("Login")
     return <div id="userAuth">
         <button id='authExit' onClick={() => props.openAuth(false)}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
-        {getForm(form, props.openAuth)}
+        {getForm(form, props.openAuth, setForm)}
     </div>
 }

@@ -1,15 +1,42 @@
 import { SoundEffect } from "../classes/Audio"
 
-interface ButtonProps{
-    color: "green" | "gray",
-    onClick?: () => void
-    children: string
+/**
+ * Props for the Button component.
+ */
+interface ButtonProps {
+    /**
+     * The color of the button.
+     */
+    color: "green" | "gray";
+
+    /**
+     * Optional click handler for the button.
+     */
+    onClick?: () => void;
+
+    /**
+     * The content to be displayed inside the button.
+     */
+    children: string;
 }
 
-export function Button(props: ButtonProps){
-    let click = props.onClick ? props.onClick : () => {}
-    return <button className={`${props.color}Button button`} onClick={() => {
-        SoundEffect.play("click")
-        click()
-    }}>{props.children}</button>
+/**
+ * Button component to render a button with specified color and click handler.
+ * @param props - The props for the component.
+ * @returns The Button component.
+ */
+export function Button(props: ButtonProps) {
+    const { color, onClick, children } = props;
+
+    return (
+        <button
+            className={`${color}Button button`}
+            onClick={() => {
+                SoundEffect.play("click");
+                if (onClick) onClick();
+            }}
+        >
+            {children}
+        </button>
+    );
 }

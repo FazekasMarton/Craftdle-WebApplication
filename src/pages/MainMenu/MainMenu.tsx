@@ -12,6 +12,10 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../app/store"
 import { MaintenanceNotice } from "./MaintenanceNotice"
 
+/**
+ * MainMenu component to display the main menu of the application.
+ * @returns The MainMenu component.
+ */
 export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
     const user = useSelector((state: RootState) => state.user);
@@ -23,22 +27,22 @@ export function MainMenu() {
             {maintenance.countdown != null ? <MaintenanceNotice key={maintenance.countdown} /> : null}
             <Profile openAuth={setUserForm} />
             <Title />
-            <nav id="mainButtons">
+            <nav id="mainButtons" aria-label="Main Menu">
                 <StoneButton href="/singleplayer">Singleplayer</StoneButton>
                 <StoneButton href="/multiplayer" disabled info={{text: "Coming soon"}}>Multiplayer</StoneButton>
                 <StoneButton href="/collection" disabled={user.isGuest} info={user.isGuest ? {text: "You're not logged in"} : undefined}>Collection</StoneButton>
             </nav>
-            <nav id="additionalButtons">
-                <StoneButton href="/howtoplay">How to Play</StoneButton>
+            <nav id="additionalButtons" aria-label="Additional Menu">
+                <StoneButton href="/guide">How to Play</StoneButton>
                 <StoneButton href="https://patreon.com/Craftdle">Support Us</StoneButton>
                 <StoneButton href="/credits">Credits</StoneButton>
                 <StoneButton>Install App</StoneButton>
             </nav>
-            <nav id="leftSideButtons" className="sideButtons">
+            <nav id="leftSideButtons" className="sideButtons" aria-label="Settings and Statistics">
                 <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? {text: "You're not logged in"} : undefined}><img src={stats} alt="Statistics"/></StoneButton>
                 <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? {text: "You're not logged in"} : undefined}><img src={settings} alt="Settings" /></StoneButton>
             </nav>
-            <nav id="rightSideButtons" className="sideButtons">
+            <nav id="rightSideButtons" className="sideButtons" aria-label="News and Privacy Policy">
                 <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" /></StoneButton>
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" /></StoneButton>
             </nav>
@@ -48,9 +52,9 @@ export function MainMenu() {
                     <span>v1.2</span>
                     <span>for Minecraft 1.21.50</span>
                 </aside>
-                <p id="disclaimer">
+                <small id="disclaimer">
                     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT
-                </p>
+                </small>
             </footer>
         </section>
         {authForm ? <UserAuth openAuth={setUserForm} /> : null}

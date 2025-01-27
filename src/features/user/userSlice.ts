@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ISettings } from "../../interfaces/ISettings"
 import { IProfileImage } from "../../interfaces/IProfileImage";
 
+/**
+ * Interface for the user state.
+ */
 interface UserState {
     username: string | null,
     loginToken: string | null,
@@ -12,6 +15,7 @@ interface UserState {
     settings: ISettings[] | null
 }
 
+// Initial state for the user slice
 const initialState: UserState = {
     username: null,
     loginToken: null,
@@ -22,6 +26,10 @@ const initialState: UserState = {
     settings: null,
 };
 
+/**
+ * Save user data to the appropriate storage.
+ * @param userData - The user data to save.
+ */
 function save(userData: UserState) {
     let storage = userData.stayLoggedIn ? localStorage : sessionStorage
 
@@ -31,19 +39,33 @@ function save(userData: UserState) {
     });
 }
 
+// Create the user slice
 export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+        /**
+         * Save user data.
+         * @param state - The current state.
+         * @param action - The action containing the user data.
+         */
         saveUser: (state, action: PayloadAction<Omit<UserState, 'settings'>>) => {
             Object.assign(state, action.payload);
             save(state);
         },
-        
+        /**
+         * Save user settings.
+         * @param state - The current state.
+         * @param action - The action containing the settings data.
+         */
         saveSettings: (state, action: PayloadAction<ISettings[]>) => {
             state.settings = action.payload
             save(state)
         },
+        /**
+         * Load user data from storage.
+         * @param state - The current state.
+         */
         loadUser: (state) => {
             let storageContent: {[key: string]: any} = {}
             Object.keys(state).forEach((key) => {
@@ -59,6 +81,11 @@ export const userSlice = createSlice({
             });
             Object.assign(state, storageContent);
         },
+        /**
+         * Clear user data.
+         * @param state - The current state.
+         * @param action - The action indicating whether to clear storage.
+         */
         clearUser: (state, action: PayloadAction<boolean>) => {
             state.username = null;
             state.loginToken = null;
@@ -74,5 +101,7 @@ export const userSlice = createSlice({
         }        
     }
 })
+
+// Export the actions and reducer
 export const { saveUser, saveSettings, loadUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

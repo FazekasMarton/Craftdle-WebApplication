@@ -195,14 +195,26 @@ items.addItems(Object.values(recipes).flat().map(recipe => ({
     src: recipe.src
 })));
 
+/**
+ * Function to handle changes in the crafting table.
+ * @param value - The new content of the crafting table.
+ */
 function setCraftingTable(value: (HTMLImageElement | null)[][]){
     console.log("Crafting Table's content changed: ", value)
 }
 
+/**
+ * Default story for the KnowledgeBook component.
+ * @returns The Default story.
+ */
 export const Default = () => {
     return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={3}/>
 };
 
+/**
+ * Pocket story for the KnowledgeBook component.
+ * @returns The Pocket story.
+ */
 export const Pocket = () => {
     return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={2}/>
 };

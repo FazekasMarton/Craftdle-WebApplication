@@ -4,12 +4,20 @@ import { deleteInfo, setInfo } from "../../features/info/infoSlice"
 import { IGamemode } from "../../interfaces/IGamemode"
 import { setNewGame } from "../../features/game/gameSlice"
 
+/**
+ * Props for the GamemodesMain component.
+ */
 interface GamemodesMainProps {
     gamemodes: Array<IGamemode>,
     selectedGamemode: number | null,
     setSelectedGamemode: (value: number | null) => void
 }
 
+/**
+ * GamemodesMain component to display the list of gamemodes.
+ * @param props - The properties for the GamemodesMain component.
+ * @returns The GamemodesMain component.
+ */
 export function GamemodesMain(props: GamemodesMainProps) {
     return <section id="gamemodesMain">
         <div id="gamemodesList">
@@ -26,13 +34,13 @@ export function GamemodesMain(props: GamemodesMainProps) {
                     onMouseLeave={gamemode.id == 1 && !gamemode.playedBefore ? () => {
                         store.dispatch(deleteInfo())
                     } : undefined}>
-                    <div className="gamemodeIcon" style={{ backgroundImage: `url(http://localhost:3000/gamemodes/${gamemode.icon})` }}>
+                    <div className="gamemodeIcon" aria-label={`${gamemode.name} mode icon`} style={{ backgroundImage: `url(http://localhost:3000/assets/gamemodes/${gamemode.icon})` }}>
                         <Link className="playButton" to={`/play?gamemode=${gamemode.id}`} onClick={() => {
                             store.dispatch(setNewGame(!gamemode.continueGame))
                         }}></Link>
                     </div>
                     <h2 className="gamemodeName">{gamemode.name}</h2>
-                    <span className="gamemodeDifficulty" style={{ color: `#${gamemode.difficulty.color}` }}>{gamemode.difficulty.name}</span>
+                    <div className="gamemodeDifficulty" style={{ color: `#${gamemode.difficulty.color}` }}>{gamemode.difficulty.name}</div>
                     <p className="gamemodeDescription">{gamemode.description}</p>
                     {gamemode.id == 1 && !gamemode.playedBefore ? <div className="gamemodeWarning"></div> : null}
                 </article>

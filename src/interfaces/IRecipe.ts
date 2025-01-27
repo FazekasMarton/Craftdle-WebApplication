@@ -1,7 +1,13 @@
+/**
+ * Type definition for a collection of recipes.
+ */
 export type IRecipeCollection = {
     [key: string]: Array<IRecipe>
 }
 
+/**
+ * Interface for a recipe.
+ */
 export interface IRecipe {
     id: string,
     name: string,
@@ -10,9 +16,15 @@ export interface IRecipe {
     src: string
 }
 
+/**
+ * Type definition for a non-shapeless recipe.
+ */
 export type INonShapelessRecipe = Array<Array<Array<string> | null>>
 
-export interface IShapelessRecipe{
+/**
+ * Interface for a shapeless recipe.
+ */
+export interface IShapelessRecipe {
     required: Array<Array<string> | string>
     optional?: Array<Array<string> | string>
 }

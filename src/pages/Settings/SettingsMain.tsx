@@ -3,13 +3,22 @@ import { StoneButton } from "../../components/StoneButton";
 import { StoneSlider } from "../../components/StoneSlider";
 import { IControls, ISettings } from "../../interfaces/ISettings";
 import { DefaultSettings } from "../../classes/DefaultSettings";
+import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
 
+/**
+ * Props for the SettingsMain component.
+ */
 interface SettingsMainProps {
     profile: number;
     profiles: Array<ISettings>;
     setSettings: (value: Array<ISettings>) => void;
 }
 
+/**
+ * SettingsMain component to display and manage the main settings.
+ * @param props - The properties for the SettingsMain component.
+ * @returns The SettingsMain component.
+ */
 export function SettingsMain(props: SettingsMainProps) {
     const profile = props.profiles[props.profile];
     const defaultSettings = DefaultSettings.getDefaultSettings()
@@ -86,53 +95,55 @@ export function SettingsMain(props: SettingsMainProps) {
                     onClick={() => { changeSettings("imagesSize", defaultSettings.imagesSize); }}
                 >Reset</StoneButton>
 
-                <h2 className="settingsLabel">Controls</h2>
+                {isUserPlayingOnPC() ? <>
+                    <h2 className="settingsLabel">Controls</h2>
 
-                <span>Enable Tap Mode</span>
-                <StoneButton onClick={() => { changeControls("isTapMode", !profile.controls.isTapMode); }}>
-                    {profile.controls.isTapMode ? "Enabled" : "Disabled"}
-                </StoneButton>
-                <StoneButton
-                    disabled={profile.controls.isTapMode === defaultSettings.controls.isTapMode}
-                    onClick={() => { changeControls("isTapMode", defaultSettings.controls.isTapMode); }}
-                >Reset</StoneButton>
+                    <span>Enable Tap Mode</span>
+                    <StoneButton onClick={() => { changeControls("isTapMode", !profile.controls.isTapMode); }}>
+                        {profile.controls.isTapMode ? "Enabled" : "Disabled"}
+                    </StoneButton>
+                    <StoneButton
+                        disabled={profile.controls.isTapMode === defaultSettings.controls.isTapMode}
+                        onClick={() => { changeControls("isTapMode", defaultSettings.controls.isTapMode); }}
+                    >Reset</StoneButton>
 
-                <span>Drag / Duplicate Items</span>
-                <StoneButton onClick={() => {
-                    listenInteraction((value: string) => { changeControls("copy", value); });
-                }}>
-                    {profile.controls.copy}
-                </StoneButton>
-                <StoneButton
-                    disabled={profile.controls.copy === defaultSettings.controls.copy}
-                    onClick={() => { changeControls("copy", defaultSettings.controls.copy); }}
-                >Reset</StoneButton>
+                    <span>Drag / Duplicate Items</span>
+                    <StoneButton onClick={() => {
+                        listenInteraction((value: string) => { changeControls("copy", value); });
+                    }}>
+                        {profile.controls.copy}
+                    </StoneButton>
+                    <StoneButton
+                        disabled={profile.controls.copy === defaultSettings.controls.copy}
+                        onClick={() => { changeControls("copy", defaultSettings.controls.copy); }}
+                    >Reset</StoneButton>
 
-                <span>Remove Items</span>
-                <StoneButton onClick={() => {
-                    listenInteraction((value: string) => { changeControls("remove", value); });
-                }}>
-                    {profile.controls.remove}
-                </StoneButton>
-                <StoneButton
-                    disabled={profile.controls.remove === defaultSettings.controls.remove}
-                    onClick={() => { changeControls("remove", defaultSettings.controls.remove); }}
-                >Reset</StoneButton>
+                    <span>Remove Items</span>
+                    <StoneButton onClick={() => {
+                        listenInteraction((value: string) => { changeControls("remove", value); });
+                    }}>
+                        {profile.controls.remove}
+                    </StoneButton>
+                    <StoneButton
+                        disabled={profile.controls.remove === defaultSettings.controls.remove}
+                        onClick={() => { changeControls("remove", defaultSettings.controls.remove); }}
+                    >Reset</StoneButton>
 
-                {Array.from({ length: 9 }, (_, i) => (
-                    <React.Fragment key={i}>
-                        <span>Slot {i + 1}</span>
-                        <StoneButton onClick={() => {
-                            listenInteraction((value: string) => { changeTableMapping(i, value); });
-                        }}>
-                            {profile.controls.tableMapping[i]}
-                        </StoneButton>
-                        <StoneButton
-                            disabled={profile.controls.tableMapping[i] === defaultSettings.controls.tableMapping[i]}
-                            onClick={() => { changeTableMapping(i, defaultSettings.controls.tableMapping[i]); }}
-                        >Reset</StoneButton>
-                    </React.Fragment>
-                ))}
+                    {Array.from({ length: 9 }, (_, i) => (
+                        <React.Fragment key={i}>
+                            <span>Slot {i + 1}</span>
+                            <StoneButton onClick={() => {
+                                listenInteraction((value: string) => { changeTableMapping(i, value); });
+                            }}>
+                                {profile.controls.tableMapping[i]}
+                            </StoneButton>
+                            <StoneButton
+                                disabled={profile.controls.tableMapping[i] === defaultSettings.controls.tableMapping[i]}
+                                onClick={() => { changeTableMapping(i, defaultSettings.controls.tableMapping[i]); }}
+                            >Reset</StoneButton>
+                        </React.Fragment>
+                    ))}
+                </> : null}
             </div>
         </section>
     );

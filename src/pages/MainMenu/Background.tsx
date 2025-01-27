@@ -34,6 +34,9 @@ import bg1_16_4 from "../../assets/imgs/panoramas/1.16_panorama_4.png"
 import bg1_16_5 from "../../assets/imgs/panoramas/1.16_panorama_5.png"
 import { useState } from "react"
 
+/**
+ * Array of panorama images.
+ */
 let panoramass = [
     [bg1_21_0, bg1_21_1, bg1_21_2, bg1_21_3, bg1_21_4, bg1_21_5],
     [bg1_20_0, bg1_20_1, bg1_20_2, bg1_20_3, bg1_20_4, bg1_20_5],
@@ -42,10 +45,18 @@ let panoramass = [
     [bg1_16_0, bg1_16_1, bg1_16_2, bg1_16_3, bg1_16_4, bg1_16_5]
 ]
 
+/**
+ * Get a random panorama from the array.
+ * @returns A random panorama.
+ */
 function randomizepanoramas(){
     return panoramass[Math.floor(Math.random() * panoramass.length)]
 }
 
+/**
+ * Background component to display a random panorama background.
+ * @returns The Background component.
+ */
 export function Background() {
     const [panorama] = useState(randomizepanoramas())
     return <div id="background">

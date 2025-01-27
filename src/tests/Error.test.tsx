@@ -14,6 +14,7 @@ describe('Error slice', () => {
     });
     
     it('should create an error state with default values', () => {
+        // Test the initial state of the error slice
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(200);
         expect(state.error.name).toBe("OK");
@@ -21,6 +22,7 @@ describe('Error slice', () => {
     });
     
     it('should update error state when setError is dispatched', () => {
+        // Test the error state when a TypeError is dispatched
         store.dispatch(setError(new TypeError().name));
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(503);
@@ -29,6 +31,7 @@ describe('Error slice', () => {
     });
     
     it('should update error state for SyntaxError', () => {
+        // Test the error state when a SyntaxError is dispatched
         store.dispatch(setError(new SyntaxError().name));
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(400);
@@ -37,6 +40,7 @@ describe('Error slice', () => {
     });
     
     it('should update error state for unknown errors', () => {
+        // Test the error state when an unknown error is dispatched
         store.dispatch(setError(new Error("UnknownError").name));
         const state = store.getState() as RootState;
         expect(state.error.status).toBe(500);
@@ -44,7 +48,8 @@ describe('Error slice', () => {
         expect(state.error.message).toBe("Something went wrong on our end. Please try again later.");
     });
     
-    it('should clear error state when clearError is dispatched', () => {
+    it('should clear error state when resetError is dispatched', () => {
+        // Test the error state when the error is reset
         const state = store.getState() as RootState;
         store.dispatch(setError(new TypeError().name));
         store.dispatch(resetError());

@@ -1,21 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+/**
+ * Interface for the error state.
+ */
 interface ErrorState {
     status: number;
     name: string;
     message: string;
 }
 
+// Initial state for the error slice
 const initialState: ErrorState = {
     status: 200,
     name: 'OK',
     message: 'Everything is working fine.',
 };
 
+// Create the error slice
 const errorSlice = createSlice({
     name: 'error',
     initialState,
     reducers: {
+        /**
+         * Set the error state based on the error name.
+         * @param state - The current state.
+         * @param action - The action containing the error name.
+         */
         setError: (state, action: PayloadAction<string>) => {
             const errorName = action.payload;
             switch (errorName) {
@@ -36,6 +46,10 @@ const errorSlice = createSlice({
                     break;
             }
         },       
+        /**
+         * Reset the error state to the initial state.
+         * @param state - The current state.
+         */
         resetError: (state) => {
             state.status = 200;
             state.name = "OK";
@@ -44,6 +58,6 @@ const errorSlice = createSlice({
     },
 });
 
+// Export the actions and reducer
 export const { setError, resetError } = errorSlice.actions;
-
 export default errorSlice.reducer;

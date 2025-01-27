@@ -5,8 +5,6 @@ import { clearUser, saveUser } from "../features/user/userSlice";
 import { BrowserRouter } from "react-router-dom";
 import { MainMenu } from "../pages/MainMenu/MainMenu";
 import { handlers } from './handlers';
-import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
-import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 
 export default {
     title: "Pages/MainMenu",
@@ -25,6 +23,7 @@ export default {
     },
 };
 
+// Story for a registered user
 export const RegisteredUser = () => {
     store.dispatch(clearUser(true))
     const fakeUser = {
@@ -35,12 +34,12 @@ export const RegisteredUser = () => {
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: villager
+            src: "Test_Picture.png"
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: wood
+            src: "Test_Border.png"
         }
     }
     const dispatch = useDispatch()
@@ -50,6 +49,7 @@ export const RegisteredUser = () => {
     </BrowserRouter>
 }
 
+// Story for a guest user
 export const Guest = () => {
     store.dispatch(clearUser(true))
     return <BrowserRouter>

@@ -3,8 +3,6 @@ import App from "../App";
 import { store } from "../app/store";
 import { handlers } from "./handlers";
 import { clearUser, saveUser } from "../features/user/userSlice";
-import villager from "./assets/imgs/profilePictures/Desert_Nitwit.png"
-import wood from "./assets/imgs/profileBorders/Spruce_Planks.png"
 import "../style.css"
 
 export default {
@@ -24,8 +22,16 @@ export default {
     },
 };
 
+/**
+ * Default story for the App component.
+ * @returns The Default story.
+ */
 export const Default = () => <App />;
 
+/**
+ * RegisteredUser story for the App component.
+ * @returns The RegisteredUser story.
+ */
 export const RegisteredUser = () => {
     store.dispatch(clearUser(true))
     const fakeUser = {
@@ -36,12 +42,12 @@ export const RegisteredUser = () => {
         profilePicture: {
             id: "picture",
             name: "test_picture",
-            src: villager
+            src: "Test_Picture.png"
         },
         profileBorder: {
             id: "border",
             name: "test_border",
-            src: wood
+            src: "Test_Border.png"
         }
     }
     const dispatch = useDispatch()

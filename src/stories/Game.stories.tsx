@@ -260,6 +260,10 @@ const tips: ITips = [
     }
 ]
 
+/**
+ * DefaultWithTestData story for the Game component.
+ * @returns The DefaultWithTestData story.
+ */
 export const DefaultWithTestData = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -274,7 +278,7 @@ export const DefaultWithTestData = () => {
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
+            <CraftingTable isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
             <Hints hints={hints} turn={18} />
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
             {
@@ -285,6 +289,10 @@ export const DefaultWithTestData = () => {
     </BrowserRouter>
 };
 
+/**
+ * PocketWithTestData story for the Game component.
+ * @returns The PocketWithTestData story.
+ */
 export const PocketWithTestData = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -299,7 +307,7 @@ export const PocketWithTestData = () => {
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
+            <CraftingTable isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
             <Hints hints={hints} turn={18} />
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
             {
@@ -310,6 +318,10 @@ export const PocketWithTestData = () => {
     </BrowserRouter>
 };
 
+/**
+ * HardcoreWithTestData story for the Game component.
+ * @returns The HardcoreWithTestData story.
+ */
 export const HardcoreWithTestData = () => {
     const [tableContent, setTableContent] = useState([
         [items.getItem("oak_planks"), null, null],
@@ -324,7 +336,7 @@ export const HardcoreWithTestData = () => {
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
+            <CraftingTable isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
             <Hearts turn={11} maxHearts={10} />
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
             {

@@ -1,3 +1,6 @@
+/**
+ * Interface for user settings.
+ */
 export interface ISettings {
     id: number;
     volume: number;
@@ -6,6 +9,9 @@ export interface ISettings {
     controls: IControls;
 }
 
+/**
+ * Interface for user controls settings.
+ */
 export interface IControls {
     isTapMode: boolean;
     copy: string;
