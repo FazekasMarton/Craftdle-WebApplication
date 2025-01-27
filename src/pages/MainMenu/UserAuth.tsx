@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RootState, store } from '../../app/store';
 import { useSelector } from "react-redux";
 import { Button } from '../../components/Button';
@@ -109,49 +109,181 @@ function LoginForm(props: FormProps) {
     </div>
 }
 
-function ForgotPasswordForm() {
-    const [email, setEmail] = useState("")
-    const [emailError, setEmailError] = useState<Array<string>>()
-    const [item, setItem] = useState<{
-        item_id: string,
-        name: string,
-        src: string
-    } | null>(null)
+function ForgotPasswordForm(props: FormProps) {
+    const socket = useSelector((state: RootState) => state.socket.socket);
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState<Array<string>>([]);
+    const [socketResponse, setSocketResponse] = useState<{ token: string, success: boolean } | null>(null);
+    const [item, setItem] = useState<{ item_id: string, name: string, src: string } | null>(null);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on("userVerification", (data: { token: string, success: boolean }) => {
+                setSocketResponse(data);
+            });
+
+            return () => {
+                socket.off("userVerification");
+            };
+        }
+    }, [socket]);
+
+    const validateEmail = (email: string): Array<string> => {
+        const errors = [];
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.push("Email must be valid!");
+        }
+        return errors;
+    };
+
+    const handleSendEmail = async () => {
+        const errors = validateEmail(email);
+        setEmailError(errors);
+        setItem(null);
+        setSocketResponse(null)
+
+        if (errors.length === 0) {
+            const response = await store.dispatch(forgotPassword(email));
+            const res = response.payload as any;
+
+            if (res.response) {
+                setItem(res.data.data.item);
+            } else {
+                setEmailError(res.data.message.errors.email || []);
+            }
+        }
+    };
+
+    return (
+        <div className="authForm">
+            {socketResponse ? (
+                socketResponse.success ? (
+                    <>
+                        <h2>Verification successful</h2>
+                        <PasswordChangeForm token={socketResponse.token} setForm={props.setForm} />
+                    </>
+                ) : (
+                    <>
+                        <h2>Verification failed</h2>
+                        <Button color="green" onClick={handleSendEmail}>
+                            {item ? "Resend Email" : "Send Email"}
+                        </Button>
+                    </>
+                )
+            ) : (
+                <>
+                    <div>
+                        <label htmlFor="forgotPasswordEmail">Email:</label>
+                        <input
+                            type="email"
+                            id="forgotPasswordEmail"
+                            onChange={(e) => setEmail(e.currentTarget.value)}
+                            value={email}
+                        />
+                        <ul className="inputError">
+                            {emailError.map((err, index) => (
+                                <li key={index}>{err}</li>
+                            ))}
+                        </ul>
+                    </div>
+                    {item && <ChangePasswordInstruction item={item} />}
+                    <Button color="green" onClick={handleSendEmail}>
+                        {item ? "Resend Email" : "Send Email"}
+                    </Button>
+                </>
+            )}
+        </div>
+    );
+}
+
+interface PasswordChangeFormProps {
+    token: string;
+    setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+}
+
+function PasswordChangeForm(props: PasswordChangeFormProps) {
+    const [password, setPassword] = useState("")
+    const [passwordC, setPasswordC] = useState("")
+    const [passwordError, setPasswordError] = useState<Array<string>>([])
+    const [passwordCError, setPasswordCError] = useState<Array<string>>([])
     return <div className='authForm'>
         <div>
-            <label htmlFor="forgotPasswordEmail">Email:</label>
-            <input type="email" id='forgotPasswordEmail' onChange={(e) => { setEmail(e.currentTarget.value) }} value={email} />
+            <label htmlFor="changePassword">New Password:</label>
+            <input type="password" id='changePassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
             <ul className='inputError'>{
-                emailError?.map((err, index) => {
+                passwordError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
-        {item && <div id='forgotPasswordItemContainer'>
-            <img id='forgotPasswordItem' src={`http://localhost:3000/assets/items/${item.src}`} alt={item.name} />
-            <h2 id='forgotPasswordTitle'>Email Sent!</h2>
-            <div id='forgotPasswordText'>
-                <p>We’ve sent an email to the address you provided. The email contains three Minecraft items—select the correct one as shown on this page to complete the password reset process.</p>
-                <p>If you don’t see the email, please check your spam or promotions folder!</p>
-            </div>
-        </div>}
+        <div>
+            <label htmlFor="changePasswordConfirm">Confirm Password:</label>
+            <input type="password" id='changePasswordConfirm' onChange={(e) => { setPasswordC(e.currentTarget.value) }} value={passwordC} />
+            <ul className='inputError'>{
+                passwordCError?.map((err, index) => {
+                    return <li key={index}>{err}</li>
+                })
+            }</ul>
+        </div>
         <Button color="green" onClick={async () => {
-            let emailErr = []
-            if (!/\S+@\S+\.\S+/.test(email)) {
-                emailErr.push("Email must be valid!")
+            let passwordErr = []
+            if (password.length < 5 || password.length > 16) {
+                passwordErr.push("Password must be between 5 and 16 characters!")
             }
-            setEmailError(emailErr)
-            if (emailErr.length === 0) {
-                let response = await store.dispatch(forgotPassword(email))
+            setPasswordError(passwordErr)
+            let passwordCErr = []
+            if (password != passwordC) {
+                passwordCErr.push("Passwords and confirm password are not matching!")
+            }
+            setPasswordCError(passwordCErr)
+            let errors = [passwordErr, passwordCErr]
+            if (errors.every(error => error.length === 0)) {
+                let response = await store.dispatch(changePassword({
+                    password: password,
+                    token: props.token
+                }))
                 let res = (response.payload as any)
                 if (res.response) {
-                    setItem(res.data.data.item)
+                    setPassword("")
+                    setPasswordC("")
+                    if(props.setForm) props.setForm("Login")
                 } else {
-                    res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
+                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
                 }
             }
-        }}>{item ? "Resend Email" : "Send Email"}</Button>
+        }}>Change Password</Button>
     </div>
+}
+
+interface ChangePasswordInstructionProps {
+    item: {
+        item_id: string;
+        name: string;
+        src: string;
+    };
+}
+
+function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
+    return (
+        <div id="forgotPasswordItemContainer">
+            <img
+                id="forgotPasswordItem"
+                src={`http://localhost:3000/assets/items/${item.src}`}
+                alt={item.name}
+            />
+            <h2 id="forgotPasswordTitle">Email Sent!</h2>
+            <div id="forgotPasswordText">
+                <p>
+                    We’ve sent an email to the address you provided. The email contains three Minecraft
+                    items—select the correct one as shown on this page to complete the password reset
+                    process.
+                </p>
+                <p>
+                    If you don’t see the email, please check your spam or promotions folder!
+                </p>
+            </div>
+        </div>
+    );
 }
 
 /**
@@ -314,7 +446,7 @@ function getForm(formName: "Login" | "Register" | "Logout" | "ForgotPassword", o
         case "Login": return <LoginForm openAuth={openAuth} setForm={setForm} />
         case 'Register': return <RegisterForm openAuth={openAuth} />
         case 'Logout': return <LogoutForm openAuth={openAuth} />
-        case 'ForgotPassword': return <ForgotPasswordForm />
+        case 'ForgotPassword': return <ForgotPasswordForm openAuth={openAuth} setForm={setForm} />
     }
 }
 

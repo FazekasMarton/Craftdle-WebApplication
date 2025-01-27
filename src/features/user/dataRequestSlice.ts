@@ -165,7 +165,9 @@ export const forgotPassword = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
     "user/changePassword",
-    async (password: string, { dispatch, getState }) => {
+    async ({ password, token }:
+        { password: string; token: string },
+        { dispatch, getState }) => {
         const state = getState() as RootState;
 
         const response = await communicate(
@@ -174,7 +176,10 @@ export const changePassword = createAsyncThunk(
             "http://localhost:3000/users/password",
             "PUT",
             "Bearer",
-            { password: password }
+            {
+                password: password,
+                token: token
+            }
         );
 
         return response;
@@ -203,7 +208,7 @@ export const changeSettings = createAsyncThunk(
     async (settings: ISettings, { dispatch, getState }) => {
         const state = getState() as RootState;
 
-        const {id, ...changedSettings} = settings
+        const { id, ...changedSettings } = settings
         const response = await communicate(
             state,
             dispatch,
