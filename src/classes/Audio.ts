@@ -1,6 +1,6 @@
 // Import audio files
 import clickSound from "../assets/audios/click.mp3";
-import achievementSound from "../assets/audios/Achievement.mp3";
+import achievementSound from "../assets/audios/achievement.mp3";
 import creeperSound from "../assets/audios/creeper.mp3";
 import dropSound from "../assets/audios/drop.mp3";
 import hitSound from "../assets/audios/hit.mp3";
