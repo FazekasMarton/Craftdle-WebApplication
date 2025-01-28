@@ -30,7 +30,7 @@ const generalRouter = createBrowserRouter([
         path: "/",
         element: <>
             {isUserPlayingOnPC() ? <Info /> : null}
-            <Error />
+            {/* <Error /> */}
             <Outlet />
         </>,
         children: [
