@@ -1,5 +1,5 @@
 import { StoneButton } from "../../components/StoneButton";
-import allay from "../../assets/imgs/others/allay.png";
+import allay from "../../assets/imgs/others/Allay.png";
 import { useEffect } from "react";
 import { SoundEffect } from "../../classes/Audio";
 import { useSelector } from "react-redux";
