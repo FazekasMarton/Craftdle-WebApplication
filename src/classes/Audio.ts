@@ -1,16 +1,16 @@
 // Import audio files
-import clickSound from "#/assets/audios/click.mp3";
-import achievementSound from "#/assets/audios/Achievement.mp3";
-import creeperSound from "#/assets/audios/creeper.mp3";
-import dropSound from "#/assets/audios/drop.mp3";
-import hitSound from "#/assets/audios/hit.mp3";
-import allay1Sound from "#/assets/audios/allay1.mp3";
-import allay2Sound from "#/assets/audios/allay2.mp3";
-import allay3Sound from "#/assets/audios/allay3.mp3";
-import allay4Sound from "#/assets/audios/allay4.mp3";
-import write1Sound from "#/assets/audios/write1.mp3";
-import write2Sound from "#/assets/audios/write2.mp3";
-import write3Sound from "#/assets/audios/write3.mp3";
+import clickSound from "../assets/audios/click.mp3";
+import achievementSound from "../assets/audios/Achievement.mp3";
+import creeperSound from "../assets/audios/creeper.mp3";
+import dropSound from "../assets/audios/drop.mp3";
+import hitSound from "../assets/audios/hit.mp3";
+import allay1Sound from "../assets/audios/allay1.mp3";
+import allay2Sound from "../assets/audios/allay2.mp3";
+import allay3Sound from "../assets/audios/allay3.mp3";
+import allay4Sound from "../assets/audios/allay4.mp3";
+import write1Sound from "../assets/audios/write1.mp3";
+import write2Sound from "../assets/audios/write2.mp3";
+import write3Sound from "../assets/audios/write3.mp3";
 import { store } from "../app/store";
 
 interface ISoundEffects {
