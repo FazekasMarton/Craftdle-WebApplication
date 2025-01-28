@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import craftdleTitle from "../../assets/imgs/title/craftdle_title.png"
 import { RootState } from "../../app/store";
-import { Countdown } from "../../components/Countdown";
+import { Countdown } from "../../components/Timer";
 
 /**
  * Maintenance component to display the maintenance message and countdown.
