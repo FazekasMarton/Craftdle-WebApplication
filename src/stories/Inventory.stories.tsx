@@ -127,6 +127,6 @@ export const Default = () => {
 
     return <>
         <Inventory itemsCollection={itemsCollection} items={items}/>
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+        <Cursor craftingTableSize={3} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };

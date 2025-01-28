@@ -196,8 +196,8 @@ export const DefaultNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null} />
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+        <CraftingTable turn={6} gamemode={2} isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null} />
+        <Cursor craftingTableSize={3} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
 
@@ -213,8 +213,8 @@ export const DefaultShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null} />
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+        <CraftingTable turn={7} gamemode={2} isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={3} items={items} socket={null} />
+        <Cursor craftingTableSize={3} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
 
@@ -230,8 +230,8 @@ export const PocketNonShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null} />
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+        <CraftingTable turn={4} gamemode={5} isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null} />
+        <Cursor craftingTableSize={2} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };
 
@@ -247,7 +247,7 @@ export const PocketShapeless = () => {
     ]);
 
     return <>
-        <CraftingTable isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null} />
-        <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+        <CraftingTable turn={3} gamemode={5} isHardcore={false} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} isKnowledgeBookOpen recipes={recipes} craftingTable={tableContent} size={2} items={items} socket={null} />
+        <Cursor craftingTableSize={2} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
     </>;
 };

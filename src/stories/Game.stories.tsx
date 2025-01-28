@@ -278,13 +278,13 @@ export const DefaultWithTestData = () => {
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
+            <CraftingTable turn={5} gamemode={2} isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
             <Hints hints={hints} turn={18} />
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
             {
-                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
+                isKnowledgeBookOpen ? <KnowledgeBook result={false} setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
             }
-            <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+            <Cursor craftingTableSize={3} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
         </div>
     </BrowserRouter>
 };
@@ -307,13 +307,13 @@ export const PocketWithTestData = () => {
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
+            <CraftingTable turn={3} gamemode={5} isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
             <Hints hints={hints} turn={18} />
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
             {
-                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
+                isKnowledgeBookOpen ? <KnowledgeBook result={false} setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
             }
-            <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+            <Cursor craftingTableSize={2} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
         </div>
     </BrowserRouter>
 };
@@ -336,13 +336,13 @@ export const HardcoreWithTestData = () => {
     return <BrowserRouter>
         <div id="game">
             <StoneButton href="/">Quit Game</StoneButton>
-            <CraftingTable isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
+            <CraftingTable turn={3} gamemode={7} isHardcore={false} craftingTable={tableContent} size={craftingTableSize} items={items} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={null}/>
             <Hearts turn={11} maxHearts={10} />
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items} />
             {
-                isKnowledgeBookOpen ? <KnowledgeBook setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
+                isKnowledgeBookOpen ? <KnowledgeBook result={false} setCraftingTable={setTableContent} recipes={recipes} items={items} craftingTableSize={craftingTableSize} /> : <Inventory items={items} itemsCollection={itemsCollection} />
             }
-            <Cursor craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
+            <Cursor craftingTableSize={3} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />
         </div>
     </BrowserRouter>
 };

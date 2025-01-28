@@ -413,7 +413,10 @@ describe('User Slice', () => {
                 const fakeBody = { message: "Password updated successfully" };
                 store.dispatch(saveUser(randomUser));
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
-                const result = await store.dispatch(changePassword(randomUser.password));
+                const result = await store.dispatch(changePassword({
+                    password: randomUser.password,
+                    token: "a"
+                }));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
                 expect(mockFetch).toHaveBeenCalledWith("http://localhost:3000/users/password", {
                     method: 'PUT',
@@ -421,7 +424,7 @@ describe('User Slice', () => {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${randomUser.loginToken}`
                     },
-                    body: JSON.stringify({ password: randomUser.password })
+                    body: JSON.stringify({ password: randomUser.password, token: "a" })
                 });
                 expect((result.payload as any).response).toBe(true);
                 expect((result.payload as any).data).toEqual(fakeBody);
