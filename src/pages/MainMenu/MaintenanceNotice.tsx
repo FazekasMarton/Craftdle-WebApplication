@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Countdown } from "../../components/Countdown"
+import { Countdown } from "../../components/Timer"
 import { RootState } from "../../app/store";
 
 /**
