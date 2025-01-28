@@ -208,7 +208,7 @@ function setCraftingTable(value: (HTMLImageElement | null)[][]){
  * @returns The Default story.
  */
 export const Default = () => {
-    return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={3}/>
+    return <KnowledgeBook result={false} setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={3}/>
 };
 
 /**
@@ -216,5 +216,5 @@ export const Default = () => {
  * @returns The Pocket story.
  */
 export const Pocket = () => {
-    return <KnowledgeBook setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={2}/>
+    return <KnowledgeBook result={false} setCraftingTable={setCraftingTable} recipes={recipes} items={items} craftingTableSize={2}/>
 };
