@@ -1,11 +1,24 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["vitest/globals", "msw"]
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "vitest/globals",
+      "msw"
+    ],
+    "lib": [
+      "dom",
+      "webworker"
+    ]
   },
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }
