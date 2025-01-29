@@ -17,7 +17,7 @@ import { IMaintenance } from "./interfaces/IMaintenance"
 import { Maintenance } from "./pages/Maintenance/Maintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { Docs } from "./pages/Docs/Docs"
-import { Error } from "./components/Error"
+// import { Error } from "./components/Error"
 import { isUserPlayingOnPC } from "./functions/isUserPlayingOnPC"
 import { Guide } from "./pages/Guide/Guide"
 import { Meta } from "./components/Meta"
@@ -30,7 +30,7 @@ const generalRouter = createBrowserRouter([
         path: "/",
         element: <>
             {isUserPlayingOnPC() ? <Info /> : null}
-            <Error />
+            {/* <Error /> */}
             <Outlet />
         </>,
         children: [
