@@ -23,19 +23,19 @@
     },
     {
       "src": "/imgs/screenshots/GamemodesMobile.png",
-      "sizes": "534x1104",
+      "sizes": "538x1106",
       "type": "image/png",
       "label": "Application"
     },
     {
       "src": "/imgs/screenshots/TutorialMobile.png",
-      "sizes": "534x1106",
+      "sizes": "538x1106",
       "type": "image/png",
       "label": "Application"
     },
     {
       "src": "/imgs/screenshots/CollectionMobile.png",
-      "sizes": "535x1107",
+      "sizes": "538x1106",
       "type": "image/png",
       "label": "Application"
     },
