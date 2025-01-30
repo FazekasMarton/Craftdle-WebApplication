@@ -52,7 +52,7 @@ export const userSlice = createSlice({
          * @param state - The current state.
          * @param action - The action containing the user data.
          */
-        saveUser: (state, action: PayloadAction<Omit<UserState, 'settings'>>) => {
+        saveUser: (state, action: PayloadAction<Omit<UserState, 'settings' | 'installed'>>) => {
             Object.assign(state, action.payload);
             save(state);
         },

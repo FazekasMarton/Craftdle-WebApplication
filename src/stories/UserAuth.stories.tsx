@@ -36,12 +36,12 @@ export const RegisteredUser = () => {
         isGuest: false,
         stayLoggedIn: false,
         profilePicture: {
-            id: "picture",
+            id: 1,
             name: "test_picture",
             src: "testP.png"
         },
         profileBorder: {
-            id: "border",
+            id: 1,
             name: "test_border",
             src: "testB.png"
         }
@@ -64,12 +64,12 @@ export const Guest = () => {
         isGuest: true,
         stayLoggedIn: false,
         profilePicture: {
-            id: "picture",
+            id: 1,
             name: "test_picture",
             src: "testP.png"
         },
         profileBorder: {
-            id: "border",
+            id: 1,
             name: "test_border",
             src: "testB.png"
         }

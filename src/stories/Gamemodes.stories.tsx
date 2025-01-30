@@ -37,12 +37,12 @@ export const Singleplayer = () => {
         isGuest: false,
         stayLoggedIn: true,
         profilePicture: {
-            id: "picture",
+            id: 1,
             name: "test_picture",
             src: villager
         },
         profileBorder: {
-            id: "border",
+            id: 1,
             name: "test_border",
             src: wood
         }
