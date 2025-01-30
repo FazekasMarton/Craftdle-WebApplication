@@ -116,6 +116,7 @@
     gap: 5px;
     margin: 5px;
     animation: slide 9s forwards ease;
+    z-index: 10;
 }
 
 @keyframes slide {
