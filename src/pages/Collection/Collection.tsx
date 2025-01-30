@@ -8,6 +8,7 @@ import lock from "../../assets/imgs/icons/lock.png";
 import xp from "../../assets/imgs/backgrounds/experience_bar_progress.png";
 import xpBar from "../../assets/imgs/backgrounds/experience_bar_background.png";
 import { useSelector } from "react-redux";
+import { updateProfile } from "../../features/user/userSlice";
 
 /**
  * Interface for the collection data.
@@ -50,15 +51,25 @@ interface ICollection {
  * @param setCollection - The function to update the collection state.
  */
 function saveProfileChanges(collection: ICollection, setCollection: (value: ICollection) => void) {
+    const profilePicture = collection.profilePictures.find((item) => item.active) || null
+    const profileBorder = collection.profileBorders.find((item) => item.active) || null
     store.dispatch(changeProfilePics({
-        profilePicture: collection.profilePictures.find((item) => item.active)?.id || 0,
-        profileBorder: collection.profileBorders.find((item) => item.active)?.id || 0
+        profilePicture: profilePicture?.id || 0,
+        profileBorder: profileBorder?.id || 0
     }))
     setCollection(collection)
+    store.dispatch(updateProfile({
+        profilePicture: profilePicture,
+        profileBorder: profileBorder
+    }))
 }
 
 function counter(list: Array<{collected: boolean}> | undefined){
     return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`
+}
+
+function achievementCounter(achievements: Array<{progress: number, goal: number}> | undefined){
+    return `(${achievements?.filter((item) => item.progress && item.goal && item.goal === item.progress).length || 0}/${achievements?.length || 0})`
 }
 
 /**
@@ -181,7 +192,7 @@ export function Collection() {
                     </article>
                 </section>
                 <section id="collectionAchievements">
-                    <h2>Achievements {counter(collection?.achievements)}</h2>
+                    <h2>Achievements {achievementCounter(collection?.achievements)}</h2>
                     <article>
                         {
                             collection?.achievements?.map((achievement, index) => {

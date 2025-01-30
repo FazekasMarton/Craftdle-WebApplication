@@ -2,6 +2,8 @@ import { ReactNode, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import craftdleTitle from "../../assets/imgs/title/craftdle_title.png"
 import { SoundEffect } from "../../classes/Audio";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 /**
  * Simulate a click event on the credits link.
@@ -36,16 +38,18 @@ function Credit(props: CreditProps) {
  */
 export function Credits() {
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const socket = useSelector((state: RootState) => state.socket.socket);
 
     useEffect(() => {
         timeoutRef.current = setTimeout(() => {
+            socket?.emit("credits");
             simulateClick();
         }, 60000);
 
         return () => {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
         };
-    }, []);
+    }, [socket]);
 
     return <Link to="/" id="credits" onClick={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}>
         <div id="creditsContainer">

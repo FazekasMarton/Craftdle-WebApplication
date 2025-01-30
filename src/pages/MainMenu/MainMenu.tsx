@@ -6,16 +6,13 @@ import lock from "../../assets/imgs/icons/lock.png"
 import stats from "../../assets/imgs/icons/stats.png"
 import settings from "../../assets/imgs/icons/settings.png"
 import { Profile } from "./Profile"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { UserAuth } from "./UserAuth"
 import { useSelector } from "react-redux"
-import { RootState } from "../../app/store"
+import { RootState, store } from "../../app/store"
 import { MaintenanceNotice } from "./MaintenanceNotice"
-
-interface BeforeInstallPromptEvent extends Event {
-    prompt: () => Promise<void>;
-    userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
+import { BeforeInstallPromptEvent } from "../../interfaces/IBeforeInstallPromptEvent"
+import { setInstalled } from "../../features/user/userSlice"
 
 declare global {
     interface WindowEventMap {
@@ -31,26 +28,13 @@ export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
     const user = useSelector((state: RootState) => state.user);
     const maintenance = useSelector((state: RootState) => state.maintenance);
-    const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-
-    useEffect(() => {
-        const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-            e.preventDefault();
-            setInstallPrompt(e);
-        };
-
-        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-        return () => {
-            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-        };
-    }, []);
+    const install = useSelector((state: RootState) => state.user.installed);
 
     const handleInstallClick = () => {
-        if (installPrompt) {
-            installPrompt.prompt();
-            installPrompt.userChoice.then(() => {
-                setInstallPrompt(null);
+        if (install) {
+            install.prompt();
+            install.userChoice.then(() => {
+                store.dispatch(setInstalled(null));
             });
         }
     };
@@ -70,14 +54,14 @@ export function MainMenu() {
                 <StoneButton href="/guide">How to Play</StoneButton>
                 <StoneButton href="https://patreon.com/Craftdle">Support Us</StoneButton>
                 <StoneButton href="/credits">Credits</StoneButton>
-                {installPrompt ? <StoneButton onClick={handleInstallClick}>Install App</StoneButton> : <StoneButton href="/patchNotes">Patch Notes</StoneButton>}
+                {install ? <StoneButton onClick={handleInstallClick}>Install App</StoneButton> : <StoneButton href="/patchNotes">Patch Notes</StoneButton>}
             </nav>
             <nav id="leftSideButtons" className="sideButtons" aria-label="Settings and Statistics">
                 <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" /></StoneButton>
                 <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={settings} alt="Settings" /></StoneButton>
             </nav>
             <nav id="rightSideButtons" className="sideButtons" aria-label="News and Privacy Policy">
-                {installPrompt && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" /></StoneButton>}
+                {install && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" /></StoneButton>}
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" /></StoneButton>
             </nav>
             <footer>

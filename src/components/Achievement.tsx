@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { SoundEffect } from "../classes/Audio";
 import { IAchievement } from "../interfaces/IAchievement";
-
-interface AchievementsProps {
-    achievements: IAchievement[];
-}
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 interface AchievementProps {
     achievement: IAchievement;
@@ -17,18 +15,49 @@ const rarityColors = ["#FFFF55", "#55FFFF", "#FF55FF"];
  * @param props - The props for the component.
  * @returns The Achievements component.
  */
-export function Achievements(props: AchievementsProps) {
+export function Achievements() {
+    const socket = useSelector((state: RootState) => state.socket.socket);
     const [animKey, setAnimKey] = useState(0);
+    const [achievements, setAchievements] = useState<IAchievement[]>([]);
 
     useEffect(() => {
-        SoundEffect.play("achievement");
-        setAnimKey(prevKey => prevKey + 1);
-    }, [props.achievements]); 
+        socket?.on("achievements", (performedAchievements: IAchievement[]) => {
+            setAchievements((prevAchievements) => {
+                const newAchievements = [...prevAchievements, ...performedAchievements];
+                return newAchievements;
+            });
+            setAnimKey(animKey + 1);
+        })
+
+        return () => {
+            socket?.off("achievements");
+        }
+    }, [socket, achievements]);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            if (achievements.length > 0) {
+                setAchievements((prevAchievements) => {
+                    const newAchievements = prevAchievements.slice(5);
+                    return newAchievements;
+                });
+                setAnimKey(animKey + 1);
+                SoundEffect.play("achievement");
+            }
+        }, 9000);
+
+        return () => {
+            clearTimeout(timeout);
+        }
+
+    }, [achievements]);
 
     return <div id="achievements" key={animKey}>
         {
-            props.achievements.map((achievement, index) => {
-                return <Achievement key={index} achievement={achievement} />
+            achievements.length > 0 && achievements.map((achievement, index) => {
+                if (index < 5) {
+                    return <Achievement key={index} achievement={achievement} />
+                }
             })
         }
     </div>
@@ -42,7 +71,7 @@ export function Achievements(props: AchievementsProps) {
 export function Achievement(props: AchievementProps) {
     const achievement = props.achievement;
     return <div className="achievement">
-        <h1 className="achievementTitle" style={{color: rarityColors[achievement.rarity]}}>{achievement.title}</h1>
+        <h1 className="achievementTitle" style={{ color: rarityColors[achievement.rarity] }}>{achievement.title}</h1>
         <p className="achievementDescription">{achievement.description}</p>
         <img className="achievementIcon" src={`http://localhost:3000/assets/achievements/${achievement.icon}`} alt="Achievement Icon" />
     </div>

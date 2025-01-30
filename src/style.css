@@ -116,6 +116,7 @@
     gap: 5px;
     margin: 5px;
     animation: slide 9s forwards ease;
+    z-index: 10;
 }
 
 @keyframes slide {
@@ -1604,7 +1605,7 @@ input:-webkit-autofill:focus {
 #patchNotes .chain {
     position: absolute;
     background-image: url("./assets/imgs/backgrounds/chain.png");
-    background-color: rgba(0, 0, 0, 0.863);
+    background-color: rgba(0, 0, 0);
     background-size: contain;
     width: 5dvw;
     box-shadow: 0 0 3vmin 2vmin black;

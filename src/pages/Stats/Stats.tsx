@@ -56,8 +56,6 @@ export function Stats() {
         }
     }
 
-    console.log(stats)
-
     useEffect(() => {
         getUserStats()
     }, [user])
