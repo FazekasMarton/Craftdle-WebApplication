@@ -7,7 +7,7 @@ import { Game } from "./pages/Game/Game"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { RootState, store } from "./app/store"
-import { loadUser, saveUser } from "./features/user/userSlice"
+import { loadUser, saveUser, setInstalled } from "./features/user/userSlice"
 import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
 import { connectSocket } from "./functions/connectSocket"
@@ -25,6 +25,13 @@ import { Collection } from "./pages/Collection/Collection"
 import { Stats } from "./pages/Stats/Stats"
 import { createBrowserRouter } from "react-router-dom"
 import { Achievements } from "./components/Achievement"
+import { BeforeInstallPromptEvent } from "./interfaces/IBeforeInstallPromptEvent"
+
+declare global {
+    interface WindowEventMap {
+        beforeinstallprompt: BeforeInstallPromptEvent;
+    }
+}
 
 const generalRouter = createBrowserRouter([
     {
@@ -206,6 +213,19 @@ export function App() {
             store.dispatch(setMaintenance(maintenanceData))
         })
     }, [socket])
+
+    useEffect(() => {
+        const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+            e.preventDefault();
+            store.dispatch(setInstalled(e));
+        };
+
+        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+        return () => {
+            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        };
+    }, []);
 
     const router = maintenance.started && maintenance.countdown
         ? maintenanceRouter

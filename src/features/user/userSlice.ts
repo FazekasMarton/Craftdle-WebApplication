@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ISettings } from "../../interfaces/ISettings"
 import { IProfileImage } from "../../interfaces/IProfileImage";
+import { BeforeInstallPromptEvent } from "../../interfaces/IBeforeInstallPromptEvent";
 
 /**
  * Interface for the user state.
@@ -12,7 +13,8 @@ interface UserState {
     stayLoggedIn: boolean,
     profilePicture: IProfileImage | null,
     profileBorder: IProfileImage | null,
-    settings: ISettings[] | null
+    settings: ISettings[] | null,
+    installed: BeforeInstallPromptEvent | null
 }
 
 // Initial state for the user slice
@@ -24,6 +26,7 @@ const initialState: UserState = {
     profilePicture: null,
     profileBorder: null,
     settings: null,
+    installed: null
 };
 
 /**
@@ -98,10 +101,21 @@ export const userSlice = createSlice({
                 sessionStorage.clear()
                 localStorage.clear()
             }
-        }        
+        },
+        setInstalled: (state, action: PayloadAction<BeforeInstallPromptEvent | null>) => {
+            state.installed = action.payload
+        },
+        updateProfile: (state, action: PayloadAction<{
+            profilePicture: IProfileImage | null,
+            profileBorder: IProfileImage | null
+        }>) => {
+            state.profilePicture = action.payload.profilePicture
+            state.profileBorder = action.payload.profileBorder
+            save(state)
+        }
     }
 })
 
 // Export the actions and reducer
-export const { saveUser, saveSettings, loadUser, clearUser } = userSlice.actions;
+export const { saveUser, saveSettings, loadUser, clearUser, updateProfile, setInstalled } = userSlice.actions;
 export default userSlice.reducer;
