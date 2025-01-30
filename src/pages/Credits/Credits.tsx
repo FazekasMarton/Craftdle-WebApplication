@@ -102,7 +102,6 @@ export function Credits() {
                     <article>
                         <h3>Others</h3>
                         <Credit credit="Mojang">for not suing us yet</Credit>
-                        <Credit credit="Heroku">for supporting our project</Credit>
                         <Credit>Our moms</Credit>
                         <Credit>That one web development teacher</Credit>
                     </article>

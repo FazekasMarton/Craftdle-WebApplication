@@ -42,7 +42,6 @@ export function Achievements() {
                     return newAchievements;
                 });
                 setAnimKey(animKey + 1);
-                SoundEffect.play("achievement");
             }
         }, 9000);
 
@@ -55,6 +54,7 @@ export function Achievements() {
     return <div id="achievements" key={animKey}>
         {
             achievements.length > 0 && achievements.map((achievement, index) => {
+                SoundEffect.play("achievement");
                 if (index < 5) {
                     return <Achievement key={index} achievement={achievement} />
                 }
