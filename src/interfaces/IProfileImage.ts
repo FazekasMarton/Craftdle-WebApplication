@@ -2,7 +2,7 @@
  * Interface for a profile image.
  */
 export interface IProfileImage {
-    id: string,
+    id: number,
     name: string,
     src: string
 }
