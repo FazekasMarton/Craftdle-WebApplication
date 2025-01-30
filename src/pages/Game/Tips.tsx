@@ -37,7 +37,6 @@ export function Tips(props: TipsProps) {
                                                             if(j < props.craftingTableSize) {
                                                                 const index = i * 3 + j
                                                                 const slot = tip.table[index]
-                                                                console.log(slot)
                                                                 if (slot) {
                                                                     const item = props.itemsCollection.getItem(slot.item)
                                                                     return <td key={index} className={`tipSlot ${slot.status}`}>

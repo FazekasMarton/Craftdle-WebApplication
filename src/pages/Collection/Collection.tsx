@@ -68,6 +68,10 @@ function counter(list: Array<{collected: boolean}> | undefined){
     return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`
 }
 
+function achievementCounter(achievements: Array<{progress: number, goal: number}> | undefined){
+    return `(${achievements?.filter((item) => item.progress && item.goal && item.goal === item.progress).length || 0}/${achievements?.length || 0})`
+}
+
 /**
  * Collection component to display the user's collection of items, profile pictures, borders, and achievements.
  * @returns The Collection component.
@@ -188,7 +192,7 @@ export function Collection() {
                     </article>
                 </section>
                 <section id="collectionAchievements">
-                    <h2>Achievements {counter(collection?.achievements)}</h2>
+                    <h2>Achievements {achievementCounter(collection?.achievements)}</h2>
                     <article>
                         {
                             collection?.achievements?.map((achievement, index) => {
