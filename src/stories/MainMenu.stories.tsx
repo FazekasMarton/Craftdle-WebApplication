@@ -32,12 +32,12 @@ export const RegisteredUser = () => {
         isGuest: false,
         stayLoggedIn: true,
         profilePicture: {
-            id: "picture",
+            id: 1,
             name: "test_picture",
             src: "Test_Picture.png"
         },
         profileBorder: {
-            id: "border",
+            id: 1,
             name: "test_border",
             src: "Test_Border.png"
         }

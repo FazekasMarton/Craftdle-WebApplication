@@ -68,7 +68,7 @@ function generateUser() {
  */
 function generateImage() {
     return {
-        id: faker.string.uuid(),
+        id: faker.number.int({ min: 0, max: 100 }),
         name: faker.string.alpha(10),
         src: faker.image.url()
     };
