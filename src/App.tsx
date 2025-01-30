@@ -17,20 +17,22 @@ import { IMaintenance } from "./interfaces/IMaintenance"
 import { Maintenance } from "./pages/Maintenance/Maintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { Docs } from "./pages/Docs/Docs"
-// import { Error } from "./components/Error"
+import { Error } from "./components/Error"
 import { isUserPlayingOnPC } from "./functions/isUserPlayingOnPC"
 import { Guide } from "./pages/Guide/Guide"
 import { Meta } from "./components/Meta"
 import { Collection } from "./pages/Collection/Collection"
 import { Stats } from "./pages/Stats/Stats"
 import { createBrowserRouter } from "react-router-dom"
+import { Achievements } from "./components/Achievement"
 
 const generalRouter = createBrowserRouter([
     {
         path: "/",
         element: <>
             {isUserPlayingOnPC() ? <Info /> : null}
-            {/* <Error /> */}
+            <Error />
+            <Achievements />
             <Outlet />
         </>,
         children: [
