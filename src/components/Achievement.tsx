@@ -22,7 +22,6 @@ export function Achievements() {
 
     useEffect(() => {
         socket?.on("achievements", (performedAchievements: IAchievement[]) => {
-            console.log("Achievements received");
             setAchievements((prevAchievements) => {
                 const newAchievements = [...prevAchievements, ...performedAchievements];
                 return newAchievements;
@@ -38,14 +37,12 @@ export function Achievements() {
     useEffect(() => {
         const timeout = setTimeout(() => {
             if (achievements.length > 0) {
-                if (achievements.length > 5) {
-                    setAchievements((prevAchievements) => {
-                        const newAchievements = prevAchievements.slice(5);
-                        return newAchievements;
-                    });
-                    setAnimKey(animKey + 1);
-                    SoundEffect.play("achievement");
-                }
+                setAchievements((prevAchievements) => {
+                    const newAchievements = prevAchievements.slice(5);
+                    return newAchievements;
+                });
+                setAnimKey(animKey + 1);
+                SoundEffect.play("achievement");
             }
         }, 9000);
 
