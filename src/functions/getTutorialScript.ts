@@ -1,4 +1,5 @@
 import { store } from "../app/store";
+import { DefaultSettings } from "../classes/DefaultSettings";
 import { isUserPlayingOnPC } from "./isUserPlayingOnPC";
 
 interface IStep {
@@ -9,7 +10,7 @@ interface IStep {
 }
 
 export function getTutorialScript() {
-    const settings = store.getState().user.settings?.find(s => s.isSet)
+    const settings = store.getState().user.settings?.find(s => s.isSet) || DefaultSettings.getDefaultSettings()
 
     const tutorialScriptForPC: IStep[] = [
         {
