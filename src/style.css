@@ -392,13 +392,35 @@ body,
 
 /* - Background - */
 
+.portalBackground{
+    background-image: url("./assets/imgs/backgrounds/nether_portal.gif");
+    background-size: 200px;
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+#inactivePortalBackground{
+    animation: disappear 1.5s forwards linear;
+}
+
+@keyframes disappear {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 #background {
     position: absolute;
     top: 50%;
     left: 50%;
     animation: spin 120s infinite linear forwards;
     transform-style: preserve-3d;
-    perspective: 100vmax;
+    perspective: 100vmin;
 }
 
 @keyframes spin {
