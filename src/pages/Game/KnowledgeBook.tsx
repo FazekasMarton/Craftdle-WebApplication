@@ -107,6 +107,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
             <div id="knowledgeBookContainer">
                 <div id="knowledgeBookContent">
                     {Object.keys(props.recipes).map((recipeGroupName) => {
+                        if(recipeGroupName === "gaLogo0") return null;
                         const [recipeGroupIndex, setRecipeGroupIndex] = useState(0);
                         const [materialIndex, setMaterialIndex] = useState(-1);
 

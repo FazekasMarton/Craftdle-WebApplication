@@ -1,3 +1,22 @@
+:root{
+    --DarkRed: #AA0000;
+    --Red: #FF5555;
+    --Gold: #FFAA00;
+    --Yellow: #FFFF55;
+    --DarkGreen: #00AA00;
+    --Green: #55FF55;
+    --Aqua: #55FFFF;
+    --DarkAqua: #00AAAA;
+    --DarkBlue: #0000AA;
+    --Blue: #5555FF;
+    --LightPurple: #FF55FF;
+    --DarkPurple: #AA00AA;
+    --White: #FFFFFF;
+    --Gray: #AAAAAA;
+    --DarkGray: #555555;
+    --Black: #000000;
+}
+
 /* ---- Landscape Devices ---- */
 
 @font-face {
@@ -93,11 +112,11 @@
 
 #errorCode {
     margin-top: 3vmin;
-    color: rgb(255, 170, 0);
+    color: var(--Gold);
 }
 
 #errorTitle {
-    color: rgb(255, 84, 84);
+    color: var(--Red);
 }
 
 #errorContent .button {
@@ -182,7 +201,7 @@
     border: rgb(33, 8, 66) solid 0.3vmin;
     box-shadow: 0 0 0 0.3vmin black;
     border-radius: 5px;
-    color: rgb(170, 170, 170);
+    color: var(--Gray);
     margin: 0 50px;
     padding: 0.5vmin;
     font-size: 3vmin;
@@ -206,7 +225,7 @@
 
 .button {
     padding: 1vmin;
-    color: rgb(255, 255, 255);
+    color: var(--White);
     width: 100%;
     height: 100%;
     font-size: 2vmin;
@@ -230,7 +249,7 @@
     border-right: 1vmin solid rgb(25, 56, 17);
     border-bottom: 1vmin solid rgb(19, 71, 13);
     border-left: 1vmin solid rgb(54, 95, 43);
-    color: #dbdbdb;
+    color: rgb(219, 219, 219);
 }
 
 /* - Gray - */
@@ -275,7 +294,7 @@
     min-width: 8vmin;
     height: 8vmin;
     padding: 0.5vmin;
-    color: rgb(255, 255, 255);
+    color: var(--White);
     border-top: gray 0.7vmin solid;
     border-right: rgb(88, 88, 88) 0.7vmin solid;
     border-bottom: rgb(88, 88, 88) 1.4vmin solid;
@@ -297,7 +316,7 @@
     width: 100%;
     min-width: 30dvw;
     padding: 0 0.3vmin;
-    color: rgb(255, 255, 255);
+    color: var(--White);
     cursor: pointer;
     appearance: none;
     background-image: url("./assets/imgs/backgrounds/button-bg.png");
@@ -349,7 +368,7 @@ body,
     height: 100dvh;
     padding: 0;
     margin: 0;
-    color: rgb(255, 255, 255);
+    color: var(--White);
     overflow: hidden;
 }
 
@@ -373,13 +392,35 @@ body,
 
 /* - Background - */
 
+.portalBackground{
+    background-image: url("./assets/imgs/backgrounds/nether_portal.gif");
+    background-size: 200px;
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+#inactivePortalBackground{
+    animation: disappear 1.5s forwards linear;
+}
+
+@keyframes disappear {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 #background {
     position: absolute;
     top: 50%;
     left: 50%;
     animation: spin 120s infinite linear forwards;
     transform-style: preserve-3d;
-    perspective: 100vmax;
+    perspective: 100vmin;
 }
 
 @keyframes spin {
@@ -530,7 +571,7 @@ body,
 
 #maintenanceNoticeCountdown {
     margin: 0;
-    color: rgb(255, 85, 255);
+    color: var(--LightPurple);
     font-size: 2.5vmin;
 }
 
@@ -652,7 +693,7 @@ input:-webkit-autofill:focus {
 
 .authForm input {
     background-color: rgb(19, 19, 19);
-    color: white;
+    color: var(--White);
     border: solid 3px transparent;
     padding: 5px;
 }
@@ -679,7 +720,7 @@ input:-webkit-autofill:focus {
 
 .inputError {
     display: block;
-    color: rgb(170, 0, 0);
+    color: var(--DarkRed);
     font-size: 13px;
     list-style: none;
     margin: 0;
@@ -721,7 +762,7 @@ input:-webkit-autofill:focus {
 }
 
 .link, #forgotPassword {
-    color: rgb(0, 170, 0);
+    color: var(--DarkGreen);
     font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
@@ -901,7 +942,7 @@ input:-webkit-autofill:focus {
     grid-area: description;
     margin: 0;
     font-size: 2vmin;
-    color: rgb(170, 170, 170);
+    color: var(--Gray);
 }
 
 .gamemodeWarning {
@@ -1016,7 +1057,7 @@ input:-webkit-autofill:focus {
 #craftingTitle {
     grid-area: craftingTitle;
     margin: 0;
-    color: rgb(85, 85, 85);
+    color: var(--DarkGray);
     font-weight: normal;
     font-size: 5vmin;
 }
@@ -1057,7 +1098,7 @@ input:-webkit-autofill:focus {
 
 #hintsTitle {
     margin: 0;
-    color: rgb(85, 85, 85);
+    color: var(--DarkGray);
     font-weight: normal;
     font-size: 3vmin;
 }
@@ -1109,7 +1150,7 @@ input:-webkit-autofill:focus {
 #inventoryTitle,
 #knowledgeBookTitle {
     margin: 0;
-    color: rgb(85, 85, 85);
+    color: var(--DarkGray);
     font-weight: normal;
     font-size: 3vmin;
 }
@@ -1185,7 +1226,7 @@ input:-webkit-autofill:focus {
 
 #heartsTitle {
     margin: 0;
-    color: rgb(85, 85, 85);
+    color: var(--DarkGray);
     font-weight: normal;
     font-size: 3vmin;
 }
@@ -1212,7 +1253,7 @@ input:-webkit-autofill:focus {
 
 #tipsTitle {
     margin: 0;
-    color: rgb(85, 85, 85);
+    color: var(--DarkGray);
     font-weight: normal;
     font-size: 3vmin;
 }
@@ -1444,7 +1485,7 @@ input:-webkit-autofill:focus {
 }
 
 #maintenanceTitle {
-    color: rgb(85, 255, 255);
+    color: var(--Aqua);
     text-align: start;
     font-size: 4dvh;
 }
@@ -1455,7 +1496,7 @@ input:-webkit-autofill:focus {
 
 #maintenanceCountdown {
     display: block;
-    color: rgb(255, 85, 255);
+    color: var(--LightPurple);
 }
 
 /* -- Credits -- */
@@ -1466,7 +1507,7 @@ input:-webkit-autofill:focus {
     height: 100dvh;
     overflow: hidden;
     text-decoration: none;
-    color: rgb(170, 170, 170);
+    color: var(--Gray);
     background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
     position: relative;
     font-size: 4vmin;
@@ -1513,17 +1554,17 @@ input:-webkit-autofill:focus {
 
 #credits h2 {
     font-size: 6vmin;
-    color: rgb(255, 170, 0);
+    color: var(--Gold);
 }
 
 #credits h3 {
     font-size: 5vmin;
-    color: rgb(255, 85, 255);
+    color: var(--LightPurple);
 }
 
 #credits h4 {
     font-size: 4vmin;
-    color: rgb(85, 255, 255);
+    color: var(--Aqua);
 }
 
 .creditTextContainer,
@@ -1555,7 +1596,7 @@ input:-webkit-autofill:focus {
 
 #patchNotes {
     background-image: url("./assets/imgs/backgrounds/stone_bricks-bg.png");
-    color: rgb(0, 0, 0);
+    color: var(--Black);
     grid-template-rows: min-content 1fr;
 }
 
@@ -1628,7 +1669,7 @@ input:-webkit-autofill:focus {
     box-shadow: 0 0 3vmin 2vmin black;
     z-index: 1;
     font-size: 3vmin;
-    color: #aaaaaa;
+    color: var(--Gray);
     text-shadow: 0 0 5px #000000;
 }
 
@@ -1643,29 +1684,29 @@ input:-webkit-autofill:focus {
 #patchNotes h1 {
     justify-self: center;
     margin: 0;
-    color: rgb(255, 255, 255);
+    color: var(--White)
 }
 
 #patchNotes h2 {
-    color: #55ffff;
+    color: var(--Aqua);
 }
 
 #patchNotes .new {
-    color: rgb(85, 255, 85);
+    color: var(--Green);
 }
 
 #patchNotes .change {
-    color: rgb(255, 255, 85);
+    color: var(--Yellow);
 }
 
 #patchNotes .remove {
-    color: rgb(255, 85, 85);
+    color: var(--Red);
 }
 
 /* -- Docs -- */
 
 #docs {
-    color: rgb(170, 170, 170);
+    color: var(--Gray);
     width: auto;
     height: 100%;
     overflow-y: auto;
@@ -1706,15 +1747,15 @@ input:-webkit-autofill:focus {
 }
 
 #docs h1 {
-    color: #000000;
+    color: var(--Black);
 }
 
 #docs h2 {
-    color: rgb(85, 85, 255);
+    color: var(--Blue);
 }
 
 #docs h3 {
-    color: rgb(0, 170, 0);
+    color: var(--Green);
 }
 
 #docs ul {
@@ -1722,17 +1763,17 @@ input:-webkit-autofill:focus {
 }
 
 #docs ol>li::marker {
-    color: rgb(0, 170, 0);
+    color: var(--Green);
     font-size: 3.5vmin;
     font-weight: bold;
 }
 
 #docs b {
-    color: rgb(255, 85, 85)
+    color: var(--Red)
 }
 
 #docs ul {
-    color: rgb(255, 85, 255);
+    color: var(--LightPurple);
     font-weight: bold;
 }
 
@@ -1742,11 +1783,11 @@ input:-webkit-autofill:focus {
     display: grid;
     grid-template-columns: max-content auto;
     height: 100dvh;
-    color: rgb(85, 85, 85);
+    color: var(--DarkGray);
 }
 
 #guide b:not(.indicator) {
-    color: rgb(255, 85, 85);
+    color: var(--Red);
     text-shadow: 0 0 5px #000000;
 }
 
@@ -1782,11 +1823,11 @@ input:-webkit-autofill:focus {
 
 #guideContentTable>ul a {
     text-decoration: none;
-    color: rgb(255, 255, 255);
+    color: var(--White);
 }
 
 #guideContentTable>ul a:hover {
-    color: rgb(255, 85, 255);
+    color: var(--LightPurple);
 }
 
 /* - Content - */
@@ -1827,15 +1868,15 @@ input:-webkit-autofill:focus {
 }
 
 #redIndicator {
-    color: rgb(170, 0, 0);
+    color: var(--DarkRed);
 }
 
 #yellowIndicator {
-    color: rgb(255, 170, 0);
+    color: var(--Gold);
 }
 
 #greenIndicator {
-    color: rgb(0, 170, 0);
+    color: var(--Green);
 }
 
 /* -- Stats -- */
@@ -1893,7 +1934,7 @@ input:-webkit-autofill:focus {
 }
 
 #collectionContainer h2 {
-    color: #55ff55;
+    color: var(--Green);
     font-size: 5vmin;
 }
 
@@ -2031,7 +2072,7 @@ input:-webkit-autofill:focus {
         grid-area: description;
         margin: 0;
         font-size: 4vmin;
-        color: rgb(170, 170, 170);
+        color: var(--Gray);
     }
 
     /* --- Patch Notes --- */
