@@ -32,7 +32,7 @@ import bg1_16_2 from "../../assets/imgs/panoramas/1.16_panorama_2.png"
 import bg1_16_3 from "../../assets/imgs/panoramas/1.16_panorama_3.png"
 import bg1_16_4 from "../../assets/imgs/panoramas/1.16_panorama_4.png"
 import bg1_16_5 from "../../assets/imgs/panoramas/1.16_panorama_5.png"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 /**
  * Array of panorama images.
@@ -49,7 +49,7 @@ let panoramass = [
  * Get a random panorama from the array.
  * @returns A random panorama.
  */
-function randomizepanoramas(){
+function randomizepanoramas() {
     return panoramass[Math.floor(Math.random() * panoramass.length)]
 }
 
@@ -57,11 +57,40 @@ function randomizepanoramas(){
  * Background component to display a random panorama background.
  * @returns The Background component.
  */
+function loadImage(src: string) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = resolve;
+    });
+}
+
 export function Background() {
-    const [panorama] = useState(randomizepanoramas())
-    return <div id="background">
-        {panorama.map((imgs, index) => (
-            <img key={index} id={`panoramaPicture${index}`} className="panoramaPicture" src={imgs} alt={`panoramaPicture${index}`} />
-        ))}
-    </div>
+    const [loaded, setLoaded] = useState(false);
+    const panorama = randomizepanoramas();
+
+    useEffect(() => {
+        const loadAllImages = async () => {
+            await Promise.all(panorama.map((img) => loadImage(img)));
+            setLoaded(true);
+        };
+        loadAllImages();
+    }, [panorama]);
+
+    console.log(loaded)
+
+    return <>
+        {loaded && <div id="background">
+            {loaded && panorama.map((imgs, index) => (
+                <img
+                    key={index}
+                    id={`panoramaPicture${index}`}
+                    className="panoramaPicture"
+                    src={imgs}
+                    alt={`panoramaPicture${index}`}
+                />
+            ))}
+        </div>}
+        <div id={loaded ? "inactivePortalBackground" : "activePortalBackground"} className="portalBackground"></div>
+    </>
 }
