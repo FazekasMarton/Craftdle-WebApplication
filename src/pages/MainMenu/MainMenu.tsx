@@ -67,8 +67,8 @@ export function MainMenu() {
             <footer>
                 <aside id="footerInfo">
                     <span>by Guideian Angel</span>
-                    <span>v1.2</span>
-                    <span>for Minecraft 1.21.50</span>
+                    <span>v1.2.0</span>
+                    <span>for Minecraft: Java Edition 1.21.4 - The Garden Awakens</span>
                 </aside>
                 <small id="disclaimer">
                     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT
