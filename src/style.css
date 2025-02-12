@@ -522,12 +522,13 @@ body,
     font-size: 5vmin;
 }
 
-#craftleTitle {
+#craftdleTitle {
     grid-area: title;
     width: min-content;
     justify-self: center;
+    align-self: self-end;
     position: relative;
-    margin: 13vmin 0 5vmin 0;
+    margin: 13vmin 0 2vmin 0;
 }
 
 #craftdleLogo {
@@ -2044,7 +2045,7 @@ input:-webkit-autofill:focus {
     }
 
     #menu {
-        grid-template-rows: 1fr min-content min-content 1fr;
+        grid-template-rows: auto min-content min-content auto;
     }
 
     #craftleTitle,
