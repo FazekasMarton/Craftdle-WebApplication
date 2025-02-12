@@ -56,7 +56,7 @@ export function Tips(props: TipsProps) {
                                     }
                                 </tbody>
                             </table>
-                            <img className="tipCraftingArrow" src={arrow} alt="arrow" />
+                            <img className="tipCraftingArrow" src={arrow} alt="arrow" draggable={false}/>
                             <div className="tipSlot">
                                 <Item item={props.itemsCollection.getItem(tip.item.id)} />
                             </div>

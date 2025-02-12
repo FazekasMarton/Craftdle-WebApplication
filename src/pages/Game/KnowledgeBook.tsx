@@ -94,7 +94,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
             <header id="knowledgeBookHeader">
                 <h1 id="knowledgeBookTitle">Knowledge Book:</h1>
                 <nav className="searchBar">
-                    <img className="searchIcon" src={searchIcon} alt="Search Icon" />
+                    <img className="searchIcon" src={searchIcon} alt="Search Icon" draggable={false}/>
                     <input
                         type="text"
                         id="knowledgeBookSearch"
@@ -172,7 +172,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                         ))}
                                     </tbody>
                                 </table>
-                                <img className="recipeCraftingArrow" src={arrow} alt="arrow" style={{ height: size }} />
+                                <img className="recipeCraftingArrow" src={arrow} alt="arrow" draggable={false} style={{ height: size }} />
                                 <div className="recipeSlot" style={{ width: size, height: size }}>
                                     <Item item={props.items.getItem(recipeInfo.id)} />
                                 </div>

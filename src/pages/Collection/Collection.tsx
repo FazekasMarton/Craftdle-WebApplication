@@ -125,12 +125,12 @@ export function Collection() {
                                     {
                                         item.collected ? (
                                             item.active ? (
-                                                <img className="activeProfileImage" src={active} alt="Active Profile Picture" />
+                                                <img className="activeProfileImage" src={active} alt="Active Profile Picture" draggable={false}/>
                                             ) : (
-                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Picture" />
+                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Picture" draggable={false}/>
                                             )
                                         ) : (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Picture" />
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Picture" draggable={false}/>
                                         )
                                     }
                                 </div>
@@ -159,12 +159,12 @@ export function Collection() {
                                     {
                                         item.collected ? (
                                             item.active ? (
-                                                <img className="activeProfileImage" src={active} alt="Active Profile Border" />
+                                                <img className="activeProfileImage" src={active} alt="Active Profile Border" draggable={false}/>
                                             ) : (
-                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Border" />
+                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Border" draggable={false}/>
                                             )
                                         ) : (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Border" />
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Border" draggable={false}/>
                                         )
                                     }
                                 </div>
@@ -181,7 +181,7 @@ export function Collection() {
                                     <img src={`http://localhost:3000/assets/items/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         !item.collected ? (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" />
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" draggable={false}/>
                                         ) : (
                                             null
                                         )
@@ -200,8 +200,8 @@ export function Collection() {
                                     <Achievement key={index} achievement={achievement} />
                                     {achievement.goal && achievement.progress ? (
                                         <div className="progressBar">
-                                            <img className="xpBar" src={xpBar} alt="XP bar" />
-                                            <img className="xp" src={xp} alt="XP" style={{
+                                            <img className="xpBar" src={xpBar} alt="XP bar" draggable={false}/>
+                                            <img className="xp" src={xp} alt="XP" draggable={false} style={{
                                                 clipPath: `inset(0 ${100 - (achievement.progress / achievement.goal) * 100}% 0 0)`
                                             }} />
                                         </div>

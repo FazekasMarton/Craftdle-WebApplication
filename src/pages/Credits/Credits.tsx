@@ -55,7 +55,7 @@ export function Credits() {
         <div id="creditsContainer">
             <header>
                 <h1>
-                    <img id="creditsCraftdleTitle" src={craftdleTitle} alt="Craftdle Title" />
+                    <img id="creditsCraftdleTitle" src={craftdleTitle} alt="Craftdle Title" draggable={false}/>
                 </h1>
             </header>
             <main>

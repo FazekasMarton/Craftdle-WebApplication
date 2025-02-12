@@ -25,7 +25,7 @@ interface UserAuthNavProps {
 function UserAuthNav(props: UserAuthNavProps) {
     return <div id="userAuthNav">
         <Button color={props.form == "Login" ? "gray" : "green"} onClick={() => props.setForm("Login")}>Log In</Button>
-        <Button color={props.form == "Register" ? "gray" : "green"} onClick={() => props.setForm("Register")}>Sign In</Button>
+        <Button color={props.form == "Register" ? "gray" : "green"} onClick={() => props.setForm("Register")}>Sign Up</Button>
         {!props.isGuest ? <Button color={props.form == "Logout" ? "gray" : "green"} onClick={() => props.setForm("Logout")}>Log Out</Button> : null}
     </div>
 }
@@ -270,6 +270,7 @@ function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
                 id="forgotPasswordItem"
                 src={`http://localhost:3000/assets/items/${item.src}`}
                 alt={item.name}
+                draggable={false}
             />
             <h2 id="forgotPasswordTitle">Email Sent!</h2>
             <div id="forgotPasswordText">
@@ -408,7 +409,7 @@ function RegisterForm(props: FormProps) {
                     res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
                 }
             }
-        }}>Sign In</Button>
+        }}>Sign Up</Button>
     </div>
 }
 
