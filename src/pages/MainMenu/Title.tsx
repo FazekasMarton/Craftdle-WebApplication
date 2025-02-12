@@ -56,7 +56,7 @@ function getRandomText(){
  */
 export function Title() {
     const [text] = useState(getRandomText())
-    return <header id="craftleTitle">
+    return <header id="craftdleTitle">
         <img id="craftdleLogo" src={title} alt="Craftdle Logo" draggable={false}/>
         <span id="yellowText">{text}</span>
     </header>

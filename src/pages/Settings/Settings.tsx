@@ -14,7 +14,7 @@ import { loadSettings } from "../../functions/loadSettings";
 export function Settings() {
     const originalSettings = useSelector((state: RootState) => state.user.settings);
     const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings> | null>(structuredClone(originalSettings))
-    const [activeProfile, setActiveProfile] = useState(0)
+    const [activeProfile, setActiveProfile] = useState<number>(originalSettings?.findIndex(s => s.isSet) ?? 0)
 
     useEffect(() => {
         if (!originalSettings) {
@@ -25,6 +25,7 @@ export function Settings() {
     useEffect(() => {
         if (!modifiedSettings) {
             setModifiedSettings(structuredClone(originalSettings))
+            setActiveProfile(originalSettings?.findIndex(s => s.isSet) ?? 0)
         }
     }, [originalSettings])
 
