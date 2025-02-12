@@ -100,7 +100,7 @@ export function Tutorial(props: TutorialProps) {
                     <StoneButton onClick={() => { store.dispatch(setAllay(false)); }}>Got It!</StoneButton>
                 </div>
             </div>
-            <img key={`${props.turn}-${game.help}`} id="allay" src={allay} alt="Allay" />
+            <img key={`${props.turn}-${game.help}`} id="allay" src={allay} alt="Allay" draggable={false}/>
         </div>
     );
 }

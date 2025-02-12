@@ -67,7 +67,7 @@ function loadImage(src: string) {
 
 export function Background() {
     const [loaded, setLoaded] = useState(false);
-    const panorama = randomizepanoramas();
+    const [panorama] = useState(randomizepanoramas());
 
     useEffect(() => {
         const loadAllImages = async () => {
@@ -77,17 +77,16 @@ export function Background() {
         loadAllImages();
     }, [panorama]);
 
-    console.log(loaded)
-
     return <>
         {loaded && <div id="background">
-            {loaded && panorama.map((imgs, index) => (
+            {panorama.map((imgs, index) => (
                 <img
                     key={index}
                     id={`panoramaPicture${index}`}
                     className="panoramaPicture"
                     src={imgs}
                     alt={`panoramaPicture${index}`}
+                    draggable={false}
                 />
             ))}
         </div>}

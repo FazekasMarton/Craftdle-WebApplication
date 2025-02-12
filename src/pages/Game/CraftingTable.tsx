@@ -61,7 +61,7 @@ export function CraftingTable(props: CraftingTableProps) {
                 })}
             </tbody>
         </table>
-        <img id="craftingArrow" src={arrow} alt="arrow" />
+        <img id="craftingArrow" src={arrow} alt="arrow" draggable={false}/>
         <div id="craftedItem" className="slot" onClick={() => {
             let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
             let requiredControlByTutorial = store.getState().game.requiredControl
@@ -89,7 +89,7 @@ export function CraftingTable(props: CraftingTableProps) {
                 props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
                 SoundEffect.play("click")
             }}>
-                <img src={craftingBook} alt="Crafting Book" />
+                <img src={craftingBook} alt="Crafting Book" draggable={false}/>
             </div>
         ) : null
         }

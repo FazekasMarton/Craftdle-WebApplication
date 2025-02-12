@@ -38,7 +38,7 @@ export function PatchNotes() {
                         </li>
                         <li>Settings <span className="new">added</span></li>
                         <li>Control/game mechanics <span className="change">reworked</span></li>
-                        <li>Continue feature <span className="new">added</span> for unfinished game</li>
+                        <li>Continue feature <span className="new">added</span> for unfinished games</li>
                         <li>Loading Screen <span className="remove">removed</span></li>
                     </ul>
                 </article>
@@ -59,14 +59,14 @@ export function PatchNotes() {
                         <li>
                             Bug <span className="change">fixes</span>
                             <ul>
-                                <li>Shapeless itemes check</li>
+                                <li>Shapeless items check</li>
                                 <li>Loading Screen visual</li>
                             </ul>
                         </li>
                     </ul>
                 </article>
                 <article className="patchNote">
-                    <h2>v1.1 - Sep 5, 2024</h2>
+                    <h2>v1.1.0 - Sep 5, 2024</h2>
                     <ul>
                         <li>
                             <span className="new">New</span> gamemode added
@@ -98,7 +98,7 @@ export function PatchNotes() {
                     </ul>
                 </article>
                 <article className="patchNote">
-                    <h2>v1.0 - Aug 21, 2024</h2>
+                    <h2>v1.0.0 - Aug 21, 2024</h2>
                     <ul>
                         <li>
                             <span className="new">New</span> gamemode added
@@ -120,7 +120,7 @@ export function PatchNotes() {
                             </ul>
                         </li>
                         <li>
-                            Crafitng recipes <span className="change">updated</span> for Minecraft 1.21.1
+                            Crafting recipes <span className="change">updated</span> for Minecraft 1.21.1
                         </li>
                     </ul>
                 </article>

@@ -29,7 +29,7 @@ export function Inventory(props: InventoryProps) {
         <header id="inventoryHeader">
             <h1 id="inventoryTitle">Inventory:</h1>
             <nav className="searchBar">
-                <img className="searchIcon" src={searchIcon} alt="Search Icon" />
+                <img className="searchIcon" src={searchIcon} alt="Search Icon" draggable={false}/>
                 <input type="text" id="inventorySearch" className="search" placeholder="Search..." onInput={(e) => { setSearch(e.currentTarget.value) }} />
             </nav>
         </header>
