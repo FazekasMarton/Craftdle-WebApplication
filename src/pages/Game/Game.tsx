@@ -87,11 +87,6 @@ export function Game() {
     }
 
     useEffect(() => {
-        if (isGamemodeValid) {
-            searchParams.set("gamemode", gamemodeId)
-            setSearchParams(searchParams)
-        }
-
         startGame(gamemodeId, store.getState().game.newGame)
 
         socket?.on("guess", (data: IGuess) => {
@@ -134,7 +129,14 @@ export function Game() {
         })
 
         return () => { socket?.off("guess") }
-    }, [socket, searchParams, setSearchParams])
+    }, [socket])
+
+    useEffect(() => {
+        if (isGamemodeValid) {
+            searchParams.set("gamemode", gamemodeId)
+            setSearchParams(searchParams)
+        }
+    }, [searchParams, setSearchParams])
 
     return <>
         <Meta
