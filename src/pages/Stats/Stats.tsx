@@ -74,7 +74,7 @@ export function Stats() {
                         backgroundImage: `url(http://localhost:3000/assets/profileBorders/${stats?.profileBorder?.src})`
                     } : {}}
                 >
-                    {stats?.profilePicture ? <img className="profilePicture" src={`http://localhost:3000/assets/profilePictures/${stats?.profilePicture?.src}`} alt={stats?.profilePicture?.name} /> : null}
+                    {stats?.profilePicture ? <img className="profilePicture" src={`http://localhost:3000/assets/profilePictures/${stats?.profilePicture?.src}`} alt={stats?.profilePicture?.name} draggable={false}/> : null}
                 </div>
                 <h2 className="profileName">{stats?.username}</h2>
             </section>

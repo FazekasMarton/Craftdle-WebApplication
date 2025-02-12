@@ -57,12 +57,12 @@ export function MainMenu() {
                 {install ? <StoneButton onClick={handleInstallClick}>Install App</StoneButton> : <StoneButton href="/patchNotes">Patch Notes</StoneButton>}
             </nav>
             <nav id="leftSideButtons" className="sideButtons" aria-label="Settings and Statistics">
-                <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" /></StoneButton>
-                <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={settings} alt="Settings" /></StoneButton>
+                <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" draggable={false}/></StoneButton>
+                <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={settings} alt="Settings" draggable={false}/></StoneButton>
             </nav>
             <nav id="rightSideButtons" className="sideButtons" aria-label="News and Privacy Policy">
-                {install && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" /></StoneButton>}
-                <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" /></StoneButton>
+                {install && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" draggable={false}/></StoneButton>}
+                <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false}/></StoneButton>
             </nav>
             <footer>
                 <aside id="footerInfo">
