@@ -15,6 +15,7 @@ interface KnowledgeBookProps {
     craftingTableSize: number;
     setCraftingTable: (craftingTable: Array<Array<HTMLImageElement | null>>) => void;
     result: boolean;
+    isOpen: boolean;
 }
 
 /**
@@ -91,7 +92,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
     }, [props.items]);
 
     return (
-        <div id="knowledgeBook">
+        <div id="knowledgeBook" style={{ display: props.isOpen ? "grid" : "none" }}>
             <header id="knowledgeBookHeader">
                 <h1 id="knowledgeBookTitle">Knowledge Book:</h1>
                 <nav className="searchBar">
