@@ -1,7 +1,7 @@
 import { Items } from "../../classes/Items";
 import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe";
 import searchIcon from "../../assets/imgs/icons/search_icon.png";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { getItem, Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png";
 import { SoundEffect } from "../../classes/Audio";
@@ -78,15 +78,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
     const [search, setSearch] = useState("");
-    const [counter, setCounter] = useState(0);
     const size = `${currentSettings.imagesSize / 25 + 2.5}vmin`;
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCounter(prevCounter => prevCounter + 1);
-        }, 1000000000);
-        return () => clearInterval(interval);
-    }, []);
 
     const cachedItems = useMemo(() => {
         const cache: { [key: string]: HTMLImageElement | null } = {};
@@ -118,17 +110,45 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                     {Object.keys(props.recipes).map(recipeGroupName => {
                         if (recipeGroupName === "gaLogo0") return null;
                         const [recipeGroupIndex, setRecipeGroupIndex] = useState(0);
-                        const [materialIndex, setMaterialIndex] = useState(-1);
+                        const [materialIndex, setMaterialIndex] = useState(0);
 
                         const recipeGroup = props.recipes[recipeGroupName];
-                        const recipeInfo = recipeGroup[recipeGroupIndex % recipeGroup.length];
-                        const recipe = recipeInfo.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo.recipe as INonShapelessRecipe;
+                        const recipeInfo = recipeGroup[recipeGroupIndex];
+                        const recipe = recipeInfo?.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo?.recipe as INonShapelessRecipe;
 
-                        useEffect(() => {
+                        function incrementCounter() {
                             let longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
-                            setMaterialIndex(prev => (prev >= longestSlot - 1 ? 0 : prev + 1));
-                            if (materialIndex === 0) setRecipeGroupIndex(prev => prev + 1);
-                        }, [counter]);
+                            setMaterialIndex((prev) => {
+                                const newValue = prev + 1;
+                                if(newValue >= longestSlot){
+                                    setRecipeGroupIndex(p => {
+                                        if(p + 1 >= recipeGroup.length){
+                                            return 0;
+                                        }
+                                        return p + 1;
+                                    });
+                                    return 0;
+                                } 
+                                return newValue;
+                            });
+                        }
+
+                        function decrementCounter() {
+                            setMaterialIndex((prev) => {
+                                if (prev - 1 < 0) {
+                                    setRecipeGroupIndex(p => {
+                                        if(p - 1 < 0){
+                                            return recipeGroup.length - 1;
+                                        }
+                                        return p - 1;
+                                    });
+                                    const rInfo = recipeGroup[recipeGroup.length - 1];
+                                    const previousRecipe = rInfo?.shapeless ? convertToMatrix(rInfo.recipe as IShapelessRecipe, props.craftingTableSize) : rInfo?.recipe as INonShapelessRecipe;
+                                    return Math.max(...previousRecipe.flat().map(slot => slot?.length || 0)) - 1;
+                                }
+                                return prev - 1;
+                            });
+                        }
 
                         if (!isSearchResult(recipeGroup, search) || recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
                             return null;
@@ -172,6 +192,8 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                 <div className="recipeSlot" style={{ width: size, height: size }}>
                                     <Item itemId={recipeInfo.id} items={props.items} />
                                 </div>
+                                <img className="recipeCardPrevious" onClick={() => decrementCounter()} />
+                                <img className="recipeCardNext" onClick={() => incrementCounter()} />
                             </div>
                         );
                     })}
