@@ -120,15 +120,15 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             let longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
                             setMaterialIndex((prev) => {
                                 const newValue = prev + 1;
-                                if(newValue >= longestSlot){
+                                if (newValue >= longestSlot) {
                                     setRecipeGroupIndex(p => {
-                                        if(p + 1 >= recipeGroup.length){
+                                        if (p + 1 >= recipeGroup.length) {
                                             return 0;
                                         }
                                         return p + 1;
                                     });
                                     return 0;
-                                } 
+                                }
                                 return newValue;
                             });
                         }
@@ -137,7 +137,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             setMaterialIndex((prev) => {
                                 if (prev - 1 < 0) {
                                     setRecipeGroupIndex(p => {
-                                        if(p - 1 < 0){
+                                        if (p - 1 < 0) {
                                             return recipeGroup.length - 1;
                                         }
                                         return p - 1;
@@ -157,18 +157,20 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
-                                onClick={!props.result ? async () => {
-                                    const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: props.craftingTableSize }).map(() => Array.from({ length: props.craftingTableSize }).map(() => null));
-                                    const craftingTablePromises = recipe.map(row =>
-                                        Promise.all(row.map(slot => slot ? cachedItems(slot[materialIndex % slot.length]) : null))
-                                    );
-                                    (await Promise.all(craftingTablePromises)).forEach((row, rowIndex) => {
-                                        row.forEach((slot, colIndex) => {
-                                            craftingTable[rowIndex][colIndex] = slot;
+                                onClick={!props.result ? async (e) => {
+                                    if (!(e.target as HTMLElement).classList.contains("recipeButton")) {
+                                        const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: props.craftingTableSize }).map(() => Array.from({ length: props.craftingTableSize }).map(() => null));
+                                        const craftingTablePromises = recipe.map(row =>
+                                            Promise.all(row.map(slot => slot ? cachedItems(slot[materialIndex % slot.length]) : null))
+                                        );
+                                        (await Promise.all(craftingTablePromises)).forEach((row, rowIndex) => {
+                                            row.forEach((slot, colIndex) => {
+                                                craftingTable[rowIndex][colIndex] = slot;
+                                            });
                                         });
-                                    });
-                                    props.setCraftingTable(craftingTable);
-                                    SoundEffect.play("click");
+                                        props.setCraftingTable(craftingTable);
+                                        SoundEffect.play("click");
+                                    }
                                 } : undefined}
                             >
                                 <table className="recipeCraftingTable">
@@ -189,11 +191,17 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                     </tbody>
                                 </table>
                                 <img className="recipeCraftingArrow" src={arrow} alt="arrow" draggable={false} style={{ height: size }} />
-                                <div className="recipeSlot" style={{ width: size, height: size }}>
+                                <div className="recipeSlot recipeItem" style={{ width: size, height: size }}>
                                     <Item itemId={recipeInfo.id} items={props.items} />
                                 </div>
-                                <img className="recipeCardPrevious" onClick={() => decrementCounter()} />
-                                <img className="recipeCardNext" onClick={() => incrementCounter()} />
+                                {
+                                    recipeGroup.length > 1 || Math.max(...recipe.flat().map(slot => slot?.length || 0)) > 1 ? (
+                                        <>
+                                            <div className="recipeCardPrevious recipeButton" onClick={() => { decrementCounter(); SoundEffect.play("click") }} />
+                                            <div className="recipeCardNext recipeButton" onClick={() => { incrementCounter(); SoundEffect.play("click") }} />
+                                        </>
+                                    ) : null
+                                }
                             </div>
                         );
                     })}
