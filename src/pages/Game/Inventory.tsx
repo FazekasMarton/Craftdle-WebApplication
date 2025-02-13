@@ -11,7 +11,8 @@ import { useSelector } from "react-redux"
  */
 interface InventoryProps {
     itemsCollection: IItem[]
-    items: Items
+    items: Items,
+    isOpen: boolean
 }
 
 /**
@@ -25,7 +26,7 @@ export function Inventory(props: InventoryProps) {
     const [search, setSearch] = useState("")
     const size = `${currentSettings.imagesSize / 10 + 2.5}vmin`
 
-    return <div id="inventory">
+    return <div id="inventory" style={{ display: props.isOpen ? "grid" : "none" }}>
         <header id="inventoryHeader">
             <h1 id="inventoryTitle">Inventory:</h1>
             <nav className="searchBar">

@@ -165,7 +165,10 @@ export function Game() {
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />
             {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
-                    isKnowledgeBookOpen && gamemodeId != "7" ? <KnowledgeBook result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
+                    <>
+                        {gamemodeId != "7" && <KnowledgeBook isOpen={isKnowledgeBookOpen} result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} />}
+                        <Inventory isOpen={!isKnowledgeBookOpen} items={items.current} itemsCollection={itemsCollection} />
+                    </>
                 ) : null
             }
             {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} items={items.current}/>}
