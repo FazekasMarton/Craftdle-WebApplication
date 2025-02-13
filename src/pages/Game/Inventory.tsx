@@ -37,13 +37,12 @@ export function Inventory(props: InventoryProps) {
             <div id="inventoryContent">
                 {
                     props.itemsCollection.map(item => {
-                        const itemElement = props.items.getItem(item.id)
                         if (item && item.name.toLowerCase().includes(search.toLowerCase())) {
                             return <div key={item.id} className="inventorySlot slot" style={{
                                 width: size,
                                 height: size
                             }}>
-                                <Item item={itemElement} className="item" info={{text: item.name}} />
+                                <Item itemId={item.id} items={props.items} className="item" info={{text: item.name}} />
                             </div>
                         }
                     })

@@ -38,9 +38,8 @@ export function Tips(props: TipsProps) {
                                                                 const index = i * 3 + j
                                                                 const slot = tip.table[index]
                                                                 if (slot) {
-                                                                    const item = props.itemsCollection.getItem(slot.item)
                                                                     return <td key={index} className={`tipSlot ${slot.status}`}>
-                                                                        <Item item={item} className="item" />
+                                                                        <Item itemId={slot.item} items={props.itemsCollection} className="item" />
                                                                     </td>
                                                                 } else {
                                                                     return <td key={index} className="tipSlot"></td>
@@ -58,7 +57,7 @@ export function Tips(props: TipsProps) {
                             </table>
                             <img className="tipCraftingArrow" src={arrow} alt="arrow" draggable={false}/>
                             <div className="tipSlot">
-                                <Item item={props.itemsCollection.getItem(tip.item.id)} />
+                                <Item itemId={tip.item.id} items={props.itemsCollection}/>
                             </div>
                         </div>
                     })
