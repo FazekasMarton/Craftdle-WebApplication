@@ -1,8 +1,8 @@
 import { Items } from "../../classes/Items";
 import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe";
 import searchIcon from "../../assets/imgs/icons/search_icon.png";
-import { useEffect, useState } from "react";
-import { Item } from "./Item";
+import { useEffect, useMemo, useState } from "react";
+import { getItem, Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png";
 import { SoundEffect } from "../../classes/Audio";
 import { useSelector } from "react-redux";
@@ -84,30 +84,39 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
     useEffect(() => {
         const interval = setInterval(() => {
             setCounter(prevCounter => prevCounter + 1);
-        }, 1000);
-
+        }, 1000000000);
         return () => clearInterval(interval);
     }, []);
+
+    const cachedItems = useMemo(() => {
+        const cache: { [key: string]: HTMLImageElement | null } = {};
+        return async (id: string) => {
+            if (!cache[id]) {
+                cache[id] = await getItem(id, props.items) || null;
+            }
+            return cache[id];
+        };
+    }, [props.items]);
 
     return (
         <div id="knowledgeBook">
             <header id="knowledgeBookHeader">
                 <h1 id="knowledgeBookTitle">Knowledge Book:</h1>
                 <nav className="searchBar">
-                    <img className="searchIcon" src={searchIcon} alt="Search Icon" draggable={false}/>
+                    <img className="searchIcon" src={searchIcon} alt="Search Icon" draggable={false} />
                     <input
                         type="text"
                         id="knowledgeBookSearch"
                         className="search"
                         placeholder="Search..."
-                        onInput={(e) => { setSearch(e.currentTarget.value) }}
+                        onInput={(e) => setSearch(e.currentTarget.value)}
                     />
                 </nav>
             </header>
             <div id="knowledgeBookContainer">
                 <div id="knowledgeBookContent">
-                    {Object.keys(props.recipes).map((recipeGroupName) => {
-                        if(recipeGroupName === "gaLogo0") return null;
+                    {Object.keys(props.recipes).map(recipeGroupName => {
+                        if (recipeGroupName === "gaLogo0") return null;
                         const [recipeGroupIndex, setRecipeGroupIndex] = useState(0);
                         const [materialIndex, setMaterialIndex] = useState(-1);
 
@@ -116,44 +125,31 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                         const recipe = recipeInfo.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo.recipe as INonShapelessRecipe;
 
                         useEffect(() => {
-                            let longestSlot = 0;
-                            recipe.forEach(row => {
-                                row.forEach(slot => {
-                                    if (slot && slot.length > longestSlot) {
-                                        longestSlot = slot.length;
-                                    }
-                                });
-                            });
-                            if (materialIndex >= longestSlot - 1) {
-                                setMaterialIndex(0);
-                                setRecipeGroupIndex(prevIndex => prevIndex + 1);
-                            } else {
-                                setMaterialIndex(prevIndex => prevIndex + 1);
-                            }
+                            let longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
+                            setMaterialIndex(prev => (prev >= longestSlot - 1 ? 0 : prev + 1));
+                            if (materialIndex === 0) setRecipeGroupIndex(prev => prev + 1);
                         }, [counter]);
 
-                        if (!isSearchResult(recipeGroup, search)) {
-                            return null;
-                        }
-                        if (recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
+                        if (!isSearchResult(recipeGroup, search) || recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
                             return null;
                         }
 
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
-                                onClick={!props.result ? () => {
+                                onClick={!props.result ? async () => {
                                     const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: props.craftingTableSize }).map(() => Array.from({ length: props.craftingTableSize }).map(() => null));
-                                    recipe.forEach((row, rowIndex) => {
+                                    const craftingTablePromises = recipe.map(row =>
+                                        Promise.all(row.map(slot => slot ? cachedItems(slot[materialIndex % slot.length]) : null))
+                                    );
+                                    (await Promise.all(craftingTablePromises)).forEach((row, rowIndex) => {
                                         row.forEach((slot, colIndex) => {
-                                            if (slot) {
-                                                craftingTable[rowIndex][colIndex] = props.items.getItem(slot[materialIndex % slot.length]);
-                                            }
+                                            craftingTable[rowIndex][colIndex] = slot;
                                         });
                                     });
                                     props.setCraftingTable(craftingTable);
                                     SoundEffect.play("click");
-                                }: () => {}}
+                                } : undefined}
                             >
                                 <table className="recipeCraftingTable">
                                     <tbody>
@@ -164,7 +160,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                                     const material = item ? item[materialIndex % item.length] : null;
                                                     return (
                                                         <td className="recipeSlot" key={colIndex} style={{ width: size, height: size }}>
-                                                            {material ? <Item item={props.items.getItem(material)} /> : null}
+                                                            {material ? <Item itemId={material} items={props.items} /> : null}
                                                         </td>
                                                     );
                                                 })}
@@ -174,7 +170,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                 </table>
                                 <img className="recipeCraftingArrow" src={arrow} alt="arrow" draggable={false} style={{ height: size }} />
                                 <div className="recipeSlot" style={{ width: size, height: size }}>
-                                    <Item item={props.items.getItem(recipeInfo.id)} />
+                                    <Item itemId={recipeInfo.id} items={props.items} />
                                 </div>
                             </div>
                         );

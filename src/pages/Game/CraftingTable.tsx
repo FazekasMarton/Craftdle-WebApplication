@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import arrow from "../../assets/imgs/icons/arrow.png"
 import craftingBook from "../../assets/imgs/icons/recipe_book.png"
-import { Item } from "./Item"
+import { getItem, Item } from "./Item"
 import { craft } from "../../functions/craft"
 import { IRecipeCollection } from "../../interfaces/IRecipe"
 import { Items } from "../../classes/Items"
@@ -34,12 +34,21 @@ interface CraftingTableProps {
  */
 export function CraftingTable(props: CraftingTableProps) {
     const [craftedItemGroup, setCraftedItemGroup] = useState<string | null>(null)
-    const [craftedItemId, setCraftedItemId] = useState<HTMLImageElement | null>(null)
+    const [craftedItem, setCraftedItem] = useState<HTMLImageElement | null>(null)
+
+    async function saveCraftedItem(craftingTable: Array<Array<HTMLImageElement | null>>, recipes: IRecipeCollection, items: Items) {
+        let craftedItem = craft(craftingTable, recipes)
+        setCraftedItemGroup(craftedItem?.group ?? null)
+        if(craftedItem?.id) {
+            let itemElement = await getItem(craftedItem.id, items)
+            itemElement && setCraftedItem(itemElement)
+        } else {
+            setCraftedItem(null)
+        }
+    }
 
     useEffect(() => {
-        let craftedItem = craft(props.craftingTable, props.recipes)
-        setCraftedItemGroup(craftedItem?.group ?? null)
-        setCraftedItemId(craftedItem?.id ? props.items.getItem(craftedItem.id) : null)
+        saveCraftedItem(props.craftingTable, props.recipes, props.items)
     }, [props.craftingTable])
 
     return <div id="craftingTable">
@@ -52,7 +61,7 @@ export function CraftingTable(props: CraftingTableProps) {
                             {row.map((slot, slotIndex) => {
                                 return slotIndex < props.size ? (
                                     <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot craftingTableSlot">
-                                        {slot ? <Item item={slot} className="item" /> : null}
+                                        {slot ? <Item itemId={slot.className} items={props.items} className="item" /> : null}
                                     </td>
                                 ) : null
                             })}
@@ -65,11 +74,11 @@ export function CraftingTable(props: CraftingTableProps) {
         <div id="craftedItem" className="slot" onClick={() => {
             let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
             let requiredControlByTutorial = store.getState().game.requiredControl
-            if (craftedItemGroup && craftedItemId && (((requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredControlByTutorial?.length === 0) || props.gamemode != 1)) {
+            if (craftedItemGroup && craftedItem && (((requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredControlByTutorial?.length === 0) || props.gamemode != 1)) {
                 let guess = {
                     item: {
                         group: craftedItemGroup,
-                        id: craftedItemId.className
+                        id: craftedItem.className
                     },
                     table: props.craftingTable.flat(2).map(slot => {
                         let item = slot?.cloneNode() as HTMLImageElement
@@ -82,7 +91,7 @@ export function CraftingTable(props: CraftingTableProps) {
                 store.dispatch(setHelp(true))
             }
         }}>
-            {craftedItemId ? <Item item={craftedItemId} /> : null}
+            {craftedItem ? <Item itemId={craftedItem.className} items={props.items}/> : null}
         </div>
         {props.isHardcore ? (
             <div id="craftingBook" className="slotButton" onClick={() => {

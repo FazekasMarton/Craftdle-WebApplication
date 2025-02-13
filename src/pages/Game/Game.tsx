@@ -168,7 +168,7 @@ export function Game() {
                     isKnowledgeBookOpen && gamemodeId != "7" ? <KnowledgeBook result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} /> : <Inventory items={items.current} itemsCollection={itemsCollection} />
                 ) : null
             }
-            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />}
+            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} items={items.current}/>}
             {
                 maxHearts && turn >= maxHearts * 2 ? (
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />
