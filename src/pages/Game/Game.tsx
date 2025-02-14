@@ -170,7 +170,7 @@ export function Game() {
             {gamemodeId !== "1" ? (
                 hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />
             ) : (
-                <>
+                !loading && <>
                     <Button onClick={!result ? () => { store.dispatch(setHelp(true)) } : undefined} color="green">Ask Allay</Button>
                     <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
                 </>
