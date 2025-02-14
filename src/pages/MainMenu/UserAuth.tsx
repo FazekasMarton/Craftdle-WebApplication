@@ -94,6 +94,7 @@ function LoginForm(props: FormProps) {
                 }))
                 let res = (response.payload as any)
                 if (res.response) {
+                    await store.dispatch(clearUser(true))
                     await store.dispatch(saveUser(res.data.data))
                     setUsername("")
                     setPassword("")
@@ -394,6 +395,7 @@ function RegisterForm(props: FormProps) {
                 }))
                 let res = (response.payload as any)
                 if (res.response) {
+                    await store.dispatch(clearUser(true))
                     await store.dispatch(saveUser(res.data.data))
                     setUsername("")
                     setEmail("")

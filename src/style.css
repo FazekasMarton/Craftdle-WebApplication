@@ -1996,6 +1996,12 @@ input:-webkit-autofill:focus {
     min-height: calc(100% - 10vmin);
 }
 
+#collectionGuestNotice{
+    font-size: 6vmin;
+    color: var(--Red);
+    text-shadow: 0 0 5px #000000;
+}
+
 #collectionContainer h2 {
     color: var(--Green);
     font-size: 5vmin;

@@ -104,6 +104,27 @@ export function Collection() {
         </header>
         <main id="collectionMain">
             <div id="collectionContainer">
+                {user.isGuest ? <p id="collectionGuestNotice">You can only start collecting after creating an account!</p> : null}
+                <section id="collectionAchievements">
+                    <h2>Achievements {achievementCounter(collection?.achievements)}</h2>
+                    <article>
+                        {
+                            collection?.achievements?.map((achievement, index) => {
+                                return <div className={achievement.progress && achievement.goal && achievement.goal === achievement.progress ? "" : "uncollectedItem"} key={index}>
+                                    <Achievement key={index} achievement={achievement} />
+                                    {achievement.goal && achievement.progress ? (
+                                        <div className="progressBar">
+                                            <img className="xpBar" src={xpBar} alt="XP bar" draggable={false}/>
+                                            <img className="xp" src={xp} alt="XP" draggable={false} style={{
+                                                clipPath: `inset(0 ${100 - (achievement.progress / achievement.goal) * 100}% 0 0)`
+                                            }} />
+                                        </div>
+                                    ) : null}
+                                </div>
+                            })
+                        }
+                    </article>
+                </section>
                 <section id="collectionProfilePicture">
                     <h2>Profile Pictures {counter(collection?.profilePictures)}</h2>
                     <article>
@@ -186,26 +207,6 @@ export function Collection() {
                                             null
                                         )
                                     }
-                                </div>
-                            })
-                        }
-                    </article>
-                </section>
-                <section id="collectionAchievements">
-                    <h2>Achievements {achievementCounter(collection?.achievements)}</h2>
-                    <article>
-                        {
-                            collection?.achievements?.map((achievement, index) => {
-                                return <div className={achievement.progress && achievement.goal && achievement.goal === achievement.progress ? "" : "uncollectedItem"} key={index}>
-                                    <Achievement key={index} achievement={achievement} />
-                                    {achievement.goal && achievement.progress ? (
-                                        <div className="progressBar">
-                                            <img className="xpBar" src={xpBar} alt="XP bar" draggable={false}/>
-                                            <img className="xp" src={xp} alt="XP" draggable={false} style={{
-                                                clipPath: `inset(0 ${100 - (achievement.progress / achievement.goal) * 100}% 0 0)`
-                                            }} />
-                                        </div>
-                                    ) : null}
                                 </div>
                             })
                         }
