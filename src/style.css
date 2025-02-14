@@ -191,6 +191,7 @@
     grid-area: achievementImage;
     width: 8vmin;
     height: 8vmin;
+    object-fit: contain;
 }
 
 /* -- InfoWindow -- */
@@ -1089,6 +1090,21 @@ input:-webkit-autofill:focus {
 #craftedItem {
     grid-area: craftedItem;
     padding: 1vmin;
+}
+
+/* - Loading Screen - */
+
+#loadingScreen{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    background-image: url("./assets/imgs/backgrounds/dirt-bg.png");
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
 }
 
 /* - Hints - */

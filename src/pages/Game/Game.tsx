@@ -19,6 +19,8 @@ import { GameOver } from "./GameOver";
 import { SoundEffect } from "../../classes/Audio";
 import { Tutorial } from "./Tutorial";
 import { Button } from "../../components/Button";
+import { LoadingScreen } from "./LoadingScreen";
+import { setError } from "../../features/error/errorSlice";
 
 /**
  * Gamemode names mapping.
@@ -70,6 +72,7 @@ export function Game() {
     const [maxHearts, setMaxHearts] = useState<number | null>(null)
     const [result, setResult] = useState(false)
     const [newTurn, setNewTurn] = useState(0)
+    const [loading, setLoading] = useState(true)
     const items = useRef(new Items())
     const turn = tips.length - (result ? 1 : 0)
 
@@ -105,6 +108,15 @@ export function Game() {
                     });
                 });
                 items.current.addItems(recipesItems)
+            }
+            if(data.items || data.recipes) {
+                items.current.allImagesLoaded().then((result) => {
+                    if(result){
+                        setLoading(false)
+                    }else{
+                        store.dispatch(setError("LoadingError"))
+                    }
+                })
             }
             setTips(data.tips)
             setHints(data.hints)
@@ -142,6 +154,7 @@ export function Game() {
         <Meta
             title={gamemodeName}
         />
+        {loading && <LoadingScreen />}
         <div id="game">
             <nav>
                 <StoneButton href="/singleplayer">Quit Game</StoneButton>
