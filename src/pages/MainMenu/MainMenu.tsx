@@ -48,7 +48,7 @@ export function MainMenu() {
             <nav id="mainButtons" aria-label="Main Menu">
                 <StoneButton href="/singleplayer">Singleplayer</StoneButton>
                 <StoneButton href="/multiplayer" disabled info={{ text: "Coming soon" }}>Multiplayer</StoneButton>
-                <StoneButton href="/collection" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}>Collection</StoneButton>
+                <StoneButton href="/collection" >Collection</StoneButton>
             </nav>
             <nav id="additionalButtons" aria-label="Additional Menu">
                 <StoneButton href="/guide">How to Play</StoneButton>

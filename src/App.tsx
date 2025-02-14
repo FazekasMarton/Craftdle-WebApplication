@@ -108,6 +108,17 @@ const generalRouter = createBrowserRouter([
                     />
                     <Guide />
                 </>
+            },
+            {
+                path: "collection",
+                element: <>
+                    <Meta
+                        title="Collection"
+                        description="View your collection in Craftdle! Track your progress, view your achievements, and explore the puzzles you've completed. Play now on PC or mobile."
+                        keywords="Craftdle, Collection, Achievements, Progress, Puzzles, Crafting Game, Puzzle Game, Guideian Angel"
+                    />
+                    <Collection />
+                </>
             }
         ]
     },
@@ -118,17 +129,6 @@ const generalRouter = createBrowserRouter([
 ])
 
 const exlusiveRouter = createBrowserRouter([
-    {
-        path: "collection",
-        element: <>
-            <Meta
-                title="Collection"
-                description="View your collection in Craftdle! Track your progress, view your achievements, and explore the puzzles you've completed. Play now on PC or mobile."
-                keywords="Craftdle, Collection, Achievements, Progress, Puzzles, Crafting Game, Puzzle Game, Guideian Angel"
-            />
-            <Collection />
-        </>
-    },
     {
         path: "stats",
         element: <>
