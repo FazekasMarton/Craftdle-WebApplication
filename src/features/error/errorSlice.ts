@@ -39,6 +39,11 @@ const errorSlice = createSlice({
                     state.name = "Bad Request";
                     state.message = "There was an issue processing the server's response. Please try again later.";
                     break;
+                case 'LoadingError':
+                    state.status = 404;
+                    state.name = "Not Found";
+                    state.message = "Failed to load the requested resource. Please try again later.";
+                    break;
                 default:
                     state.status = 500;
                     state.name = "Internal Server Error";

@@ -7,6 +7,7 @@ import { changePassword, forgotPassword, guestLogin, login, logout, register } f
 import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
 import { connectSocket } from '../../functions/connectSocket';
+import { SoundEffect } from '../../classes/Audio';
 
 /**
  * Props for the UserAuthNav component.
@@ -467,7 +468,7 @@ export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout" | "ForgotPassword">("Login")
     return <div id="userAuth">
-        <button id='authExit' onClick={() => props.openAuth(false)}></button>
+        <button id='authExit' onClick={() => {props.openAuth(false); SoundEffect.play("click")}}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
         {getForm(form, props.openAuth, setForm)}
     </div>

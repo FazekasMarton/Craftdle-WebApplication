@@ -85,4 +85,33 @@ export class Items {
             return undefined;  // Ha nincs a cache-ben, akkor undefined-ot adunk vissza
         }
     }
+
+    async allImagesLoaded(): Promise<boolean> {
+        const images = await Promise.all(this.items.map(item => this.getItem(item.id)));
+
+        return new Promise(resolve => {
+            let loadedCount = 0;
+            const totalImages = images.length - 1;
+
+            if (totalImages === 0) {
+                resolve(true);
+                return;
+            }
+
+            images.forEach(img => {
+                if (!img) return;
+
+                img.onload = () => {
+                    loadedCount++;
+                    if (loadedCount === totalImages) {
+                        resolve(true);
+                    }
+                };
+
+                img.onerror = () => {
+                    resolve(false); // Ha egy kép nem töltődik be, azonnal false
+                };
+            });
+        });
+    }
 }
