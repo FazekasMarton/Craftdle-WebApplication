@@ -151,10 +151,6 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             });
                         }
 
-                        if (!isSearchResult(recipeGroup, search) || recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
-                            return null;
-                        }
-
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
@@ -173,6 +169,9 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                         SoundEffect.play("click");
                                     }
                                 } : undefined}
+                                style={{
+                                    display: isSearchResult(recipeGroup, search) || recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize ? "grid" : "none",
+                                }}
                             >
                                 <table className="recipeCraftingTable">
                                     <tbody>

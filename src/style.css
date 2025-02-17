@@ -2067,7 +2067,6 @@ input:-webkit-autofill:focus {
 
 #collectionAchievements article {
     flex-direction: row;
-    justify-content: center;
 }
 
 #collectionAchievements article>div {

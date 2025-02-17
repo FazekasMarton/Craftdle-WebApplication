@@ -30,7 +30,7 @@ export function Inventory(props: InventoryProps) {
         <header id="inventoryHeader">
             <h1 id="inventoryTitle">Inventory:</h1>
             <nav className="searchBar">
-                <img className="searchIcon" src={searchIcon} alt="Search Icon" draggable={false}/>
+                <img className="searchIcon" src={searchIcon} alt="Search Icon" draggable={false} />
                 <input type="text" id="inventorySearch" className="search" placeholder="Search..." onInput={(e) => { setSearch(e.currentTarget.value) }} />
             </nav>
         </header>
@@ -38,14 +38,13 @@ export function Inventory(props: InventoryProps) {
             <div id="inventoryContent">
                 {
                     props.itemsCollection.map(item => {
-                        if (item && item.name.toLowerCase().includes(search.toLowerCase())) {
-                            return <div key={item.id} className="inventorySlot slot" style={{
-                                width: size,
-                                height: size
-                            }}>
-                                <Item itemId={item.id} items={props.items} className="item" info={{text: item.name}} />
-                            </div>
-                        }
+                        return <div key={item.id} className="inventorySlot slot" style={{
+                            width: size,
+                            height: size,
+                            display: item.name.toLowerCase().includes(search.toLowerCase()) ? "flex" : "none"
+                        }}>
+                            <Item itemId={item.id} items={props.items} className="item" info={{ text: item.name }} />
+                        </div>
                     })
                 }
             </div>
