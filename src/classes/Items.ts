@@ -11,7 +11,7 @@ export interface IItem {
  * Class to handle items.
  */
 export class Items {
-    private items: IItem[] = [];  // Az összes item tárolása
+    private items: { [id: string]: IItem } = {};
 
     /**
      * Create an instance of Items.
@@ -29,7 +29,7 @@ export class Items {
      */
     addItems(items: Array<IItem>) {
         items.forEach(item => {
-            this.items.push(item);
+            this.items[item.id] = item;
             this.addItem(item);
         });
     }
@@ -40,20 +40,18 @@ export class Items {
      */
     async addItem(item: IItem) {
         try {
-            const cache = await caches.open('items');  // Nyitjuk a cache-t
-            // Keresd meg a képet a cache-ben
+            const cache = await caches.open('items');
             const cachedResponse = await cache.match(item.id);
 
-            if (!cachedResponse) {  // Ha nincs a cache-ben, akkor töltsük le
+            if (!cachedResponse) {
                 const response = await fetch(`http://localhost:3000/assets/items/${item.src}`);
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch: ${response.statusText}`);
                 }
 
-                // Cache-elés
-                const clonedResponse = response.clone();  // Klónozd le a válaszot, hogy cache-be tedd
-                cache.put(item.id, clonedResponse);  // Cache-be mentés
+                const clonedResponse = response.clone();
+                cache.put(item.id, clonedResponse);
             }
         } catch (error) {
             console.error('Error fetching item:', error);
@@ -67,16 +65,14 @@ export class Items {
      */
     async getItem(itemId: string) {
         const cache = await caches.open('items');
-        const cachedResponse = await cache.match(itemId); // Keressük a cache-ben
+        const cachedResponse = await cache.match(itemId);
 
         if (cachedResponse) {
-            // Ha a válasz már a cache-ben van, akkor visszaadjuk
-            const imageBlob = await cachedResponse.blob();  // A válasz átalakítása Blob formátumba
-            const imageUrl = URL.createObjectURL(imageBlob);  // Kép URL létrehozása
+            const imageBlob = await cachedResponse.blob();
+            const imageUrl = URL.createObjectURL(imageBlob);
 
-            // Kép elem létrehozása
             const img = new Image();
-            const item = this.items.find(i => i.id === itemId);  // Megkeressük a megfelelő item-et
+            const item = this.items[itemId];
             if (item) {
                 img.className = item.id;
                 img.alt = item.name;
@@ -85,12 +81,12 @@ export class Items {
 
             return img;
         } else {
-            return undefined;  // Ha nincs a cache-ben, akkor undefined-ot adunk vissza
+            return undefined;
         }
     }
 
     async allImagesLoaded(): Promise<boolean> {
-        const images = await Promise.all(this.items.map(item => this.getItem(item.id)));
+        const images = await Promise.all(Object.keys(this.items).map(item => this.getItem(this.items[item].id)));
 
         return new Promise(resolve => {
             let loadedCount = 0;
@@ -112,7 +108,7 @@ export class Items {
                 };
 
                 img.onerror = () => {
-                    resolve(false); // Ha egy kép nem töltődik be, azonnal false
+                    resolve(false);
                 };
             });
         });

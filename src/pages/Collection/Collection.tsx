@@ -69,7 +69,7 @@ function counter(list: Array<{collected: boolean}> | undefined){
 }
 
 function achievementCounter(achievements: Array<{progress: number, goal: number}> | undefined){
-    return `(${achievements?.filter((item) => item.progress && item.goal && item.goal === item.progress).length || 0}/${achievements?.length || 0})`
+    return `(${achievements?.filter((item) => item.progress && item.goal && item.goal <= item.progress).length || 0}/${achievements?.length || 0})`
 }
 
 /**
@@ -110,7 +110,7 @@ export function Collection() {
                     <article>
                         {
                             collection?.achievements?.map((achievement, index) => {
-                                return <div className={achievement.progress && achievement.goal && achievement.goal === achievement.progress ? "" : "uncollectedItem"} key={index}>
+                                return <div className={achievement.progress && achievement.goal && achievement.goal <= achievement.progress ? "" : "uncollectedItem"} key={index}>
                                     <Achievement key={index} achievement={achievement} />
                                     {achievement.goal && achievement.progress ? (
                                         <div className="progressBar">
