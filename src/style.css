@@ -135,7 +135,7 @@
     gap: 5px;
     margin: 5px;
     animation: slide 9s forwards ease;
-    z-index: 10;
+    z-index: 15;
 }
 
 @keyframes slide {
@@ -206,7 +206,7 @@
     margin: 0 50px;
     padding: 0.5vmin;
     font-size: 3vmin;
-    z-index: 10;
+    z-index: 20;
     width: fit-content;
     max-width: 250px;
     translate: 0 -50%;
