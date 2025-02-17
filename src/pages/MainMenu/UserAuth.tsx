@@ -349,7 +349,7 @@ function RegisterForm(props: FormProps) {
         </div>
         <div className='checkRow'>
             <input type="checkbox" id='acceptTermsOfUse' onChange={(e) => { setAcceptTOU(e.currentTarget.checked) }} checked={acceptTOU} />
-            <label htmlFor="acceptTermsOfUse">I accept and agree to the <Link className='link' to="/docs#privacyPolicy">Privacy Policy</Link> and the <Link className='link' to="/docs#termsOfUse">Terms of Use</Link></label>
+            <label htmlFor="acceptTermsOfUse">I accept and agree to the <Link className='link' to="/docs#privacyPolicy" target='blank'>Privacy Policy</Link> and the <Link className='link' to="/docs#termsOfUse" target='blank'>Terms of Use</Link></label>
             <ul className='inputError'>{
                 acceptError?.map((err, index) => {
                     return <li key={index}>{err}</li>
