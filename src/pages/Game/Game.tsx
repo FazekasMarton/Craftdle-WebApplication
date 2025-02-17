@@ -53,6 +53,7 @@ interface IGuess {
  */
 export function Game() {
     const socket = useSelector((state: RootState) => state.socket.socket)
+    const user = useSelector((state: RootState) => state.user)
     const [searchParams, setSearchParams] = useSearchParams();
     const gamemode = searchParams.get("gamemode");
     const isGamemodeValid = isNaN(Number(gamemode)) || gamemode == null || Number(gamemode) > 7 || Number(gamemode) < 1
@@ -109,11 +110,12 @@ export function Game() {
                 });
                 items.current.addItems(recipesItems)
             }
-            if(data.items || data.recipes) {
+            if (data.items || data.recipes) {
                 items.current.allImagesLoaded().then((result) => {
-                    if(result){
+                    console.log("All images loaded:", result)
+                    if (result) {
                         setLoading(false)
-                    }else{
+                    } else {
                         store.dispatch(setError("LoadingError"))
                     }
                 })
@@ -161,9 +163,9 @@ export function Game() {
                 <StoneButton onClick={() => {
                     startGame(gamemodeId, true)
                 }}>New Game</StoneButton>
-                <StoneButton href="/settings" onClick={() => {
-                    store.dispatch(setNewGame(false))
-                }}>Settings</StoneButton>
+                {!user.isGuest && <StoneButton href="/settings" onClick={() => {
+                        store.dispatch(setNewGame(false))
+                    }}>Settings</StoneButton>}
             </nav>
             <CraftingTable gamemode={Number(gamemodeId)} turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
@@ -184,7 +186,7 @@ export function Game() {
                     </>
                 ) : null
             }
-            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} items={items.current}/>}
+            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} items={items.current} />}
             {
                 maxHearts && turn >= maxHearts * 2 ? (
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />

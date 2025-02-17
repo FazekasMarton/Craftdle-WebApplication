@@ -28,7 +28,10 @@ export class Items {
      * @param items - The items to add.
      */
     addItems(items: Array<IItem>) {
-        this.items = this.items.concat(items); // Az új elemek hozzáadása az existing items-hoz
+        items.forEach(item => {
+            this.items.push(item);
+            this.addItem(item);
+        });
     }
 
     /**
