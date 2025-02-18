@@ -7,7 +7,7 @@ type ICraftingTable = Array<Array<HTMLImageElement | null>>;
  * @param recipe - The recipe to remove empty rows and columns from.
  * @returns The recipe with empty rows and columns removed.
  */
-function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
+export function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
     for (let a = 0; a < 2; a++) {
         for (let i = 0; i < recipe.length; i++) {
             let isAllNull = true;

@@ -8,6 +8,7 @@ import { SoundEffect } from "../../classes/Audio";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { DefaultSettings } from "../../classes/DefaultSettings";
+import { removeEmptyRows } from "../../functions/craft";
 
 interface KnowledgeBookProps {
     recipes: IRecipeCollection;
@@ -115,7 +116,15 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
 
                         const recipeGroup = props.recipes[recipeGroupName];
                         const recipeInfo = recipeGroup[recipeGroupIndex];
-                        const recipe = recipeInfo?.shapeless ? convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) : recipeInfo?.recipe as INonShapelessRecipe;
+                        const recipe = recipeInfo?.shapeless ? (
+                            convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) 
+                        ):(
+                            props.craftingTableSize < 3 ? (
+                                removeEmptyRows(recipeInfo?.recipe as INonShapelessRecipe)
+                            ):(
+                                recipeInfo?.recipe as INonShapelessRecipe
+                            )
+                        );
 
                         function incrementCounter() {
                             let longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
@@ -151,12 +160,16 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             });
                         }
 
+                        if (recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
+                            return null;
+                        }
+
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
                                 onClick={!props.result ? async (e) => {
                                     if (!(e.target as HTMLElement).classList.contains("recipeButton")) {
-                                        const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: props.craftingTableSize }).map(() => Array.from({ length: props.craftingTableSize }).map(() => null));
+                                        const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: 3 }).map(() => Array.from({ length: 3 }).map(() => null));
                                         const craftingTablePromises = recipe.map(row =>
                                             Promise.all(row.map(slot => slot ? cachedItems(slot[materialIndex % slot.length]) : null))
                                         );
@@ -170,7 +183,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                     }
                                 } : undefined}
                                 style={{
-                                    display: isSearchResult(recipeGroup, search) || recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize ? "grid" : "none",
+                                    display: isSearchResult(recipeGroup, search) ? "grid" : "none",
                                 }}
                             >
                                 <table className="recipeCraftingTable">

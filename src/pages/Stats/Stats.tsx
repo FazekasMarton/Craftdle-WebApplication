@@ -108,7 +108,7 @@ export function Stats() {
                         }
                         <p>Total played: {gameStats.totalPlayed}</p>
                         <p>Total solved: {gameStats.totalSolved}</p>
-                        {gameStats.totalPlayed ? <p>Total win rate: {Math.round(gameStats.totalSolved / gameStats.totalPlayed * 100)}%</p> : null}
+                        {gameStats.totalPlayed ? <p>Overall win rate: {Math.round(gameStats.totalSolved / gameStats.totalPlayed * 100)}%</p> : null}
                     </article>
                 </section>
             </div>
