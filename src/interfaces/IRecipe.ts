@@ -25,6 +25,6 @@ export type INonShapelessRecipe = Array<Array<Array<string> | null>>
  * Interface for a shapeless recipe.
  */
 export interface IShapelessRecipe {
-    required: Array<Array<string> | string>
-    optional?: Array<Array<string> | string>
+    required: Array<Array<string>>
+    optional?: Array<Array<string>>
 }

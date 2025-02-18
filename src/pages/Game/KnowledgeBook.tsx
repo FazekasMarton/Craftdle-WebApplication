@@ -1,4 +1,4 @@
-import { Items } from "../../classes/Items";
+import { IItem, Items } from "../../classes/Items";
 import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe";
 import searchIcon from "../../assets/imgs/icons/search_icon.png";
 import { useMemo, useState } from "react";
@@ -12,6 +12,7 @@ import { removeEmptyRows } from "../../functions/craft";
 
 interface KnowledgeBookProps {
     recipes: IRecipeCollection;
+    itemCollection: IItem[];
     items: Items;
     craftingTableSize: number;
     setCraftingTable: (craftingTable: Array<Array<HTMLImageElement | null>>) => void;
@@ -71,6 +72,74 @@ function isSearchResult(recipeGroup: IRecipe[], search: string) {
     return false;
 }
 
+function dropUnavailableRecipes(recipes: IRecipe[], items: IItem[]) {
+    const validRecipes = [];
+
+    for (let index = 0; index < recipes.length; index++) {
+        const recipe = recipes[index];
+
+        if (recipe.shapeless) {
+            const r = recipe.recipe as IShapelessRecipe;
+            let allMaterialsValid = true;
+
+            for (let i = 0; i < r.required.length; i++) {
+                const materials = r.required[i];
+                for (let j = 0; j < materials.length; j++) {
+                    const material = materials[j];
+                    if (!items.find(i => i.id === material)) {
+                        materials.splice(j, 1);
+                        j--;
+                    }
+                }
+
+                if (materials.length === 0) {
+                    allMaterialsValid = false;
+                    break;
+                }
+            }
+
+            if (allMaterialsValid) {
+                validRecipes.push(recipe);
+            }
+
+        } else {
+            const r = recipe.recipe as INonShapelessRecipe;
+            let allSlotsValid = true;
+
+            for (let rowIndex = 0; rowIndex < r.length; rowIndex++) {
+                const row = r[rowIndex];
+                for (let slotIndex = 0; slotIndex < row.length; slotIndex++) {
+                    const slot = row[slotIndex];
+                    if (slot) {
+                        for (let materialIndex = 0; materialIndex < slot.length; materialIndex++) {
+                            const material = slot[materialIndex];
+                            if (!items.find(i => i.id === material)) {
+                                slot.splice(materialIndex, 1);
+                                materialIndex--;
+                            }
+                        }
+
+                        if (slot.length === 0) {
+                            allSlotsValid = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!allSlotsValid) {
+                    break;
+                }
+            }
+
+            if (allSlotsValid) {
+                validRecipes.push(recipe);
+            }
+        }
+    }
+
+    return validRecipes;
+}
+
 /**
  * KnowledgeBook component to display recipes and handle search functionality.
  * @param props - The props for the component.
@@ -114,14 +183,14 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                         const [recipeGroupIndex, setRecipeGroupIndex] = useState(0);
                         const [materialIndex, setMaterialIndex] = useState(0);
 
-                        const recipeGroup = props.recipes[recipeGroupName];
+                        const recipeGroup = dropUnavailableRecipes(JSON.parse(JSON.stringify(props.recipes[recipeGroupName])), props.itemCollection);
                         const recipeInfo = recipeGroup[recipeGroupIndex];
                         const recipe = recipeInfo?.shapeless ? (
-                            convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize) 
-                        ):(
+                            convertToMatrix(recipeInfo.recipe as IShapelessRecipe, props.craftingTableSize)
+                        ) : (
                             props.craftingTableSize < 3 ? (
                                 removeEmptyRows(recipeInfo?.recipe as INonShapelessRecipe)
-                            ):(
+                            ) : (
                                 recipeInfo?.recipe as INonShapelessRecipe
                             )
                         );
@@ -160,7 +229,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                             });
                         }
 
-                        if (recipe.length > props.craftingTableSize || recipe[0].length > props.craftingTableSize) {
+                        if (!recipe?.length || recipe?.length > props.craftingTableSize || recipe[0]?.length > props.craftingTableSize) {
                             return null;
                         }
 
