@@ -181,7 +181,7 @@ export function Game() {
             {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
                     <>
-                        {gamemodeId != "7" && <KnowledgeBook isOpen={isKnowledgeBookOpen} result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} />}
+                        {gamemodeId != "7" && <KnowledgeBook itemCollection={itemsCollection} isOpen={isKnowledgeBookOpen} result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} />}
                         <Inventory isOpen={!isKnowledgeBookOpen} items={items.current} itemsCollection={itemsCollection} />
                     </>
                 ) : null
