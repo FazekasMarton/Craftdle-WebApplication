@@ -1,4 +1,4 @@
-:root{
+:root {
     --DarkRed: #AA0000;
     --Red: #FF5555;
     --Gold: #FFAA00;
@@ -393,7 +393,7 @@ body,
 
 /* - Background - */
 
-.portalBackground{
+.portalBackground {
     background-image: url("./assets/imgs/backgrounds/nether_portal.gif");
     background-size: 200px;
     position: absolute;
@@ -401,7 +401,7 @@ body,
     height: 100dvh;
 }
 
-#inactivePortalBackground{
+#inactivePortalBackground {
     animation: disappear 1.5s forwards linear;
 }
 
@@ -734,17 +734,17 @@ input:-webkit-autofill:focus {
     margin: 5px 0;
 }
 
-#forgotPasswordItemContainer{
+#forgotPasswordItemContainer {
     display: grid;
     grid-template-columns: 1fr min-content;
     grid-template-rows: min-content min-content;
-    grid-template-areas: 
-    "forgotPasswordTitle forgotPasswordItem"
-    "forgotPasswordText forgotPasswordItem";
+    grid-template-areas:
+        "forgotPasswordTitle forgotPasswordItem"
+        "forgotPasswordText forgotPasswordItem";
     gap: 0 50px;
 }
 
-#forgotPasswordItem{
+#forgotPasswordItem {
     grid-area: forgotPasswordItem;
     padding: 5px;
     width: 15vmin;
@@ -754,16 +754,17 @@ input:-webkit-autofill:focus {
     border: rgb(81, 81, 81) solid 3px;
 }
 
-#forgotPasswordTitle{
+#forgotPasswordTitle {
     grid-area: forgotPasswordTitle;
 }
 
-#forgotPasswordText{
+#forgotPasswordText {
     grid-area: forgotPasswordText;
     text-align: justify;
 }
 
-.link, #forgotPassword {
+.link,
+#forgotPassword {
     color: var(--DarkGreen);
     font-weight: bold;
     text-decoration: underline;
@@ -1094,7 +1095,7 @@ input:-webkit-autofill:focus {
 
 /* - Loading Screen - */
 
-#loadingScreen{
+#loadingScreen {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -1105,6 +1106,17 @@ input:-webkit-autofill:focus {
     width: 100vw;
     height: 100vh;
     z-index: 10;
+}
+
+#progressBarBorder {
+    height: 5px;
+    width: 250px;
+    background-color: rgb(126, 126, 126);
+}
+
+#progressBarInner {
+    height: 100%;
+    background-color: rgb(128, 255, 128);
 }
 
 /* - Hints - */
@@ -1236,22 +1248,22 @@ input:-webkit-autofill:focus {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: 1fr auto 1fr;
-    grid-template-areas: 
-    "recipeTable . ."
-    "recipeTable craftingArrow craftedItem"
-    "recipeTable previous next";
+    grid-template-areas:
+        "recipeTable . ."
+        "recipeTable craftingArrow craftedItem"
+        "recipeTable previous next";
     gap: 2vmin;
 }
 
-.recipeCraftingTable{
+.recipeCraftingTable {
     grid-area: recipeTable;
 }
 
-.recipeCraftingArrow{
+.recipeCraftingArrow {
     grid-area: craftingArrow;
 }
 
-.recipeItem{
+.recipeItem {
     grid-area: craftedItem;
 }
 
@@ -1264,21 +1276,21 @@ input:-webkit-autofill:focus {
     cursor: pointer;
 }
 
-.recipeCardPrevious{
+.recipeCardPrevious {
     grid-area: previous;
     background-image: url("./assets/imgs/icons/page_backward.png");
 }
 
-.recipeCardPrevious:hover{
+.recipeCardPrevious:hover {
     background-image: url("./assets/imgs/icons/page_backward_highlighted.png");
 }
 
-.recipeCardNext{
+.recipeCardNext {
     grid-area: next;
     background-image: url("./assets/imgs/icons/page_forward.png");
 }
 
-.recipeCardNext:hover{
+.recipeCardNext:hover {
     background-image: url("./assets/imgs/icons/page_forward_highlighted.png");
 }
 
@@ -1376,7 +1388,7 @@ input:-webkit-autofill:focus {
 
 /* Tutorial Button */
 
-#game button{
+#game button {
     grid-area: hints;
 }
 
@@ -1395,7 +1407,7 @@ input:-webkit-autofill:focus {
     grid-template-columns: 1fr 1fr;
 }
 
-.showTutorial{
+.showTutorial {
     opacity: 1;
     animation: show 0.5s ease-in-out forwards;
     pointer-events: all;
@@ -1411,7 +1423,7 @@ input:-webkit-autofill:focus {
     }
 }
 
-.hideTutorial{
+.hideTutorial {
     opacity: 0;
     animation: hide 0.5s ease-in-out forwards;
     pointer-events: none;
@@ -1442,7 +1454,7 @@ input:-webkit-autofill:focus {
 
 @keyframes fly-up {
     0% {
-        top: 150%;     
+        top: 150%;
     }
 }
 
@@ -1460,7 +1472,8 @@ input:-webkit-autofill:focus {
     white-space: nowrap;
 }
 
-.showTutorial .tutorialText span, .showTutorial #tryIt {
+.showTutorial .tutorialText span,
+.showTutorial #tryIt {
     display: inline-block;
     visibility: hidden;
     opacity: 0;
@@ -1970,15 +1983,15 @@ input:-webkit-autofill:focus {
     height: 8vmin;
 }
 
-#stats section > article {
+#stats section>article {
     padding-left: 10vmin;
 }
 
-#stats section > article h4 {
+#stats section>article h4 {
     margin-bottom: 0;
 }
 
-#stats section > article ul {
+#stats section>article ul {
     margin-top: 0;
     list-style: square;
 }
@@ -1996,7 +2009,7 @@ input:-webkit-autofill:focus {
     min-height: calc(100% - 10vmin);
 }
 
-#collectionGuestNotice{
+#collectionGuestNotice {
     font-size: 6vmin;
     color: var(--Red);
     text-shadow: 0 0 5px #000000;
@@ -2246,10 +2259,10 @@ input:-webkit-autofill:focus {
     .recipeContent {
         grid-template-columns: 4vmin auto auto auto 4vmin;
         grid-template-rows: 1fr auto 1fr;
-        grid-template-areas: 
-        "previous recipeTable . . next"
-        "previous recipeTable craftingArrow craftedItem next"
-        "previous recipeTable . . next";
+        grid-template-areas:
+            "previous recipeTable . . next"
+            "previous recipeTable craftingArrow craftedItem next"
+            "previous recipeTable . . next";
     }
 
     #craftingTable {
@@ -2275,7 +2288,7 @@ input:-webkit-autofill:focus {
         grid-template-rows: 1fr 1fr;
     }
 
-    #tutorial #allay{
+    #tutorial #allay {
         top: 75%;
         right: 50%;
         height: 80dvw;

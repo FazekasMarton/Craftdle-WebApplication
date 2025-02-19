@@ -20,7 +20,6 @@ import { SoundEffect } from "../../classes/Audio";
 import { Tutorial } from "./Tutorial";
 import { Button } from "../../components/Button";
 import { LoadingScreen } from "./LoadingScreen";
-import { setError } from "../../features/error/errorSlice";
 
 /**
  * Gamemode names mapping.
@@ -73,7 +72,7 @@ export function Game() {
     const [maxHearts, setMaxHearts] = useState<number | null>(null)
     const [result, setResult] = useState(false)
     const [newTurn, setNewTurn] = useState(0)
-    const [loading, setLoading] = useState(true)
+    const [progress, setProgress] = useState<{ loaded: number; total: number }>({ loaded: 0, total: 1 });
     const items = useRef(new Items())
     const turn = tips.length - (result ? 1 : 0)
 
@@ -90,36 +89,40 @@ export function Game() {
         setNewTurn(prev => prev + 1)
     }
 
+    async function loadImages(data: IGuess) {
+        const resource: { [id: string]: IItem } = {};
+        data.items.concat(Object.keys(data.recipes).flatMap((recipeGroupName) => {
+            return data.recipes[recipeGroupName].map((recipe) => recipe)
+        })).forEach(image => {
+            resource[image.id] = image
+        })
+
+        setProgress({
+            loaded: 0,
+            total: Object.keys(resource).length
+        })
+
+        setItemsCollection(data.items);
+        setRecipes(data.recipes);
+
+        Object.keys(resource).forEach(async (resourceName) => {
+            if (await items.current.addItem(resource[resourceName])) {
+                setProgress(prev => {
+                    return {
+                        loaded: prev.loaded + 1,
+                        total: prev.total
+                    }
+                })
+            }
+        });
+    }
+
     useEffect(() => {
         startGame(gamemodeId, store.getState().game.newGame)
 
         socket?.on("guess", (data: IGuess) => {
             console.log(data)
-            if (data.items) {
-                setItemsCollection(data.items)
-                items.current.addItems(data.items)
-            }
-            if (data.recipes) {
-                setRecipes(data.recipes)
-                let recipesItems: IItem[] = []
-                Object.keys(data.recipes).forEach(recipeGroup => {
-                    const currentRecipe = data.recipes[recipeGroup]
-                    currentRecipe.forEach(recipe => {
-                        recipesItems.push(recipe)
-                    });
-                });
-                items.current.addItems(recipesItems)
-            }
-            if (data.items || data.recipes) {
-                items.current.allImagesLoaded().then((result) => {
-                    console.log("All images loaded:", result)
-                    if (result) {
-                        setLoading(false)
-                    } else {
-                        store.dispatch(setError("LoadingError"))
-                    }
-                })
-            }
+            loadImages(data)
             setTips(data.tips)
             setHints(data.hints)
             setMaxHearts(data.hearts)
@@ -152,11 +155,14 @@ export function Game() {
         }
     }, [searchParams, setSearchParams])
 
+    if (progress.loaded < progress.total) {
+        return <LoadingScreen total={progress.total} loaded={progress.loaded} />
+    }
+
     return <>
         <Meta
             title={gamemodeName}
         />
-        {loading && <LoadingScreen />}
         <div id="game">
             <nav>
                 <StoneButton href="/singleplayer">Quit Game</StoneButton>
@@ -164,15 +170,15 @@ export function Game() {
                     startGame(gamemodeId, true)
                 }}>New Game</StoneButton>
                 {!user.isGuest && <StoneButton href="/settings" onClick={() => {
-                        store.dispatch(setNewGame(false))
-                    }}>Settings</StoneButton>}
+                    store.dispatch(setNewGame(false))
+                }}>Settings</StoneButton>}
             </nav>
             <CraftingTable gamemode={Number(gamemodeId)} turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
             {gamemodeId !== "1" ? (
                 hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />
             ) : (
-                !loading && <>
+                !(progress.loaded < progress.total) && <>
                     <Button onClick={!result ? () => { store.dispatch(setHelp(true)) } : undefined} color="green">Ask Allay</Button>
                     <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
                 </>
