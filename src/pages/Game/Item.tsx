@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { store } from "../../app/store";
 import { deleteInfo, setInfo } from "../../features/info/infoSlice";
 
@@ -19,7 +20,7 @@ interface ItemProps {
  * @param props - The properties for the Item component.
  * @returns The Item component.
  */
-export function Item(props: ItemProps) {
+export const Item = memo(function Item(props: ItemProps) {
     const commonProps: React.HTMLAttributes<HTMLElement> = {
         onMouseMove: props.info ? (e) => {
             store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: props.info?.title, titleColor: props.info?.titleColor, text: props.info?.text }))
@@ -36,7 +37,8 @@ export function Item(props: ItemProps) {
             className={className.join(" ")}
             src={props.item.src}
             alt={props.item.alt}
-            draggable={false} 
+            draggable={false}
+            loading="lazy"
             {...commonProps}/>
     ) : null
-}
+});
