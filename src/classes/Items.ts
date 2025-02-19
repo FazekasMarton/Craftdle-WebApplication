@@ -18,23 +18,12 @@ export class Items {
      * @param item - The item to add.
      */
     async addItem(item: IItem) {
-        if(!this.items[item.id]) {
-            const response = await fetch(`http://localhost:3000/assets/items/${item.src}`);
-    
-            if (!response.ok) {
-                return false;
-            }
-    
-            const imageBlob = await response.clone().blob();
-    
-            const imageUrl = URL.createObjectURL(imageBlob);
-    
+        if(!this.items[item.id]) {    
             const img = new Image();
             img.className = item.id;
             img.alt = item.name;
-            img.src = imageUrl;
+            img.src = `http://localhost:3000/assets/items/${item.src}`;
             this.items[item.id] = img;
-
             return true
         }
     }
