@@ -11,7 +11,7 @@ export interface IItem {
  * Class to handle items.
  */
 export class Items {
-    private items: { [id: string]: IItem } = {};
+    private items: { [id: string]: HTMLImageElement } = {};
 
     /**
      * Add an item to the collection.
@@ -41,5 +41,9 @@ export class Items {
 
     getItem(id: string) {
         return this.items[id];
+    }
+
+    clearItems() {
+        this.items = {};
     }
 }

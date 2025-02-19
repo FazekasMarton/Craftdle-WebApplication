@@ -158,7 +158,7 @@ export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection)
                 if (matchShapelessRecipe(items, required, optional)) {
                     return {
                         group: recipeGroup,
-                        id: recipe.id
+                        id: recipe
                     };
                 }
             } else {
@@ -168,7 +168,7 @@ export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection)
                 if (matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe) || matchNonShapelessRecipe(filteredCraftingTable, filteredRecipe.map(row => row.slice().reverse()))) {
                     return {
                         group: recipeGroup,
-                        id: recipe.id
+                        id: recipe
                     };
                 }
             }

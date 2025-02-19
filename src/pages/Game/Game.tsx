@@ -90,6 +90,7 @@ export function Game() {
     }
 
     async function loadImages(data: IGuess) {
+        items.current.clearItems()
         const resource: { [id: string]: IItem } = {};
         data.items.concat(Object.keys(data.recipes).flatMap((recipeGroupName) => {
             return data.recipes[recipeGroupName].map((recipe) => recipe)
@@ -122,7 +123,9 @@ export function Game() {
 
         socket?.on("guess", (data: IGuess) => {
             console.log(data)
-            loadImages(data)
+            if(data.items || data.recipes){
+                loadImages(data)
+            }
             setTips(data.tips)
             setHints(data.hints)
             setMaxHearts(data.hearts)
@@ -173,7 +176,7 @@ export function Game() {
                     store.dispatch(setNewGame(false))
                 }}>Settings</StoneButton>}
             </nav>
-            <CraftingTable gamemode={Number(gamemodeId)} turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} items={items.current} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} />
+            <CraftingTable gamemode={Number(gamemodeId)} turn={turn} isHardcore={gamemodeId != "7"} craftingTable={tableContent} size={craftingTableSize} recipes={recipes} isKnowledgeBookOpen={isKnowledgeBookOpen} setIsKnowledgeBookOpen={setIsKnowledgeBookOpen} socket={socket} items={items.current}/>
             {maxHearts && <Hearts turn={turn} maxHearts={maxHearts} />}
             {gamemodeId !== "1" ? (
                 hints && <Hints key={`${newTurn}-hints`} hints={hints} turn={turn} />
@@ -188,11 +191,11 @@ export function Game() {
                 itemsCollection.length > 0 && Object.keys(recipes).length > 0 ? (
                     <>
                         {gamemodeId != "7" && <KnowledgeBook itemCollection={itemsCollection} isOpen={isKnowledgeBookOpen} result={result} setCraftingTable={setTableContent} recipes={recipes} items={items.current} craftingTableSize={craftingTableSize} />}
-                        <Inventory isOpen={!isKnowledgeBookOpen} items={items.current} itemsCollection={itemsCollection} />
+                        <Inventory isOpen={!isKnowledgeBookOpen} itemsCollection={itemsCollection} items={items.current}/>
                     </>
                 ) : null
             }
-            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} items={items.current} />}
+            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />}
             {
                 maxHearts && turn >= maxHearts * 2 ? (
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />
