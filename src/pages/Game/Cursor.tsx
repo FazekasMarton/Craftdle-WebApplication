@@ -8,6 +8,7 @@ import { Item } from "./Item";
 import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
 import { SoundEffect } from "../../classes/Audio";
 import { removeRequiredControl } from "../../features/game/gameSlice";
+import { focus } from "../../classes/Focus";
 
 /**
  * Get the key and index by value from the controls object.
@@ -46,8 +47,6 @@ export function Cursor(props: CursorProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
 
-    const focusedItemRef = useRef<HTMLImageElement | null>(null);
-    const focusedSlotRef = useRef<HTMLElement | null>(null);
     const isHoldingCopy = useRef<boolean>(false);
     const [pickedUpItem, setPickedUpItem] = useState<HTMLImageElement | null>(null);
     const [cursorPos, setCursorPos] = useState<{ x: number, y: number }>();
@@ -66,22 +65,22 @@ export function Cursor(props: CursorProps) {
             }
             switch (control) {
                 case "copy":
-                    setPickedUpItem(focusedItemRef.current);
-                    if (!focusedSlotRef.current?.classList.contains("inventorySlot")) placeItem();
-                    if (focusedItemRef.current) store.dispatch(removeRequiredControl("PickUp"))
+                    setPickedUpItem(focus.focusedItem);
+                    if (!focus.focusedSlot?.classList.contains("copySlot")) placeItem();
+                    if (focus.focusedItem) store.dispatch(removeRequiredControl("PickUp"))
                     break;
                 case "remove":
                     removeItem()
                     break;
                 case "tableMapping":
-                    typeof slotNumber === "number" && addToSlot(props.craftingTableSlots, slotNumber, focusedItemRef.current)
-                    focusedItemRef.current && store.dispatch(removeRequiredControl("Place"))
+                    typeof slotNumber === "number" && addToSlot(props.craftingTableSlots, slotNumber, focus.focusedItem)
+                    focus.focusedItem && store.dispatch(removeRequiredControl("Place"))
                     break;
             }
         }
 
         function getSlotIndex() {
-            const slotNumber = Number(focusedSlotRef.current?.id.replace("slot", ""));
+            const slotNumber = Number(focus.focusedSlot?.id.replace("slot", ""));
             return slotNumber || slotNumber === 0 ? slotNumber : undefined
         }
 
@@ -114,22 +113,9 @@ export function Cursor(props: CursorProps) {
             }
         }
 
-        function saveFocus(e: MouseEvent) {
-            const target = e.target as HTMLElement;
-            if (target.classList.contains("item")) {
-                focusedItemRef.current = target as HTMLImageElement;
-            } else if (target.classList.contains("slot")) {
-                focusedSlotRef.current = target;
-                focusedItemRef.current = null;
-            } else {
-                focusedSlotRef.current = null;
-                focusedItemRef.current = null;
-            }
-        }
-
         function updateLocation(e: MouseEvent) {
             setCursorPos({ x: e.clientX, y: e.clientY });
-            if (isHoldingCopy.current && pickedUpItem && focusedSlotRef.current?.childNodes.length === 0) {
+            if (isHoldingCopy.current && pickedUpItem && focus.focusedSlot?.childNodes.length === 0) {
                 let slots = props.craftingTableSlots;
                 const slotNumber = getSlotIndex()
                 if (slotNumber || slotNumber === 0) {
@@ -197,14 +183,14 @@ export function Cursor(props: CursorProps) {
             } else if (target.parentElement?.classList.contains("inventorySlot")) {
                 selectSlot(target.parentElement, target as HTMLImageElement)
             } else if (target?.classList?.contains("craftingTableSlot")) {
-                focusedSlotRef.current = target
+                focus.focusedSlot = target
                 if (target.childNodes.length > 0) {
                     removeItem()
                 } else {
                     placeItem()
                 }
             } else if (target?.parentElement?.classList?.contains("craftingTableSlot")) {
-                focusedSlotRef.current = target?.parentElement
+                focus.focusedSlot = target?.parentElement
                 if (target.parentElement.childNodes.length > 0) {
                     removeItem()
                 } else {
@@ -222,7 +208,6 @@ export function Cursor(props: CursorProps) {
 
         if (isPCControl) {
             document.addEventListener("mousemove", updateLocation);
-            document.addEventListener("mouseover", saveFocus);
             document.addEventListener("mousedown", handleMouseButtonPressed);
             document.addEventListener("mouseup", handleMouseButtonRelease)
             document.addEventListener("keydown", handleKeyPressed);
@@ -233,7 +218,6 @@ export function Cursor(props: CursorProps) {
 
         return () => {
             document.removeEventListener("mousemove", updateLocation);
-            document.removeEventListener("mouseover", saveFocus);
             document.removeEventListener("mousedown", handleMouseButtonPressed);
             document.removeEventListener("mouseup", handleMouseButtonRelease)
             document.removeEventListener("keydown", handleKeyPressed);
