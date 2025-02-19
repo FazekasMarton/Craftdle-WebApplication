@@ -10,6 +10,7 @@ import { setHelp } from "../../features/game/gameSlice"
 import { store } from "../../app/store"
 import { getTutorialScript } from "../../functions/getTutorialScript"
 import { Item } from "./Item"
+import { focus } from "../../classes/Focus"
 
 /**
  * Props for the CraftingTable component.
@@ -55,7 +56,12 @@ export function CraftingTable(props: CraftingTableProps) {
                         <tr key={rowIndex}>
                             {row.map((slot, slotIndex) => {
                                 return slotIndex < props.size ? (
-                                    <td key={slotIndex} id={`slot${rowIndex * 3 + slotIndex}`} className="slot craftingTableSlot">
+                                    <td
+                                        key={slotIndex}
+                                        id={`slot${rowIndex * 3 + slotIndex}`}
+                                        className="slot craftingTableSlot"
+                                        onMouseEnter={(e) => focus.saveFocus(e.currentTarget)}
+                                        onMouseLeave={() => focus.saveFocus(null)}>
                                         {slot ? <Item item={slot} className="item" /> : null}
                                     </td>
                                 ) : null
@@ -65,7 +71,7 @@ export function CraftingTable(props: CraftingTableProps) {
                 })}
             </tbody>
         </table>
-        <img id="craftingArrow" src={arrow} alt="arrow" draggable={false}/>
+        <img id="craftingArrow" src={arrow} alt="arrow" draggable={false} />
         <div id="craftedItem" className="slot" onClick={() => {
             let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
             let requiredControlByTutorial = store.getState().game.requiredControl
@@ -93,7 +99,7 @@ export function CraftingTable(props: CraftingTableProps) {
                 props.setIsKnowledgeBookOpen(!props.isKnowledgeBookOpen)
                 SoundEffect.play("click")
             }}>
-                <img src={craftingBook} alt="Crafting Book" draggable={false}/>
+                <img src={craftingBook} alt="Crafting Book" draggable={false} />
             </div>
         ) : null
         }

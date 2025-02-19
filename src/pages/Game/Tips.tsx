@@ -2,6 +2,7 @@ import { Items } from "../../classes/Items"
 import { ITips } from "../../interfaces/ITips"
 import { Item } from "./Item"
 import arrow from "../../assets/imgs/icons/arrow.png"
+import { focus } from "../../classes/Focus"
 
 /**
  * Props for the Tips component.
@@ -38,7 +39,11 @@ export function Tips(props: TipsProps) {
                                                                 const index = i * 3 + j
                                                                 const slot = tip.table[index]
                                                                 if (slot) {
-                                                                    return <td key={index} className={`tipSlot ${slot.status}`}>
+                                                                    return <td
+                                                                        key={index}
+                                                                        className={`tipSlot ${slot.status} copySlot`}
+                                                                        onMouseEnter={(e) => focus.saveFocus(e.currentTarget)}
+                                                                        onMouseLeave={() => focus.saveFocus(null)}>
                                                                         <Item item={props.itemsCollection.getItem(slot.item)} className="item" />
                                                                     </td>
                                                                 } else {

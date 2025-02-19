@@ -5,6 +5,7 @@ import { useState } from "react"
 import { DefaultSettings } from "../../classes/DefaultSettings"
 import { RootState } from "../../app/store"
 import { useSelector } from "react-redux"
+import { focus } from "../../classes/Focus"
 
 /**
  * Props for the Inventory component.
@@ -38,11 +39,16 @@ export function Inventory(props: InventoryProps) {
             <div id="inventoryContent">
                 {
                     props.itemsCollection.map(item => {
-                        return <div key={item.id} className="inventorySlot slot" style={{
-                            width: size,
-                            height: size,
-                            display: item.name.toLowerCase().includes(search.toLowerCase()) ? "flex" : "none"
-                        }}>
+                        return <div
+                            key={item.id}
+                            className="inventorySlot slot copySlot"
+                            style={{
+                                width: size,
+                                height: size,
+                                display: item.name.toLowerCase().includes(search.toLowerCase()) ? "flex" : "none"
+                            }} 
+                            onMouseEnter={(e) => focus.saveFocus(e.currentTarget)}
+                            onMouseLeave={() => focus.saveFocus(null)}>
                             <Item item={props.items.getItem(item.id)} className="item" info={{ text: item.name }} />
                         </div>
                     })

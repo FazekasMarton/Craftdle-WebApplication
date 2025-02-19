@@ -20,6 +20,7 @@ import { SoundEffect } from "../../classes/Audio";
 import { Tutorial } from "./Tutorial";
 import { Button } from "../../components/Button";
 import { LoadingScreen } from "./LoadingScreen";
+import { setError } from "../../features/error/errorSlice";
 
 /**
  * Gamemode names mapping.
@@ -114,6 +115,8 @@ export function Game() {
                         total: prev.total
                     }
                 })
+            } else {
+                store.dispatch(setError("LoadingError"))
             }
         });
     }
