@@ -43,7 +43,7 @@ export function Inventory(props: InventoryProps) {
                             height: size,
                             display: item.name.toLowerCase().includes(search.toLowerCase()) ? "flex" : "none"
                         }}>
-                            <Item itemId={item.id} items={props.items} className="item" info={{ text: item.name }} />
+                            <Item item={props.items.getItem(item.id)} className="item" info={{ text: item.name }} />
                         </div>
                     })
                 }

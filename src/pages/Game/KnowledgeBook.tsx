@@ -1,8 +1,8 @@
 import { IItem, Items } from "../../classes/Items";
 import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe";
 import searchIcon from "../../assets/imgs/icons/search_icon.png";
-import { useMemo, useState } from "react";
-import { getItem, Item } from "./Item";
+import { useState } from "react";
+import { Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png";
 import { SoundEffect } from "../../classes/Audio";
 import { useSelector } from "react-redux";
@@ -151,16 +151,6 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
     const [search, setSearch] = useState("");
     const size = `${currentSettings.imagesSize / 25 + 2.5}vmin`;
 
-    const cachedItems = useMemo(() => {
-        const cache: { [key: string]: HTMLImageElement | null } = {};
-        return async (id: string) => {
-            if (!cache[id]) {
-                cache[id] = await getItem(id, props.items) || null;
-            }
-            return cache[id];
-        };
-    }, [props.items]);
-
     return (
         <div id="knowledgeBook" style={{ display: props.isOpen ? "grid" : "none" }}>
             <header id="knowledgeBookHeader">
@@ -236,21 +226,18 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
-                                onClick={!props.result ? async (e) => {
-                                    if (!(e.target as HTMLElement).classList.contains("recipeButton")) {
-                                        const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: 3 }).map(() => Array.from({ length: 3 }).map(() => null));
-                                        const craftingTablePromises = recipe.map(row =>
-                                            Promise.all(row.map(slot => slot ? cachedItems(slot[materialIndex % slot.length]) : null))
-                                        );
-                                        (await Promise.all(craftingTablePromises)).forEach((row, rowIndex) => {
-                                            row.forEach((slot, colIndex) => {
-                                                craftingTable[rowIndex][colIndex] = slot;
-                                            });
+                                onClick={!props.result ? () => {
+                                    const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: 3 }).map(() => Array.from({ length: 3 }).map(() => null));
+                                    recipe.forEach((row, rowIndex) => {
+                                        row.forEach((slot, colIndex) => {
+                                            if (slot) {
+                                                craftingTable[rowIndex][colIndex] = props.items.getItem(slot[materialIndex % slot.length]) as HTMLImageElement;
+                                            }
                                         });
-                                        props.setCraftingTable(craftingTable);
-                                        SoundEffect.play("click");
-                                    }
-                                } : undefined}
+                                    });
+                                    props.setCraftingTable(craftingTable);
+                                    SoundEffect.play("click");
+                                }: () => {}}
                                 style={{
                                     display: isSearchResult(recipeGroup, search) ? "grid" : "none",
                                 }}
@@ -264,7 +251,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                                     const material = item ? item[materialIndex % item.length] : null;
                                                     return (
                                                         <td className="recipeSlot" key={colIndex} style={{ width: size, height: size }}>
-                                                            {material ? <Item itemId={material} items={props.items} /> : null}
+                                                            {material ? <Item item={props.items.getItem(material)} /> : null}
                                                         </td>
                                                     );
                                                 })}
@@ -274,7 +261,7 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                                 </table>
                                 <img className="recipeCraftingArrow" src={arrow} alt="arrow" draggable={false} style={{ height: size }} />
                                 <div className="recipeSlot recipeItem" style={{ width: size, height: size }}>
-                                    <Item itemId={recipeInfo.id} items={props.items} />
+                                    <Item item={props.items.getItem(recipeInfo.id)} />
                                 </div>
                                 {
                                     recipeGroup.length > 1 || Math.max(...recipe.flat().map(slot => slot?.length || 0)) > 1 ? (

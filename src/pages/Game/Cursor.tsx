@@ -8,7 +8,6 @@ import { Item } from "./Item";
 import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
 import { SoundEffect } from "../../classes/Audio";
 import { removeRequiredControl } from "../../features/game/gameSlice";
-import { Items } from "../../classes/Items";
 
 /**
  * Get the key and index by value from the controls object.
@@ -36,7 +35,6 @@ interface CursorProps {
     craftingTableSlots: Array<Array<HTMLImageElement | null>>;
     setCraftingTableSlots: (value: Array<Array<HTMLImageElement | null>>) => void;
     craftingTableSize: number;
-    items: Items
 }
 
 /**
@@ -247,7 +245,7 @@ export function Cursor(props: CursorProps) {
 
     return pickedUpItem && isPCControl ? (
         <div id="pickedUpItem" style={{ top: cursorPos?.y, left: cursorPos?.x }}>
-            <Item itemId={pickedUpItem.className} items={props.items} className="cursorItem" />
+            <Item item={pickedUpItem} className="cursorItem" />
         </div>
     ) : null;
 }

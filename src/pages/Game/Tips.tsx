@@ -34,12 +34,12 @@ export function Tips(props: TipsProps) {
                                                 <tr key={i}>
                                                     {
                                                         Array.from({ length: 3 }).map((_, j) => {
-                                                            if(j < props.craftingTableSize) {
+                                                            if (j < props.craftingTableSize) {
                                                                 const index = i * 3 + j
                                                                 const slot = tip.table[index]
                                                                 if (slot) {
                                                                     return <td key={index} className={`tipSlot ${slot.status}`}>
-                                                                        <Item itemId={slot.item} items={props.itemsCollection} className="item" />
+                                                                        <Item item={props.itemsCollection.getItem(slot.item)} className="item" />
                                                                     </td>
                                                                 } else {
                                                                     return <td key={index} className="tipSlot"></td>
@@ -55,9 +55,9 @@ export function Tips(props: TipsProps) {
                                     }
                                 </tbody>
                             </table>
-                            <img className="tipCraftingArrow" src={arrow} alt="arrow" draggable={false}/>
+                            <img className="tipCraftingArrow" src={arrow} alt="arrow" draggable={false} />
                             <div className="tipSlot">
-                                <Item itemId={tip.item.id} items={props.itemsCollection}/>
+                                <Item item={props.itemsCollection.getItem(tip.item.id)} />
                             </div>
                         </div>
                     })
