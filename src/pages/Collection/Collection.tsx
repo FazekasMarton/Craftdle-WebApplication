@@ -71,10 +71,6 @@ function counter(list: Array<{ collected: boolean }> | undefined) {
     return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`
 }
 
-function achievementCounter(achievements: Array<{ progress: number, goal: number }> | undefined) {
-    return `(${achievements?.filter((item) => item.progress && item.goal && item.goal <= item.progress).length || 0}/${achievements?.length || 0})`
-}
-
 /**
  * Collection component to display the user's collection of items, profile pictures, borders, and achievements.
  * @returns The Collection component.
@@ -109,11 +105,11 @@ export function Collection() {
             <div id="collectionContainer">
                 {user.isGuest ? <p id="collectionGuestNotice">You can only start collecting after creating an account!</p> : null}
                 <section id="collectionAchievements">
-                    <h2>Achievements {achievementCounter(collection?.achievements)}</h2>
+                    <h2>Achievements {counter(collection?.achievements)}</h2>
                     <article>
                         {
                             collection?.achievements?.map((achievement, index) => {
-                                return <div className={achievement.progress && achievement.goal && achievement.goal <= achievement.progress ? "" : "uncollectedItem"} key={index}>
+                                return <div className={achievement.collected ? "" : "uncollectedItem"} key={index}>
                                     <Achievement key={index} achievement={achievement} />
                                     {achievement.goal && achievement.progress ? (
                                         <div className="progressBar">

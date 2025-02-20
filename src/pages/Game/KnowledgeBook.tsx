@@ -1,7 +1,7 @@
 import { IItem, Items } from "../../classes/Items";
 import { INonShapelessRecipe, IRecipe, IRecipeCollection, IShapelessRecipe } from "../../interfaces/IRecipe";
 import searchIcon from "../../assets/imgs/icons/search_icon.png";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png";
 import { SoundEffect } from "../../classes/Audio";
@@ -145,7 +145,7 @@ function dropUnavailableRecipes(recipes: IRecipe[], items: IItem[]) {
  * @param props - The props for the component.
  * @returns The KnowledgeBook component.
  */
-export function KnowledgeBook(props: KnowledgeBookProps) {
+function KnowledgeBookRaw(props: KnowledgeBookProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
     const [search, setSearch] = useState("");
@@ -226,17 +226,19 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
                         return (
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
-                                onClick={!props.result ? () => {
-                                    const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: 3 }).map(() => Array.from({ length: 3 }).map(() => null));
-                                    recipe.forEach((row, rowIndex) => {
-                                        row.forEach((slot, colIndex) => {
-                                            if (slot) {
-                                                craftingTable[rowIndex][colIndex] = props.items.getItem(slot[materialIndex % slot.length]) as HTMLImageElement;
-                                            }
+                                onClick={!props.result ? (e: React.MouseEvent<HTMLDivElement>) => {
+                                    if(!(e.target as HTMLElement).classList.contains("recipeButton")) {
+                                        const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: 3 }).map(() => Array.from({ length: 3 }).map(() => null));
+                                        recipe.forEach((row, rowIndex) => {
+                                            row.forEach((slot, colIndex) => {
+                                                if (slot) {
+                                                    craftingTable[rowIndex][colIndex] = props.items.getItem(slot[materialIndex % slot.length]) as HTMLImageElement;
+                                                }
+                                            });
                                         });
-                                    });
-                                    props.setCraftingTable(craftingTable);
-                                    SoundEffect.play("click");
+                                        props.setCraftingTable(craftingTable);
+                                        SoundEffect.play("click");
+                                    }
                                 }: () => {}}
                                 style={{
                                     display: isSearchResult(recipeGroup, search) ? "grid" : "none",
@@ -279,3 +281,5 @@ export function KnowledgeBook(props: KnowledgeBookProps) {
         </div>
     );
 }
+
+export const KnowledgeBook = React.memo(KnowledgeBookRaw);
