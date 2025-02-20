@@ -9,6 +9,7 @@ import xp from "../../assets/imgs/backgrounds/experience_bar_progress.png";
 import xpBar from "../../assets/imgs/backgrounds/experience_bar_background.png";
 import { useSelector } from "react-redux";
 import { updateProfile } from "../../features/user/userSlice";
+import { deleteInfo, setInfo } from "../../features/info/infoSlice";
 
 /**
  * Interface for the collection data.
@@ -26,6 +27,7 @@ interface ICollection {
         src: string;
         collected: boolean;
         active: boolean;
+        unlock: string;
     }>;
     profileBorders: Array<{
         id: number;
@@ -33,6 +35,7 @@ interface ICollection {
         src: string;
         collected: boolean;
         active: boolean;
+        unlock: string;
     }>;
     achievements: Array<{
         title: string;
@@ -64,11 +67,11 @@ function saveProfileChanges(collection: ICollection, setCollection: (value: ICol
     }))
 }
 
-function counter(list: Array<{collected: boolean}> | undefined){
+function counter(list: Array<{ collected: boolean }> | undefined) {
     return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`
 }
 
-function achievementCounter(achievements: Array<{progress: number, goal: number}> | undefined){
+function achievementCounter(achievements: Array<{ progress: number, goal: number }> | undefined) {
     return `(${achievements?.filter((item) => item.progress && item.goal && item.goal <= item.progress).length || 0}/${achievements?.length || 0})`
 }
 
@@ -114,7 +117,7 @@ export function Collection() {
                                     <Achievement key={index} achievement={achievement} />
                                     {achievement.goal && achievement.progress ? (
                                         <div className="progressBar">
-                                            <img className="xpBar" src={xpBar} alt="XP bar" draggable={false}/>
+                                            <img className="xpBar" src={xpBar} alt="XP bar" draggable={false} />
                                             <img className="xp" src={xp} alt="XP" draggable={false} style={{
                                                 clipPath: `inset(0 ${100 - (achievement.progress / achievement.goal) * 100}% 0 0)`
                                             }} />
@@ -141,17 +144,23 @@ export function Collection() {
                                             saveProfileChanges({ ...collection }, setCollection)
                                         }
                                     }}
+                                    onMouseMove={!item.collected ? (e) => {
+                                        store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: "Requirements:", titleColor: "#00AA00", text: item.unlock }))
+                                    } : undefined}
+                                    onMouseLeave={!item.collected ? () => {
+                                        store.dispatch(deleteInfo())
+                                    } : undefined}
                                 >
                                     <img src={`http://localhost:3000/assets/profilePictures/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
-                                                <img className="activeProfileImage" src={active} alt="Active Profile Picture" draggable={false}/>
+                                                <img className="activeProfileImage" src={active} alt="Active Profile Picture" draggable={false} />
                                             ) : (
-                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Picture" draggable={false}/>
+                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Picture" draggable={false} />
                                             )
                                         ) : (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Picture" draggable={false}/>
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Picture" draggable={false} />
                                         )
                                     }
                                 </div>
@@ -175,17 +184,23 @@ export function Collection() {
                                             saveProfileChanges({ ...collection }, setCollection)
                                         }
                                     }}
+                                    onMouseMove={!item.collected ? (e) => {
+                                        store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: "Requirements:", titleColor: "#00AA00", text: item.unlock }))
+                                    } : undefined}
+                                    onMouseLeave={!item.collected ? () => {
+                                        store.dispatch(deleteInfo())
+                                    } : undefined}
                                 >
                                     <img src={`http://localhost:3000/assets/profileBorders/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
-                                                <img className="activeProfileImage" src={active} alt="Active Profile Border" draggable={false}/>
+                                                <img className="activeProfileImage" src={active} alt="Active Profile Border" draggable={false} />
                                             ) : (
-                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Border" draggable={false}/>
+                                                <img className="activeableProfileImage" src={active} alt="Activeable Profile Border" draggable={false} />
                                             )
                                         ) : (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Border" draggable={false}/>
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Profile Border" draggable={false} />
                                         )
                                     }
                                 </div>
@@ -202,7 +217,7 @@ export function Collection() {
                                     <img src={`http://localhost:3000/assets/items/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         !item.collected ? (
-                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" draggable={false}/>
+                                            <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" draggable={false} />
                                         ) : (
                                             null
                                         )
