@@ -62,18 +62,18 @@ export function Credits() {
                 <section>
                     <h2>Creators</h2>
                     <Credit credit="Creator team">Guideian Angel</Credit>
-                    <Credit credit="Idea">Horvath Mate</Credit>
-                    <Credit credit="Backend">Horvath Mate, <br /> Fazekas Marton</Credit>
-                    <Credit credit="Database">Horvath Mate, <br /> Fazekas Marton</Credit>
-                    <Credit credit="Design">Fazekas Marton</Credit>
-                    <Credit credit="Animations">Fazekas Marton</Credit>
+                    <Credit credit="Idea">Horváth Máté</Credit>
+                    <Credit credit="Backend">Horváth Máté, <br /> Fazekas Márton</Credit>
+                    <Credit credit="Database">Horváth Máté, <br /> Fazekas Márton</Credit>
+                    <Credit credit="Design">Fazekas Márton</Credit>
+                    <Credit credit="Animations">Fazekas Márton</Credit>
                 </section>
 
                 <section>
                     <h2>Guideian Angel team</h2>
-                    <Credit credit="CEO">Fazekas Marton</Credit>
-                    <Credit credit="CTO">Horvath Mate</Credit>
-                    <Credit credit="Pentester">Papp-Lukacsi Benjamin Illes</Credit>
+                    <Credit credit="CEO">Fazekas Márton</Credit>
+                    <Credit credit="CTO">Horváth Máté</Credit>
+                    <Credit credit="Pentester">Papp-Lukácsi Benjámin Illés</Credit>
                 </section>
 
                 <section>
@@ -91,11 +91,11 @@ export function Credits() {
                     <h2>Special thanks</h2>
                     <article>
                         <h3>Beta testers</h3>
-                        <Credit>Simon Mate</Credit>
-                        <Credit>Simon Mate's younger brother</Credit>
-                        <Credit>Haasz Bence</Credit>
-                        <Credit>Fazekas Kristof</Credit>
-                        <Credit>Palocz-Medla Andras</Credit>
+                        <Credit>Simon Máté</Credit>
+                        <Credit>Simon Máté's younger brother</Credit>
+                        <Credit>Haász Bence</Credit>
+                        <Credit>Fazekas Kristóf</Credit>
+                        <Credit>Palócz-Medla András</Credit>
                         <Credit><span onMouseOver={() => { window.open('https://www.instagram.com/kendiii.2', '_blank') }}>Kendiii</span></Credit>
                     </article>
 
@@ -114,7 +114,7 @@ export function Credits() {
                     <Credit>Four of the first six hints were super useless</Credit>
                     <Credit>The beta version used a highly flawed, outdated, and incomplete database</Credit>
                     <Credit>The first gamemode was the All in One</Credit>
-                    <Credit>When our team plays Minecraft, Mate speedruns the game throughout</Credit>
+                    <Credit>When our team plays Minecraft, Máté speedruns the game throughout</Credit>
                     <Credit>Best commit names in Craftdle's GitHub repo: "got to continue on laptop bc of ipban or idk" and "bugfixes after git fucked up my code"</Credit>
                     <Credit>The most hated blocks in our team are the Copper Blocks</Credit>
                 </section>

@@ -21,12 +21,12 @@
 
 @font-face {
     font-family: MinecraftRegular;
-    src: url("assets/minecraft-font/MinecraftRegular-Bmg3.otf");
+    src: url("assets/minecraft-font/MinecraftRegular.otf");
 }
 
 @font-face {
     font-family: MinecraftItalic;
-    src: url("assets/minecraft-font/MinecraftItalic-R8Mo.otf");
+    src: url("assets/minecraft-font/MinecraftItalic.otf");
 }
 
 * {
