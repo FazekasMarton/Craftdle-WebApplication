@@ -48,7 +48,7 @@ function convertToMatrix(recipe: IShapelessRecipe, craftingTableSize: number) {
  * @param search - The search query.
  * @returns True if the recipe group matches the search query, false otherwise.
  */
-function isSearchResult(recipeGroup: IRecipe[], search: string) {
+function isSearchResult(recipeGroup: IRecipe[], search: string, items: IItem[]) {
     for (let recipeInfo of recipeGroup) {
         if (recipeInfo.name.toLowerCase().includes(search.toLowerCase())) {
             return true;
@@ -56,14 +56,14 @@ function isSearchResult(recipeGroup: IRecipe[], search: string) {
             let recipe = recipeInfo.recipe as IShapelessRecipe;
             const materials = recipe.required.flat(2).concat(recipe.optional?.flat(2) || []);
             for (let material of materials) {
-                if (material && material.toLowerCase().includes(search.toLowerCase())) {
+                if (material && items.find(item => item.id === material)?.name.toLowerCase().includes(search.toLowerCase())) {
                     return true;
                 }
             }
         } else {
             let recipe = recipeInfo.recipe as INonShapelessRecipe;
             for (let material of recipe.flat(3)) {
-                if (material && material.toLowerCase().includes(search.toLowerCase())) {
+                if (material && items.find(item => item.id === material)?.name.toLowerCase().includes(search.toLowerCase())) {
                     return true;
                 }
             }
@@ -241,7 +241,7 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                     }
                                 }: () => {}}
                                 style={{
-                                    display: isSearchResult(recipeGroup, search) ? "grid" : "none",
+                                    display: isSearchResult(recipeGroup, search, props.itemCollection) ? "grid" : "none",
                                 }}
                             >
                                 <table className="recipeCraftingTable">
