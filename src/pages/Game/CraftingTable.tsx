@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import arrow from "../../assets/imgs/icons/arrow.png"
 import craftingBook from "../../assets/imgs/icons/recipe_book.png"
 import { craft } from "../../functions/craft"
@@ -33,7 +33,7 @@ interface CraftingTableProps {
  * @param props - The properties for the CraftingTable component.
  * @returns The CraftingTable component.
  */
-export function CraftingTable(props: CraftingTableProps) {
+function CraftingTableRaw(props: CraftingTableProps) {
     const [craftedItemGroup, setCraftedItemGroup] = useState<string | null>(null)
     const [craftedItem, setCraftedItem] = useState<IItem | null>(null)
 
@@ -105,3 +105,5 @@ export function CraftingTable(props: CraftingTableProps) {
         }
     </div>
 }
+
+export const CraftingTable = React.memo(CraftingTableRaw)

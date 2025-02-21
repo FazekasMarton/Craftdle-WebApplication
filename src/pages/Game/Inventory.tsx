@@ -1,7 +1,7 @@
 import { IItem, Items } from "../../classes/Items"
 import { Item } from "./Item"
 import searchIcon from "../../assets/imgs/icons/search_icon.png"
-import { useState } from "react"
+import React, { useState } from "react"
 import { DefaultSettings } from "../../classes/DefaultSettings"
 import { RootState } from "../../app/store"
 import { useSelector } from "react-redux"
@@ -21,7 +21,7 @@ interface InventoryProps {
  * @param props - The properties for the Inventory component.
  * @returns The Inventory component.
  */
-export function Inventory(props: InventoryProps) {
+function InventoryRaw(props: InventoryProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
     const [search, setSearch] = useState("")
@@ -57,3 +57,5 @@ export function Inventory(props: InventoryProps) {
         </div>
     </div>
 }
+
+export const Inventory = React.memo(InventoryRaw)
