@@ -63,12 +63,12 @@ function LoginForm(props: FormProps) {
         <div>
             <label htmlFor="loginPassword">Password:</label>
             <input type="password" id='loginPassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
-            <span id='forgotPassword' onClick={() => { props.setForm && props.setForm("ForgotPassword") }}>Forgot password?</span>
             <ul className='inputError'>{
                 passwordError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
+            <span id='forgotPassword' onClick={() => { props.setForm && props.setForm("ForgotPassword") }}>Forgot password?</span>
         </div>
         <div className='checkRow'>
             <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />

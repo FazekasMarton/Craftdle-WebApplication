@@ -186,7 +186,7 @@ export function Game() {
             ) : (
                 !(progress.loaded < progress.total) && <>
                     <Button onClick={!result ? () => { store.dispatch(setHelp(true)) } : undefined} color="green">Ask Allay</Button>
-                    <Tutorial key={`${newTurn}-tutorial`} turn={turn} />
+                    <Tutorial key={`${newTurn}-tutorial`} turn={tips.length} />
                 </>
             )}
             <Tips tips={tips} craftingTableSize={craftingTableSize} itemsCollection={items.current} />

@@ -18,16 +18,27 @@ const rarityColors = ["#FFFF55", "#55FFFF", "#FF55FF"];
 export function Achievements() {
     const socket = useSelector((state: RootState) => state.socket.socket);
     const [animKey, setAnimKey] = useState(0);
-    const [achievements, setAchievements] = useState<IAchievement[]>([]);
+    const [start, setStart] = useState(0);
+    const [achievements, setAchievements] = useState<Array<IAchievement | null>>([]);
 
     useEffect(() => {
-        socket?.on("achievements", (performedAchievements: IAchievement[]) => {
+        socket?.on("achievements", (performedAchievements: Array<IAchievement | null>) => {
             setAchievements((prevAchievements) => {
-                const newAchievements = [...prevAchievements, ...performedAchievements];
+                const newAchievements = [
+                    ...prevAchievements,
+                    ...(prevAchievements.length < 5 && prevAchievements.length > 0 ? (
+                        Array.from({ length: 5 - prevAchievements.length }, () => null)
+                    ) : (
+                        []
+                    )),
+                    ...performedAchievements];
                 return newAchievements;
             });
-            setAnimKey(animKey + 1);
-            SoundEffect.play("achievement");
+            if (achievements.length === 0) {
+                setStart(animKey + 1);
+                setAnimKey(animKey + 1);
+                SoundEffect.play("achievement");
+            }
         })
 
         return () => {
@@ -36,27 +47,28 @@ export function Achievements() {
     }, [socket, achievements]);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            if (achievements.length > 0) {
-                setAchievements((prevAchievements) => {
-                    const newAchievements = prevAchievements.slice(5);
-                    return newAchievements;
-                });
-                setAnimKey(animKey + 1);
-            }
+        const timeout = setInterval(() => {
+            setAchievements((prevAchievements) => {
+                if(prevAchievements.length <= 5){
+                    clearInterval(timeout);
+                }
+                const newAchievements = prevAchievements.slice(5);
+                return newAchievements;
+            });
+            setAnimKey(prev => prev + 1);
         }, 9000);
 
         return () => {
-            clearTimeout(timeout);
+            clearInterval(timeout);
         }
 
-    }, [achievements]);
+    }, [start]);
 
     return <div id="achievements" key={animKey}>
         {
             achievements.length > 0 && achievements.map((achievement, index) => {
                 if (index < 5) {
-                    return <Achievement key={index} achievement={achievement} />
+                    return achievement && <Achievement key={index} achievement={achievement} />
                 }
             })
         }
@@ -73,6 +85,6 @@ export function Achievement(props: AchievementProps) {
     return <div className="achievement">
         <h1 className="achievementTitle" style={{ color: rarityColors[achievement.rarity] }}>{achievement.title}</h1>
         <p className="achievementDescription">{achievement.description}</p>
-        <img className="achievementIcon" src={`http://localhost:3000/assets/${achievement.icon}`} alt="Achievement Icon" draggable={false}/>
+        <img className="achievementIcon" src={`http://localhost:3000/assets/${achievement.icon}`} alt="Achievement Icon" draggable={false} />
     </div>
 }

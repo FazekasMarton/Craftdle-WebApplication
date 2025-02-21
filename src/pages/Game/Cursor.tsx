@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../../app/store";
 import { DefaultSettings } from "../../classes/DefaultSettings";
@@ -43,7 +43,7 @@ interface CursorProps {
  * @param props - The properties for the Cursor component.
  * @returns The Cursor component.
  */
-export function Cursor(props: CursorProps) {
+function CursorRaw(props: CursorProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
 
@@ -233,3 +233,5 @@ export function Cursor(props: CursorProps) {
         </div>
     ) : null;
 }
+
+export const Cursor = React.memo(CursorRaw);
