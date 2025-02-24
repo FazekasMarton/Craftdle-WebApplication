@@ -147,7 +147,7 @@ export function Collection() {
                                         store.dispatch(deleteInfo())
                                     } : undefined}
                                 >
-                                    <img src={`http://localhost:3000/assets/profilePictures/${item.src}`} alt={item.name} draggable={false} />
+                                    <img src={`https://craftdle-backend-production.up.railway.app/assets/profilePictures/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
@@ -187,7 +187,7 @@ export function Collection() {
                                         store.dispatch(deleteInfo())
                                     } : undefined}
                                 >
-                                    <img src={`http://localhost:3000/assets/profileBorders/${item.src}`} alt={item.name} draggable={false} />
+                                    <img src={`https://craftdle-backend-production.up.railway.app/assets/profileBorders/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         item.collected ? (
                                             item.active ? (
@@ -210,7 +210,7 @@ export function Collection() {
                         {
                             collection?.inventory?.map((item, index) => {
                                 return <div className={`itemFrame ${item.collected ? "" : "uncollectedItem"}`} key={index}>
-                                    <img src={`http://localhost:3000/assets/items/${item.src}`} alt={item.name} draggable={false} />
+                                    <img src={`https://craftdle-backend-production.up.railway.app/assets/items/${item.src}`} alt={item.name} draggable={false} />
                                     {
                                         !item.collected ? (
                                             <img className="uncollectedProfileImage" src={lock} alt="Uncollected Item" draggable={false} />

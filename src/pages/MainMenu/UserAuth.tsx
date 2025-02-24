@@ -270,7 +270,7 @@ function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
         <div id="forgotPasswordItemContainer">
             <img
                 id="forgotPasswordItem"
-                src={`http://localhost:3000/assets/items/${item.src}`}
+                src={`https://craftdle-backend-production.up.railway.app/assets/items/${item.src}`}
                 alt={item.name}
                 draggable={false}
             />

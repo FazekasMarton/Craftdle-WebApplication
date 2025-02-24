@@ -8,7 +8,7 @@ import { setSocket } from "../features/socket/socketSlice";
 export function connectSocket() {
     store.getState().socket.socket?.disconnect()
     const token = store.getState().user.loginToken;
-    const socket: Socket = io("http://localhost:3000", {
+    const socket: Socket = io("https://craftdle-backend-production.up.railway.app", {
         auth: {
             token: token
         }

@@ -19,7 +19,7 @@ export class Items {
      */
     async addItem(item: IItem) {
         if(!this.items[item.id]) {
-            const response = await fetch(`http://localhost:3000/assets/items/${item.src}`);
+            const response = await fetch(`https://craftdle-backend-production.up.railway.app/assets/items/${item.src}`);
     
             if (!response.ok) {
                 return false;
