@@ -21,12 +21,12 @@
 
 @font-face {
     font-family: MinecraftRegular;
-    src: url("assets/minecraft-font/MinecraftRegular-Bmg3.otf");
+    src: url("assets/minecraft-font/MinecraftRegular.otf");
 }
 
 @font-face {
     font-family: MinecraftItalic;
-    src: url("assets/minecraft-font/MinecraftItalic-R8Mo.otf");
+    src: url("assets/minecraft-font/MinecraftItalic.otf");
 }
 
 * {
@@ -1405,6 +1405,7 @@ input:-webkit-autofill:focus {
     overflow-y: hidden;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    z-index: 20;
 }
 
 .showTutorial {
@@ -1511,6 +1512,7 @@ input:-webkit-autofill:focus {
     width: 100%;
     height: 100%;
     background-color: rgba(45, 4, 4, 0.559);
+    z-index: 20;
 }
 
 #gameOverContent {
@@ -2251,7 +2253,6 @@ input:-webkit-autofill:focus {
         flex-wrap: wrap;
         width: 100%;
         max-width: max-content;
-        justify-content: center;
         max-height: 20dvh;
         margin: auto;
     }
