@@ -88,7 +88,7 @@ export function SettingsMain(props: SettingsMainProps) {
                 <h2 className="settingsLabel">General</h2>
 
                 <span>Volume</span>
-                <StoneSlider min={0} max={100} value={profile?.volume || defaultSettings.volume} setValue={{ fun: changeSettings, key: "volume" }} />
+                <StoneSlider min={0} max={100} value={profile?.volume ?? defaultSettings.volume} setValue={{ fun: changeSettings, key: "volume" }} />
                 <StoneButton
                     disabled={profile?.volume === defaultSettings.volume}
                     onClick={() => { changeSettings("volume", defaultSettings.volume); }}
