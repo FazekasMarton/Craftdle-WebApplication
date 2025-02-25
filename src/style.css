@@ -935,6 +935,7 @@ input:-webkit-autofill:focus {
     font-weight: normal;
     font-size: 4vmin;
     margin: 0;
+    white-space: nowrap;
 }
 
 .gamemodeDifficulty {
