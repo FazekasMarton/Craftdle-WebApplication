@@ -935,6 +935,7 @@ input:-webkit-autofill:focus {
     font-weight: normal;
     font-size: 4vmin;
     margin: 0;
+    white-space: nowrap;
 }
 
 .gamemodeDifficulty {
@@ -1143,6 +1144,10 @@ input:-webkit-autofill:focus {
 .hintSlot {
     display: flex;
     height: 8vh;
+}
+
+.hintContainer{
+    flex-basis: 100%;
 }
 
 #hints .button {
@@ -1593,16 +1598,12 @@ input:-webkit-autofill:focus {
     font-size: 4vmin;
 }
 
-#creditsCraftdleTitle {
-    max-width: 60dvw;
-    max-height: 60dvh;
-    object-fit: contain;
-}
-
 #creditsContainer {
-    width: 100%;
+    width: calc(100% - 100px);
     position: absolute;
     top: 100%;
+    left: 50%;
+    translate: -50% 0;
     text-align: center;
     animation: scrollUp 60s linear forwards;
 }
@@ -1615,6 +1616,12 @@ input:-webkit-autofill:focus {
     100% {
         transform: translateY(calc(-110% - 100vh));
     }
+}
+
+#creditsCraftdleTitle {
+    max-width: 60dvw;
+    max-height: 60dvh;
+    object-fit: contain;
 }
 
 #credits section,
@@ -2233,8 +2240,7 @@ input:-webkit-autofill:focus {
     #inventoryHeader,
     #knowledgeBookHeader {
         padding: 5px;
-        justify-content: center;
-        flex-direction: column;
+        justify-content: space-between;
     }
 
     #inventoryTitle,
@@ -2268,12 +2274,16 @@ input:-webkit-autofill:focus {
     }
 
     .hintSlot {
-        height: min-content;
+        height: 10vmin;
     }
 
     #hints .button {
         font-size: 3.4vmin;
         padding: 5px;
+    }
+
+    .hintContent{
+        font-size: 3vmin;
     }
 
     #tips .tipSlot {

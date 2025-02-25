@@ -86,25 +86,15 @@ function matchRequiredItems(items: string[], requiredItems: Array<Array<string> 
  * @param optionalItems - The optional items for the recipe.
  * @returns True if the optional items match, false otherwise.
  */
-function matchOptionalItems(items: string[], optionalItems: Array<Array<string> | string>): boolean {
+function matchOptionalItems(items: string[], optionalItems: Array<Array<string> | string>) {
     for (let optionalItem of optionalItems) {
-        if (Array.isArray(optionalItem)) {
-            let contain = false;
-            for (let item of optionalItem) {
-                if (items.includes(item)) {
-                    items.splice(items.indexOf(item), 1);
-                    contain = true;
-                    break;
-                }
-            }
-            if (!contain) return false;
-        } else {
-            if (items.includes(optionalItem)) {
-                items.splice(items.indexOf(optionalItem), 1);
+        for (let item of items) {
+            if (optionalItem.includes(item) || optionalItem == item) {
+                items.splice(items.indexOf(item), 1);
+                break;
             }
         }
     }
-    return true;
 }
 
 /**
@@ -116,7 +106,7 @@ function matchOptionalItems(items: string[], optionalItems: Array<Array<string> 
  */
 function matchShapelessRecipe(items: string[], requiredItems: Array<Array<string> | string>, optionalItems?: Array<Array<string> | string>): boolean {
     if (!matchRequiredItems(items, requiredItems)) return false;
-    if (items.length > 0 && optionalItems && !matchOptionalItems(items, optionalItems)) return false;
+    optionalItems && matchOptionalItems(items, optionalItems);
     return items.length === 0;
 }
 
