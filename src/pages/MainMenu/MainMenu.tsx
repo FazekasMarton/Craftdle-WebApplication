@@ -6,18 +6,26 @@ import lock from "../../assets/imgs/icons/lock.png"
 import stats from "../../assets/imgs/icons/stats.png"
 import settings from "../../assets/imgs/icons/settings.png"
 import { Profile } from "./Profile"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UserAuth } from "./UserAuth"
 import { useSelector } from "react-redux"
 import { RootState, store } from "../../app/store"
 import { MaintenanceNotice } from "./MaintenanceNotice"
 import { BeforeInstallPromptEvent } from "../../interfaces/IBeforeInstallPromptEvent"
 import { setInstalled } from "../../features/user/userSlice"
+import { isTestSubdomain } from "../../functions/isTestSubdomain"
 
 declare global {
     interface WindowEventMap {
         beforeinstallprompt: BeforeInstallPromptEvent;
     }
+}
+
+interface VersionInfo{
+    craftdleVersion: string,
+    craftdleTestVersion: string,
+    minecraftVersion: string,
+    minecraftVersionName: string
 }
 
 /**
@@ -26,6 +34,7 @@ declare global {
  */
 export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
+    const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null)
     const user = useSelector((state: RootState) => state.user);
     const maintenance = useSelector((state: RootState) => state.maintenance);
     const install = useSelector((state: RootState) => state.user.installed);
@@ -38,6 +47,12 @@ export function MainMenu() {
             });
         }
     };
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_SERVER_URL}/version`)
+        .then(res => res.json())
+        .then(data => setVersionInfo(data));
+    }, []);
 
     return <main id="mainMenu">
         <Background />
@@ -67,8 +82,8 @@ export function MainMenu() {
             <footer>
                 <aside id="footerInfo">
                     <span>by Guideian Angel</span>
-                    <span>v1.2.0</span>
-                    <span>for Minecraft: Java Edition 1.21.4 - The Garden Awakens</span>
+                    <span>v{isTestSubdomain() ? versionInfo?.craftdleTestVersion : versionInfo?.craftdleVersion}</span>
+                    <span>for Minecraft: {[versionInfo?.minecraftVersion, versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
                 </aside>
                 <small id="disclaimer">
                     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT

@@ -1,5 +1,7 @@
 import { useState } from "react"
 import title from "../../assets/imgs/title/craftdle_title-react_edition.png"
+import testTitle from "../../assets/imgs/title/craftdle_test_title.png"
+import { isTestSubdomain } from "../../functions/isTestSubdomain"
 
 /**
  * Array of random texts to display below the title.
@@ -57,7 +59,7 @@ function getRandomText(){
 export function Title() {
     const [text] = useState(getRandomText())
     return <header id="craftdleTitle">
-        <img id="craftdleLogo" src={title} alt="Craftdle Logo" draggable={false}/>
+        <img id="craftdleLogo" src={isTestSubdomain() ? testTitle : title} alt="Craftdle Logo" draggable={false}/>
         <span id="yellowText">{text}</span>
     </header>
 }

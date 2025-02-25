@@ -60,7 +60,7 @@ export const register = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/register",
+            `${import.meta.env.VITE_SERVER_URL}/users/register`,
             "POST",
             null,
             {
@@ -83,7 +83,7 @@ export const guestLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/login",
+            `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "GET"
         );
 
@@ -99,7 +99,7 @@ export const tokenLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/login",
+            `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "POST",
             "Bearer"
         );
@@ -118,7 +118,7 @@ export const login = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/login",
+            `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "POST",
             undefined,
             { usernameOrEmail, password, stayLoggedIn }
@@ -136,7 +136,7 @@ export const logout = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/login",
+            `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "DELETE",
             "Basic"
         );
@@ -153,7 +153,7 @@ export const forgotPassword = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/password",
+            `${import.meta.env.VITE_SERVER_URL}/users/password`,
             "POST",
             "Bearer",
             { email: email }
@@ -173,7 +173,7 @@ export const changePassword = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/password",
+            `${import.meta.env.VITE_SERVER_URL}/users/password`,
             "PUT",
             "Bearer",
             {
@@ -194,7 +194,7 @@ export const getSettings = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/settings",
+            `${import.meta.env.VITE_SERVER_URL}/users/settings`,
             "GET",
             "Bearer"
         );
@@ -212,7 +212,7 @@ export const changeSettings = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            `http://localhost:3000/users/settings/${id}`,
+            `${import.meta.env.VITE_SERVER_URL}/users/settings/${id}`,
             "PUT",
             "Bearer",
             changedSettings
@@ -230,7 +230,7 @@ export const getStats = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/stats",
+            `${import.meta.env.VITE_SERVER_URL}/users/stats`,
             "GET",
             "Bearer"
         );
@@ -247,7 +247,7 @@ export const getCollection = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/collection",
+            `${import.meta.env.VITE_SERVER_URL}/users/collection`,
             "GET",
             "Bearer"
         );
@@ -267,7 +267,7 @@ export const changeProfilePics = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            "http://localhost:3000/users/profile",
+            `${import.meta.env.VITE_SERVER_URL}/users/profile`,
             "PUT",
             "Bearer",
             { profilePicture, profileBorder }
@@ -288,7 +288,7 @@ export const getGamemodes = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            `http://localhost:3000/game/${type}`,
+            `${import.meta.env.VITE_SERVER_URL}/game/${type}`,
             "GET",
             "Bearer"
         );

@@ -10,7 +10,7 @@ import { isUserPlayingOnPC } from "../../functions/isUserPlayingOnPC";
  */
 interface SettingsMainProps {
     profile: number;
-    profiles: Array<ISettings>;
+    profiles: Array<ISettings> | null;
     setSettings: (value: Array<ISettings>) => void;
 }
 
@@ -20,25 +20,31 @@ interface SettingsMainProps {
  * @returns The SettingsMain component.
  */
 export function SettingsMain(props: SettingsMainProps) {
-    const profile = props.profiles[props.profile];
+    const profile = props.profiles && props.profiles[props.profile];
     const defaultSettings = DefaultSettings.getDefaultSettings()
 
     function changeSettings<K extends keyof ISettings>(key: K, value: ISettings[K]) {
-        let newSettings: Array<ISettings> = structuredClone(props.profiles);
-        newSettings[props.profile][key] = value;
-        props.setSettings(newSettings);
+        if (props.profiles) {
+            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            newSettings[props.profile][key] = value;
+            props.setSettings(newSettings);
+        }
     }
 
     function changeControls<K extends keyof IControls>(key: K, value: IControls[K]) {
-        let newSettings: Array<ISettings> = structuredClone(props.profiles);
-        newSettings[props.profile].controls[key] = value;
-        props.setSettings(newSettings);
+        if (props.profiles) {
+            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            newSettings[props.profile].controls[key] = value;
+            props.setSettings(newSettings);
+        }
     }
 
     function changeTableMapping(index: number, value: string) {
-        let newSettings: Array<ISettings> = structuredClone(props.profiles);
-        newSettings[props.profile].controls.tableMapping[index] = value;
-        props.setSettings(newSettings);
+        if (props.profiles) {
+            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            newSettings[props.profile].controls.tableMapping[index] = value;
+            props.setSettings(newSettings);
+        }
     }
 
     function listenInteraction(change: (value: string) => void) {
@@ -82,16 +88,16 @@ export function SettingsMain(props: SettingsMainProps) {
                 <h2 className="settingsLabel">General</h2>
 
                 <span>Volume</span>
-                <StoneSlider min={0} max={100} value={profile.volume} setValue={{ fun: changeSettings, key: "volume" }} />
+                <StoneSlider min={0} max={100} value={profile?.volume || defaultSettings.volume} setValue={{ fun: changeSettings, key: "volume" }} />
                 <StoneButton
-                    disabled={profile.volume === defaultSettings.volume}
+                    disabled={profile?.volume === defaultSettings.volume}
                     onClick={() => { changeSettings("volume", defaultSettings.volume); }}
                 >Reset</StoneButton>
 
                 <span>Images Size</span>
-                <StoneSlider min={1} max={100} value={profile.imagesSize} setValue={{ fun: changeSettings, key: "imagesSize" }} />
+                <StoneSlider min={1} max={100} value={profile?.imagesSize || defaultSettings.imagesSize} setValue={{ fun: changeSettings, key: "imagesSize" }} />
                 <StoneButton
-                    disabled={profile.imagesSize === defaultSettings.imagesSize}
+                    disabled={profile?.imagesSize === defaultSettings.imagesSize}
                     onClick={() => { changeSettings("imagesSize", defaultSettings.imagesSize); }}
                 >Reset</StoneButton>
 
@@ -99,11 +105,11 @@ export function SettingsMain(props: SettingsMainProps) {
                     <h2 className="settingsLabel">Controls</h2>
 
                     <span>Enable Tap Mode</span>
-                    <StoneButton onClick={() => { changeControls("isTapMode", !profile.controls.isTapMode); }}>
-                        {profile.controls.isTapMode ? "Enabled" : "Disabled"}
+                    <StoneButton onClick={() => { changeControls("isTapMode", !profile?.controls.isTapMode); }}>
+                        {profile?.controls.isTapMode ? "Enabled" : "Disabled"}
                     </StoneButton>
                     <StoneButton
-                        disabled={profile.controls.isTapMode === defaultSettings.controls.isTapMode}
+                        disabled={profile?.controls.isTapMode === defaultSettings.controls.isTapMode}
                         onClick={() => { changeControls("isTapMode", defaultSettings.controls.isTapMode); }}
                     >Reset</StoneButton>
 
@@ -111,10 +117,10 @@ export function SettingsMain(props: SettingsMainProps) {
                     <StoneButton onClick={() => {
                         listenInteraction((value: string) => { changeControls("copy", value); });
                     }}>
-                        {profile.controls.copy}
+                        {profile?.controls.copy}
                     </StoneButton>
                     <StoneButton
-                        disabled={profile.controls.copy === defaultSettings.controls.copy}
+                        disabled={profile?.controls.copy === defaultSettings.controls.copy}
                         onClick={() => { changeControls("copy", defaultSettings.controls.copy); }}
                     >Reset</StoneButton>
 
@@ -122,10 +128,10 @@ export function SettingsMain(props: SettingsMainProps) {
                     <StoneButton onClick={() => {
                         listenInteraction((value: string) => { changeControls("remove", value); });
                     }}>
-                        {profile.controls.remove}
+                        {profile?.controls.remove}
                     </StoneButton>
                     <StoneButton
-                        disabled={profile.controls.remove === defaultSettings.controls.remove}
+                        disabled={profile?.controls.remove === defaultSettings.controls.remove}
                         onClick={() => { changeControls("remove", defaultSettings.controls.remove); }}
                     >Reset</StoneButton>
 
@@ -135,10 +141,10 @@ export function SettingsMain(props: SettingsMainProps) {
                             <StoneButton onClick={() => {
                                 listenInteraction((value: string) => { changeTableMapping(i, value); });
                             }}>
-                                {profile.controls.tableMapping[i]}
+                                {profile?.controls.tableMapping[i]}
                             </StoneButton>
                             <StoneButton
-                                disabled={profile.controls.tableMapping[i] === defaultSettings.controls.tableMapping[i]}
+                                disabled={profile?.controls.tableMapping[i] === defaultSettings.controls.tableMapping[i]}
                                 onClick={() => { changeTableMapping(i, defaultSettings.controls.tableMapping[i]); }}
                             >Reset</StoneButton>
                         </React.Fragment>

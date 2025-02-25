@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 interface SettingsHeaderProps {
     activeProfile: number;
     setActiveProfile: (value: number) => void;
-    profiles: Array<ISettings>;
+    profiles: Array<ISettings> | null;
     originalSettings: Array<ISettings> | null;
 }
 
@@ -42,7 +42,7 @@ export function SettingsHeader(props: SettingsHeaderProps) {
 
     let saveable = !isEqual(
         removeIsSet(props.originalSettings && props.originalSettings[props.activeProfile]),
-        removeIsSet(props.profiles[props.activeProfile])
+        removeIsSet(props.profiles && props.profiles[props.activeProfile])
     );
 
     return <header id="settingsHeader">

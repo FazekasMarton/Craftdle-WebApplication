@@ -270,7 +270,7 @@ function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
         <div id="forgotPasswordItemContainer">
             <img
                 id="forgotPasswordItem"
-                src={`http://localhost:3000/assets/items/${item.src}`}
+                src={`${import.meta.env.VITE_SERVER_URL}/assets/items/${item.src}`}
                 alt={item.name}
                 draggable={false}
             />

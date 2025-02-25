@@ -3,6 +3,7 @@ import bookBottom from "../../assets/imgs/backgrounds/book_bottom.png"
 import { Link, useLocation } from "react-router-dom"
 import { SoundEffect } from "../../classes/Audio"
 import { useEffect } from "react";
+import { isTestSubdomain } from "../../functions/isTestSubdomain";
 
 /**
  * Docs component to display the privacy policy and terms of use.
@@ -28,6 +29,16 @@ export function Docs() {
                 <h1>Documents</h1>
             </header>
             <main>
+                {isTestSubdomain() && <section id="testVersionNotice">
+                    <h2>Test Version Notice</h2>
+                    <p>You are currently accessing a test version of Craftdle. This environment is intended for testing purposes only and may not function as expected.</p>
+                    <ul>
+                        <li>Data integrity is <strong>not guaranteed</strong>, and all stored information may be deleted at any time without prior notice.</li>
+                        <li>The test version may contain <strong>bugs, unfinished features, or unstable mechanics</strong>.</li>
+                        <li>Service availability is <strong>not ensured</strong>, and disruptions or downtime may occur.</li>
+                    </ul>
+                    <p>Use this version at your own risk. We <strong>greatly appreciate</strong> any bug reports or feedback you provide. If you encounter an issue, please let us know via email at <a href="mailto:guideianangelcraftdle@gmail.com">guideianangelcraftdle@gmail.com</a>.</p>
+                </section>}
                 <section id="privacyPolicy">
                     <h2>Privacy Policy</h2>
                     <ol>
@@ -165,7 +176,7 @@ export function Docs() {
             </main>
             <footer>
                 <h2>Contact</h2>
-                <p>If you have any questions regarding our data protection practices, please email us at guideianangelcraftdle@gmail.com</p>
+                <p>If you have any questions regarding our data protection practices, please email us at <a href="mailto:guideianangelcraftdle@gmail.com">guideianangelcraftdle@gmail.com</a>.</p>
                 <p>Thank you for visiting Craftdle!</p>
             </footer>
         </div>
