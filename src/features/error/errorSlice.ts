@@ -44,6 +44,11 @@ const errorSlice = createSlice({
                     state.name = "Not Found";
                     state.message = "Failed to load the requested resource. Please try again later.";
                     break;
+                case 'ConnectionError':
+                    state.status = 1006;
+                    state.name = "Connection Lost";
+                    state.message = "Lost connection to the server. Please try again later.";
+                    break;
                 default:
                     state.status = 500;
                     state.name = "Internal Server Error";
