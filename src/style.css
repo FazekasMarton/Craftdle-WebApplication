@@ -542,9 +542,9 @@ body,
     width: 31vw;
     max-width: max-content;
     position: absolute;
-    top: 7vmin;
+    top: 11vmin;
     right: 5%;
-    transform: translate(50%, 50%) rotate(-20deg);
+    transform: translate(50%, -50%) rotate(-20deg);
     color: rgb(255, 255, 0);
     font-size: 3.5vmin;
     animation-name: message;
