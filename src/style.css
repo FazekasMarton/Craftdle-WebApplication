@@ -471,7 +471,7 @@ body,
 #menu {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: min-content min-content auto min-content;
+    grid-template-rows: 30vmin min-content auto min-content;
     grid-template-areas:
         "title title title"
         ". mainButtons ."
@@ -524,24 +524,26 @@ body,
 }
 
 #craftdleTitle {
+    display: flex;
+    align-items: end;
     grid-area: title;
     width: min-content;
     justify-self: center;
     align-self: self-end;
     position: relative;
-    margin: 13vmin 0 2vmin 0;
+    margin-bottom: 2vmin;
 }
 
 #craftdleLogo {
-    height: 15vmin;
+    width: 70vmin;
 }
 
 #yellowText {
     width: 31vw;
     max-width: max-content;
     position: absolute;
+    top: 7vmin;
     right: 5%;
-    bottom: 30%;
     transform: translate(50%, 50%) rotate(-20deg);
     color: rgb(255, 255, 0);
     font-size: 3.5vmin;
