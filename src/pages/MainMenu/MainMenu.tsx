@@ -21,7 +21,7 @@ declare global {
     }
 }
 
-interface VersionInfo{
+interface VersionInfo {
     craftdleVersion: string,
     craftdleTestVersion: string,
     minecraftVersion: string,
@@ -50,8 +50,8 @@ export function MainMenu() {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_SERVER_URL}/version`)
-        .then(res => res.json())
-        .then(data => setVersionInfo(data));
+            .then(res => res.json())
+            .then(data => setVersionInfo(data));
     }, []);
 
     return <main id="mainMenu">
@@ -72,17 +72,23 @@ export function MainMenu() {
                 {install ? <StoneButton onClick={handleInstallClick}>Install App</StoneButton> : <StoneButton href="/patchNotes">Patch Notes</StoneButton>}
             </nav>
             <nav id="leftSideButtons" className="sideButtons" aria-label="Settings and Statistics">
-                <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" draggable={false}/></StoneButton>
-                <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={settings} alt="Settings" draggable={false}/></StoneButton>
+                <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" draggable={false} /></StoneButton>
+                <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={settings} alt="Settings" draggable={false} /></StoneButton>
             </nav>
             <nav id="rightSideButtons" className="sideButtons" aria-label="News and Privacy Policy">
-                {install && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" draggable={false}/></StoneButton>}
-                <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false}/></StoneButton>
+                {install && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" draggable={false} /></StoneButton>}
+                <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false} /></StoneButton>
             </nav>
             <footer>
                 <aside id="footerInfo">
                     <span>by Guideian Angel</span>
-                    <span>v{isTestSubdomain() ? versionInfo?.craftdleTestVersion : versionInfo?.craftdleVersion}</span>
+                    <span>
+                        {isTestSubdomain() ? (
+                            `(v${versionInfo?.craftdleVersion}) - Snapshot ${versionInfo?.craftdleTestVersion}`
+                        ) : (
+                            `v${versionInfo?.craftdleVersion}`
+                        )}
+                    </span>
                     <span>for Minecraft: {[versionInfo?.minecraftVersion, versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
                 </aside>
                 <small id="disclaimer">
