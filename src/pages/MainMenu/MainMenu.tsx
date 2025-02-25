@@ -83,7 +83,7 @@ export function MainMenu() {
                 <aside id="footerInfo">
                     <span>by Guideian Angel</span>
                     <span>
-                        {!isTestSubdomain() ? (
+                        {isTestSubdomain() ? (
                             `(v${versionInfo?.craftdleVersion}) - Snapshot ${versionInfo?.craftdleTestVersion}`
                         ) : (
                             `v${versionInfo?.craftdleVersion}`
