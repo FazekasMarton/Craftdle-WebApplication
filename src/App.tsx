@@ -26,6 +26,7 @@ import { Stats } from "./pages/Stats/Stats"
 import { createBrowserRouter } from "react-router-dom"
 import { Achievements } from "./components/Achievement"
 import { BeforeInstallPromptEvent } from "./interfaces/IBeforeInstallPromptEvent"
+import { setError } from "./features/error/errorSlice"
 
 declare global {
     interface WindowEventMap {
@@ -212,6 +213,15 @@ export function App() {
         socket?.on("maintenance", (maintenanceData: IMaintenance) => {
             store.dispatch(setMaintenance(maintenanceData))
         })
+
+        socket?.on("disconnect", () => {
+            store.dispatch(setError("ConnectionError"))
+        })
+
+        return () => {
+            socket?.off("maintenance")
+            socket?.off("disconnect")
+        }
     }, [socket])
 
     useEffect(() => {
