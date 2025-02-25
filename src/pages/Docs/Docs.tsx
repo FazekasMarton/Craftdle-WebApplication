@@ -37,7 +37,7 @@ export function Docs() {
                         <li>The test version may contain <strong>bugs, unfinished features, or unstable mechanics</strong>.</li>
                         <li>Service availability is <strong>not ensured</strong>, and disruptions or downtime may occur.</li>
                     </ul>
-                    <p>Use this version at your own risk. We <strong>greatly appreciate</strong> any bug reports or feedback you provide. If you encounter an issue, please let us know via email at <a href="mailto:guideianangelcraftdle@gmail.com">guideianangelcraftdle@gmail.com</a>.</p>
+                    <p>Use this version at your own risk. We <b>greatly appreciate</b> any bug reports or feedback you provide. If you encounter an issue, please let us know via email at <a href="mailto:guideianangelcraftdle@gmail.com">guideianangelcraftdle@gmail.com</a>.</p>
                 </section>}
                 <section id="privacyPolicy">
                     <h2>Privacy Policy</h2>
