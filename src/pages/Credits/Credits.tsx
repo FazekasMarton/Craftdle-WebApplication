@@ -100,8 +100,6 @@ export function Credits() {
             .then(data => setCredits(data.data));
     }, []);
 
-    console.log(credits);
-
     return <Link to="/" id="credits" onClick={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}>
         <div id="creditsContainer">
             <header>
