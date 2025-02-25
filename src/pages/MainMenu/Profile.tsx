@@ -21,10 +21,10 @@ export function Profile(props: ProfileProps) {
     return <div className="account" onClick={() => {props.openAuth(true); SoundEffect.play("click")}}>
         <div className="profileBorder"
             style={profileBorder ? {
-                backgroundImage: `url(https://craftdle-backend-production.up.railway.app/assets/profileBorders/${profileBorder?.src})`
+                backgroundImage: `url(${import.meta.env.VITE_SERVER_URL}/assets/profileBorders/${profileBorder?.src})`
             } : {}}
         >
-            {profilePicture ? <img className="profilePicture" src={`https://craftdle-backend-production.up.railway.app/assets/profilePictures/${profilePicture?.src}`} alt={`Profile picture of ${profilePicture?.name}`} draggable={false}/> : null}
+            {profilePicture ? <img className="profilePicture" src={`${import.meta.env.VITE_SERVER_URL}/assets/profilePictures/${profilePicture?.src}`} alt={`Profile picture of ${profilePicture?.name}`} draggable={false}/> : null}
         </div>
         <h1 className="profileName">{username}</h1>
     </div>

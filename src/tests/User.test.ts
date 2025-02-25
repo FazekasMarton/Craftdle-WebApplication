@@ -271,7 +271,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(register(randomUser));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/register", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/register`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -299,7 +299,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(guestLogin());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/login", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -324,7 +324,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(tokenLogin());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/login", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -352,7 +352,7 @@ describe('User Slice', () => {
                     ...randomUser
                 }));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/login", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -374,7 +374,7 @@ describe('User Slice', () => {
                 const auth = btoa(`${randomUser.username}:${randomUser.loginToken}`);
                 const result = await store.dispatch(logout());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/login", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -394,7 +394,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeBody);
                 const result = await store.dispatch(forgotPassword(randomUser.email));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/password", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/password`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -418,7 +418,7 @@ describe('User Slice', () => {
                     token: "a"
                 }));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/password", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/password`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -439,7 +439,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeSettings);
                 const result = await store.dispatch(getSettings());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/settings", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/settings`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -461,7 +461,7 @@ describe('User Slice', () => {
 
                 const result = await store.dispatch(changeSettings(newSettings[0]));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith(`https://craftdle-backend-production.up.railway.app/users/settings/${newSettings[0].id}`, {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/settings/${newSettings[0].id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -482,7 +482,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeData);
                 const result = await store.dispatch(getStats());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/stats", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/stats`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -502,7 +502,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeData);
                 const result = await store.dispatch(getCollection());
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/users/collection", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/collection`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -521,7 +521,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, { message: "Settings updated successfully" });
                 const result = await store.dispatch(changeProfilePics({ profilePicture: 1, profileBorder: 2 }));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith(`https://craftdle-backend-production.up.railway.app/users/profile`, {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/users/profile`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -545,7 +545,7 @@ describe('User Slice', () => {
                 const mockFetch = getSuccceedFetchMocker(200, fakeData);
                 const result = await store.dispatch(getGamemodes("singleplayer"));
                 expect(mockFetch).toHaveBeenCalledTimes(1);
-                expect(mockFetch).toHaveBeenCalledWith("https://craftdle-backend-production.up.railway.app/game/singleplayer", {
+                expect(mockFetch).toHaveBeenCalledWith(`${import.meta.env.VITE_SERVER_URL}/game/singleplayer`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

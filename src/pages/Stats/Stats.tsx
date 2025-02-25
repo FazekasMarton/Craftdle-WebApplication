@@ -71,10 +71,10 @@ export function Stats() {
             <section className="account">
                 <div className="profileBorder"
                     style={stats?.profileBorder ? {
-                        backgroundImage: `url(https://craftdle-backend-production.up.railway.app/assets/profileBorders/${stats?.profileBorder?.src})`
+                        backgroundImage: `url(${import.meta.env.VITE_SERVER_URL}/assets/profileBorders/${stats?.profileBorder?.src})`
                     } : {}}
                 >
-                    {stats?.profilePicture ? <img className="profilePicture" src={`https://craftdle-backend-production.up.railway.app/assets/profilePictures/${stats?.profilePicture?.src}`} alt={stats?.profilePicture?.name} draggable={false}/> : null}
+                    {stats?.profilePicture ? <img className="profilePicture" src={`${import.meta.env.VITE_SERVER_URL}/assets/profilePictures/${stats?.profilePicture?.src}`} alt={stats?.profilePicture?.name} draggable={false}/> : null}
                 </div>
                 <h2 className="profileName">{stats?.username}</h2>
             </section>

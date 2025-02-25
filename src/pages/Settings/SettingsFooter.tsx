@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
  */
 interface SettingsFooterProps {
     profile: number;
-    profiles: Array<ISettings>;
+    profiles: Array<ISettings> | null;
     originalSettings: Array<ISettings> | null;
     setSettings: (value: Array<ISettings>) => void;
 }
@@ -37,7 +37,7 @@ function removeIsSet(obj: ISettings | null) {
 export function SettingsFooter(props: SettingsFooterProps) {
     let saveable = !isEqual(
         removeIsSet(props.originalSettings && props.originalSettings[props.profile]),
-        removeIsSet(props.profiles[props.profile])
+        removeIsSet(props.profiles && props.profiles[props.profile])
     );
 
     function save(currentSettings: ISettings[], originalSettings: ISettings[]) {
@@ -70,9 +70,9 @@ export function SettingsFooter(props: SettingsFooterProps) {
                 }
             }}>Cancel</StoneButton>
             <StoneButton disabled={!saveable} onClick={() => {
-                save(props.profiles, props.originalSettings || [])
+                props.profiles && save(props.profiles, props.originalSettings || [])
             }}>Save</StoneButton>
-            <StoneButton disabled={props.profiles[props.profile].isSet} onClick={() => {
+            <StoneButton disabled={props.profiles ? props.profiles[props.profile].isSet : undefined} onClick={() => {
                 const settedSettings = set()
                 save(settedSettings.newSettings, settedSettings.originalSettings);
             }}>{saveable ? "Save & Set" : "Set"}</StoneButton>

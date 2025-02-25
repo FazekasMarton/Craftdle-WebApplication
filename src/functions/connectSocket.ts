@@ -8,7 +8,7 @@ import { setSocket } from "../features/socket/socketSlice";
 export function connectSocket() {
     store.getState().socket.socket?.disconnect()
     const token = store.getState().user.loginToken;
-    const socket: Socket = io("https://craftdle-backend-production.up.railway.app", {
+    const socket: Socket = io(import.meta.env.VITE_SERVER_URL, {
         auth: {
             token: token
         }
