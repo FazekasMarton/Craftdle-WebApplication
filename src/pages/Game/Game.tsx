@@ -134,10 +134,9 @@ export function Game() {
             setMaxHearts(data.hearts)
             setResult(data.result)
             setTableContent(Array.from({ length: craftingTableSize }, () => Array(3).fill(null)))
-            if (data.tips.length > 0) {
+            if (!data.items || !data.recipes) {
                 if (gamemodeId == "7" && !data.result) {
                     SoundEffect.play("hit")
-
                 } else {
                     SoundEffect.play("drop")
                 }
