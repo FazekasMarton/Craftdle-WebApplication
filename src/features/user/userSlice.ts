@@ -34,10 +34,12 @@ const initialState: UserState = {
  * @param userData - The user data to save.
  */
 function save(userData: UserState) {
+    const { settings, installed, ...userDataToSave } = userData;
+
     let storage = userData.stayLoggedIn ? localStorage : sessionStorage
 
-    Object.entries(userData).forEach(([key, value]) => {
-        const storedValue = typeof value === 'object' ? JSON.stringify(value) : value;
+    Object.entries(userDataToSave).forEach(([key, value]) => {
+        const storedValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
         storage.setItem(key, storedValue);
     });
 }
