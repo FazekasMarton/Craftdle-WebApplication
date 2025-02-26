@@ -1,0 +1,75 @@
+{
+  "name": "Craftdle",
+  "short_name": "Craftdle",
+  "description": "Craftdle is an engaging puzzle game where you solve crafting riddles by guessing recipes.\nThe game offers a variety of modes including Classic, All in One, and Pocket.\nThe app supports both PC and mobile interfaces.\nReceive hints and feedback on your guesses to improve your crafting skills.",
+  "icons": [
+    {
+      "src": "/imgs/logos/default/craftdle_icon_small.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/imgs/logos/default/craftdle_icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/imgs/screenshots/MenuMobile.png",
+      "sizes": "538x1106",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/GamemodesMobile.png",
+      "sizes": "538x1106",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/TutorialMobile.png",
+      "sizes": "538x1106",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/CollectionMobile.png",
+      "sizes": "538x1106",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/MenuPC.png",
+      "sizes": "1919x1199",
+      "form_factor": "wide",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/GamemodesPC.png",
+      "sizes": "1919x1199",
+      "form_factor": "wide",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/TutorialPC.png",
+      "sizes": "1919x1199",
+      "form_factor": "wide",
+      "type": "image/png",
+      "label": "Application"
+    },
+    {
+      "src": "/imgs/screenshots/CollectionPC.png",
+      "sizes": "1919x1199",
+      "form_factor": "wide",
+      "type": "image/png",
+      "label": "Application"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3b8427",
+  "theme_color": "transparent"
+}

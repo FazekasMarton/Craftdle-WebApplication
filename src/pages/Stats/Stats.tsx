@@ -84,7 +84,7 @@ export function Stats() {
                     <article>
                         <p>Streak: {stats?.streak}</p>
                         <p>Registration Date: {stats?.registrationDate}</p>
-                        <p>Performed Achievements: {stats?.performedAchievements?.collected}/{stats?.performedAchievements?.collectable}</p>
+                        <p>Earned Achievements: {stats?.performedAchievements?.collected}/{stats?.performedAchievements?.collectable}</p>
                         <p>Collected Recipes: {stats?.collectedRecipes?.collected}/{stats?.collectedRecipes?.collectable}</p>
                     </article>
                 </section>
