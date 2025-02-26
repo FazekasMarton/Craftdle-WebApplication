@@ -21,7 +21,7 @@ interface UserState {
 const initialState: UserState = {
     username: null,
     loginToken: null,
-    isGuest: false,
+    isGuest: localStorage.getItem('isGuest') === null,
     stayLoggedIn: false,
     profilePicture: null,
     profileBorder: null,

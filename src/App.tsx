@@ -120,12 +120,12 @@ const generalRouter = createBrowserRouter([
                     />
                     <Collection />
                 </>
+            },
+            {
+                path: "*",
+                element: <Navigate to="/" />
             }
         ]
-    },
-    {
-        path: "*",
-        element: <Navigate to="/" />
     }
 ])
 
