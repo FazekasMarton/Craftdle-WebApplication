@@ -29,9 +29,11 @@ export function Settings() {
         }
     }, [originalSettings])
 
+    console.log(originalSettings)
+
     return <main id="settings">
-        <SettingsHeader activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
-        <SettingsMain setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />
-        <SettingsFooter setSettings={setModifiedSettings} originalSettings={originalSettings} profiles={modifiedSettings} profile={activeProfile} />
+        <SettingsHeader key={`${originalSettings ? "availableSetting" : "noSettings"}Header`} activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
+        <SettingsMain key={`${originalSettings ? "availableSetting" : "noSettings"}Main`} setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />
+        <SettingsFooter key={`${originalSettings ? "availableSetting" : "noSettings"}Footer`} setSettings={setModifiedSettings} originalSettings={originalSettings} profiles={modifiedSettings} profile={activeProfile} />
     </main>
 }
