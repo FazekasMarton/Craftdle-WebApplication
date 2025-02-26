@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { SettingsFooter } from "./SettingsFooter";
 import { SettingsHeader } from "./SettingsHeader";
@@ -12,7 +12,7 @@ import { loadSettings } from "../../functions/loadSettings";
  * @returns The Settings component.
  */
 export function Settings() {
-    const originalSettings = useSelector((state: RootState) => state.user.settings);
+    const originalSettings = useSelector((state: RootState) => state.user.settings, shallowEqual);
     const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings> | null>(structuredClone(originalSettings))
     const [activeProfile, setActiveProfile] = useState<number>(originalSettings?.findIndex(s => s.isSet) ?? 0)
 
@@ -32,8 +32,8 @@ export function Settings() {
     console.log(originalSettings)
 
     return <main id="settings">
-        <SettingsHeader key={`${originalSettings ? "availableSetting" : "noSettings"}Header`} activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
-        <SettingsMain key={`${originalSettings ? "availableSetting" : "noSettings"}Main`} setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />
-        <SettingsFooter key={`${originalSettings ? "availableSetting" : "noSettings"}Footer`} setSettings={setModifiedSettings} originalSettings={originalSettings} profiles={modifiedSettings} profile={activeProfile} />
+        <SettingsHeader activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />
+        <SettingsMain setSettings={setModifiedSettings} profiles={modifiedSettings} profile={activeProfile} />
+        <SettingsFooter setSettings={setModifiedSettings} originalSettings={originalSettings} profiles={modifiedSettings} profile={activeProfile} />
     </main>
 }
