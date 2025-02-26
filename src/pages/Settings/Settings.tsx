@@ -23,11 +23,11 @@ export function Settings() {
     }, [])
 
     useEffect(() => {
-        if (!modifiedSettings) {
-            setModifiedSettings(structuredClone(originalSettings))
-            setActiveProfile(originalSettings?.findIndex(s => s.isSet) ?? 0)
+        if (originalSettings && modifiedSettings === null) {
+            setModifiedSettings(structuredClone(originalSettings));
+            setActiveProfile(originalSettings.findIndex(s => s.isSet) ?? 0);
         }
-    }, [originalSettings])
+    }, [originalSettings]);    
 
     console.log(originalSettings)
 
