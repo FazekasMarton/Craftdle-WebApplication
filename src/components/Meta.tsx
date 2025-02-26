@@ -41,6 +41,7 @@ export function Meta(props: MetaProps) {
             <meta name="revisit-after" content="1 Week" />
             <meta name="author" content="Guideian Angel" />
             <meta name="distribution" content="global" />
+            <meta name="google-site-verification" content="UsJ5_1yXJd68Wo-khNecqye_L5d-_tux0A4XWORieZs" />
         </Helmet>
     );
 }
