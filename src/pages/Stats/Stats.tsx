@@ -65,7 +65,7 @@ export function Stats() {
             <nav>
                 <StoneButton href="/">Back to Menu</StoneButton>
             </nav>
-            <h1>Statistic</h1>
+            <h1>Statistics</h1>
         </header>
         <main id="statsMain">
             <section className="account">
