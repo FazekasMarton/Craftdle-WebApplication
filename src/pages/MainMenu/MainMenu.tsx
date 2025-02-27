@@ -121,12 +121,12 @@ export function MainMenu() {
                     <span>by Guideian Angel</span>
                     <span>
                         {isTestSubdomain() ? (
-                            `(v${versionInfo?.craftdleVersion}) - Snapshot ${versionInfo?.craftdleTestVersion}`
+                            `(v${versionInfo?.craftdleVersion || "Unknown"}) - Snapshot ${versionInfo?.craftdleTestVersion}`
                         ) : (
-                            `v${versionInfo?.craftdleVersion}`
+                            `v${versionInfo?.craftdleVersion || "Unknown"}`
                         )}
                     </span>
-                    <span>for Minecraft: {[versionInfo?.minecraftVersion, versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
+                    <span>for Minecraft: {[versionInfo?.minecraftVersion || "Unknown", versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
                 </aside>
                 <small id="disclaimer">
                     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT
