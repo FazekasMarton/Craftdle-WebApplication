@@ -117,16 +117,18 @@ export function MainMenu() {
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false} /></StoneButton>
             </nav>
             <footer>
-                <aside id="footerInfo">
+                <aside id="footerInfo" style={{
+                    visibility: versionInfo ? "visible" : "hidden"
+                }}>
                     <span>by Guideian Angel</span>
                     <span>
                         {isTestSubdomain() ? (
-                            `(v${versionInfo?.craftdleVersion || "Unknown"}) - Snapshot ${versionInfo?.craftdleTestVersion}`
+                            `(v${versionInfo?.craftdleVersion}) - Snapshot ${versionInfo?.craftdleTestVersion}`
                         ) : (
-                            `v${versionInfo?.craftdleVersion || "Unknown"}`
+                            `v${versionInfo?.craftdleVersion}`
                         )}
                     </span>
-                    <span>for Minecraft: {[versionInfo?.minecraftVersion || "Unknown", versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
+                    <span>for Minecraft: {[versionInfo?.minecraftVersion, versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
                 </aside>
                 <small id="disclaimer">
                     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT
