@@ -4,7 +4,7 @@ import { Title } from "./Title"
 import news from "../../assets/imgs/icons/news.png"
 import lock from "../../assets/imgs/icons/lock.png"
 import stats from "../../assets/imgs/icons/stats.png"
-import settings from "../../assets/imgs/icons/settings.png"
+import download from "../../assets/imgs/icons/install.png"
 import { Profile } from "./Profile"
 import { useEffect, useState } from "react"
 import { UserAuth } from "./UserAuth"
@@ -28,6 +28,42 @@ interface VersionInfo {
     minecraftVersionName: string
 }
 
+function compareVersionInfos(a: VersionInfo, b: VersionInfo): VersionInfo {
+    const result: VersionInfo = {
+        craftdleVersion: compareVersions(a.craftdleVersion, b.craftdleVersion),
+        craftdleTestVersion: compareVersions(a.craftdleTestVersion, b.craftdleTestVersion),
+        minecraftVersion: compareVersions(a.minecraftVersion, b.minecraftVersion),
+        minecraftVersionName: a.minecraftVersionName
+    }
+    if(result.minecraftVersion === b.minecraftVersion) {
+        result.minecraftVersionName = b.minecraftVersionName;
+    }
+    return result
+}
+
+function compareVersions(a: string, b: string) {
+    const aParts = a.replace(/[wdv]/g, ".").replace("Java Edition ", "").split(".").map(Number);
+    const bParts = b.replace(/[wdv]/g, ".").replace("Java Edition ", "").split(".").map(Number);
+    const maxLength = Math.max(aParts.length, bParts.length);
+    for (let i = 0; i < maxLength; i++) {
+        const aPart = aParts[i] ?? 0;
+        const bPart = bParts[i] ?? 0;
+        if (aPart > bPart) return a;
+        if (aPart < bPart) return b;
+    }
+    return a;
+}
+
+async function getVersionInfos() {
+    const backendResponse = await fetch(`${import.meta.env.VITE_SERVER_URL}/version`)
+    const backendVersion = await backendResponse.json();
+
+    const frontendResponse = await fetch("/version.json")
+    const frontendVersion= await (frontendResponse).json();
+
+    return compareVersionInfos(frontendVersion, backendVersion);
+}
+
 /**
  * MainMenu component to display the main menu of the application.
  * @returns The MainMenu component.
@@ -49,9 +85,10 @@ export function MainMenu() {
     };
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_SERVER_URL}/version`)
-            .then(res => res.json())
-            .then(data => setVersionInfo(data));
+        (async () => {
+            const versionInfo = await getVersionInfos();
+            setVersionInfo(versionInfo);
+        })();
     }, []);
 
     return <main id="mainMenu">
@@ -67,16 +104,16 @@ export function MainMenu() {
             </nav>
             <nav id="additionalButtons" aria-label="Additional Menu">
                 <StoneButton href="/guide">How to Play</StoneButton>
-                <StoneButton href="https://patreon.com/Craftdle">Support Us</StoneButton>
+                <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}>Settings</StoneButton>
                 <StoneButton href="/credits">Credits</StoneButton>
-                {install ? <StoneButton onClick={handleInstallClick}>Install App</StoneButton> : <StoneButton href="/patchNotes">Patch Notes</StoneButton>}
+                <StoneButton href="https://patreon.com/Craftdle">Support Us</StoneButton>
             </nav>
             <nav id="leftSideButtons" className="sideButtons" aria-label="Settings and Statistics">
                 <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" draggable={false} /></StoneButton>
-                <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={settings} alt="Settings" draggable={false} /></StoneButton>
+                {install && <StoneButton onClick={handleInstallClick}><img src={download} alt="Install App" /></StoneButton>}
             </nav>
             <nav id="rightSideButtons" className="sideButtons" aria-label="News and Privacy Policy">
-                {install && <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" draggable={false} /></StoneButton>}
+                <StoneButton href="/patchNotes"><img src={news} alt="Patch Notes" draggable={false} /></StoneButton>
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false} /></StoneButton>
             </nav>
             <footer>

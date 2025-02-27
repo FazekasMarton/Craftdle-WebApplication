@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { DefaultSettings } from "../../classes/DefaultSettings";
 import { removeEmptyRows } from "../../functions/craft";
+import shapeless from "../../assets/imgs/icons/shapeless_icon.png";
 
 interface KnowledgeBookProps {
     recipes: IRecipeCollection;
@@ -265,6 +266,7 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                 <div className="recipeSlot recipeItem" style={{ width: size, height: size }}>
                                     <Item item={props.items.getItem(recipeInfo.id)} />
                                 </div>
+                                {recipeInfo.shapeless && <img className="shapelessIcon" src={shapeless} alt="Shapeless" />}
                                 {
                                     recipeGroup.length > 1 || Math.max(...recipe.flat().map(slot => slot?.length || 0)) > 1 ? (
                                         <>
