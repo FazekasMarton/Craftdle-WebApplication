@@ -6,10 +6,11 @@ import { Item } from "./Item";
 import arrow from "../../assets/imgs/icons/arrow.png";
 import { SoundEffect } from "../../classes/Audio";
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState, store } from "../../app/store";
 import { DefaultSettings } from "../../classes/DefaultSettings";
 import { removeEmptyRows } from "../../functions/craft";
 import shapeless from "../../assets/imgs/icons/shapeless_icon.png";
+import { deleteInfo, setInfo } from "../../features/info/infoSlice";
 
 interface KnowledgeBookProps {
     recipes: IRecipeCollection;
@@ -228,7 +229,7 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                             <div className="recipeContent slotButton"
                                 key={recipeGroupName}
                                 onClick={!props.result ? (e: React.MouseEvent<HTMLDivElement>) => {
-                                    if(!(e.target as HTMLElement).classList.contains("recipeButton")) {
+                                    if (!(e.target as HTMLElement).classList.contains("recipeButton")) {
                                         const craftingTable: Array<Array<HTMLImageElement | null>> = Array.from({ length: 3 }).map(() => Array.from({ length: 3 }).map(() => null));
                                         recipe.forEach((row, rowIndex) => {
                                             row.forEach((slot, colIndex) => {
@@ -240,7 +241,13 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                         props.setCraftingTable(craftingTable);
                                         SoundEffect.play("click");
                                     }
-                                }: () => {}}
+                                } : () => { }}
+                                onMouseMove={(e) => {
+                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeInfo.name }));
+                                }}
+                                onMouseLeave={() => {
+                                    store.dispatch(deleteInfo())
+                                }}
                                 style={{
                                     display: isSearchResult(recipeGroup, search, props.itemCollection) ? "grid" : "none",
                                 }}
@@ -270,8 +277,14 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                 {
                                     recipeGroup.length > 1 || Math.max(...recipe.flat().map(slot => slot?.length || 0)) > 1 ? (
                                         <>
-                                            <div className="recipeCardPrevious recipeButton" onClick={() => { decrementCounter(); SoundEffect.play("click") }} />
-                                            <div className="recipeCardNext recipeButton" onClick={() => { incrementCounter(); SoundEffect.play("click") }} />
+                                            <div className="recipeCardPrevious recipeButton" onClick={(e) => {
+                                                decrementCounter(); SoundEffect.play("click");
+                                                store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex - 1 < 0 ? recipeGroup.length - 1 : recipeGroupIndex - 1].name }))
+                                            }} />
+                                            <div className="recipeCardNext recipeButton" onClick={(e) => {
+                                                incrementCounter(); SoundEffect.play("click");
+                                                store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex + 1].name }))
+                                            }} />
                                         </>
                                     ) : null
                                 }
