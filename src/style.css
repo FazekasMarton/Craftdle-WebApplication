@@ -629,7 +629,7 @@ body,
 }
 
 #disclaimer {
-    margin: 0;
+    margin: 0 0 0 auto;
     font-size: 10px;
     text-align: end;
     justify-self: end;
@@ -1784,6 +1784,10 @@ input:-webkit-autofill:focus {
 }
 
 #patchNotes h2 {
+    color: var(--LightPurple);
+}
+
+#patchNotes h3 {
     color: var(--Aqua);
 }
 

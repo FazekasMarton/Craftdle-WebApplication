@@ -17,7 +17,7 @@ export function Meta(props: MetaProps) {
             <title>{props.title ? `${props.title} - ` : ""}Craftdle{isTest ? " Test" : ""}</title>
             <meta
                 name="description"
-                content={props.description || "Craftdle is a Minecraft-inspired word puzzle game. Guess the word by crafting items and using hints. Play now on PC or mobile."}
+                content={props.description || "Craftdle is a Minecraft-inspired word puzzle game. Guess the crafting recipe by crafting items and using hints. Play now on PC or mobile."}
             />
             <meta
                 name="keywords"
