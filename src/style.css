@@ -56,7 +56,9 @@
     border-right: 2px solid rgb(57, 56, 56);
     border-bottom: 2px solid rgb(51, 50, 50);
     border-left: 2px solid rgb(255, 254, 254);
-    background-color: rgb(194, 195, 195);
+    background-color: #C6C6C6;
+    background-image: url("./assets/imgs/backgrounds/scroller.png");
+    background-size: contain;
 }
 
 @media (pointer:coarse) {
@@ -614,8 +616,8 @@ body,
 
 #mainMenu footer {
     grid-area: footer;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: space-between;
     gap: 15px;
     padding: 5px;
 }
@@ -623,6 +625,7 @@ body,
 #footerInfo {
     display: flex;
     flex-direction: column;
+    white-space: nowrap;
 }
 
 #disclaimer {
@@ -1146,7 +1149,7 @@ input:-webkit-autofill:focus {
     height: 8vh;
 }
 
-.hintContainer{
+.hintContainer {
     flex-basis: 100%;
 }
 
@@ -1256,7 +1259,7 @@ input:-webkit-autofill:focus {
     grid-template-columns: 3vmin auto auto auto 3vmin;
     grid-template-rows: 1fr auto 1fr;
     grid-template-areas:
-        "previous recipeTable . . next"
+        "previous recipeTable . shapelessIcon next"
         "previous recipeTable craftingArrow craftedItem next"
         "previous recipeTable . . next";
     gap: 2vmin;
@@ -1272,6 +1275,12 @@ input:-webkit-autofill:focus {
 
 .recipeItem {
     grid-area: craftedItem;
+}
+
+.shapelessIcon{
+    grid-area: shapelessIcon;
+    width: 3vmin;
+    justify-self: end;
 }
 
 .recipeButton {
@@ -2148,6 +2157,14 @@ input:-webkit-autofill:focus {
         align-self: self-end;
     }
 
+    #footerInfo {
+        font-size: 10px;
+    }
+
+    #disclaimer {
+        font-size: 7px;
+    }
+
     /* --- Settings --- */
 
     #settingsHeader>nav>*,
@@ -2282,7 +2299,7 @@ input:-webkit-autofill:focus {
         padding: 5px;
     }
 
-    .hintContent{
+    .hintContent {
         font-size: 3vmin;
     }
 

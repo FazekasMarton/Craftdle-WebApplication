@@ -125,7 +125,6 @@ export function Game() {
         startGame(gamemodeId, store.getState().game.newGame)
 
         socket?.on("guess", (data: IGuess) => {
-            console.log(data)
             if(data.items || data.recipes){
                 loadImages(data)
             }

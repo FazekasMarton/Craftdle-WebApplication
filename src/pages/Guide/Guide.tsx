@@ -122,7 +122,7 @@ export function Guide() {
                         <h4>Remove</h4>
                         <video src={removeControl} autoPlay loop muted />
                         <p>
-                            You can remove an item from the Crafting Table with by pressing the <b>right mouse button</b>.
+                            You can remove an item from the Crafting Table by pressing the <b>right mouse button</b>.
                         </p>
                     </article>
                     <article id="controlPlace">
@@ -141,7 +141,7 @@ export function Guide() {
                     </article>
                 </div>
                 <p>
-                    In default, Tap Mode is disabled in PC, but on Mobile it's the only one that enable. (You can enable Tap Mode on PC in the settings.)
+                By default, Tap Mode is disabled on PC, but on mobile, it is the only available mode. (You can enable Tap Mode on PC in the settings.)
                 </p>
             </section>
             <section id="gameplayGuide">
@@ -190,7 +190,7 @@ export function Guide() {
                     <article id="outcome">
                         <h3>Outcome</h3>
                         <p>
-                            After you guess, you'll find out how many materials were correct
+                            After you guess, you will find out how many materials were correct
                             in the recipe, with three types of indications:
                         </p>
                         <ul>
@@ -198,7 +198,7 @@ export function Guide() {
                                 <b className="indicator" id="redIndicator">Red</b>: The materials marked in red are not in the recipe.
                             </li>
                             <li>
-                                <b className="indicator" id="yellowIndicator">Yellow</b>: The materials marked in yellow are in the recipe but in the wrong place.
+                                <b className="indicator" id="yellowIndicator">Yellow</b>: The materials marked in yellow are in the recipe but in a different place.
                             </li>
                             <li>
                                 <b className="indicator" id="greenIndicator">Green</b>: The materials marked in green are in the recipe and in the correct place.
@@ -238,8 +238,7 @@ export function Guide() {
                     <div>Based on: Classic Mode</div>
                     <div>Rule changes: </div>
                     <ul>
-                        <li>Recipes: Scripted</li>
-                        <li>Inventory: Scripted</li>
+                        <li>Riddle: Scripted</li>
                     </ul>
                 </article>
                 <article id="dailyMode">
@@ -248,6 +247,7 @@ export function Guide() {
                     <div>Rule changes: </div>
                     <ul>
                         <li>Play Limit: 1 per day</li>
+                        <li>Riddle: New riddle on every day, but same for everyone</li>
                     </ul>
                 </article>
                 <article id="allInOneMode">

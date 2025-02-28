@@ -120,12 +120,12 @@ const generalRouter = createBrowserRouter([
                     />
                     <Collection />
                 </>
+            },
+            {
+                path: "*",
+                element: <Navigate to="/" />
             }
         ]
-    },
-    {
-        path: "*",
-        element: <Navigate to="/" />
     }
 ])
 
@@ -227,7 +227,13 @@ export function App() {
     useEffect(() => {
         const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
             e.preventDefault();
-            store.dispatch(setInstalled(e));
+
+            const isSupported = 'serviceWorker' in navigator || 'beforeinstallprompt' in window;
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isIOSStandalone = (window.navigator as any).standalone === true;
+
+            const isAvailable = isSupported && !isStandalone && !isIOSStandalone
+            store.dispatch(setInstalled(isAvailable ? e : null));
         };
 
         window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
