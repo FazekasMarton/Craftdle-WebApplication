@@ -81,7 +81,9 @@ export function MainMenu() {
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false} /></StoneButton>
             </nav>
             <footer>
-                <aside id="footerInfo">
+                <aside id="footerInfo" style={{
+                    display: backendVersionInfo ? "flex" : "none"
+                }}>
                     <span>by Guideian Angel</span>
                     <span>FE: v{isTestSubdomain() ? (
                         `(${version}) - Snapshot ${snapshot}`

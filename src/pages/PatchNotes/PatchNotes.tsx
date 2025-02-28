@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { StoneButton } from "../../components/StoneButton"
 
+const updateTypes = ["server", "reactEdition"] as const;
+type UpdateType = (typeof updateTypes)[number];
+
 interface PatchNote {
+    date: string;
+    updates: Partial<{ [key in UpdateType]: Update }>;
+}
+
+interface Update {
     version: string,
-    date: string,
     changes: Array<string | Array<string | Array<string>>>
 }
 
@@ -30,6 +37,12 @@ function changeFormatter(text: string) {
     return result;
 }
 
+function formatTitle(text: string): string {
+    return text
+        .replace(/([a-z])([A-Z])/g, '$1 $2') // camelCase szétszedése
+        .replace(/[_-]/g, ' ') // snake_case és kebab-case szétszedése
+        .replace(/\b\w/g, char => char.toUpperCase()); // Minden szó nagybetűsítése
+}
 
 /**
  * PatchNotes component to display the patch notes.
@@ -54,32 +67,38 @@ export function PatchNotes() {
                 <div id="leftChain" className="chain"></div>
                 <div id="rightChain" className="chain"></div>
                 {patchNotes.reverse().map((patchNote, index) => {
-                    return <article key={index} className="patchNote">
-                        <h2>v{patchNote.version} - {patchNote.date}</h2>
-                        <ul>
-                            {patchNote.changes.map((change, index) => {
-                                return <li key={index}>
-                                    {Array.isArray(change) ? (
-                                        change.map((subChange, index) => {
-                                            return Array.isArray(subChange) ? (
-                                                <ul key={index}>
-                                                    {subChange.map((subSubChange, index) => {
-                                                        return <li key={index}>
-                                                            {changeFormatter(subSubChange)}
-                                                        </li>
-                                                    })}
-                                                </ul>
+                    return <section key={index} className="patchNote">
+                        <h2>{patchNote.date}</h2>
+                        {updateTypes.map((key) => {
+                            const patch = patchNote.updates[key]
+                            return patch && <article key={key}>
+                                <h3>{formatTitle(key)} - v{patch.version}</h3>
+                                <ul>
+                                    {patch.changes.map((change, index) => {
+                                        return <li key={index}>
+                                            {Array.isArray(change) ? (
+                                                change.map((subChange, index) => {
+                                                    return Array.isArray(subChange) ? (
+                                                        <ul key={index}>
+                                                            {subChange.map((subSubChange, index) => {
+                                                                return <li key={index}>
+                                                                    {changeFormatter(subSubChange)}
+                                                                </li>
+                                                            })}
+                                                        </ul>
+                                                    ) : (
+                                                        changeFormatter(subChange)
+                                                    )
+                                                })
                                             ) : (
-                                                changeFormatter(subChange)
-                                            )
-                                        })
-                                    ) : (
-                                        changeFormatter(change)
-                                    )}
-                                </li>
-                            })}
-                        </ul>
-                    </article>
+                                                changeFormatter(change)
+                                            )}
+                                        </li>
+                                    })}
+                                </ul>
+                            </article>
+                        })}
+                    </section>
                 })}
             </div>
         </main>
