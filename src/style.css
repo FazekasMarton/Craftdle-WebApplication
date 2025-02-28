@@ -616,8 +616,8 @@ body,
 
 #mainMenu footer {
     grid-area: footer;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: space-between;
     gap: 15px;
     padding: 5px;
 }
@@ -625,6 +625,7 @@ body,
 #footerInfo {
     display: flex;
     flex-direction: column;
+    white-space: nowrap;
 }
 
 #disclaimer {
@@ -2154,6 +2155,14 @@ input:-webkit-autofill:focus {
     #craftleTitle,
     #menu footer {
         align-self: self-end;
+    }
+
+    #footerInfo {
+        font-size: 10px;
+    }
+
+    #disclaimer {
+        font-size: 7px;
     }
 
     /* --- Settings --- */

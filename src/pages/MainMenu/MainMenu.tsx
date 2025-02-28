@@ -14,6 +14,7 @@ import { MaintenanceNotice } from "./MaintenanceNotice"
 import { BeforeInstallPromptEvent } from "../../interfaces/IBeforeInstallPromptEvent"
 import { setInstalled } from "../../features/user/userSlice"
 import { isTestSubdomain } from "../../functions/isTestSubdomain"
+import { version, snapshot } from "../../../package.json"
 
 declare global {
     interface WindowEventMap {
@@ -22,46 +23,10 @@ declare global {
 }
 
 interface VersionInfo {
-    craftdleVersion: string,
-    craftdleTestVersion: string,
+    version: string,
+    snapshot: string,
     minecraftVersion: string,
     minecraftVersionName: string
-}
-
-function compareVersionInfos(a: VersionInfo, b: VersionInfo): VersionInfo {
-    const result: VersionInfo = {
-        craftdleVersion: compareVersions(a.craftdleVersion, b.craftdleVersion),
-        craftdleTestVersion: compareVersions(a.craftdleTestVersion, b.craftdleTestVersion),
-        minecraftVersion: compareVersions(a.minecraftVersion, b.minecraftVersion),
-        minecraftVersionName: a.minecraftVersionName
-    }
-    if(result.minecraftVersion === b.minecraftVersion) {
-        result.minecraftVersionName = b.minecraftVersionName;
-    }
-    return result
-}
-
-function compareVersions(a: string, b: string) {
-    const aParts = a.replace(/[wdv]/g, ".").replace("Java Edition ", "").split(".").map(Number);
-    const bParts = b.replace(/[wdv]/g, ".").replace("Java Edition ", "").split(".").map(Number);
-    const maxLength = Math.max(aParts.length, bParts.length);
-    for (let i = 0; i < maxLength; i++) {
-        const aPart = aParts[i] ?? 0;
-        const bPart = bParts[i] ?? 0;
-        if (aPart > bPart) return a;
-        if (aPart < bPart) return b;
-    }
-    return a;
-}
-
-async function getVersionInfos() {
-    const backendResponse = await fetch(`${import.meta.env.VITE_SERVER_URL}/version`)
-    const backendVersion = await backendResponse.json();
-
-    const frontendResponse = await fetch("/version.json")
-    const frontendVersion= await (frontendResponse).json();
-
-    return compareVersionInfos(frontendVersion, backendVersion);
 }
 
 /**
@@ -70,7 +35,7 @@ async function getVersionInfos() {
  */
 export function MainMenu() {
     const [authForm, setUserForm] = useState(false)
-    const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null)
+    const [backendVersionInfo, setBackendVersionInfo] = useState<VersionInfo | null>(null)
     const user = useSelector((state: RootState) => state.user);
     const maintenance = useSelector((state: RootState) => state.maintenance);
     const install = useSelector((state: RootState) => state.user.installed);
@@ -85,10 +50,9 @@ export function MainMenu() {
     };
 
     useEffect(() => {
-        (async () => {
-            const versionInfo = await getVersionInfos();
-            setVersionInfo(versionInfo);
-        })();
+        fetch(`${import.meta.env.VITE_SERVER_URL}/version`)
+            .then(response => response.json())
+            .then(data => setBackendVersionInfo(data))
     }, []);
 
     return <main id="mainMenu">
@@ -117,18 +81,19 @@ export function MainMenu() {
                 <StoneButton href="/docs"><img src={lock} alt="Privacy Policy and Terms of Use" draggable={false} /></StoneButton>
             </nav>
             <footer>
-                <aside id="footerInfo" style={{
-                    visibility: versionInfo ? "visible" : "hidden"
-                }}>
+                <aside id="footerInfo">
                     <span>by Guideian Angel</span>
-                    <span>
-                        {isTestSubdomain() ? (
-                            `(v${versionInfo?.craftdleVersion}) - Snapshot ${versionInfo?.craftdleTestVersion}`
-                        ) : (
-                            `v${versionInfo?.craftdleVersion}`
-                        )}
-                    </span>
-                    <span>for Minecraft: {[versionInfo?.minecraftVersion, versionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
+                    <span>FE: v{isTestSubdomain() ? (
+                        `(${version}) - Snapshot ${snapshot}`
+                    ) : (
+                        version
+                    )}</span>
+                    <span>BE: v{isTestSubdomain() ? (
+                        `(${backendVersionInfo?.version}) - Snapshot ${backendVersionInfo?.snapshot}`
+                    ) : (
+                        backendVersionInfo?.version
+                    )}</span>
+                    <span>for Minecraft: {[backendVersionInfo?.minecraftVersion, backendVersionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
                 </aside>
                 <small id="disclaimer">
                     NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT
