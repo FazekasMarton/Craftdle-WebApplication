@@ -9,6 +9,7 @@ import { deleteInfo, setInfo } from "../features/info/infoSlice";
  */
 interface StoneButtonProps {
     href?: string;
+    newTab?: boolean;
     children: ReactNode;
     disabled?: true | boolean;
     onClick?: () => void;
@@ -26,7 +27,7 @@ interface StoneButtonProps {
  */
 export function StoneButton(props: StoneButtonProps) {
     return (
-        <Border href={props.href} disabled={props.disabled} onClick={props.onClick} info={props.info}>
+        <Border href={props.href} newTab={props.newTab} disabled={props.disabled} onClick={props.onClick} info={props.info}>
             <button
                 style={props.disabled ? { opacity: 0.3 } : {}}
                 disabled={props.disabled ? true : false}
@@ -63,7 +64,7 @@ function Border(props: StoneButtonProps) {
     };
 
     return props.href ? (
-        <Link {...commonProps} to={props.href}>
+        <Link {...commonProps} to={props.href} target={props.newTab ? "_blank" : undefined}>
             {props.children}
         </Link>
     ) : (
