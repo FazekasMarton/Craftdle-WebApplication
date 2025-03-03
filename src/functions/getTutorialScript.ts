@@ -22,13 +22,13 @@ export function getTutorialScript() {
         {
             guess: "armorStand0",
             requiredControl: ["Copy"],
-            text: `Great! As you can see, there is no {{wood}} or {{log}} in the {{riddle}}. Let's craft an {{armor stand}}. Pick up the {{stick}} and {{copy it}} to the {{crafting table}} with the {{${settings?.controls.copy} key}}. If you don't know how to craft an item, you can look it up in the {{recipe book}}.`,
+            text: `Great! As you can see, there is no {{wood}} or {{log}} in the {{riddle}}. Let's craft an {{armor stand}}. Pick up the {{stick}} and {{copy it}} to the {{crafting table}} by {{holding}} the {{${settings?.controls.copy} key}}. If you don't know how to craft an item, you can look it up in the {{Knowledge Book}}.`,
             help: `You have to {{copy}} the {{stick}} on the {{crafting table}}, to craft an {{armor stand}}.`
         },
         {
             guess: "rail0",
             requiredControl: ["Place"],
-            text: `Good job! Now we know there are two {{sticks}} in the {{riddle}} and we know one of its places. Let's craft a {{rail}} to see if there are any {{iron ingots}} in the {{riddle}}. {{Place}} the materials on the crafting table with the {{${settings?.controls.tableMapping.slice(0, 8).join(", ")}}} and {{${settings?.controls.tableMapping[8]} keys}}.`,
+            text: `Good job! Now we know there are two {{sticks}} in the {{riddle}} and we know one of its places. Let's craft a {{rail}} to see if there are any {{iron ingots}} in the {{riddle}}. {{Place}} the materials on the crafting table by hovering them and pressing the {{${settings?.controls.tableMapping.slice(0, 8).join(", ")}}} and {{${settings?.controls.tableMapping[8]} keys}}.`,
             help: `You have to {{place}} the {{materials}} on the {{crafting table}}, to craft a {{rail}}.`
         },
         {
