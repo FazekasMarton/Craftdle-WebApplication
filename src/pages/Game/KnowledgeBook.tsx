@@ -152,6 +152,7 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
     const currentSettings = customSettings || DefaultSettings.getDefaultSettings();
     const [search, setSearch] = useState("");
     const size = `${currentSettings.imagesSize / 25 + 2.5}vmin`;
+    const buttonSize = `${currentSettings.imagesSize / 50 + 2}vmin`;
 
     return (
         <div id="knowledgeBook" style={{ display: props.isOpen ? "grid" : "none" }}>
@@ -273,18 +274,30 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                 <div className="recipeSlot recipeItem" style={{ width: size, height: size }}>
                                     <Item item={props.items.getItem(recipeInfo.id)} />
                                 </div>
-                                {recipeInfo.shapeless && <img className="shapelessIcon" src={shapeless} alt="Shapeless" />}
+                                <div className="shapelessIcon" style={{ width: size, height: size }}>
+                                    {recipeInfo.shapeless && <img src={shapeless} alt="Shapeless" />}
+                                </div>
                                 {
                                     recipeGroup.length > 1 || Math.max(...recipe.flat().map(slot => slot?.length || 0)) > 1 ? (
                                         <>
-                                            <div className="recipeCardPrevious recipeButton" onClick={(e) => {
-                                                decrementCounter(); SoundEffect.play("click");
-                                                store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex - 1 < 0 ? recipeGroup.length - 1 : recipeGroupIndex - 1].name }))
-                                            }} />
-                                            <div className="recipeCardNext recipeButton" onClick={(e) => {
-                                                incrementCounter(); SoundEffect.play("click");
-                                                store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex + 1].name }))
-                                            }} />
+                                            <div className="recipeCardPrevious recipeButton"
+                                                onClick={(e) => {
+                                                    decrementCounter(); SoundEffect.play("click");
+                                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex - 1 < 0 ? recipeGroup.length - 1 : recipeGroupIndex - 1].name }))
+                                                }}
+                                                style={{
+                                                    width: buttonSize,
+                                                }}
+                                            />
+                                            <div className="recipeCardNext recipeButton"
+                                                onClick={(e) => {
+                                                    incrementCounter(); SoundEffect.play("click");
+                                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex + 1].name }))
+                                                }}
+                                                style={{
+                                                    width: buttonSize,
+                                                }}
+                                            />
                                         </>
                                     ) : null
                                 }

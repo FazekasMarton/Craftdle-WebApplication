@@ -148,6 +148,8 @@ function ForgotPasswordForm(props: FormProps) {
             const response = await store.dispatch(forgotPassword(email));
             const res = response.payload as any;
 
+            console.log(res);
+
             if (res.response) {
                 setItem(res.data.data.item);
             } else {
