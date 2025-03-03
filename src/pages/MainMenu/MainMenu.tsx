@@ -70,7 +70,7 @@ export function MainMenu() {
                 <StoneButton href="/guide">How to Play</StoneButton>
                 <StoneButton href="/settings" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}>Settings</StoneButton>
                 <StoneButton href="/credits">Credits</StoneButton>
-                <StoneButton href="https://patreon.com/Craftdle">Support Us</StoneButton>
+                <StoneButton href="https://patreon.com/Craftdle" newTab>Support Us</StoneButton>
             </nav>
             <nav id="leftSideButtons" className="sideButtons" aria-label="Settings and Statistics">
                 <StoneButton href="/stats" disabled={user.isGuest} info={user.isGuest ? { text: "You're not logged in" } : undefined}><img src={stats} alt="Statistics" draggable={false} /></StoneButton>
