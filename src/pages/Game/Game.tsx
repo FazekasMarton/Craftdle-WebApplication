@@ -83,6 +83,7 @@ export function Game() {
      * @param newGame - Whether to start a new game.
      */
     function startGame(gamemode: string, newGame: boolean) {
+        setTips([])
         socket?.emit("startGame", {
             gamemode: gamemode,
             newGame: newGame
@@ -196,7 +197,7 @@ export function Game() {
                     </>
                 ) : null
             }
-            {!result && <Cursor craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />}
+            {!result && <Cursor key={newTurn} craftingTableSize={craftingTableSize} craftingTableSlots={tableContent} setCraftingTableSlots={setTableContent} />}
             {
                 maxHearts && turn >= maxHearts * 2 ? (
                     <GameOver startGame={() => { startGame(gamemodeId, true) }} />
