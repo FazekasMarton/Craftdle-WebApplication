@@ -13,7 +13,7 @@ import { ISettings } from "../../interfaces/ISettings";
  * @param body - The request body.
  * @returns The response data and status.
  */
-async function communicate(
+export async function communicate(
     state: RootState,
     dispatch: Function,
     url: string,
