@@ -12,15 +12,16 @@ import { loadSettings } from "../../functions/loadSettings";
  * @returns The Settings component.
  */
 export function Settings() {
-    const originalSettings = useSelector((state: RootState) => state.user.settings);
+    const user = useSelector((state: RootState) => state.user);
+    const originalSettings = user.settings
     const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings> | null>(structuredClone(originalSettings))
     const [activeProfile, setActiveProfile] = useState<number>(originalSettings?.findIndex(s => s.isSet) ?? 0)
 
     useEffect(() => {
-        if (!originalSettings) {
+        if (!originalSettings && user.loginToken) {
             loadSettings()
         }
-    }, [])
+    }, [user])
 
     useEffect(() => {
         if (!modifiedSettings) {

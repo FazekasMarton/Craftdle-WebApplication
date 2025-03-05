@@ -57,7 +57,9 @@ export function Stats() {
     }
 
     useEffect(() => {
-        getUserStats()
+        if (user.loginToken) {
+            getUserStats()
+        }
     }, [user])
 
     return <div id="stats">
@@ -74,7 +76,7 @@ export function Stats() {
                         backgroundImage: `url(${import.meta.env.VITE_SERVER_URL}/assets/profileBorders/${stats?.profileBorder?.src})`
                     } : {}}
                 >
-                    {stats?.profilePicture ? <img className="profilePicture" src={`${import.meta.env.VITE_SERVER_URL}/assets/profilePictures/${stats?.profilePicture?.src}`} alt={stats?.profilePicture?.name} draggable={false}/> : null}
+                    {stats?.profilePicture ? <img className="profilePicture" src={`${import.meta.env.VITE_SERVER_URL}/assets/profilePictures/${stats?.profilePicture?.src}`} alt={stats?.profilePicture?.name} draggable={false} /> : null}
                 </div>
                 <h2 className="profileName">{stats?.username}</h2>
             </section>
