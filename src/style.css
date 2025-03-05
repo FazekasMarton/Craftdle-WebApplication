@@ -1617,7 +1617,6 @@ input:-webkit-autofill:focus {
     left: 50%;
     translate: -50% 0;
     text-align: center;
-    animation: scrollUp 60s linear forwards;
 }
 
 @keyframes scrollUp {
@@ -1636,18 +1635,7 @@ input:-webkit-autofill:focus {
     object-fit: contain;
 }
 
-#credits section,
-#credits footer {
-    margin: 10vmin 0;
-}
-
-#credits section article {
-    margin: 6vmin 0;
-}
-
-#credits h1,
-#credits h2,
-#credits h3 {
+#credits .title {
     margin: 0;
 }
 
