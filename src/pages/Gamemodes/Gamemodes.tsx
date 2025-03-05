@@ -35,7 +35,9 @@ export function Gamemodes(props: GamemodesProps) {
     }
 
     useEffect(() => {
-        collectGamemodes()
+        if(user.loginToken){
+            collectGamemodes()
+        }
     }, [user])
 
     return <main id="gamemodes">

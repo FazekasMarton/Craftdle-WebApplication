@@ -91,7 +91,9 @@ export function Collection() {
     }
 
     useEffect(() => {
-        getUserCollection()
+        if (user.loginToken) {
+            getUserCollection()
+        }
     }, [user]);
 
     return <div id="collection">

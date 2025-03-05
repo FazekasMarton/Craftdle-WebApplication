@@ -13,7 +13,7 @@ import { ISettings } from "../../interfaces/ISettings";
  * @param body - The request body.
  * @returns The response data and status.
  */
-async function communicate(
+export async function communicate(
     state: RootState,
     dispatch: Function,
     url: string,
@@ -41,6 +41,11 @@ async function communicate(
     try {
         const response = await fetch(url, options);
         const data = await response.json();
+        if(response.status === 401) {
+            const error = new Error("UnauthorizedError");
+            error.name = "UnauthorizedError";
+            throw error;
+        }
         return { data: data, response: response.ok };
     } catch (err: any) {
         dispatch(setError(err.name));

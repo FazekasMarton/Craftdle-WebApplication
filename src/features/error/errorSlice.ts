@@ -49,6 +49,11 @@ const errorSlice = createSlice({
                     state.name = "Connection Lost";
                     state.message = "Lost connection to the server. Please try again later.";
                     break;
+                case 'UnauthorizedError':
+                    state.status = 401;
+                    state.name = "Unauthorized";
+                    state.message = "Your token has expired, or another device is using your account. Please log in again.";
+                    break;
                 default:
                     state.status = 500;
                     state.name = "Internal Server Error";

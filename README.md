@@ -1,50 +1,32 @@
-# React + TypeScript + Vite
+# Craftdle Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+The Craftdle frontend is a web-based application that provides an interactive and engaging user experience for the game. It is designed to be responsive, allowing players to enjoy the game on any device. The frontend communicates with the backend via API calls and WebSockets for real-time gameplay.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies
 
-## Expanding the ESLint configuration
+- **React.js** – Frontend framework
+- **Vite** – Fast build tool
+- **Redux** – State management
+- **Socket.io-client** – Real-time communication
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation & Running
 
-- Configure the top-level `parserOptions` property like this:
+1. **Obtain the .env file** – Request it from an existing developer.
+2. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+3. **Start in development mode:**
+   ```sh
+   npm run dev
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Environment Variables
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+The application requires the following environment variables to be set in a `.env` file:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- `VITE_SERVER_URL` – Base URL of the backend server
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+A `.env` file should be obtained from an existing developer.
