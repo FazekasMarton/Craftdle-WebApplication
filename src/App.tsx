@@ -17,7 +17,7 @@ import { IMaintenance } from "./interfaces/IMaintenance"
 import { Maintenance } from "./pages/Maintenance/Maintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { Docs } from "./pages/Docs/Docs"
-import { Error } from "./components/Error"
+import { Error as Err } from "./components/Error"
 import { isUserPlayingOnPC } from "./functions/isUserPlayingOnPC"
 import { Guide } from "./pages/Guide/Guide"
 import { Meta } from "./components/Meta"
@@ -39,7 +39,7 @@ const generalRouter = createBrowserRouter([
         path: "/",
         element: <>
             {isUserPlayingOnPC() ? <Info /> : null}
-            <Error />
+            <Err />
             <Achievements />
             <Outlet />
         </>,
@@ -174,21 +174,22 @@ const maintenanceRouter = createBrowserRouter([
 ])
 
 async function autoLogin(token: string | null) {
-    let error = true
-    if (token) {
-        let response = await store.dispatch(tokenLogin())
-        let res = (response.payload as any)
-        if (res.response) {
-            await store.dispatch(saveUser(res.data.data))
-            error = false
+    try{
+        if (token) {
+            let response = await store.dispatch(tokenLogin())
+            let res = (response.payload as any)
+            if (res.response) {
+                await store.dispatch(saveUser(res.data.data))
+            }
+            await loadSettings()
+        } else {
+            throw new Error("No token found");
         }
-    }
-    if (error) {
+    } catch (e) {
         let response = await store.dispatch(guestLogin())
         let res = (response.payload as any)
         await store.dispatch(saveUser(res.data.data))
     }
-    await loadSettings()
 }
 
 export function App() {

@@ -20,6 +20,7 @@ export async function communicate(
     method: "GET" | "POST" | "PUT" | "DELETE",
     auth?: "Basic" | "Bearer" | null,
     body?: object,
+    disableError?: boolean
 ) {
     const headers: Record<string, string> = {
         "Content-Type": "application/json"
@@ -48,7 +49,9 @@ export async function communicate(
         }
         return { data: data, response: response.ok };
     } catch (err: any) {
-        dispatch(setError(err.name));
+        if(!disableError) {
+            dispatch(setError(err.name));
+        }
     }
 }
 
@@ -106,7 +109,9 @@ export const tokenLogin = createAsyncThunk(
             dispatch,
             `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "POST",
-            "Bearer"
+            "Bearer",
+            {},
+            true
         );
 
         return response;
