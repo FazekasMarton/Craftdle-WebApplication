@@ -188,8 +188,9 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                             )
                         );
 
+                        const longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
+
                         function incrementCounter() {
-                            let longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
                             setMaterialIndex((prev) => {
                                 const newValue = prev + 1;
                                 if (newValue >= longestSlot) {
@@ -283,7 +284,8 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                             <div className="recipeCardPrevious recipeButton"
                                                 onClick={(e) => {
                                                     decrementCounter(); SoundEffect.play("click");
-                                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex - 1 < 0 ? recipeGroup.length - 1 : recipeGroupIndex - 1].name }))
+                                                    const previousRecipeGroupIndex = materialIndex == 0 ? (recipeGroupIndex - 1 < 0 ? recipeGroup.length - 1 : recipeGroupIndex - 1) : recipeGroupIndex;
+                                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[previousRecipeGroupIndex].name }))
                                                 }}
                                                 style={{
                                                     width: buttonSize,
@@ -292,7 +294,8 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                             <div className="recipeCardNext recipeButton"
                                                 onClick={(e) => {
                                                     incrementCounter(); SoundEffect.play("click");
-                                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[recipeGroupIndex + 1].name }))
+                                                    const nextRecipeGroupIndex = materialIndex == longestSlot - 1 ? recipeGroupIndex + 1 : recipeGroupIndex;
+                                                    store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[nextRecipeGroupIndex].name }))
                                                 }}
                                                 style={{
                                                     width: buttonSize,
