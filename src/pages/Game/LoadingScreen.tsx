@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { store } from "../../app/store";
 import { deleteInfo } from "../../features/info/infoSlice";
 
@@ -7,7 +8,9 @@ interface ILoadingScreenProps {
 }
 
 export function LoadingScreen(props: ILoadingScreenProps) {
-    store.dispatch(deleteInfo())
+    useEffect(() => {
+        store.dispatch(deleteInfo());
+    }, []);
     
     return <div id="loadingScreen">
         <p>Loading level</p>
