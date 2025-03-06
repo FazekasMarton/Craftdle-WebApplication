@@ -84,6 +84,7 @@ export const userSlice = createSlice({
                     }
                 }
             });
+            delete storageContent.isGuest
             Object.assign(state, storageContent);
         },
         /**
