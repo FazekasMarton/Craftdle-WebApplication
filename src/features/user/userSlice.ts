@@ -84,7 +84,7 @@ export const userSlice = createSlice({
                     }
                 }
             });
-            delete storageContent.isGuest
+            storageContent.isGuest = true
             Object.assign(state, storageContent);
         },
         /**
