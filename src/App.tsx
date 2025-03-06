@@ -7,7 +7,7 @@ import { Game } from "./pages/Game/Game"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { RootState, store } from "./app/store"
-import { loadUser, saveUser, setInstalled } from "./features/user/userSlice"
+import { clearUser, loadUser, saveUser, setInstalled } from "./features/user/userSlice"
 import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
 import { connectSocket } from "./functions/connectSocket"
@@ -180,12 +180,13 @@ async function autoLogin(token: string | null) {
             let res = (response.payload as any)
             if (res.response) {
                 await store.dispatch(saveUser(res.data.data))
+                await loadSettings()
             }
-            await loadSettings()
         } else {
             throw new Error("No token found");
         }
     } catch (e) {
+        await store.dispatch(clearUser(true))
         let response = await store.dispatch(guestLogin())
         let res = (response.payload as any)
         await store.dispatch(saveUser(res.data.data))
