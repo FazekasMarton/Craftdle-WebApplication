@@ -6,9 +6,11 @@ import { saveSettings } from "../features/user/userSlice"
  * Function to load user settings from the server and save them to the Redux store.
  */
 export async function loadSettings() {
-    let response = await store.dispatch(getSettings())
-    let res = (response.payload as any)
-    if (res.response) {
-        store.dispatch(saveSettings(res.data.data))
+    if(!store.getState().user.isGuest){
+        let response = await store.dispatch(getSettings())
+        let res = (response.payload as any)
+        if (res.response) {
+            store.dispatch(saveSettings(res.data.data))
+        }
     }
 }
