@@ -102,7 +102,7 @@ export function Stats() {
                                     <ul>
                                         <li>Played: {gamemode.played}</li>
                                         <li>Solved: {gamemode.solved}</li>
-                                        {gamemode.played ? <li>Win Rate: {Math.round(gamemode.solved / gamemode.played * 100)}%</li> : null}
+                                        {gamemode.played ? <li>Win Rate: {Math.floor(gamemode.solved / gamemode.played * 100)}%</li> : null}
                                         {gamemode.fastestSolve ? <li>Fastest Solve: {gamemode.fastestSolve}</li> : null}
                                     </ul>
                                 </div>
@@ -110,7 +110,7 @@ export function Stats() {
                         }
                         <p>Total played: {gameStats.totalPlayed}</p>
                         <p>Total solved: {gameStats.totalSolved}</p>
-                        {gameStats.totalPlayed ? <p>Overall win rate: {Math.round(gameStats.totalSolved / gameStats.totalPlayed * 100)}%</p> : null}
+                        {gameStats.totalPlayed ? <p>Overall win rate: {Math.floor(gameStats.totalSolved / gameStats.totalPlayed * 100)}%</p> : null}
                     </article>
                 </section>
             </div>
