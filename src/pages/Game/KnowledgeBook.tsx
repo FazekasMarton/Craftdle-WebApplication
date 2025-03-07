@@ -188,6 +188,10 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                             )
                         );
 
+                        if (!recipe?.length || recipe?.length > props.craftingTableSize || recipe[0]?.length > props.craftingTableSize) {
+                            return null;
+                        }
+
                         const longestSlot = Math.max(...recipe.flat().map(slot => slot?.length || 0));
 
                         function incrementCounter() {
@@ -215,16 +219,12 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                         }
                                         return p - 1;
                                     });
-                                    const rInfo = recipeGroup[recipeGroup.length - 1];
+                                    const rInfo = recipeGroup[recipeGroupIndex - 1 < 0 ? recipeGroup.length - 1 : recipeGroupIndex - 1];
                                     const previousRecipe = rInfo?.shapeless ? convertToMatrix(rInfo.recipe as IShapelessRecipe, props.craftingTableSize) : rInfo?.recipe as INonShapelessRecipe;
                                     return Math.max(...previousRecipe.flat().map(slot => slot?.length || 0)) - 1;
                                 }
                                 return prev - 1;
                             });
-                        }
-
-                        if (!recipe?.length || recipe?.length > props.craftingTableSize || recipe[0]?.length > props.craftingTableSize) {
-                            return null;
                         }
 
                         return (
@@ -279,7 +279,7 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                     {recipeInfo.shapeless && <img src={shapeless} alt="Shapeless" />}
                                 </div>
                                 {
-                                    recipeGroup.length > 1 || Math.max(...recipe.flat().map(slot => slot?.length || 0)) > 1 ? (
+                                    recipeGroup.length > 1 || longestSlot > 1 ? (
                                         <>
                                             <div className="recipeCardPrevious recipeButton"
                                                 onClick={(e) => {
@@ -294,7 +294,7 @@ function KnowledgeBookRaw(props: KnowledgeBookProps) {
                                             <div className="recipeCardNext recipeButton"
                                                 onClick={(e) => {
                                                     incrementCounter(); SoundEffect.play("click");
-                                                    const nextRecipeGroupIndex = materialIndex == longestSlot - 1 ? recipeGroupIndex + 1 : recipeGroupIndex;
+                                                    const nextRecipeGroupIndex = (materialIndex == longestSlot - 1 ? recipeGroupIndex + 1 : recipeGroupIndex) % recipeGroup.length;
                                                     store.dispatch(setInfo({ x: e.clientX, y: e.clientY, title: undefined, titleColor: undefined, text: recipeGroup[nextRecipeGroupIndex].name }))
                                                 }}
                                                 style={{

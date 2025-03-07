@@ -216,8 +216,8 @@ export function App() {
             store.dispatch(setMaintenance(maintenanceData))
         })
 
-        socket?.on("disconnect", () => {
-            store.dispatch(setError("ConnectionError"))
+        socket?.on("disconnect", (r) => {
+            store.dispatch(setError(r === "transport close" ? "ConnectionError" : "SessionTakeover"))
         })
 
         return () => {
