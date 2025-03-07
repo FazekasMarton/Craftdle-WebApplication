@@ -217,7 +217,8 @@ export function App() {
         })
 
         socket?.on("disconnect", (r) => {
-            store.dispatch(setError(r === "transport close" ? "ConnectionError" : "SessionTakeover"))
+            console.log(r)
+            store.dispatch(setError(r == "io client disconnect" || r == "io server disconnect" ? "SessionTakeover" : "ConnectionError"))
         })
 
         return () => {
