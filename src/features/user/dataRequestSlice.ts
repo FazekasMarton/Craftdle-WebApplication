@@ -42,7 +42,7 @@ export async function communicate(
     try {
         const response = await fetch(url, options);
         const data = await response.json();
-        if(response.status === 401) {
+        if(response.status === 401 && !disableError) {
             const error = new Error("UnauthorizedError");
             error.name = "UnauthorizedError";
             throw error;
@@ -77,6 +77,7 @@ export const register = createAsyncThunk(
                 password: password,
                 stayLoggedIn: stayLoggedIn,
             },
+            true
         );
 
         return response;
@@ -131,7 +132,8 @@ export const login = createAsyncThunk(
             `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "POST",
             undefined,
-            { usernameOrEmail, password, stayLoggedIn }
+            { usernameOrEmail, password, stayLoggedIn },
+            true
         );
 
         return response;
