@@ -174,7 +174,7 @@ const maintenanceRouter = createBrowserRouter([
 ])
 
 async function autoLogin(token: string | null) {
-    try{
+    try {
         if (token) {
             let response = await store.dispatch(tokenLogin())
             let res = (response.payload as any)
@@ -216,14 +216,23 @@ export function App() {
             store.dispatch(setMaintenance(maintenanceData))
         })
 
+        socket?.on("error", (error: string) => {
+            if (error == "UnauthorizedError") {
+                store.dispatch(clearUser(true))
+            }
+            store.dispatch(setError(error))
+        })
+
         socket?.on("disconnect", (r) => {
-            console.log(r)
-            store.dispatch(setError(r == "io client disconnect" || r == "io server disconnect" ? "SessionTakeover" : "ConnectionError"))
+            if(store.getState().error.name != "Unauthorized") {
+                store.dispatch(setError(r == "io client disconnect" || r == "io server disconnect" ? "SessionTakeover" : "ConnectionError"))
+            }
         })
 
         return () => {
             socket?.off("maintenance")
             socket?.off("disconnect")
+            socket?.off("error")
         }
     }, [socket])
 
