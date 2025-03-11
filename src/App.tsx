@@ -27,6 +27,8 @@ import { createBrowserRouter } from "react-router-dom"
 import { Achievements } from "./components/Achievement"
 import { BeforeInstallPromptEvent } from "./interfaces/IBeforeInstallPromptEvent"
 import { setError } from "./features/error/errorSlice"
+import { isTestSubdomain } from "./functions/isTestSubdomain"
+import testRealmTitle from "./assets/imgs/title/test_realm_title.png"
 
 declare global {
     interface WindowEventMap {
@@ -42,6 +44,7 @@ const generalRouter = createBrowserRouter([
             <Err />
             <Achievements />
             <Outlet />
+            {isTestSubdomain() && <img id="testWatermark" src={testRealmTitle} alt="Test Watermark"/>}
         </>,
         children: [
             {

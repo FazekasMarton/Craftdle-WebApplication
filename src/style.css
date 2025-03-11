@@ -69,6 +69,26 @@
 
 /* --- Components --- */
 
+/* -- Test Watermark -- */
+
+#testWatermark{
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+    width: 25vmin;
+    height: 25vmin;
+    max-width: fit-content;
+    max-height: fit-content;
+    object-fit: contain;
+    opacity: 0.3;
+    z-index: 30;
+    pointer-events: none;
+}
+
+#mainMenu ~ #testWatermark{
+    display: none;
+}
+
 /* -- Error -- */
 
 #errorBorder {
@@ -380,6 +400,7 @@ body,
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     background-color: rgb(194, 195, 195);
+    position: relative;
 }
 
 /* -- Main Menu -- */

@@ -47,6 +47,11 @@ interface IGuess {
     result: boolean
 }
 
+function getTurn(numberOfTips: number, result: boolean) {
+    const turn = numberOfTips - (result ? 1 : 0)
+    return turn < 0 ? 0 : turn
+}
+
 /**
  * Game component to display the game interface.
  * @returns The Game component.
@@ -75,7 +80,7 @@ export function Game() {
     const [newTurn, setNewTurn] = useState(0)
     const [progress, setProgress] = useState<{ loaded: number; total: number }>({ loaded: 0, total: 1 });
     const items = useRef(new Items())
-    const turn = tips.length - (result ? 1 : 0)
+    const turn = getTurn(tips.length, result)
 
     /**
      * Start a new game.
