@@ -216,7 +216,6 @@ export function App() {
 
     useEffect(() => {
         socket?.on("maintenance", (maintenanceData: IMaintenance) => {
-            console.log("Maintenance", maintenanceData)
             store.dispatch(setMaintenance(maintenanceData))
         })
 
@@ -278,8 +277,6 @@ export function App() {
                         ] as any,
                 },
             ]);
-
-            console.log(router)
 
     return (
         <>
