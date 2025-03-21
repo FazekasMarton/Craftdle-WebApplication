@@ -24,7 +24,7 @@ Run the following command to install all the required dependencies:
 npm install
 ```
 
-### 3. Start the Development Mode
+### 3. Start the Application
 
 To start the application in development mode, run:
 
@@ -32,12 +32,39 @@ To start the application in development mode, run:
 npm run dev
 ```
 
+To start the application in preview mode, run:
+
+```sh
+npm run preview
+```
+
 This will run the app on the following local addresses:
 
-- **Normal Version**: [http://localhost:5173/](http://localhost:5173/)
-- **Test Version**: [http://test.localhost:5173/](http://test.localhost:5173/)
+- **Normal Preview Version**: [http://localhost:4173/](http://localhost:4173/)
+- **Test Preview Version**: [http://test.localhost:4173/](http://test.localhost:4173/)
+- **Normal Dev Version**: [http://localhost:5173/](http://localhost:5173/)
+- **Test Dev Version**: [http://test.localhost:5173/](http://test.localhost:5173/)
 
-### 4. Windows Specific Configuration (Optional)
+### 4. Additional Scripts
+
+The following scripts are available for other tasks:
+
+- **Build the application**:  
+  ```sh
+  npm run build
+  ```
+
+- **Lint the codebase**:  
+  ```sh
+  npm run lint
+  ```
+
+- **Run tests**:  
+  ```sh
+  npm run test
+  ```
+
+### 5. Windows Specific Configuration (Optional)
 
 If you're on **Windows** and want to access the **Test version** (e.g., `test.localhost`), you'll need to update your `hosts` file to map `test.localhost` to `127.0.0.1`.
 
@@ -48,7 +75,7 @@ If you're on **Windows** and want to access the **Test version** (e.g., `test.lo
    127.0.0.1 test.localhost
    ```
 
-This will allow you to access the **Test version** at [http://test.localhost:5173/](http://test.localhost:5173/).
+This will allow you to access the **Test version** at [http://test.localhost:4173/](http://test.localhost:4173/) and [http://test.localhost:5173/](http://test.localhost:5173/).
 
 ---
 

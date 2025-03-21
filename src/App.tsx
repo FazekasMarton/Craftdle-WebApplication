@@ -239,7 +239,7 @@ export function App() {
             store.dispatch(setError(error))
         })
 
-        socket?.on("disconnect", (r) => {
+        socket?.on("disconnect", (r: string) => {
             if(store.getState().error.name != "Unauthorized") {
                 store.dispatch(setError(r == "io client disconnect" || r == "io server disconnect" ? "SessionTakeover" : "ConnectionError"))
             }
