@@ -7,6 +7,11 @@ interface ILoadingScreenProps {
     loaded: number;
 }
 
+/**
+ * LoadingScreen component to display a loading progress bar.
+ * @param props - The properties for the LoadingScreen component.
+ * @returns The LoadingScreen component.
+ */
 export function LoadingScreen(props: ILoadingScreenProps) {
     useEffect(() => {
         store.dispatch(deleteInfo());

@@ -8,18 +8,21 @@ import { SoundEffect } from "../src/classes/Audio";
 
 describe("StoneButton component", () => {
   it("renders a button with children text", () => {
+    // Test that the button renders correctly with the provided children text.
     render(<StoneButton>Click me</StoneButton>);
     const button = screen.getByText("Click me");
     expect(button).toBeInTheDocument();
   });
 
   it("applies opacity style when disabled", () => {
+    // Test that the button has reduced opacity when the disabled prop is true.
     render(<StoneButton disabled>Disabled Button</StoneButton>);
     const button = screen.getByText("Disabled Button");
     expect(button).toHaveStyle({ opacity: "0.3" });
   });
 
   it("renders an anchor tag when href is provided", () => {
+    // Test that the component renders an anchor tag when the href prop is provided.
     render(
       <BrowserRouter>
         <StoneButton href="https://example.com">Link Button</StoneButton>
@@ -31,12 +34,14 @@ describe("StoneButton component", () => {
   });
 
   it("renders a div when href is not provided", () => {
+    // Test that the component renders a div when the href prop is not provided.
     render(<StoneButton>Div Button</StoneButton>);
     const div = screen.getByText("Div Button").closest("div");
     expect(div).toBeInTheDocument();
   });
 
   it("should play sound on click", () => {
+    // Test that a sound effect is played when the button is clicked.
     const playMock = vi.fn();
   
     vi.stubGlobal("Audio", class {

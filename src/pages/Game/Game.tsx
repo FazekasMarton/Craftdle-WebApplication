@@ -47,14 +47,22 @@ interface IGuess {
     result: boolean
 }
 
+/**
+ * Calculate the current turn based on the number of tips and the result of the previous turn.
+ * 
+ * @param numberOfTips - The total number of tips available.
+ * @param result - Whether the previous turn was successful.
+ * @returns The current turn number.
+ */
 function getTurn(numberOfTips: number, result: boolean) {
     const turn = numberOfTips - (result ? 1 : 0)
     return turn < 0 ? 0 : turn
 }
 
 /**
- * Game component to display the game interface.
- * @returns The Game component.
+ * The main game component that manages the game interface, state, and interactions.
+ * 
+ * @returns A JSX element representing the game interface.
  */
 export function Game() {
     const socket = useSelector((state: RootState) => state.socket.socket)

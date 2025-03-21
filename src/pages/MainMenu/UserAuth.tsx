@@ -111,6 +111,11 @@ function LoginForm(props: FormProps) {
     </div>
 }
 
+/**
+ * ForgotPasswordForm component to handle the forgot password process.
+ * @param props - The properties for the ForgotPasswordForm component.
+ * @returns The ForgotPasswordForm component.
+ */
 function ForgotPasswordForm(props: FormProps) {
     const socket = useSelector((state: RootState) => state.socket.socket);
     const [email, setEmail] = useState("");
@@ -259,6 +264,9 @@ function PasswordChangeForm(props: PasswordChangeFormProps) {
     </div>
 }
 
+/**
+ * Props for the ChangePasswordInstruction component.
+ */
 interface ChangePasswordInstructionProps {
     item: {
         item_id: string;
@@ -267,6 +275,11 @@ interface ChangePasswordInstructionProps {
     };
 }
 
+/**
+ * ChangePasswordInstruction component to display instructions for resetting the password.
+ * @param item - The item to verify the user.
+ * @returns The ChangePasswordInstruction component.
+ */
 function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
     return (
         <div id="forgotPasswordItemContainer">

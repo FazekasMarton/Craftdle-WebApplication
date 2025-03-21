@@ -11,6 +11,7 @@ import { ISettings } from "../../interfaces/ISettings";
  * @param method - The HTTP method to use.
  * @param auth - The authentication type.
  * @param body - The request body.
+ * @param disableError - If error pop up disabled.
  * @returns The response data and status.
  */
 export async function communicate(
@@ -56,6 +57,13 @@ export async function communicate(
 }
 
 // Define async thunks for various user actions
+/**
+ * Register a new user.
+ * @param username - The username of the user.
+ * @param email - The email of the user.
+ * @param password - The password of the user.
+ * @param stayLoggedIn - Whether the user should stay logged in.
+ */
 export const register = createAsyncThunk(
     "user/register",
     async (
@@ -84,6 +92,9 @@ export const register = createAsyncThunk(
     }
 );
 
+/**
+ * Log in as a guest user.
+ */
 export const guestLogin = createAsyncThunk(
     "user/guestLogin",
     async (_, { dispatch, getState }) => {
@@ -100,6 +111,9 @@ export const guestLogin = createAsyncThunk(
     }
 );
 
+/**
+ * Log in using a token.
+ */
 export const tokenLogin = createAsyncThunk(
     "user/tokenLogin",
     async (_, { dispatch, getState }) => {
@@ -119,6 +133,12 @@ export const tokenLogin = createAsyncThunk(
     }
 );
 
+/**
+ * Log in with username or email and password.
+ * @param usernameOrEmail - The username or email of the user.
+ * @param password - The password of the user.
+ * @param stayLoggedIn - Whether the user should stay logged in.
+ */
 export const login = createAsyncThunk(
     "user/login",
     async ({ usernameOrEmail, password, stayLoggedIn }:
@@ -140,6 +160,9 @@ export const login = createAsyncThunk(
     }
 );
 
+/**
+ * Log out the current user.
+ */
 export const logout = createAsyncThunk(
     "user/logout",
     async (_, { dispatch, getState }) => {
@@ -157,6 +180,10 @@ export const logout = createAsyncThunk(
     }
 );
 
+/**
+ * Request a password reset email.
+ * @param email - The email address to send the reset link to.
+ */
 export const forgotPassword = createAsyncThunk(
     "user/forgotPassword",
     async (email: string, { dispatch, getState }) => {
@@ -175,6 +202,11 @@ export const forgotPassword = createAsyncThunk(
     }
 );
 
+/**
+ * Change the user's password using a token.
+ * @param password - The new password.
+ * @param token - The reset token.
+ */
 export const changePassword = createAsyncThunk(
     "user/changePassword",
     async ({ password, token }:
@@ -198,6 +230,9 @@ export const changePassword = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch the user's settings.
+ */
 export const getSettings = createAsyncThunk(
     "user/getSettings",
     async (_, { dispatch, getState }) => {
@@ -215,6 +250,10 @@ export const getSettings = createAsyncThunk(
     }
 );
 
+/**
+ * Update the user's settings.
+ * @param settings - The updated settings object.
+ */
 export const changeSettings = createAsyncThunk(
     "user/changeSettings",
     async (settings: ISettings, { dispatch, getState }) => {
@@ -234,6 +273,9 @@ export const changeSettings = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch the user's statistics.
+ */
 export const getStats = createAsyncThunk(
     "user/getStats",
     async (_, { dispatch, getState }) => {
@@ -251,6 +293,9 @@ export const getStats = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch the user's collection.
+ */
 export const getCollection = createAsyncThunk(
     "user/getCollection",
     async (_, { dispatch, getState }) => {
@@ -268,6 +313,11 @@ export const getCollection = createAsyncThunk(
     }
 );
 
+/**
+ * Update the user's profile pictures.
+ * @param profilePicture - The ID of the new profile picture.
+ * @param profileBorder - The ID of the new profile border.
+ */
 export const changeProfilePics = createAsyncThunk(
     "user/changeProfilePics",
     async (
@@ -289,6 +339,10 @@ export const changeProfilePics = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch available game modes.
+ * @param type - The type of game modes to fetch (singleplayer or multiplayer).
+ */
 export const getGamemodes = createAsyncThunk(
     "game/getGamemodes",
     async (

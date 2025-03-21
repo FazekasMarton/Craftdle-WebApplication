@@ -49,30 +49,39 @@ interface ICollection {
 }
 
 /**
- * Save profile changes to the store.
+ * Saves the user's profile changes (profile picture and border) to the store.
+ * 
  * @param collection - The collection data.
  * @param setCollection - The function to update the collection state.
  */
 function saveProfileChanges(collection: ICollection, setCollection: (value: ICollection) => void) {
-    const profilePicture = collection.profilePictures.find((item) => item.active) || null
-    const profileBorder = collection.profileBorders.find((item) => item.active) || null
+    const profilePicture = collection.profilePictures.find((item) => item.active) || null;
+    const profileBorder = collection.profileBorders.find((item) => item.active) || null;
     store.dispatch(changeProfilePics({
         profilePicture: profilePicture?.id || 0,
         profileBorder: profileBorder?.id || 0
-    }))
-    setCollection(collection)
+    }));
+    setCollection(collection);
     store.dispatch(updateProfile({
         profilePicture: profilePicture,
         profileBorder: profileBorder
-    }))
+    }));
 }
 
+/**
+ * Counts the number of collected items in a list.
+ * 
+ * @param list - The list of items to count.
+ * @returns A string representing the count in the format "(collected/total)".
+ */
 function counter(list: Array<{ collected: boolean }> | undefined) {
-    return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`
+    return `(${list?.filter((item) => item.collected).length || 0}/${list?.length || 0})`;
 }
 
 /**
  * Collection component to display the user's collection of items, profile pictures, borders, and achievements.
+ * It fetches the collection data from the server and allows users to manage their profile.
+ * 
  * @returns The Collection component.
  */
 export function Collection() {
@@ -80,19 +89,19 @@ export function Collection() {
     const [collection, setCollection] = useState<ICollection | null>(null);
 
     /**
-     * Fetch the user's collection from the server.
+     * Fetches the user's collection from the server.
      */
     async function getUserCollection() {
-        let response = await store.dispatch(getCollection())
-        let res = (response.payload as any)
+        let response = await store.dispatch(getCollection());
+        let res = (response.payload as any);
         if (res.response) {
-            setCollection(res.data.data)
+            setCollection(res.data.data);
         }
     }
 
     useEffect(() => {
         if (user.loginToken) {
-            getUserCollection()
+            getUserCollection();
         }
     }, [user]);
 

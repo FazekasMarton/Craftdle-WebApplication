@@ -48,6 +48,7 @@ function convertToMatrix(recipe: IShapelessRecipe, craftingTableSize: number) {
  * Check if a recipe group matches the search query.
  * @param recipeGroup - The recipe group to check.
  * @param search - The search query.
+ * @param items - The list of items to search within.
  * @returns True if the recipe group matches the search query, false otherwise.
  */
 function isSearchResult(recipeGroup: IRecipe[], search: string, items: IItem[]) {
@@ -74,6 +75,12 @@ function isSearchResult(recipeGroup: IRecipe[], search: string, items: IItem[]) 
     return false;
 }
 
+/**
+ * Filter out recipes that cannot be crafted with the available items.
+ * @param recipes - The list of recipes to filter.
+ * @param items - The list of available items.
+ * @returns The filtered list of valid recipes.
+ */
 function dropUnavailableRecipes(recipes: IRecipe[], items: IItem[]) {
     const validRecipes = [];
 

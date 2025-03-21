@@ -14,6 +14,11 @@ interface Update {
     changes: Array<string | Array<string | Array<string>>>
 }
 
+/**
+ * Formats a string with special syntax into JSX elements.
+ * @param text - The text to format.
+ * @returns An array of strings and JSX elements.
+ */
 function changeFormatter(text: string) {
     const regex = /\{\{(.*?)\|(.*?)\}\}/g;
     const result: (string | JSX.Element)[] = [];
@@ -37,6 +42,11 @@ function changeFormatter(text: string) {
     return result;
 }
 
+/**
+ * Formats a title string by adding spaces and capitalizing words.
+ * @param text - The title text to format.
+ * @returns The formatted title string.
+ */
 function formatTitle(text: string): string {
     return text
         .replace(/([a-z])([A-Z])/g, '$1 $2') // camelCase szétszedése
@@ -52,6 +62,7 @@ export function PatchNotes() {
     const [patchNotes, setPatchNotes] = useState<PatchNote[]>([]);
 
     useEffect(() => {
+        // Fetch patch notes from the server on component mount.
         fetch(`${import.meta.env.VITE_SERVER_URL}/patchNotes`)
             .then(res => res.json())
             .then(data => setPatchNotes(data.data));
@@ -59,10 +70,12 @@ export function PatchNotes() {
 
     return <div id="patchNotes">
         <header id="patchNotesHeader">
+            {/* Navigation back to the main menu */}
             <StoneButton href="/">Back to Menu</StoneButton>
             <h1>Patch Notes</h1>
         </header>
         <main id="patchNotesContainer">
+            {/* Display patch notes with a styled background */}
             <div id="patchNotesBackground">
                 <div id="leftChain" className="chain"></div>
                 <div id="rightChain" className="chain"></div>

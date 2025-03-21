@@ -2,6 +2,6 @@
  * Interface for maintenance information.
  */
 export interface IMaintenance {
-    started: boolean;
-    countdown: number | null;
+    started: boolean; // Indicates if maintenance has started.
+    countdown: number | null; // Countdown timer for maintenance, or null if not applicable.
 }

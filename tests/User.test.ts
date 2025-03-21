@@ -119,6 +119,7 @@ describe("User Slice", () => {
     describe("Data controller functions", () => {
         describe("Update user", () => {
             it("should update user data correctly", () => {
+                // Test that the user data is updated in the Redux store when saveUser is dispatched.
                 store.dispatch(saveUser(fixedUser));
 
                 const state = store.getState().user;
@@ -132,6 +133,7 @@ describe("User Slice", () => {
             });
 
             it("should update user settings correctly", () => {
+                // Test that the user settings are updated in the Redux store when saveSettings is dispatched.
                 vi.spyOn(store, "dispatch");
 
                 store.dispatch(saveSettings(fixedSettings));
@@ -142,6 +144,7 @@ describe("User Slice", () => {
 
         describe("Store in sessionStorage", () => {
             it("should store user data in sessionStorage", () => {
+                // Test that user data is stored in sessionStorage when stayLoggedIn is false.
                 fixedUser.stayLoggedIn = false;
                 store.dispatch(saveUser(fixedUser));
 
@@ -156,6 +159,7 @@ describe("User Slice", () => {
 
         describe("Store in localStorage", () => {
             it("should store user data in localStorage", () => {
+                // Test that user data is stored in localStorage when stayLoggedIn is true.
                 fixedUser.stayLoggedIn = true;
                 store.dispatch(saveUser(fixedUser));
 
@@ -169,6 +173,7 @@ describe("User Slice", () => {
         });
 
         it("should clear user data", async () => {
+            // Test that user data is cleared from the Redux store when clearUser is dispatched.
             vi.spyOn(store, "dispatch");
 
             store.dispatch(saveUser(fixedUser));
@@ -181,6 +186,7 @@ describe("User Slice", () => {
 
         describe("Load data from localStorage", () => {
             it("should load user data from localStorage", () => {
+                // Test that user data is loaded from localStorage when loadUser is dispatched.
                 vi.spyOn(localStorage, "getItem").mockImplementation((key) => {
                     const data = {
                         username: fixedUser.username,
@@ -200,6 +206,7 @@ describe("User Slice", () => {
             });
 
             it("should load no data from localStorage", async () => {
+                // Test that no data is loaded when localStorage is empty.
                 vi.spyOn(localStorage, "getItem").mockReturnValue(null);
 
                 await store.dispatch(loadUser());

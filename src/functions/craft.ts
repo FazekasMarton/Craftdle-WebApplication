@@ -4,8 +4,9 @@ type ICraftingTable = Array<Array<HTMLImageElement | null>>;
 
 /**
  * Remove empty rows and columns from a recipe.
+ * 
  * @param recipe - The recipe to remove empty rows and columns from.
- * @returns The recipe with empty rows and columns removed.
+ * @returns {Array<Array<any>>} The recipe with empty rows and columns removed.
  */
 export function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
     for (let a = 0; a < 2; a++) {
@@ -41,8 +42,9 @@ export function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
 
 /**
  * Convert a crafting table to a non-shapeless recipe.
+ * 
  * @param craftingTable - The crafting table to convert.
- * @returns The converted non-shapeless recipe.
+ * @returns {INonShapelessRecipe} The converted non-shapeless recipe.
  */
 function convertToNonShapeless(craftingTable: ICraftingTable): INonShapelessRecipe {
     return craftingTable.map(row => row.map(cell => {
@@ -133,9 +135,16 @@ function matchNonShapelessRecipe(filteredCraftingTable: Array<Array<string | nul
 
 /**
  * Craft an item based on the items in the crafting table and the available recipes.
+ * 
+ * This function checks the crafting table against the provided recipes to determine
+ * if an item can be crafted. It supports both shapeless and non-shapeless recipes.
+ * 
  * @param craftingTable - The crafting table with items.
  * @param recipes - The available recipes.
- * @returns The crafted item or null if no item can be crafted.
+ * @returns {{ 
+ *  group: string;
+ *  id: number;
+ * } | null} The crafted item or null if no item can be crafted.
  */
 export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection) {
     const filteredCraftingTable: Array<Array<string | null>> = removeEmptyRows(convertToNonShapeless(craftingTable));

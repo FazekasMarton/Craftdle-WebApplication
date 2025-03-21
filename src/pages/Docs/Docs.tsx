@@ -7,12 +7,17 @@ import { isTestSubdomain } from "../../functions/isTestSubdomain";
 
 /**
  * Docs component to display the privacy policy and terms of use.
+ * It also handles smooth scrolling to specific sections based on the URL hash.
+ * 
  * @returns The Docs component.
  */
 export function Docs() {
     const location = useLocation();
 
     useEffect(() => {
+        /**
+         * Scrolls to the element specified by the URL hash if it exists.
+         */
         if (location.hash) {
             const element = document.getElementById(location.hash.substring(1));
             if (element) {

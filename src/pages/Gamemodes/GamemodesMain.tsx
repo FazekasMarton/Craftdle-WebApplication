@@ -15,7 +15,14 @@ interface GamemodesMainProps {
 
 /**
  * GamemodesMain component to display the list of gamemodes.
+ * 
+ * This component renders a list of available gamemodes, allowing the user to select one.
+ * It also provides visual feedback and warnings for specific gamemodes.
+ * 
  * @param props - The properties for the GamemodesMain component.
+ * @param props.gamemodes - Array of available gamemodes.
+ * @param props.selectedGamemode - The currently selected gamemode ID.
+ * @param props.setSelectedGamemode - Function to update the selected gamemode.
  * @returns The GamemodesMain component.
  */
 export function GamemodesMain(props: GamemodesMainProps) {

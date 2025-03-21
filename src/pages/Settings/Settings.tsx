@@ -17,12 +17,18 @@ export function Settings() {
     const [modifiedSettings, setModifiedSettings] = useState<Array<ISettings> | null>(structuredClone(originalSettings))
     const [activeProfile, setActiveProfile] = useState<number>(originalSettings?.findIndex(s => s.isSet) ?? 0)
 
+    /**
+     * Loads settings from the server if they are not already loaded.
+     */
     useEffect(() => {
         if (!originalSettings && user.loginToken) {
             loadSettings()
         }
     }, [user])
 
+    /**
+     * Resets the modified settings and active profile when the original settings change.
+     */
     useEffect(() => {
         if (!modifiedSettings) {
             setModifiedSettings(structuredClone(originalSettings))

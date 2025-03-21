@@ -13,7 +13,7 @@ const maintenanceSlice = createSlice({
     initialState,
     reducers: {
         /**
-         * Set the maintenance state.
+         * Update the maintenance state.
          * @param state - The current state.
          * @param action - The action containing the maintenance data.
          */

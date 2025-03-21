@@ -54,8 +54,9 @@ function randomizepanoramas() {
 }
 
 /**
- * Background component to display a random panorama background.
- * @returns The Background component.
+ * Load an image and resolve the promise once the image is loaded.
+ * @param src - The source URL of the image.
+ * @returns A promise that resolves when the image is loaded.
  */
 function loadImage(src: string) {
     return new Promise((resolve) => {
@@ -65,6 +66,10 @@ function loadImage(src: string) {
     });
 }
 
+/**
+ * Background component to display a random panorama background.
+ * @returns The Background component.
+ */
 export function Background() {
     const [loaded, setLoaded] = useState(false);
     const [panorama] = useState(randomizepanoramas());

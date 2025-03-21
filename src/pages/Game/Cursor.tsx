@@ -11,10 +11,11 @@ import { removeRequiredControl } from "../../features/game/gameSlice";
 import { focus } from "../../classes/Focus";
 
 /**
- * Get the key and index by value from the controls object.
- * @param obj - The controls object.
- * @param value - The value to find.
- * @returns The key and index as a string.
+ * A helper function to find the key and index of a value in the controls object.
+ * 
+ * @param obj - The controls object containing key-value pairs.
+ * @param value - The value to search for.
+ * @returns The key and index as a string, or undefined if not found.
  */
 function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
     for (const key of Object.keys(obj)) {
@@ -39,9 +40,10 @@ interface CursorProps {
 }
 
 /**
- * Cursor component to handle item interactions with the crafting table.
- * @param props - The properties for the Cursor component.
- * @returns The Cursor component.
+ * A React component that handles the player's cursor interactions with the crafting table.
+ * 
+ * @param props - The properties for the Cursor component, including crafting table slots and size.
+ * @returns A JSX element representing the cursor, or null if no item is picked up.
  */
 function CursorRaw(props: CursorProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));

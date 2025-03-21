@@ -7,6 +7,18 @@ interface MetaProps {
     keywords?: string;
 }
 
+/**
+ * Meta component to manage the HTML head metadata.
+ * 
+ * This component dynamically updates the page title, description, keywords,
+ * and other metadata based on the provided props and the current environment.
+ * 
+ * @param props - The properties for the Meta component.
+ * @param props.title - The title of the page.
+ * @param props.description - The description of the page.
+ * @param props.keywords - The keywords for the page.
+ * @returns The Meta component.
+ */
 export function Meta(props: MetaProps) {
     const isTest = isTestSubdomain();
     const manifest = isTest ? "testManifest.json" : "defaultManifest.json";

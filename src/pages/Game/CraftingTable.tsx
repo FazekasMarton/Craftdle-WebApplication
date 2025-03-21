@@ -29,14 +29,22 @@ interface CraftingTableProps {
 }
 
 /**
- * CraftingTable component to display the crafting table and handle crafting logic.
- * @param props - The properties for the CraftingTable component.
- * @returns The CraftingTable component.
+ * A React component that displays the crafting table and handles crafting logic.
+ * 
+ * @param props - The properties for the CraftingTable component, including size, recipes, and state handlers.
+ * @returns A JSX element representing the crafting table interface.
  */
 function CraftingTableRaw(props: CraftingTableProps) {
     const [craftedItemGroup, setCraftedItemGroup] = useState<string | null>(null)
     const [craftedItem, setCraftedItem] = useState<IItem | null>(null)
 
+    /**
+     * Determine the crafted item based on the current crafting table state and recipes.
+     * Updates the crafted item and its group in the component's state.
+     * 
+     * @param craftingTable - The current state of the crafting table slots.
+     * @param recipes - The collection of available recipes.
+     */
     async function saveCraftedItem(craftingTable: Array<Array<HTMLImageElement | null>>, recipes: IRecipeCollection) {
         let craftedItem = craft(craftingTable, recipes)
         setCraftedItemGroup(craftedItem?.group ?? null)

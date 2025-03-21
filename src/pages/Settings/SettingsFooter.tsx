@@ -40,6 +40,11 @@ export function SettingsFooter(props: SettingsFooterProps) {
         removeIsSet(props.profiles && props.profiles[props.profile])
     );
 
+    /**
+     * Saves the current settings for the active profile.
+     * @param currentSettings - The modified settings to save.
+     * @param originalSettings - The original settings to update.
+     */
     function save(currentSettings: ISettings[], originalSettings: ISettings[]) {
         let settings: Array<ISettings> = JSON.parse(JSON.stringify(originalSettings));
         settings[props.profile] = currentSettings[props.profile]
@@ -47,6 +52,10 @@ export function SettingsFooter(props: SettingsFooterProps) {
         store.dispatch(changeSettings(settings[props.profile]))
     }
     
+    /**
+     * Marks the active profile as "set" and updates the settings accordingly.
+     * @returns An object containing the updated new and original settings.
+     */
     function set() {
         let originalSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.originalSettings));
         let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));

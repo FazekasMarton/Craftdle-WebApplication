@@ -105,9 +105,19 @@ export const userSlice = createSlice({
                 localStorage.clear()
             }
         },
+        /**
+         * Set the installed state.
+         * @param state - The current state.
+         * @param action - The action containing the installation event.
+         */
         setInstalled: (state, action: PayloadAction<BeforeInstallPromptEvent | null>) => {
             state.installed = action.payload
         },
+        /**
+         * Update the user's profile picture and border.
+         * @param state - The current state.
+         * @param action - The action containing the profile picture and border data.
+         */
         updateProfile: (state, action: PayloadAction<{
             profilePicture: IProfileImage | null,
             profileBorder: IProfileImage | null

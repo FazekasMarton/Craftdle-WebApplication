@@ -41,7 +41,7 @@ const infoSlice = createSlice({
             state.text = action.payload.text;
         },
         /**
-         * Delete the info state.
+         * Clear the info state.
          * @param state - The current state.
          */
         deleteInfo: (state) => {

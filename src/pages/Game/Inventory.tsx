@@ -18,7 +18,15 @@ interface InventoryProps {
 
 /**
  * Inventory component to display the player's inventory.
+ * 
+ * This component renders a searchable inventory grid. Each item in the inventory is displayed
+ * as a slot, and users can filter items by typing in the search bar. The size of the slots
+ * is dynamically adjusted based on user settings.
+ * 
  * @param props - The properties for the Inventory component.
+ * @param props.itemsCollection - The collection of items to display in the inventory.
+ * @param props.items - The `Items` instance used to retrieve item details.
+ * @param props.isOpen - A boolean indicating whether the inventory is open.
  * @returns The Inventory component.
  */
 function InventoryRaw(props: InventoryProps) {

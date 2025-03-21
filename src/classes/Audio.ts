@@ -13,11 +13,19 @@ import write2Sound from "../assets/audios/write2.mp3";
 import write3Sound from "../assets/audios/write3.mp3";
 import { store } from "../app/store";
 
+/**
+ * Interface for sound effects mapping.
+ * Maps sound effect names to arrays of preloaded audio elements.
+ */
 interface ISoundEffects {
-    [key: string]: HTMLAudioElement[]
+    [key: string]: HTMLAudioElement[];
 }
 
 // Define sound effects with preloaded audio
+/**
+ * Preloaded sound effects for the application.
+ * Each sound effect is represented by an array of HTMLAudioElement objects.
+ */
 const soundEffects: ISoundEffects = {
     click: [
         new Audio(clickSound)
@@ -52,10 +60,12 @@ Object.values(soundEffects).forEach(audio => audio.forEach(a => a.load()));
 
 /**
  * Class to handle playing sound effects.
+ * Provides methods to play specific sound effects with volume control.
  */
 export class SoundEffect {
     /**
      * Play a sound effect.
+     * Selects a random audio file from the specified effect's array and plays it.
      * @param effect - The name of the sound effect to play.
      */
     static play(effect: keyof typeof soundEffects) {

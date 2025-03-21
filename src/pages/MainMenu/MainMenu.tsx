@@ -22,11 +22,14 @@ declare global {
     }
 }
 
+/**
+ * Interface for backend version information.
+ */
 interface VersionInfo {
-    version: string,
-    snapshot: string,
-    minecraftVersion: string,
-    minecraftVersionName: string
+    version: string;
+    snapshot: string;
+    minecraftVersion: string;
+    minecraftVersionName: string;
 }
 
 /**

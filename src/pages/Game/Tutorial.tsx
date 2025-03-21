@@ -44,6 +44,9 @@ export function Tutorial(props: TutorialProps) {
         }
     }, [game, text]);
 
+    /**
+     * Flag to determine if the current word in the tutorial text should be highlighted.
+     */
     let isHighlighted = false;
 
     return currentStep && (

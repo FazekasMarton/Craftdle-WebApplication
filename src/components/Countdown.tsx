@@ -31,7 +31,12 @@ function getCountdownText(seconds: number){
 
 /**
  * Countdown component to render a countdown timer.
+ * 
+ * This component displays a countdown timer and updates the text every second.
+ * When the timer reaches zero, it dispatches a maintenance state update.
+ * 
  * @param props - The props for the component.
+ * @param props.time - The initial countdown time in seconds.
  * @returns The Countdown component.
  */
 export function Countdown(props: CountdownProps){

@@ -67,7 +67,7 @@ const errorSlice = createSlice({
             }
         },       
         /**
-         * Reset the error state to the initial state.
+         * Reset the error state to the default values.
          * @param state - The current state.
          */
         resetError: (state) => {

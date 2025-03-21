@@ -38,6 +38,9 @@ function removeIsSet(settings: ISettings[] | null) {
 export function SettingsHeader(props: SettingsHeaderProps) {
     const navigate = useNavigate();
 
+    /**
+     * Switches to the next profile in the list.
+     */
     function changeNextProfile() {
         props.setActiveProfile((props.activeProfile + 1) % 3)
     }

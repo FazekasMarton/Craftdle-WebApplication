@@ -15,14 +15,23 @@ interface CreditGroup {
     credits: Credit[] | CreditGroup[];
 }
 
+/**
+ * Simulates a click event on the credits container.
+ */
 function simulateClick() {
-    document.getElementById("credits")?.click()
+    document.getElementById("credits")?.click();
 }
 
 interface CreditProps {
     credit: Credit;
 }
 
+/**
+ * Renders a single credit item.
+ * 
+ * @param props - The credit item to render.
+ * @returns A JSX element representing the credit.
+ */
 function Credit(props: CreditProps) {
     return <p className={props.credit.credit ? "creditTextContainer" : "creditMessageContainer"}>
         {props.credit.credit ? <strong className="creditTitle">{props.credit.credit}</strong> : null}
@@ -45,6 +54,12 @@ interface CreditGroupProps {
     credits: CreditGroup[];
 }
 
+/**
+ * Renders a group of credits with nested titles.
+ * 
+ * @param props - The credit group to render.
+ * @returns A JSX element representing the credit group.
+ */
 function CreditGroup(props: CreditGroupProps) {
     const titleLevel = props.titleLevel ? props.titleLevel : 2;
     const titleName = `h${titleLevel > 6 ? 6 : titleLevel}` as keyof JSX.IntrinsicElements;
@@ -68,6 +83,12 @@ function CreditGroup(props: CreditGroupProps) {
     </>
 }
 
+/**
+ * Credits component to display the credits for the application.
+ * It fetches credits data from the server and handles scrolling animations.
+ * 
+ * @returns The Credits component.
+ */
 export function Credits() {
     const [credits, setCredits] = useState<CreditGroup[]>([]);
     const [creditsLength, setCreditsLength] = useState<number | null>(null);
@@ -75,6 +96,9 @@ export function Credits() {
     const socket = useSelector((state: RootState) => state.socket.socket);
 
     useEffect(() => {
+        /**
+         * Emits a "credits" event to the server and simulates a click after a timeout.
+         */
         if(creditsLength){
             timeoutRef.current = setTimeout(() => {
                 socket?.emit("credits");
@@ -88,6 +112,9 @@ export function Credits() {
     }, [socket, creditsLength]);
 
     useEffect(() => {
+        /**
+         * Fetches credits data from the server and calculates the scroll duration.
+         */
         fetch(`${import.meta.env.VITE_SERVER_URL}/credits`)
             .then(res => res.json())
             .then(data => {

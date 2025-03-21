@@ -176,6 +176,10 @@ const maintenanceRouter = createBrowserRouter([
     },
 ])
 
+/**
+ * Automatically logs in the user using a token or as a guest if no token is found.
+ * @param token - The login token for the user.
+ */
 async function autoLogin(token: string | null) {
     try {
         if (token) {
@@ -196,11 +200,18 @@ async function autoLogin(token: string | null) {
     }
 }
 
+/**
+ * Main application component that handles routing, user state, and maintenance mode.
+ * @returns The App component.
+ */
 export function App() {
     const user = useSelector((state: RootState) => state.user);
     const socket = useSelector((state: RootState) => state.socket.socket);
     const maintenance = useSelector((state: RootState) => state.maintenance);
 
+    /**
+     * Loads the saved user from the store and initializes the socket connection.
+     */
     async function loadSavedUser() {
         await store.dispatch(loadUser());
         const token = store.getState().user.loginToken;
@@ -209,12 +220,14 @@ export function App() {
     }
 
     useEffect(() => {
+        // Load user data on initial render if no username is present.
         if (!user.username) {
             loadSavedUser()
         }
     }, [])
 
     useEffect(() => {
+        // Handle socket events for maintenance, errors, and disconnections.
         socket?.on("maintenance", (maintenanceData: IMaintenance) => {
             store.dispatch(setMaintenance(maintenanceData))
         })
@@ -240,6 +253,7 @@ export function App() {
     }, [socket])
 
     useEffect(() => {
+        // Handle the "beforeinstallprompt" event for PWA installation.
         const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
             e.preventDefault();
 
@@ -258,6 +272,7 @@ export function App() {
         };
     }, []);
 
+    // Determine the router to use based on maintenance and user state.
     const router = maintenance.started && maintenance.countdown
         ? maintenanceRouter
         : user.isGuest
@@ -280,6 +295,7 @@ export function App() {
 
     return (
         <>
+            {/* Render the router provider with the selected router */}
             <RouterProvider key={String(maintenance.started)} router={router} />
         </>
     )

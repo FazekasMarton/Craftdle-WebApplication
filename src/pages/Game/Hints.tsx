@@ -14,9 +14,7 @@ interface HintButtonProps {
 
 /**
  * Component to render a hint button with countdown.
- * @param hint - The hint text.
- * @param index - The index of the hint.
- * @param turn - The current turn number.
+ * @param props - The properties for the HintButton component.
  * @returns The HintButton component.
  */
 function HintButton(props: HintButtonProps) {
@@ -38,7 +36,7 @@ function HintButton(props: HintButtonProps) {
 
 /**
  * Hints component to display a list of hints with countdowns.
- * @param props - The props for the component.
+ * @param props - The properties for the Hints component.
  * @returns The Hints component.
  */
 export function Hints(props: HintsProps) {

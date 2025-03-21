@@ -1,3 +1,5 @@
+/* ---- Theme Variables ---- */
+/* Define color variables for consistent theming across the application. */
 :root {
     --DarkRed: #AA0000;
     --Red: #FF5555;
@@ -17,8 +19,8 @@
     --Black: #000000;
 }
 
-/* ---- Landscape Devices ---- */
-
+/* ---- Font Definitions ---- */
+/* Define custom Minecraft fonts for the application. */
 @font-face {
     font-family: MinecraftRegular;
     src: url("assets/minecraft-font/MinecraftRegular.otf");
@@ -29,13 +31,15 @@
     src: url("assets/minecraft-font/MinecraftItalic.otf");
 }
 
+/* ---- Global Styles ---- */
+/* Apply global styles such as font family and user-select behavior. */
 * {
     font-family: MinecraftRegular;
     user-select: none;
 }
 
-/* --- Scrollbar --- */
-
+/* ---- Scrollbar Styling ---- */
+/* Customize the appearance of the scrollbar for desktop users. */
 ::-webkit-scrollbar {
     width: 8vmin;
     max-width: 25px;
@@ -61,13 +65,16 @@
     background-size: contain;
 }
 
+/* ---- Responsive Design ---- */
+/* Hide scrollbars for devices with coarse pointers (e.g., touchscreens). */
 @media (pointer:coarse) {
     ::-webkit-scrollbar {
         display: none;
     }
 }
 
-/* --- Components --- */
+/* ---- Components ---- */
+/* Define styles for individual components like watermark, error modals, achievements, etc. */
 
 /* -- Test Watermark -- */
 
@@ -160,6 +167,8 @@
     z-index: 15;
 }
 
+/* ---- Animations ---- */
+/* Define keyframes for animations like sliding and spinning effects. */
 @keyframes slide {
     0% {
         translate: 110%;
@@ -216,7 +225,7 @@
     object-fit: contain;
 }
 
-/* -- InfoWindow -- */
+/* -- Info Window -- */
 
 #infoWindow {
     position: absolute;
@@ -285,7 +294,7 @@
     border-left: 1vmin solid rgb(115, 115, 115);
 }
 
-/* -- StoneButton & StoneSlider -- */
+/* -- Stone Button & Stone Slider -- */
 
 .stoneButton,
 .disabledStoneButton,
@@ -381,6 +390,9 @@
 .stoneSlider>input::-webkit-slider-thumb:hover {
     box-shadow: 0 0 0 0.3vmin white;
 }
+
+/* ---- Layouts ---- */
+/* Define grid and flexbox layouts for various sections like main menu, game, and settings. */
 
 /* --- Wrapper --- */
 
@@ -801,7 +813,7 @@ input:-webkit-autofill:focus {
     height: min-content;
 }
 
-/* -- Settings, Gamemodes, Stats & Patch Notes-- */
+/* -- Settings, Gamemodes, Stats & Patch Notes -- */
 
 #settings,
 #gamemodes,
@@ -2150,6 +2162,8 @@ input:-webkit-autofill:focus {
     transform: translate(-50%, -50%);
 }
 
+/* ---- Media Queries ---- */
+/* Adjust styles for portrait orientation and smaller devices. */
 @media (pointer:coarse) {
     ::-webkit-scrollbar {
         display: none;
