@@ -13,9 +13,96 @@ import { SoundEffect } from '../../classes/Audio';
  * Props for the UserAuthNav component.
  */
 interface UserAuthNavProps {
-    isGuest: boolean,
-    form: "Login" | "Register" | "Logout" | "ForgotPassword"
-    setForm: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void
+    isGuest: boolean;
+    form: "Login" | "Register" | "Logout" | "ForgotPassword";
+    setForm: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+}
+
+/**
+ * Props for the InputField component.
+ */
+interface InputFieldProps {
+    id: string;
+    label: string;
+    type: string;
+    value: string;
+    onChange: (value: string) => void;
+    errors: string[];
+}
+
+/**
+ * Props for the ForgotPasswordForm component.
+ */
+interface ForgotPasswordFormProps extends FormProps {}
+
+/**
+ * Props for the ChangePasswordInstruction component.
+ */
+interface ChangePasswordInstructionProps {
+    item: {
+        item_id: string;
+        name: string;
+        src: string;
+    };
+}
+
+/**
+ * Props for form components used in the UserAuth system.
+ */
+interface FormProps {
+    /**
+     * Function to control the visibility of the authentication form.
+     * @param value - A boolean indicating whether to open or close the form.
+     */
+    openAuth: (value: boolean) => void;
+
+    /**
+     * Optional function to set the current form type.
+     * @param value - The form type to set ("Login", "Register", "Logout", or "ForgotPassword").
+     */
+    setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+}
+
+/**
+ * Utility function to validate input fields based on rules.
+ * @param value - The value to validate.
+ * @param rules - An array of validation rules.
+ * @returns An array of error messages.
+ */
+function validateField(value: string, rules: { required?: boolean, minLength?: number, maxLength?: number, regex?: RegExp, errorMessage: string }[]): string[] {
+    const errors = [];
+    for (const rule of rules) {
+        if (rule.required && !value) {
+            errors.push(rule.errorMessage);
+        }
+        if (rule.minLength && value.length < rule.minLength) {
+            errors.push(rule.errorMessage);
+        }
+        if (rule.maxLength && value.length > rule.maxLength) {
+            errors.push(rule.errorMessage);
+        }
+        if (rule.regex && !rule.regex.test(value)) {
+            errors.push(rule.errorMessage);
+        }
+    }
+    return errors;
+}
+
+/**
+ * Reusable InputField component for rendering input fields with validation errors.
+ * @param props - The properties for the InputField component.
+ * @returns The InputField component.
+ */
+function InputField(props: InputFieldProps) {
+    return (
+        <div>
+            <label htmlFor={props.id}>{props.label}</label>
+            <input type={props.type} id={props.id} onChange={(e) => props.onChange(e.currentTarget.value)} value={props.value} />
+            <ul className='inputError'>
+                {props.errors.map((err, index) => <li key={index}>{err}</li>)}
+            </ul>
+        </div>
+    );
 }
 
 /**
@@ -24,19 +111,26 @@ interface UserAuthNavProps {
  * @returns The UserAuthNav component.
  */
 function UserAuthNav(props: UserAuthNavProps) {
-    return <div id="userAuthNav">
-        <Button color={props.form == "Login" ? "gray" : "green"} onClick={() => props.setForm("Login")}>Log In</Button>
-        <Button color={props.form == "Register" ? "gray" : "green"} onClick={() => props.setForm("Register")}>Sign Up</Button>
-        {!props.isGuest ? <Button color={props.form == "Logout" ? "gray" : "green"} onClick={() => props.setForm("Logout")}>Log Out</Button> : null}
-    </div>
-}
-
-/**
- * Props for the form components.
- */
-interface FormProps {
-    openAuth: (value: boolean) => void;
-    setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+    const buttons = [
+        { label: "Log In", form: "Login" },
+        { label: "Sign Up", form: "Register" },
+        { label: "Log Out", form: "Logout", condition: !props.isGuest }
+    ];
+    return (
+        <div id="userAuthNav">
+            {buttons.map(({ label, form: btnForm, condition = true }) =>
+                condition && (
+                    <Button
+                        key={btnForm}
+                        color={props.form === btnForm ? "gray" : "green"}
+                        onClick={function () { props.setForm(btnForm as UserAuthNavProps['form']); }}
+                    >
+                        {label}
+                    </Button>
+                )
+            )}
+        </div>
+    );
 }
 
 /**
@@ -45,70 +139,52 @@ interface FormProps {
  * @returns The LoginForm component.
  */
 function LoginForm(props: FormProps) {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [rememberMe, setRememberMe] = useState(false)
-    const [usernameError, setUsernameError] = useState<Array<string>>()
-    const [passwordError, setPasswordError] = useState<Array<string>>()
-    return <div className='authForm'>
-        <div>
-            <label htmlFor="loginUsernameAndEmail">Username or Email:</label>
-            <input type="text" id='loginUsernameAndEmail' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
-            <ul className='inputError'>{
-                usernameError?.map((err, index) => {
-                    return <li key={index}>{err}</li>
-                })
-            }</ul>
-        </div>
-        <div>
-            <label htmlFor="loginPassword">Password:</label>
-            <input type="password" id='loginPassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
-            <ul className='inputError'>{
-                passwordError?.map((err, index) => {
-                    return <li key={index}>{err}</li>
-                })
-            }</ul>
-            <span id='forgotPassword' onClick={() => { props.setForm && props.setForm("ForgotPassword") }}>Forgot password?</span>
-        </div>
-        <div className='checkRow'>
-            <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />
-            <label htmlFor="rememberMe">Remember Me</label>
-        </div>
-        <Button color="green" onClick={async () => {
-            let usernameErr = []
-            if (username.length <= 0) {
-                usernameErr.push("Username cannot be empty!")
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
+    const [errors, setErrors] = useState({ username: [] as string[], password: [] as string[] });
+
+    /**
+     * Handles the login form submission.
+     */
+    async function handleSubmit() {
+        const usernameErrors = validateField(username, [{ required: true, errorMessage: "Username cannot be empty!" }]);
+        const passwordErrors = validateField(password, [{ required: true, errorMessage: "Password cannot be empty!" }]);
+        setErrors({ username: usernameErrors, password: passwordErrors });
+
+        if (!usernameErrors.length && !passwordErrors.length) {
+            const response = await store.dispatch(login({ usernameOrEmail: username, password, stayLoggedIn: rememberMe }));
+            const res = response.payload as any;
+            if (res.response) {
+                await store.dispatch(clearUser(true));
+                await store.dispatch(saveUser(res.data.data));
+                setUsername("");
+                setPassword("");
+                setRememberMe(false);
+                props.openAuth(false);
+                loadSettings();
+                connectSocket();
+            } else {
+                setErrors({
+                    username: res.data.message.errors.username || [],
+                    password: res.data.message.errors.password || []
+                });
             }
-            setUsernameError(usernameErr)
-            let passwordErr = []
-            if (password.length <= 0) {
-                passwordErr.push("Password cannot be empty!")
-            }
-            setPasswordError(passwordErr)
-            let errors = [usernameErr, passwordErr]
-            if (errors.every(error => error.length === 0)) {
-                let response = await store.dispatch(login({
-                    usernameOrEmail: username,
-                    password: password,
-                    stayLoggedIn: rememberMe
-                }))
-                let res = (response.payload as any)
-                if (res.response) {
-                    await store.dispatch(clearUser(true))
-                    await store.dispatch(saveUser(res.data.data))
-                    setUsername("")
-                    setPassword("")
-                    setRememberMe(false)
-                    props.openAuth(false)
-                    loadSettings()
-                    connectSocket()
-                } else {
-                    res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
-                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
-                }
-            }
-        }}>Log In</Button>
-    </div>
+        }
+    }
+
+    return (
+        <div className='authForm'>
+            <InputField id="loginUsernameAndEmail" label="Username or Email:" type="text" value={username} onChange={setUsername} errors={errors.username} />
+            <InputField id="loginPassword" label="Password:" type="password" value={password} onChange={setPassword} errors={errors.password} />
+            <span id='forgotPassword' onClick={function () { props.setForm && props.setForm("ForgotPassword"); }}>Forgot password?</span>
+            <div className='checkRow'>
+                <input type="checkbox" id='rememberMe' onChange={function (e) { setRememberMe(e.currentTarget.checked); }} checked={rememberMe} />
+                <label htmlFor="rememberMe">Remember Me</label>
+            </div>
+            <Button color="green" onClick={handleSubmit}>Log In</Button>
+        </div>
+    );
 }
 
 /**
@@ -116,34 +192,42 @@ function LoginForm(props: FormProps) {
  * @param props - The properties for the ForgotPasswordForm component.
  * @returns The ForgotPasswordForm component.
  */
-function ForgotPasswordForm(props: FormProps) {
+function ForgotPasswordForm(props: ForgotPasswordFormProps) {
     const socket = useSelector((state: RootState) => state.socket.socket);
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState<Array<string>>([]);
     const [socketResponse, setSocketResponse] = useState<{ token: string, success: boolean } | null>(null);
     const [item, setItem] = useState<{ item_id: string, name: string, src: string } | null>(null);
 
-    useEffect(() => {
+    useEffect(function () {
         if (socket) {
-            socket.on("userVerification", (data: { token: string, success: boolean }) => {
+            socket.on("userVerification", function (data: { token: string, success: boolean }) {
                 setSocketResponse(data);
             });
 
-            return () => {
+            return function () {
                 socket.off("userVerification");
             };
         }
     }, [socket]);
 
-    const validateEmail = (email: string): Array<string> => {
+    /**
+     * Validates the email format.
+     * @param email - The email to validate.
+     * @returns An array of error messages.
+     */
+    function validateEmail(email: string): Array<string> {
         const errors = [];
         if (!/\S+@\S+\.\S+/.test(email)) {
             errors.push("Email must be valid!");
         }
         return errors;
-    };
+    }
 
-    const handleSendEmail = async () => {
+    /**
+     * Handles sending the forgot password email.
+     */
+    async function handleSendEmail() {
         const errors = validateEmail(email);
         setEmailError(errors);
         setItem(null);
@@ -161,7 +245,7 @@ function ForgotPasswordForm(props: FormProps) {
                 setEmailError(res.data.message.errors.email || []);
             }
         }
-    };
+    }
 
     return (
         <div className="authForm">
@@ -186,7 +270,7 @@ function ForgotPasswordForm(props: FormProps) {
                         <input
                             type="email"
                             id="forgotPasswordEmail"
-                            onChange={(e) => setEmail(e.currentTarget.value)}
+                            onChange={function (e) { setEmail(e.currentTarget.value); }}
                             value={email}
                         />
                         <ul className="inputError">
@@ -210,6 +294,11 @@ interface PasswordChangeFormProps {
     setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
 }
 
+/**
+ * PasswordChangeForm component to handle password change.
+ * @param props - The properties for the PasswordChangeForm component.
+ * @returns The PasswordChangeForm component.
+ */
 function PasswordChangeForm(props: PasswordChangeFormProps) {
     const [password, setPassword] = useState("")
     const [passwordC, setPasswordC] = useState("")
@@ -218,23 +307,23 @@ function PasswordChangeForm(props: PasswordChangeFormProps) {
     return <div className='authForm'>
         <div>
             <label htmlFor="changePassword">New Password:</label>
-            <input type="password" id='changePassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
+            <input type="password" id='changePassword' onChange={function (e) { setPassword(e.currentTarget.value) }} value={password} />
             <ul className='inputError'>{
-                passwordError?.map((err, index) => {
+                passwordError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="changePasswordConfirm">Confirm Password:</label>
-            <input type="password" id='changePasswordConfirm' onChange={(e) => { setPasswordC(e.currentTarget.value) }} value={passwordC} />
+            <input type="password" id='changePasswordConfirm' onChange={function (e) { setPasswordC(e.currentTarget.value) }} value={passwordC} />
             <ul className='inputError'>{
-                passwordCError?.map((err, index) => {
+                passwordCError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
-        <Button color="green" onClick={async () => {
+        <Button color="green" onClick={async function () {
             let passwordErr = []
             if (password.length < 5 || password.length > 16) {
                 passwordErr.push("Password must be between 5 and 16 characters!")
@@ -246,7 +335,7 @@ function PasswordChangeForm(props: PasswordChangeFormProps) {
             }
             setPasswordCError(passwordCErr)
             let errors = [passwordErr, passwordCErr]
-            if (errors.every(error => error.length === 0)) {
+            if (errors.every(function (error) { return error.length === 0 })) {
                 let response = await store.dispatch(changePassword({
                     password: password,
                     token: props.token
@@ -292,12 +381,12 @@ function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
             <h2 id="forgotPasswordTitle">Email Sent!</h2>
             <div id="forgotPasswordText">
                 <p>
-                    We’ve sent an email to the address you provided. The email contains three Minecraft
+                    We've sent an email to the address you provided. The email contains three Minecraft
                     items—select the correct one as shown on this page to complete the password reset
                     process.
                 </p>
                 <p>
-                    If you don’t see the email, please check your spam or promotions folder!
+                    If you don't see the email, please check your spam or promotions folder!
                 </p>
             </div>
         </div>
@@ -324,54 +413,54 @@ function RegisterForm(props: FormProps) {
     return <div className='authForm'>
         <div>
             <label htmlFor="registerUsername">Username:</label>
-            <input type="text" id='registerUsername' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
+            <input type="text" id='registerUsername' onChange={function (e) { setUsername(e.currentTarget.value) }} value={username} />
             <ul className='inputError'>{
-                usernameError?.map((err, index) => {
+                usernameError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="registerEmail">Email:</label>
-            <input type="email" id='registerEmail' onChange={(e) => { setEmail(e.currentTarget.value) }} value={email} />
+            <input type="email" id='registerEmail' onChange={function (e) { setEmail(e.currentTarget.value) }} value={email} />
             <ul className='inputError'>{
-                emailError?.map((err, index) => {
+                emailError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="registerPassword">Password:</label>
-            <input type="password" id='registerPassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
+            <input type="password" id='registerPassword' onChange={function (e) { setPassword(e.currentTarget.value) }} value={password} />
             <ul className='inputError'>{
-                passwordError?.map((err, index) => {
+                passwordError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="registerPasswordConfirm">Confirm Password:</label>
-            <input type="password" id='registerPasswordConfirm' onChange={(e) => { setPasswordC(e.currentTarget.value) }} value={passwordC} />
+            <input type="password" id='registerPasswordConfirm' onChange={function (e) { setPasswordC(e.currentTarget.value) }} value={passwordC} />
             <ul className='inputError'>{
-                passwordCError?.map((err, index) => {
+                passwordCError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div className='checkRow'>
-            <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />
+            <input type="checkbox" id='rememberMe' onChange={function (e) { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />
             <label htmlFor="rememberMe">Remember Me</label>
         </div>
         <div className='checkRow'>
-            <input type="checkbox" id='acceptTermsOfUse' onChange={(e) => { setAcceptTOU(e.currentTarget.checked) }} checked={acceptTOU} />
+            <input type="checkbox" id='acceptTermsOfUse' onChange={function (e) { setAcceptTOU(e.currentTarget.checked) }} checked={acceptTOU} />
             <label htmlFor="acceptTermsOfUse">I accept and agree to the <Link className='link' to="/docs#privacyPolicy" target='blank'>Privacy Policy</Link> and the <Link className='link' to="/docs#termsOfUse" target='blank'>Terms of Use</Link></label>
             <ul className='inputError'>{
-                acceptError?.map((err, index) => {
+                acceptError?.map(function (err, index) {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
-        <Button color="green" onClick={async () => {
+        <Button color="green" onClick={async function () {
             let usernameErr = []
             if (username.length < 5 || username.length > 16) {
                 usernameErr.push("Username must be between 5 and 16 characters!")
@@ -401,7 +490,7 @@ function RegisterForm(props: FormProps) {
             }
             setAcceptError(acceptErr)
             let errors = [usernameErr, emailErr, passwordErr, passwordCErr, acceptErr]
-            if (errors.every(error => error.length === 0)) {
+            if (errors.every(function (error) { return error.length === 0 })) {
                 let response = await store.dispatch(register({
                     username: username,
                     email: email,
@@ -439,7 +528,7 @@ function RegisterForm(props: FormProps) {
 function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
-        <Button color="green" onClick={async () => {
+        <Button color="green" onClick={async function () {
             let response = await store.dispatch(logout())
             let res = (response.payload as any)
             if (res.response) {
@@ -485,7 +574,7 @@ export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout" | "ForgotPassword">("Login")
     return <div id="userAuth">
-        <button id='authExit' onClick={() => {props.openAuth(false); SoundEffect.play("click")}}></button>
+        <button id='authExit' onClick={function () {props.openAuth(false); SoundEffect.play("click")}}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
         {getForm(form, props.openAuth, setForm)}
     </div>
