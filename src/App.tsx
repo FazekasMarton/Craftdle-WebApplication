@@ -69,7 +69,7 @@ export function App() {
         if (!user.username) {
             loadSavedUser()
         }
-    }, [user.username])
+    }, [])
 
     useEffect(() => {
         // Handle socket events for maintenance, errors, and disconnections.

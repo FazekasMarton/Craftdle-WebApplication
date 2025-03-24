@@ -1605,20 +1605,22 @@ input:-webkit-autofill:focus {
     background-color: #00000093;
     padding: 5vmin;
     width: 33dvw;
-    font-size: 2vmax;
+    min-width: fit-content;
+    height: auto;
+    font-size: 20px;
     text-align: center;
-    overflow: hidden;
+    overflow: auto;
 }
 
 #craftdleMaintenanceTitle {
-    width: 70vmin;
-    max-width: 100%;
+    width: 100%;
+    max-width: 300px;
 }
 
 #maintenanceTitle {
     color: var(--Aqua);
     text-align: start;
-    font-size: 4dvh;
+    font-size: 30px;
 }
 
 #maintenanceMessage p {
