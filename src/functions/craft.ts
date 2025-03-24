@@ -8,7 +8,7 @@ type ICraftingTable = Array<Array<HTMLImageElement | null>>;
  * @param recipe - The recipe to remove empty rows and columns from.
  * @returns {Array<Array<any>>} The recipe with empty rows and columns removed.
  */
-export function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
+export function removeEmptyRows(recipe: INonShapelessRecipe) {
     for (let a = 0; a < 2; a++) {
         for (let i = 0; i < recipe.length; i++) {
             let isAllNull = true;
@@ -37,7 +37,7 @@ export function removeEmptyRows(recipe: INonShapelessRecipe | ICraftingTable) {
             }
         }
     }
-    return recipe as any[][];
+    return recipe as INonShapelessRecipe;
 }
 
 /**
@@ -63,10 +63,10 @@ function convertToNonShapeless(craftingTable: ICraftingTable): INonShapelessReci
  * @returns True if the required items match, false otherwise.
  */
 function matchRequiredItems(items: string[], requiredItems: Array<Array<string> | string>): boolean {
-    for (let requiredItem of requiredItems) {
+    for (const requiredItem of requiredItems) {
         if (Array.isArray(requiredItem)) {
             let contain = false;
-            for (let item of requiredItem) {
+            for (const item of requiredItem) {
                 if (items.includes(item)) {
                     items.splice(items.indexOf(item), 1);
                     contain = true;
@@ -89,8 +89,8 @@ function matchRequiredItems(items: string[], requiredItems: Array<Array<string> 
  * @returns True if the optional items match, false otherwise.
  */
 function matchOptionalItems(items: string[], optionalItems: Array<Array<string> | string>) {
-    for (let optionalItem of optionalItems) {
-        for (let item of items) {
+    for (const optionalItem of optionalItems) {
+        for (const item of items) {
             if (optionalItem.includes(item) || optionalItem == item) {
                 items.splice(items.indexOf(item), 1);
                 break;
@@ -108,7 +108,9 @@ function matchOptionalItems(items: string[], optionalItems: Array<Array<string> 
  */
 function matchShapelessRecipe(items: string[], requiredItems: Array<Array<string> | string>, optionalItems?: Array<Array<string> | string>): boolean {
     if (!matchRequiredItems(items, requiredItems)) return false;
-    optionalItems && matchOptionalItems(items, optionalItems);
+    if (optionalItems){
+        matchOptionalItems(items, optionalItems);
+    }
     return items.length === 0;
 }
 
@@ -147,12 +149,12 @@ function matchNonShapelessRecipe(filteredCraftingTable: Array<Array<string | nul
  * } | null} The crafted item or null if no item can be crafted.
  */
 export function craft(craftingTable: ICraftingTable, recipes: IRecipeCollection) {
-    const filteredCraftingTable: Array<Array<string | null>> = removeEmptyRows(convertToNonShapeless(craftingTable));
+    const filteredCraftingTable = removeEmptyRows(convertToNonShapeless(craftingTable)) as Array<Array<string | null>>;
 
-    for (let recipeGroup in recipes) {
-        for (let recipe of recipes[recipeGroup]) {
+    for (const recipeGroup in recipes) {
+        for (const recipe of recipes[recipeGroup]) {
             if (recipe.shapeless) {
-                let items = filteredCraftingTable.flat(3).filter(cell => cell !== null);
+                const items = filteredCraftingTable.flat(3).filter(cell => cell !== null);
                 const { required, optional } = recipe.recipe as IShapelessRecipe;
                 if (matchShapelessRecipe(items, required, optional)) {
                     return {

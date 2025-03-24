@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { setError } from "../error/errorSlice";
 import { ISettings } from "../../interfaces/ISettings";
@@ -16,7 +16,7 @@ import { ISettings } from "../../interfaces/ISettings";
  */
 export async function communicate(
     state: RootState,
-    dispatch: Function,
+    dispatch: Dispatch,
     url: string,
     method: "GET" | "POST" | "PUT" | "DELETE",
     auth?: "Basic" | "Bearer" | null,
@@ -49,9 +49,13 @@ export async function communicate(
             throw error;
         }
         return { data: data, response: response.ok };
-    } catch (err: any) {
+    } catch (err: unknown) {
         if(!disableError) {
-            dispatch(setError(err.name));
+            if (err instanceof Error) {
+                dispatch(setError(err.name));
+            } else {
+                dispatch(setError("UnknownError"));
+            }
         }
     }
 }

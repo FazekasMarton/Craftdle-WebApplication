@@ -24,7 +24,7 @@ export function Settings() {
         if (!originalSettings && user.loginToken) {
             loadSettings()
         }
-    }, [user])
+    }, [user, originalSettings])
 
     /**
      * Resets the modified settings and active profile when the original settings change.
@@ -34,7 +34,7 @@ export function Settings() {
             setModifiedSettings(structuredClone(originalSettings))
             setActiveProfile(originalSettings?.findIndex(s => s.isSet) ?? 0)
         }
-    }, [originalSettings])
+    }, [originalSettings, modifiedSettings])
 
     return <main id="settings">
         <SettingsHeader activeProfile={activeProfile} setActiveProfile={setActiveProfile} originalSettings={originalSettings} profiles={modifiedSettings} />

@@ -46,14 +46,14 @@ function CraftingTableRaw(props: CraftingTableProps) {
      * @param recipes - The collection of available recipes.
      */
     async function saveCraftedItem(craftingTable: Array<Array<HTMLImageElement | null>>, recipes: IRecipeCollection) {
-        let craftedItem = craft(craftingTable, recipes)
+        const craftedItem = craft(craftingTable, recipes)
         setCraftedItemGroup(craftedItem?.group ?? null)
         setCraftedItem(craftedItem?.id ?? null)
     }
 
     useEffect(() => {
         saveCraftedItem(props.craftingTable, props.recipes)
-    }, [props.craftingTable])
+    }, [props.craftingTable, props.recipes])
 
     return <div id="craftingTable">
         <h1 id="craftingTitle">Crafting</h1>
@@ -81,16 +81,16 @@ function CraftingTableRaw(props: CraftingTableProps) {
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" draggable={false} />
         <div id="craftedItem" className="slot" onClick={() => {
-            let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
-            let requiredControlByTutorial = store.getState().game.requiredControl
+            const requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
+            const requiredControlByTutorial = store.getState().game.requiredControl
             if (craftedItemGroup && craftedItem && (((requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredControlByTutorial?.length === 0) || props.gamemode != 1)) {
-                let guess = {
+                const guess = {
                     item: {
                         group: craftedItemGroup,
                         id: craftedItem.id
                     },
                     table: props.craftingTable.flat(2).map(slot => {
-                        let item = slot?.cloneNode() as HTMLImageElement
+                        const item = slot?.cloneNode() as HTMLImageElement
                         item?.classList.remove("item")
                         return item?.className ? [item?.className] : null
                     })

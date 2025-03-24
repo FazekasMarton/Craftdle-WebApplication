@@ -8,6 +8,7 @@ import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
 import { connectSocket } from '../../functions/connectSocket';
 import { SoundEffect } from '../../classes/Audio';
+import { IPasswordChangeItem, IResponse, IUser } from '../../interfaces/IResponse';
 
 /**
  * Props for the UserAuthNav component.
@@ -29,11 +30,6 @@ interface InputFieldProps {
     onChange: (value: string) => void;
     errors: string[];
 }
-
-/**
- * Props for the ForgotPasswordForm component.
- */
-interface ForgotPasswordFormProps extends FormProps {}
 
 /**
  * Props for the ChangePasswordInstruction component.
@@ -123,7 +119,7 @@ function UserAuthNav(props: UserAuthNavProps) {
                     <Button
                         key={btnForm}
                         color={props.form === btnForm ? "gray" : "green"}
-                        onClick={function () { props.setForm(btnForm as UserAuthNavProps['form']); }}
+                        onClick={() => { props.setForm(btnForm as UserAuthNavProps['form']); }}
                     >
                         {label}
                     </Button>
@@ -154,10 +150,10 @@ function LoginForm(props: FormProps) {
 
         if (!usernameErrors.length && !passwordErrors.length) {
             const response = await store.dispatch(login({ usernameOrEmail: username, password, stayLoggedIn: rememberMe }));
-            const res = response.payload as any;
+            const res = response.payload as IResponse;
             if (res.response) {
                 await store.dispatch(clearUser(true));
-                await store.dispatch(saveUser(res.data.data));
+                await store.dispatch(saveUser(res.data.data as IUser));
                 setUsername("");
                 setPassword("");
                 setRememberMe(false);
@@ -177,9 +173,13 @@ function LoginForm(props: FormProps) {
         <div className='authForm'>
             <InputField id="loginUsernameAndEmail" label="Username or Email:" type="text" value={username} onChange={setUsername} errors={errors.username} />
             <InputField id="loginPassword" label="Password:" type="password" value={password} onChange={setPassword} errors={errors.password} />
-            <span id='forgotPassword' onClick={function () { props.setForm && props.setForm("ForgotPassword"); }}>Forgot password?</span>
+            <span id='forgotPassword' onClick={() => {
+                if(props.setForm){
+                    props.setForm("ForgotPassword");
+                }
+            }}>Forgot password?</span>
             <div className='checkRow'>
-                <input type="checkbox" id='rememberMe' onChange={function (e) { setRememberMe(e.currentTarget.checked); }} checked={rememberMe} />
+                <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked); }} checked={rememberMe} />
                 <label htmlFor="rememberMe">Remember Me</label>
             </div>
             <Button color="green" onClick={handleSubmit}>Log In</Button>
@@ -192,20 +192,20 @@ function LoginForm(props: FormProps) {
  * @param props - The properties for the ForgotPasswordForm component.
  * @returns The ForgotPasswordForm component.
  */
-function ForgotPasswordForm(props: ForgotPasswordFormProps) {
+function ForgotPasswordForm(props: FormProps) {
     const socket = useSelector((state: RootState) => state.socket.socket);
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState<Array<string>>([]);
     const [socketResponse, setSocketResponse] = useState<{ token: string, success: boolean } | null>(null);
     const [item, setItem] = useState<{ item_id: string, name: string, src: string } | null>(null);
 
-    useEffect(function () {
+    useEffect(() => {
         if (socket) {
-            socket.on("userVerification", function (data: { token: string, success: boolean }) {
+            socket.on("userVerification", (data: { token: string, success: boolean }) => {
                 setSocketResponse(data);
             });
 
-            return function () {
+            return () => {
                 socket.off("userVerification");
             };
         }
@@ -235,12 +235,10 @@ function ForgotPasswordForm(props: ForgotPasswordFormProps) {
 
         if (errors.length === 0) {
             const response = await store.dispatch(forgotPassword(email));
-            const res = response.payload as any;
-
-            console.log(res);
+            const res = response.payload as IResponse;
 
             if (res.response) {
-                setItem(res.data.data.item);
+                setItem((res.data.data as IPasswordChangeItem).item);
             } else {
                 setEmailError(res.data.message.errors.email || []);
             }
@@ -270,7 +268,7 @@ function ForgotPasswordForm(props: ForgotPasswordFormProps) {
                         <input
                             type="email"
                             id="forgotPasswordEmail"
-                            onChange={function (e) { setEmail(e.currentTarget.value); }}
+                            onChange={(e) => { setEmail(e.currentTarget.value); }}
                             value={email}
                         />
                         <ul className="inputError">
@@ -307,46 +305,48 @@ function PasswordChangeForm(props: PasswordChangeFormProps) {
     return <div className='authForm'>
         <div>
             <label htmlFor="changePassword">New Password:</label>
-            <input type="password" id='changePassword' onChange={function (e) { setPassword(e.currentTarget.value) }} value={password} />
+            <input type="password" id='changePassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
             <ul className='inputError'>{
-                passwordError?.map(function (err, index) {
+                passwordError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="changePasswordConfirm">Confirm Password:</label>
-            <input type="password" id='changePasswordConfirm' onChange={function (e) { setPasswordC(e.currentTarget.value) }} value={passwordC} />
+            <input type="password" id='changePasswordConfirm' onChange={(e) => { setPasswordC(e.currentTarget.value) }} value={passwordC} />
             <ul className='inputError'>{
-                passwordCError?.map(function (err, index) {
+                passwordCError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
-        <Button color="green" onClick={async function () {
-            let passwordErr = []
+        <Button color="green" onClick={async () => {
+            const passwordErr = []
             if (password.length < 5 || password.length > 16) {
                 passwordErr.push("Password must be between 5 and 16 characters!")
             }
             setPasswordError(passwordErr)
-            let passwordCErr = []
+            const passwordCErr = []
             if (password != passwordC) {
                 passwordCErr.push("Passwords and confirm password are not matching!")
             }
             setPasswordCError(passwordCErr)
-            let errors = [passwordErr, passwordCErr]
-            if (errors.every(function (error) { return error.length === 0 })) {
-                let response = await store.dispatch(changePassword({
+            const errors = [passwordErr, passwordCErr]
+            if (errors.every((error) => { return error.length === 0 })) {
+                const response = await store.dispatch(changePassword({
                     password: password,
                     token: props.token
                 }))
-                let res = (response.payload as any)
+                const res = (response.payload as IResponse)
                 if (res.response) {
                     setPassword("")
                     setPasswordC("")
-                    if(props.setForm) props.setForm("Login")
+                    if (props.setForm) props.setForm("Login")
                 } else {
-                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
+                    if (res.data.message.errors.password) {
+                        setPasswordError(res.data.message.errors.password)
+                    }
                 }
             }
         }}>Change Password</Button>
@@ -413,55 +413,55 @@ function RegisterForm(props: FormProps) {
     return <div className='authForm'>
         <div>
             <label htmlFor="registerUsername">Username:</label>
-            <input type="text" id='registerUsername' onChange={function (e) { setUsername(e.currentTarget.value) }} value={username} />
+            <input type="text" id='registerUsername' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
             <ul className='inputError'>{
-                usernameError?.map(function (err, index) {
+                usernameError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="registerEmail">Email:</label>
-            <input type="email" id='registerEmail' onChange={function (e) { setEmail(e.currentTarget.value) }} value={email} />
+            <input type="email" id='registerEmail' onChange={(e) => { setEmail(e.currentTarget.value) }} value={email} />
             <ul className='inputError'>{
-                emailError?.map(function (err, index) {
+                emailError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="registerPassword">Password:</label>
-            <input type="password" id='registerPassword' onChange={function (e) { setPassword(e.currentTarget.value) }} value={password} />
+            <input type="password" id='registerPassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
             <ul className='inputError'>{
-                passwordError?.map(function (err, index) {
+                passwordError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div>
             <label htmlFor="registerPasswordConfirm">Confirm Password:</label>
-            <input type="password" id='registerPasswordConfirm' onChange={function (e) { setPasswordC(e.currentTarget.value) }} value={passwordC} />
+            <input type="password" id='registerPasswordConfirm' onChange={(e) => { setPasswordC(e.currentTarget.value) }} value={passwordC} />
             <ul className='inputError'>{
-                passwordCError?.map(function (err, index) {
+                passwordCError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
         <div className='checkRow'>
-            <input type="checkbox" id='rememberMe' onChange={function (e) { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />
+            <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />
             <label htmlFor="rememberMe">Remember Me</label>
         </div>
         <div className='checkRow'>
-            <input type="checkbox" id='acceptTermsOfUse' onChange={function (e) { setAcceptTOU(e.currentTarget.checked) }} checked={acceptTOU} />
+            <input type="checkbox" id='acceptTermsOfUse' onChange={(e) => { setAcceptTOU(e.currentTarget.checked) }} checked={acceptTOU} />
             <label htmlFor="acceptTermsOfUse">I accept and agree to the <Link className='link' to="/docs#privacyPolicy" target='blank'>Privacy Policy</Link> and the <Link className='link' to="/docs#termsOfUse" target='blank'>Terms of Use</Link></label>
             <ul className='inputError'>{
-                acceptError?.map(function (err, index) {
+                acceptError?.map((err, index) => {
                     return <li key={index}>{err}</li>
                 })
             }</ul>
         </div>
-        <Button color="green" onClick={async function () {
-            let usernameErr = []
+        <Button color="green" onClick={async () => {
+            const usernameErr = []
             if (username.length < 5 || username.length > 16) {
                 usernameErr.push("Username must be between 5 and 16 characters!")
             }
@@ -469,38 +469,38 @@ function RegisterForm(props: FormProps) {
                 usernameErr.push("Username can only contain alphanumeric and these special characters: . , ; : $ # ! / ? % & ( )")
             }
             setUsernameError(usernameErr)
-            let emailErr = []
+            const emailErr = []
             if (!/\S+@\S+\.\S+/.test(email)) {
                 emailErr.push("Email must be valid!")
             }
             setEmailError(emailErr)
-            let passwordErr = []
+            const passwordErr = []
             if (password.length < 5 || password.length > 16) {
                 passwordErr.push("Password must be between 5 and 16 characters!")
             }
             setPasswordError(passwordErr)
-            let passwordCErr = []
+            const passwordCErr = []
             if (password != passwordC) {
                 passwordCErr.push("Passwords and confirm password are not matching!")
             }
             setPasswordCError(passwordCErr)
-            let acceptErr = []
+            const acceptErr = []
             if (!acceptTOU) {
                 acceptErr.push("Terms of Use must be accepted to create an account!")
             }
             setAcceptError(acceptErr)
-            let errors = [usernameErr, emailErr, passwordErr, passwordCErr, acceptErr]
-            if (errors.every(function (error) { return error.length === 0 })) {
-                let response = await store.dispatch(register({
+            const errors = [usernameErr, emailErr, passwordErr, passwordCErr, acceptErr]
+            if (errors.every((error) => { return error.length === 0 })) {
+                const response = await store.dispatch(register({
                     username: username,
                     email: email,
                     password: password,
                     stayLoggedIn: rememberMe
                 }))
-                let res = (response.payload as any)
+                const res = (response.payload as IResponse)
                 if (res.response) {
                     await store.dispatch(clearUser(true))
-                    await store.dispatch(saveUser(res.data.data))
+                    await store.dispatch(saveUser(res.data.data as IUser))
                     setUsername("")
                     setEmail("")
                     setPassword("")
@@ -511,9 +511,15 @@ function RegisterForm(props: FormProps) {
                     loadSettings()
                     connectSocket()
                 } else {
-                    res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
-                    res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
-                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
+                    if (res.data.message.errors.username) {
+                        setUsernameError(res.data.message.errors.username)
+                    }
+                    if (res.data.message.errors.email) {
+                        setEmailError(res.data.message.errors.email)
+                    }
+                    if (res.data.message.errors.password) {
+                        setPasswordError(res.data.message.errors.password)
+                    }
                 }
             }
         }}>Sign Up</Button>
@@ -528,15 +534,15 @@ function RegisterForm(props: FormProps) {
 function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
-        <Button color="green" onClick={async function () {
-            let response = await store.dispatch(logout())
-            let res = (response.payload as any)
+        <Button color="green" onClick={async () => {
+            const response = await store.dispatch(logout())
+            const res = (response.payload as IResponse)
             if (res.response) {
                 await store.dispatch(clearUser(true))
                 props.openAuth(false)
-                let response = await store.dispatch(guestLogin())
-                let res = (response.payload as any)
-                await store.dispatch(saveUser(res.data.data))
+                const response = await store.dispatch(guestLogin())
+                const res = (response.payload as IResponse)
+                await store.dispatch(saveUser(res.data.data as IUser))
                 connectSocket()
             }
         }}>Log Out</Button>
@@ -574,7 +580,7 @@ export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout" | "ForgotPassword">("Login")
     return <div id="userAuth">
-        <button id='authExit' onClick={function () {props.openAuth(false); SoundEffect.play("click")}}></button>
+        <button id='authExit' onClick={() => { props.openAuth(false); SoundEffect.play("click") }}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
         {getForm(form, props.openAuth, setForm)}
     </div>

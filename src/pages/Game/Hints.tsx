@@ -20,8 +20,8 @@ interface HintButtonProps {
 function HintButton(props: HintButtonProps) {
     const [showHint, setShowHint] = useState(false);
 
-    let countdown = (props.index + 1) * 5 - props.turn;
-    let countdownText = countdown > 0 ? (
+    const countdown = (props.index + 1) * 5 - props.turn;
+    const countdownText = countdown > 0 ? (
         `Hint after ${countdown} turn${countdown == 1 ? "" : "s"}!`
     ) : "Reveal hint!";
 

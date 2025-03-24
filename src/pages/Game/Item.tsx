@@ -40,7 +40,9 @@ export const Item = memo(function Item(props: ItemProps) {
     };
 
     const className = [props.item?.className]
-    props.className && className.push(props.className)
+    if (props.className) {
+        className.push(props.className)
+    }
     return props.item ? (
         <img
             className={className.join(" ")}

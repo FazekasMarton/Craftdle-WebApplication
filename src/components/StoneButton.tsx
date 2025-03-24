@@ -48,7 +48,7 @@ export function StoneButton(props: StoneButtonProps) {
  * @returns The Border component.
  */
 function Border(props: StoneButtonProps) {
-    let click = props.onClick ? props.onClick : () => {}
+    const click = props.onClick ? props.onClick : () => {}
     const commonProps: React.HTMLAttributes<HTMLElement> = {
         className: props.disabled ? "disabledStoneButton" : "stoneButton",
         "aria-disabled": props.disabled,

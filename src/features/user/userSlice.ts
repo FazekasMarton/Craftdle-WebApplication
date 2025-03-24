@@ -6,7 +6,7 @@ import { BeforeInstallPromptEvent } from "../../interfaces/IBeforeInstallPromptE
 /**
  * Interface for the user state.
  */
-interface UserState {
+export interface UserState {
     username: string | null,
     loginToken: string | null,
     isGuest: boolean,
@@ -34,9 +34,9 @@ const initialState: UserState = {
  * @param userData - The user data to save.
  */
 function save(userData: UserState) {
-    const { settings, installed, ...userDataToSave } = userData;
+    const { stayLoggedIn, ...userDataToSave } = userData; // Removed 'settings' and 'installed'
 
-    let storage = userData.stayLoggedIn ? localStorage : sessionStorage
+    const storage = stayLoggedIn ? localStorage : sessionStorage;
 
     Object.entries(userDataToSave).forEach(([key, value]) => {
         const storedValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
@@ -72,7 +72,7 @@ export const userSlice = createSlice({
          * @param state - The current state.
          */
         loadUser: (state) => {
-            let storageContent: {[key: string]: any} = {}
+            const storageContent: {[key: string]: unknown} = {}
             Object.keys(state).forEach((key) => {
                 const storedValue = localStorage.getItem(key);
                 if (storedValue) {
@@ -80,7 +80,7 @@ export const userSlice = createSlice({
                         const parsedValue = JSON.parse(storedValue);
                         storageContent[key] = parsedValue;
                     } catch {
-                        storageContent[key] = storedValue as any;
+                        storageContent[key] = storedValue as unknown;
                     }
                 }
             });

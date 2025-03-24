@@ -20,7 +20,7 @@ interface HeartsProps {
  */
 function getHearts(turn: number, maxHearts: number) {
     const turnLeft = maxHearts * 2 - turn
-    let hearts = []
+    const hearts = []
     for (let i = 0; i < maxHearts; i++) {
         if (i * 2 + 1 == turnLeft) {
             hearts.push(halfHeart)

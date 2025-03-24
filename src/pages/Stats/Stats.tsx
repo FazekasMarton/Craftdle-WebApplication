@@ -4,6 +4,7 @@ import { RootState, store } from "../../app/store"
 import { getStats } from "../../features/user/dataRequestSlice"
 import { StoneButton } from "../../components/StoneButton"
 import { useSelector } from "react-redux"
+import { IResponse } from "../../interfaces/IResponse"
 
 /**
  * Interface for collection statistics.
@@ -49,10 +50,10 @@ export function Stats() {
      * Fetch the user's statistics from the server.
      */
     async function getUserStats() {
-        let response = await store.dispatch(getStats())
-        let res = (response.payload as any)
+        const response = await store.dispatch(getStats())
+        const res = (response.payload as IResponse)
         if (res.response) {
-            setStats(res.data.data)
+            setStats(res.data.data as IStats)
         }
     }
 

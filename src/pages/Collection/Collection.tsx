@@ -10,6 +10,7 @@ import xpBar from "../../assets/imgs/backgrounds/experience_bar_background.png";
 import { useSelector } from "react-redux";
 import { updateProfile } from "../../features/user/userSlice";
 import { deleteInfo, setInfo } from "../../features/info/infoSlice";
+import { IResponse } from "../../interfaces/IResponse";
 
 /**
  * Interface for the collection data.
@@ -92,10 +93,10 @@ export function Collection() {
      * Fetches the user's collection from the server.
      */
     async function getUserCollection() {
-        let response = await store.dispatch(getCollection());
-        let res = (response.payload as any);
+        const response = await store.dispatch(getCollection());
+        const res = (response.payload as IResponse);
         if (res.response) {
-            setCollection(res.data.data);
+            setCollection(res.data.data as ICollection);
         }
     }
 

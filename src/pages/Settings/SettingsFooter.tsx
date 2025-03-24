@@ -24,7 +24,7 @@ function removeIsSet(obj: ISettings | null) {
     if (obj === null) {
         return {} as ISettings;
     }
-    let newObj = {...obj}
+    const newObj = {...obj}
     newObj.isSet = false
     return newObj;
 }
@@ -35,7 +35,7 @@ function removeIsSet(obj: ISettings | null) {
  * @returns The SettingsFooter component.
  */
 export function SettingsFooter(props: SettingsFooterProps) {
-    let saveable = !isEqual(
+    const saveable = !isEqual(
         removeIsSet(props.originalSettings && props.originalSettings[props.profile]),
         removeIsSet(props.profiles && props.profiles[props.profile])
     );
@@ -46,7 +46,7 @@ export function SettingsFooter(props: SettingsFooterProps) {
      * @param originalSettings - The original settings to update.
      */
     function save(currentSettings: ISettings[], originalSettings: ISettings[]) {
-        let settings: Array<ISettings> = JSON.parse(JSON.stringify(originalSettings));
+        const settings: Array<ISettings> = JSON.parse(JSON.stringify(originalSettings));
         settings[props.profile] = currentSettings[props.profile]
         store.dispatch(saveSettings(settings))
         store.dispatch(changeSettings(settings[props.profile]))
@@ -57,8 +57,8 @@ export function SettingsFooter(props: SettingsFooterProps) {
      * @returns An object containing the updated new and original settings.
      */
     function set() {
-        let originalSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.originalSettings));
-        let newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
+        const originalSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.originalSettings));
+        const newSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
         originalSettings.forEach((singleSettings, index) => {
             singleSettings.isSet = props.profile === index;
         });
@@ -73,13 +73,15 @@ export function SettingsFooter(props: SettingsFooterProps) {
         <div>
             <StoneButton disabled={!saveable} onClick={() => {
                 if(props.originalSettings){
-                    let currentSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
+                    const currentSettings: Array<ISettings> = JSON.parse(JSON.stringify(props.profiles));
                     currentSettings[props.profile] = props.originalSettings[props.profile]
                     props.setSettings(currentSettings)
                 }
             }}>Cancel</StoneButton>
             <StoneButton disabled={!saveable} onClick={() => {
-                props.profiles && save(props.profiles, props.originalSettings || [])
+                if(props.profiles){
+                    save(props.profiles, props.originalSettings || [])
+                }
             }}>Save</StoneButton>
             <StoneButton disabled={props.profiles ? props.profiles[props.profile].isSet : undefined} onClick={() => {
                 const settedSettings = set()

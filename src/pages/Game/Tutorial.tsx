@@ -27,7 +27,7 @@ export function Tutorial(props: TutorialProps) {
     useEffect(() => {
         store.dispatch(setAllay(true));
         store.dispatch(setRequiredControl(currentStep.requiredControl));
-    }, [props.turn]);
+    }, [props.turn, currentStep.requiredControl]);
 
     useEffect(() => {
         if (text && game.allay) {

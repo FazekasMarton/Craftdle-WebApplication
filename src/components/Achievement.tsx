@@ -47,7 +47,7 @@ export function Achievements() {
         return () => {
             socket?.off("achievements");
         }
-    }, [socket, achievements]);
+    }, [socket, achievements, animKey]);
 
     useEffect(() => {
         const timeout = setInterval(() => {

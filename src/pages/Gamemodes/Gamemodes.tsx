@@ -5,6 +5,7 @@ import { IGamemode } from "../../interfaces/IGamemode"
 import { GamemodesFooter } from "./GamemodesFooter"
 import { GamemodesMain } from "./GamemodesMain"
 import { useSelector } from "react-redux"
+import { IResponse } from "../../interfaces/IResponse"
 
 /**
  * Props for the Gamemodes component.
@@ -29,22 +30,19 @@ export function Gamemodes(props: GamemodesProps) {
     const [gamemodes, setGamemodes] = useState<Array<IGamemode>>([])
     const [selectedGamemode, setSelectedGamemode] = useState<number | null>(null)
 
-    /**
-     * Fetch the gamemodes from the server.
-     */
-    async function collectGamemodes() {
-        let response = await store.dispatch(getGamemodes(props.type))
-        let res = (response.payload as any)
-        if (res.response) {
-            setGamemodes(res.data.data.gamemodes)
-        }
-    }
-
     useEffect(() => {
+        const collectGamemodes = async () => {
+            const response = await store.dispatch(getGamemodes(props.type))
+            const res = (response.payload as IResponse)
+            if (res.response) {
+                setGamemodes((res.data.data as { gamemodes: Array<IGamemode> }).gamemodes)
+            }
+        }
+
         if(user.loginToken){
             collectGamemodes()
         }
-    }, [user])
+    }, [user, props.type])
 
     return <main id="gamemodes">
         <header id="gamemodesHeader">

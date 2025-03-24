@@ -30,7 +30,7 @@ export function SettingsMain(props: SettingsMainProps) {
      */
     function changeSettings<K extends keyof ISettings>(key: K, value: ISettings[K]) {
         if (props.profiles) {
-            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            const newSettings: Array<ISettings> = structuredClone(props.profiles);
             newSettings[props.profile][key] = value;
             props.setSettings(newSettings);
         }
@@ -43,7 +43,7 @@ export function SettingsMain(props: SettingsMainProps) {
      */
     function changeControls<K extends keyof IControls>(key: K, value: IControls[K]) {
         if (props.profiles) {
-            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            const newSettings: Array<ISettings> = structuredClone(props.profiles);
             newSettings[props.profile].controls[key] = value;
             props.setSettings(newSettings);
         }
@@ -56,7 +56,7 @@ export function SettingsMain(props: SettingsMainProps) {
      */
     function changeTableMapping(index: number, value: string) {
         if (props.profiles) {
-            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            const newSettings: Array<ISettings> = structuredClone(props.profiles);
             newSettings[props.profile].controls.tableMapping[index] = value;
             props.setSettings(newSettings);
         }

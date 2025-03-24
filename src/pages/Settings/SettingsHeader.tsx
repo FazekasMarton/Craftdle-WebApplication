@@ -45,7 +45,7 @@ export function SettingsHeader(props: SettingsHeaderProps) {
         props.setActiveProfile((props.activeProfile + 1) % 3)
     }
 
-    let saveable = !isEqual(
+    const saveable = !isEqual(
         removeIsSet(props.originalSettings),
         removeIsSet(props.profiles)
     );

@@ -6,7 +6,7 @@ import { KnowledgeBook } from "./KnowledgeBook";
 import { Tips } from "./Tips";
 import { IItem, Items } from "../../classes/Items";
 import { Inventory } from "./Inventory";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { ITips } from "../../interfaces/ITips";
 import { IRecipeCollection } from "../../interfaces/IRecipe";
 import { useSearchParams } from "react-router-dom";
@@ -95,14 +95,14 @@ export function Game() {
      * @param gamemode - The gamemode to start.
      * @param newGame - Whether to start a new game.
      */
-    function startGame(gamemode: string, newGame: boolean) {
+    const startGame = useCallback((gamemode: string, newGame: boolean) => {
         setTips([])
         socket?.emit("startGame", {
             gamemode: gamemode,
             newGame: newGame
         })
         setNewTurn(prev => prev + 1)
-    }
+    }, [socket])
 
     async function loadImages(data: IGuess) {
         items.current.clearItems()
@@ -164,14 +164,14 @@ export function Game() {
         })
 
         return () => { socket?.off("guess") }
-    }, [socket])
+    }, [socket, craftingTableSize, gamemodeId, startGame])
 
     useEffect(() => {
         if (isGamemodeValid) {
             searchParams.set("gamemode", gamemodeId)
             setSearchParams(searchParams)
         }
-    }, [searchParams, setSearchParams])
+    }, [searchParams, setSearchParams, gamemodeId, isGamemodeValid])
 
     if (progress.loaded < progress.total) {
         return <LoadingScreen total={progress.total} loaded={progress.loaded} />
