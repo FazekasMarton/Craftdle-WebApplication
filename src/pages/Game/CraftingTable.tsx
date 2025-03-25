@@ -29,23 +29,31 @@ interface CraftingTableProps {
 }
 
 /**
- * CraftingTable component to display the crafting table and handle crafting logic.
- * @param props - The properties for the CraftingTable component.
- * @returns The CraftingTable component.
+ * A React component that displays the crafting table and handles crafting logic.
+ * 
+ * @param props - The properties for the CraftingTable component, including size, recipes, and state handlers.
+ * @returns A JSX element representing the crafting table interface.
  */
 function CraftingTableRaw(props: CraftingTableProps) {
     const [craftedItemGroup, setCraftedItemGroup] = useState<string | null>(null)
     const [craftedItem, setCraftedItem] = useState<IItem | null>(null)
 
+    /**
+     * Determine the crafted item based on the current crafting table state and recipes.
+     * Updates the crafted item and its group in the component's state.
+     * 
+     * @param craftingTable - The current state of the crafting table slots.
+     * @param recipes - The collection of available recipes.
+     */
     async function saveCraftedItem(craftingTable: Array<Array<HTMLImageElement | null>>, recipes: IRecipeCollection) {
-        let craftedItem = craft(craftingTable, recipes)
+        const craftedItem = craft(craftingTable, recipes)
         setCraftedItemGroup(craftedItem?.group ?? null)
         setCraftedItem(craftedItem?.id ?? null)
     }
 
     useEffect(() => {
         saveCraftedItem(props.craftingTable, props.recipes)
-    }, [props.craftingTable])
+    }, [props.craftingTable, props.recipes])
 
     return <div id="craftingTable">
         <h1 id="craftingTitle">Crafting</h1>
@@ -73,16 +81,16 @@ function CraftingTableRaw(props: CraftingTableProps) {
         </table>
         <img id="craftingArrow" src={arrow} alt="arrow" draggable={false} />
         <div id="craftedItem" className="slot" onClick={() => {
-            let requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
-            let requiredControlByTutorial = store.getState().game.requiredControl
+            const requiredItemByTutorial = getTutorialScript()[props.turn]?.guess
+            const requiredControlByTutorial = store.getState().game.requiredControl
             if (craftedItemGroup && craftedItem && (((requiredItemByTutorial === craftedItemGroup || !requiredItemByTutorial) && requiredControlByTutorial?.length === 0) || props.gamemode != 1)) {
-                let guess = {
+                const guess = {
                     item: {
                         group: craftedItemGroup,
                         id: craftedItem.id
                     },
                     table: props.craftingTable.flat(2).map(slot => {
-                        let item = slot?.cloneNode() as HTMLImageElement
+                        const item = slot?.cloneNode() as HTMLImageElement
                         item?.classList.remove("item")
                         return item?.className ? [item?.className] : null
                     })

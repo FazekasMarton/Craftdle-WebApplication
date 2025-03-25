@@ -40,11 +40,15 @@ export function StoneButton(props: StoneButtonProps) {
 
 /**
  * Border component to handle the button's border and interactions.
+ * 
+ * This component wraps the button and provides additional functionality,
+ * such as playing a sound effect, handling tooltips, and managing link behavior.
+ * 
  * @param props - The properties for the Border component.
  * @returns The Border component.
  */
 function Border(props: StoneButtonProps) {
-    let click = props.onClick ? props.onClick : () => {}
+    const click = props.onClick ? props.onClick : () => {}
     const commonProps: React.HTMLAttributes<HTMLElement> = {
         className: props.disabled ? "disabledStoneButton" : "stoneButton",
         "aria-disabled": props.disabled,

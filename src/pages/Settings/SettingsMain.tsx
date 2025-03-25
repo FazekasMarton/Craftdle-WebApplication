@@ -23,30 +23,49 @@ export function SettingsMain(props: SettingsMainProps) {
     const profile = props.profiles && props.profiles[props.profile];
     const defaultSettings = DefaultSettings.getDefaultSettings()
 
+    /**
+     * Updates the settings for the current profile.
+     * @param key - The key of the setting to update.
+     * @param value - The new value for the setting.
+     */
     function changeSettings<K extends keyof ISettings>(key: K, value: ISettings[K]) {
         if (props.profiles) {
-            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            const newSettings: Array<ISettings> = structuredClone(props.profiles);
             newSettings[props.profile][key] = value;
             props.setSettings(newSettings);
         }
     }
 
+    /**
+     * Updates the controls for the current profile.
+     * @param key - The key of the control to update.
+     * @param value - The new value for the control.
+     */
     function changeControls<K extends keyof IControls>(key: K, value: IControls[K]) {
         if (props.profiles) {
-            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            const newSettings: Array<ISettings> = structuredClone(props.profiles);
             newSettings[props.profile].controls[key] = value;
             props.setSettings(newSettings);
         }
     }
 
+    /**
+     * Updates the table mapping for a specific index.
+     * @param index - The index of the table mapping to update.
+     * @param value - The new value for the table mapping.
+     */
     function changeTableMapping(index: number, value: string) {
         if (props.profiles) {
-            let newSettings: Array<ISettings> = structuredClone(props.profiles);
+            const newSettings: Array<ISettings> = structuredClone(props.profiles);
             newSettings[props.profile].controls.tableMapping[index] = value;
             props.setSettings(newSettings);
         }
     }
 
+    /**
+     * Listens for user interaction (mouse or keyboard) and updates the control value.
+     * @param change - A callback function to update the control value.
+     */
     function listenInteraction(change: (value: string) => void) {
         change("> <");
         function listenMouse(e: MouseEvent) {

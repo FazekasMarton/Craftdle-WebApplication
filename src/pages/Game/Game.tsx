@@ -6,7 +6,7 @@ import { KnowledgeBook } from "./KnowledgeBook";
 import { Tips } from "./Tips";
 import { IItem, Items } from "../../classes/Items";
 import { Inventory } from "./Inventory";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { ITips } from "../../interfaces/ITips";
 import { IRecipeCollection } from "../../interfaces/IRecipe";
 import { useSearchParams } from "react-router-dom";
@@ -48,8 +48,21 @@ interface IGuess {
 }
 
 /**
- * Game component to display the game interface.
- * @returns The Game component.
+ * Calculate the current turn based on the number of tips and the result of the previous turn.
+ * 
+ * @param numberOfTips - The total number of tips available.
+ * @param result - Whether the previous turn was successful.
+ * @returns The current turn number.
+ */
+function getTurn(numberOfTips: number, result: boolean) {
+    const turn = numberOfTips - (result ? 1 : 0)
+    return turn < 0 ? 0 : turn
+}
+
+/**
+ * The main game component that manages the game interface, state, and interactions.
+ * 
+ * @returns A JSX element representing the game interface.
  */
 export function Game() {
     const socket = useSelector((state: RootState) => state.socket.socket)
@@ -75,21 +88,21 @@ export function Game() {
     const [newTurn, setNewTurn] = useState(0)
     const [progress, setProgress] = useState<{ loaded: number; total: number }>({ loaded: 0, total: 1 });
     const items = useRef(new Items())
-    const turn = tips.length - (result ? 1 : 0)
+    const turn = getTurn(tips.length, result)
 
     /**
      * Start a new game.
      * @param gamemode - The gamemode to start.
      * @param newGame - Whether to start a new game.
      */
-    function startGame(gamemode: string, newGame: boolean) {
+    const startGame = useCallback((gamemode: string, newGame: boolean) => {
         setTips([])
         socket?.emit("startGame", {
             gamemode: gamemode,
             newGame: newGame
         })
         setNewTurn(prev => prev + 1)
-    }
+    }, [socket])
 
     async function loadImages(data: IGuess) {
         items.current.clearItems()
@@ -151,14 +164,14 @@ export function Game() {
         })
 
         return () => { socket?.off("guess") }
-    }, [socket])
+    }, [socket, craftingTableSize, gamemodeId, startGame])
 
     useEffect(() => {
         if (isGamemodeValid) {
             searchParams.set("gamemode", gamemodeId)
             setSearchParams(searchParams)
         }
-    }, [searchParams, setSearchParams])
+    }, [searchParams, setSearchParams, gamemodeId, isGamemodeValid])
 
     if (progress.loaded < progress.total) {
         return <LoadingScreen total={progress.total} loaded={progress.loaded} />

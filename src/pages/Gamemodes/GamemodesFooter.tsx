@@ -12,7 +12,13 @@ interface GamemodesFooterProps {
 
 /**
  * GamemodesFooter component to display the footer with action buttons.
+ * 
+ * This component provides buttons for starting a new game, loading an existing game, 
+ * or returning to the main menu. The buttons are dynamically enabled or disabled 
+ * based on the selected gamemode's state.
+ * 
  * @param props - The properties for the GamemodesFooter component.
+ * @param props.gamemode - The currently selected gamemode or null if none is selected.
  * @returns The GamemodesFooter component.
  */
 export function GamemodesFooter(props: GamemodesFooterProps) {

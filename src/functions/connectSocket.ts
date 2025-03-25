@@ -4,6 +4,10 @@ import { setSocket } from "../features/socket/socketSlice";
 
 /**
  * Function to connect to the socket server.
+ * 
+ * This function disconnects any existing socket connection and establishes a new
+ * connection using the user's login token. The new socket instance is stored in
+ * the Redux store.
  */
 export function connectSocket() {
     const currentSocket = store.getState().socket.socket;

@@ -12,7 +12,10 @@ const rarityColors = ["#FFFF55", "#55FFFF", "#FF55FF"];
 
 /**
  * Achievements component to display a list of achievements.
- * @param props - The props for the component.
+ * 
+ * This component listens for achievement events from a socket connection
+ * and displays up to five achievements at a time with animations.
+ * 
  * @returns The Achievements component.
  */
 export function Achievements() {
@@ -44,7 +47,7 @@ export function Achievements() {
         return () => {
             socket?.off("achievements");
         }
-    }, [socket, achievements]);
+    }, [socket, achievements, animKey]);
 
     useEffect(() => {
         const timeout = setInterval(() => {
@@ -77,7 +80,11 @@ export function Achievements() {
 
 /**
  * Achievement component to display an achievement.
+ * 
+ * This component renders the title, description, and icon of a single achievement.
+ * 
  * @param props - The props for the component.
+ * @param props.achievement - The achievement data to display.
  * @returns The Achievement component.
  */
 export function Achievement(props: AchievementProps) {

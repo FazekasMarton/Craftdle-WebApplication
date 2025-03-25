@@ -9,6 +9,12 @@ import tapControl from "/videos/tapControl.mp4"
 
 /**
  * Guide component to display the game guide and controls.
+ * 
+ * This component provides detailed instructions on how to play the game, including:
+ * - Controls: Explains how to interact with the game using various input methods.
+ * - Gameplay and Rules: Describes the rules and mechanics of the game.
+ * - Gamemodes: Lists and explains the different gamemodes available.
+ * 
  * @returns The Guide component.
  */
 export function Guide() {
@@ -221,6 +227,9 @@ export function Guide() {
             </section>
             <section id="gamemodesGuide">
                 <h2>Gamemodes</h2>
+                <p>
+                    Explore various gamemodes, each with unique rules and challenges.
+                </p>
                 <article id="classicMode">
                     <h3>Classic</h3>
                     <div>Rules: </div>

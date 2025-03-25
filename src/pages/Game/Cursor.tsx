@@ -11,12 +11,13 @@ import { removeRequiredControl } from "../../features/game/gameSlice";
 import { focus } from "../../classes/Focus";
 
 /**
- * Get the key and index by value from the controls object.
- * @param obj - The controls object.
- * @param value - The value to find.
- * @returns The key and index as a string.
+ * A helper function to find the key and index of a value in the controls object.
+ * 
+ * @param obj - The controls object containing key-value pairs.
+ * @param value - The value to search for.
+ * @returns The key and index as a string, or undefined if not found.
  */
-function getKeyAndIndexByValue(obj: IControls, value: any): string | undefined {
+function getKeyAndIndexByValue(obj: IControls, value: string): string | undefined {
     for (const key of Object.keys(obj)) {
         const currentValue = obj[key as keyof IControls];
         if (Array.isArray(currentValue)) {
@@ -39,9 +40,10 @@ interface CursorProps {
 }
 
 /**
- * Cursor component to handle item interactions with the crafting table.
- * @param props - The properties for the Cursor component.
- * @returns The Cursor component.
+ * A React component that handles the player's cursor interactions with the crafting table.
+ * 
+ * @param props - The properties for the Cursor component, including crafting table slots and size.
+ * @returns A JSX element representing the cursor, or null if no item is picked up.
  */
 function CursorRaw(props: CursorProps) {
     const customSettings = useSelector((state: RootState) => state.user.settings?.find(f => f.isSet === true));
@@ -73,8 +75,12 @@ function CursorRaw(props: CursorProps) {
                     removeItem()
                     break;
                 case "tableMapping":
-                    typeof slotNumber === "number" && addToSlot(props.craftingTableSlots, slotNumber, focus.focusedItem)
-                    focus.focusedItem && store.dispatch(removeRequiredControl("Place"))
+                    if(typeof slotNumber === "number"){
+                        addToSlot(props.craftingTableSlots, slotNumber, focus.focusedItem)
+                    }
+                    if(focus.focusedItem) {
+                        store.dispatch(removeRequiredControl("Place"))
+                    }
                     break;
             }
         }
@@ -95,7 +101,7 @@ function CursorRaw(props: CursorProps) {
         }
 
         function removeItem() {
-            let slots = props.craftingTableSlots;
+            const slots = props.craftingTableSlots;
             const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
                 addToSlot(slots, slotNumber, null)
@@ -103,7 +109,7 @@ function CursorRaw(props: CursorProps) {
         }
 
         function placeItem() {
-            let slots = props.craftingTableSlots;
+            const slots = props.craftingTableSlots;
             const slotNumber = getSlotIndex()
             if (slotNumber || slotNumber === 0) {
                 const currentSlotItem = addToSlot(slots, slotNumber, pickedUpItem)
@@ -116,7 +122,7 @@ function CursorRaw(props: CursorProps) {
         function updateLocation(e: MouseEvent) {
             setCursorPos({ x: e.clientX, y: e.clientY });
             if (isHoldingCopy.current && pickedUpItem && focus.focusedSlot?.childNodes.length === 0) {
-                let slots = props.craftingTableSlots;
+                const slots = props.craftingTableSlots;
                 const slotNumber = getSlotIndex()
                 if (slotNumber || slotNumber === 0) {
                     addToSlot(slots, slotNumber, pickedUpItem)
@@ -126,7 +132,7 @@ function CursorRaw(props: CursorProps) {
         }
 
         function handleMouseButtonPressed(e: MouseEvent) {
-            const control = getKeyAndIndexByValue(currentSettings.controls, getMouseButton(e));
+            const control = getKeyAndIndexByValue(currentSettings.controls, getMouseButton(e) ?? "");
             if (control === "copy") {
                 isHoldingCopy.current = true
             }
@@ -177,7 +183,7 @@ function CursorRaw(props: CursorProps) {
         }
 
         function handleTouch(e: MouseEvent) {
-            let target = e.target as HTMLElement
+            const target = e.target as HTMLElement
             if (target?.classList?.contains("inventorySlot")) {
                 selectSlot(target, target.childNodes[0] as HTMLImageElement)
             } else if (target.parentElement?.classList.contains("inventorySlot")) {
@@ -225,7 +231,7 @@ function CursorRaw(props: CursorProps) {
 
             document.removeEventListener("mousedown", handleTouch);
         };
-    }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots]);
+    }, [pickedUpItem, currentSettings.controls, props.craftingTableSlots, isPCControl, props]);
 
     return pickedUpItem && isPCControl ? (
         <div id="pickedUpItem" style={{ top: cursorPos?.y, left: cursorPos?.x }}>

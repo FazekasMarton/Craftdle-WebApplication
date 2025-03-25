@@ -15,7 +15,15 @@ interface TipsProps {
 
 /**
  * Tips component to display crafting tips.
+ * 
+ * This component renders a list of crafting tips, where each tip includes a crafting table
+ * and the resulting item. It dynamically generates the crafting table based on the provided
+ * `craftingTableSize` and highlights the slots with items.
+ * 
  * @param props - The properties for the Tips component.
+ * @param props.tips - An array of tips, each containing a crafting table and the resulting item.
+ * @param props.craftingTableSize - The size of the crafting table (e.g., 3x3).
+ * @param props.itemsCollection - The collection of items used to retrieve item details.
  * @returns The Tips component.
  */
 export function Tips(props: TipsProps) {
@@ -25,11 +33,13 @@ export function Tips(props: TipsProps) {
             <div id="tipsContent">
                 {
                     props.tips.map((tip, tipIndex) => {
+                        // Add the resulting item to the items collection
                         props.itemsCollection.addItem(tip.item)
                         return <div key={tipIndex} className="tipContent">
                             <table className="tipCraftingTable">
                                 <tbody>
                                     {
+                                        // Generate rows and columns for the crafting table
                                         Array.from({ length: 3 }).map((_, i) => {
                                             return i < props.craftingTableSize ? (
                                                 <tr key={i}>

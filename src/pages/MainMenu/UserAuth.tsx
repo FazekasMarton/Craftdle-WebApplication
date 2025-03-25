@@ -8,14 +8,97 @@ import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
 import { connectSocket } from '../../functions/connectSocket';
 import { SoundEffect } from '../../classes/Audio';
+import { IPasswordChangeItem, IResponse, IUser } from '../../interfaces/IResponse';
 
 /**
  * Props for the UserAuthNav component.
  */
 interface UserAuthNavProps {
-    isGuest: boolean,
-    form: "Login" | "Register" | "Logout" | "ForgotPassword"
-    setForm: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void
+    isGuest: boolean;
+    form: "Login" | "Register" | "Logout" | "ForgotPassword";
+    setForm: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+}
+
+/**
+ * Props for the InputField component.
+ */
+interface InputFieldProps {
+    id: string;
+    label: string;
+    type: string;
+    value: string;
+    onChange: (value: string) => void;
+    errors: string[];
+}
+
+/**
+ * Props for the ChangePasswordInstruction component.
+ */
+interface ChangePasswordInstructionProps {
+    item: {
+        item_id: string;
+        name: string;
+        src: string;
+    };
+}
+
+/**
+ * Props for form components used in the UserAuth system.
+ */
+interface FormProps {
+    /**
+     * Function to control the visibility of the authentication form.
+     * @param value - A boolean indicating whether to open or close the form.
+     */
+    openAuth: (value: boolean) => void;
+
+    /**
+     * Optional function to set the current form type.
+     * @param value - The form type to set ("Login", "Register", "Logout", or "ForgotPassword").
+     */
+    setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+}
+
+/**
+ * Utility function to validate input fields based on rules.
+ * @param value - The value to validate.
+ * @param rules - An array of validation rules.
+ * @returns An array of error messages.
+ */
+function validateField(value: string, rules: { required?: boolean, minLength?: number, maxLength?: number, regex?: RegExp, errorMessage: string }[]): string[] {
+    const errors = [];
+    for (const rule of rules) {
+        if (rule.required && !value) {
+            errors.push(rule.errorMessage);
+        }
+        if (rule.minLength && value.length < rule.minLength) {
+            errors.push(rule.errorMessage);
+        }
+        if (rule.maxLength && value.length > rule.maxLength) {
+            errors.push(rule.errorMessage);
+        }
+        if (rule.regex && !rule.regex.test(value)) {
+            errors.push(rule.errorMessage);
+        }
+    }
+    return errors;
+}
+
+/**
+ * Reusable InputField component for rendering input fields with validation errors.
+ * @param props - The properties for the InputField component.
+ * @returns The InputField component.
+ */
+function InputField(props: InputFieldProps) {
+    return (
+        <div>
+            <label htmlFor={props.id}>{props.label}</label>
+            <input type={props.type} id={props.id} onChange={(e) => props.onChange(e.currentTarget.value)} value={props.value} />
+            <ul className='inputError'>
+                {props.errors.map((err, index) => <li key={index}>{err}</li>)}
+            </ul>
+        </div>
+    );
 }
 
 /**
@@ -24,19 +107,26 @@ interface UserAuthNavProps {
  * @returns The UserAuthNav component.
  */
 function UserAuthNav(props: UserAuthNavProps) {
-    return <div id="userAuthNav">
-        <Button color={props.form == "Login" ? "gray" : "green"} onClick={() => props.setForm("Login")}>Log In</Button>
-        <Button color={props.form == "Register" ? "gray" : "green"} onClick={() => props.setForm("Register")}>Sign Up</Button>
-        {!props.isGuest ? <Button color={props.form == "Logout" ? "gray" : "green"} onClick={() => props.setForm("Logout")}>Log Out</Button> : null}
-    </div>
-}
-
-/**
- * Props for the form components.
- */
-interface FormProps {
-    openAuth: (value: boolean) => void;
-    setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
+    const buttons = [
+        { label: "Log In", form: "Login" },
+        { label: "Sign Up", form: "Register" },
+        { label: "Log Out", form: "Logout", condition: !props.isGuest }
+    ];
+    return (
+        <div id="userAuthNav">
+            {buttons.map(({ label, form: btnForm, condition = true }) =>
+                condition && (
+                    <Button
+                        key={btnForm}
+                        color={props.form === btnForm ? "gray" : "green"}
+                        onClick={() => { props.setForm(btnForm as UserAuthNavProps['form']); }}
+                    >
+                        {label}
+                    </Button>
+                )
+            )}
+        </div>
+    );
 }
 
 /**
@@ -45,72 +135,63 @@ interface FormProps {
  * @returns The LoginForm component.
  */
 function LoginForm(props: FormProps) {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [rememberMe, setRememberMe] = useState(false)
-    const [usernameError, setUsernameError] = useState<Array<string>>()
-    const [passwordError, setPasswordError] = useState<Array<string>>()
-    return <div className='authForm'>
-        <div>
-            <label htmlFor="loginUsernameAndEmail">Username or Email:</label>
-            <input type="text" id='loginUsernameAndEmail' onChange={(e) => { setUsername(e.currentTarget.value) }} value={username} />
-            <ul className='inputError'>{
-                usernameError?.map((err, index) => {
-                    return <li key={index}>{err}</li>
-                })
-            }</ul>
-        </div>
-        <div>
-            <label htmlFor="loginPassword">Password:</label>
-            <input type="password" id='loginPassword' onChange={(e) => { setPassword(e.currentTarget.value) }} value={password} />
-            <ul className='inputError'>{
-                passwordError?.map((err, index) => {
-                    return <li key={index}>{err}</li>
-                })
-            }</ul>
-            <span id='forgotPassword' onClick={() => { props.setForm && props.setForm("ForgotPassword") }}>Forgot password?</span>
-        </div>
-        <div className='checkRow'>
-            <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked) }} checked={rememberMe} />
-            <label htmlFor="rememberMe">Remember Me</label>
-        </div>
-        <Button color="green" onClick={async () => {
-            let usernameErr = []
-            if (username.length <= 0) {
-                usernameErr.push("Username cannot be empty!")
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
+    const [errors, setErrors] = useState({ username: [] as string[], password: [] as string[] });
+
+    /**
+     * Handles the login form submission.
+     */
+    async function handleSubmit() {
+        const usernameErrors = validateField(username, [{ required: true, errorMessage: "Username cannot be empty!" }]);
+        const passwordErrors = validateField(password, [{ required: true, errorMessage: "Password cannot be empty!" }]);
+        setErrors({ username: usernameErrors, password: passwordErrors });
+
+        if (!usernameErrors.length && !passwordErrors.length) {
+            const response = await store.dispatch(login({ usernameOrEmail: username, password, stayLoggedIn: rememberMe }));
+            const res = response.payload as IResponse;
+            if (res.response) {
+                await store.dispatch(clearUser(true));
+                await store.dispatch(saveUser(res.data.data as IUser));
+                setUsername("");
+                setPassword("");
+                setRememberMe(false);
+                props.openAuth(false);
+                loadSettings();
+                connectSocket();
+            } else {
+                setErrors({
+                    username: res.data.message.errors.username || [],
+                    password: res.data.message.errors.password || []
+                });
             }
-            setUsernameError(usernameErr)
-            let passwordErr = []
-            if (password.length <= 0) {
-                passwordErr.push("Password cannot be empty!")
-            }
-            setPasswordError(passwordErr)
-            let errors = [usernameErr, passwordErr]
-            if (errors.every(error => error.length === 0)) {
-                let response = await store.dispatch(login({
-                    usernameOrEmail: username,
-                    password: password,
-                    stayLoggedIn: rememberMe
-                }))
-                let res = (response.payload as any)
-                if (res.response) {
-                    await store.dispatch(clearUser(true))
-                    await store.dispatch(saveUser(res.data.data))
-                    setUsername("")
-                    setPassword("")
-                    setRememberMe(false)
-                    props.openAuth(false)
-                    loadSettings()
-                    connectSocket()
-                } else {
-                    res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
-                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
+        }
+    }
+
+    return (
+        <div className='authForm'>
+            <InputField id="loginUsernameAndEmail" label="Username or Email:" type="text" value={username} onChange={setUsername} errors={errors.username} />
+            <InputField id="loginPassword" label="Password:" type="password" value={password} onChange={setPassword} errors={errors.password} />
+            <span id='forgotPassword' onClick={() => {
+                if(props.setForm){
+                    props.setForm("ForgotPassword");
                 }
-            }
-        }}>Log In</Button>
-    </div>
+            }}>Forgot password?</span>
+            <div className='checkRow'>
+                <input type="checkbox" id='rememberMe' onChange={(e) => { setRememberMe(e.currentTarget.checked); }} checked={rememberMe} />
+                <label htmlFor="rememberMe">Remember Me</label>
+            </div>
+            <Button color="green" onClick={handleSubmit}>Log In</Button>
+        </div>
+    );
 }
 
+/**
+ * ForgotPasswordForm component to handle the forgot password process.
+ * @param props - The properties for the ForgotPasswordForm component.
+ * @returns The ForgotPasswordForm component.
+ */
 function ForgotPasswordForm(props: FormProps) {
     const socket = useSelector((state: RootState) => state.socket.socket);
     const [email, setEmail] = useState("");
@@ -130,15 +211,23 @@ function ForgotPasswordForm(props: FormProps) {
         }
     }, [socket]);
 
-    const validateEmail = (email: string): Array<string> => {
+    /**
+     * Validates the email format.
+     * @param email - The email to validate.
+     * @returns An array of error messages.
+     */
+    function validateEmail(email: string): Array<string> {
         const errors = [];
         if (!/\S+@\S+\.\S+/.test(email)) {
             errors.push("Email must be valid!");
         }
         return errors;
-    };
+    }
 
-    const handleSendEmail = async () => {
+    /**
+     * Handles sending the forgot password email.
+     */
+    async function handleSendEmail() {
         const errors = validateEmail(email);
         setEmailError(errors);
         setItem(null);
@@ -146,17 +235,15 @@ function ForgotPasswordForm(props: FormProps) {
 
         if (errors.length === 0) {
             const response = await store.dispatch(forgotPassword(email));
-            const res = response.payload as any;
-
-            console.log(res);
+            const res = response.payload as IResponse;
 
             if (res.response) {
-                setItem(res.data.data.item);
+                setItem((res.data.data as IPasswordChangeItem).item);
             } else {
                 setEmailError(res.data.message.errors.email || []);
             }
         }
-    };
+    }
 
     return (
         <div className="authForm">
@@ -181,7 +268,7 @@ function ForgotPasswordForm(props: FormProps) {
                         <input
                             type="email"
                             id="forgotPasswordEmail"
-                            onChange={(e) => setEmail(e.currentTarget.value)}
+                            onChange={(e) => { setEmail(e.currentTarget.value); }}
                             value={email}
                         />
                         <ul className="inputError">
@@ -205,6 +292,11 @@ interface PasswordChangeFormProps {
     setForm?: (value: "Login" | "Register" | "Logout" | "ForgotPassword") => void;
 }
 
+/**
+ * PasswordChangeForm component to handle password change.
+ * @param props - The properties for the PasswordChangeForm component.
+ * @returns The PasswordChangeForm component.
+ */
 function PasswordChangeForm(props: PasswordChangeFormProps) {
     const [password, setPassword] = useState("")
     const [passwordC, setPasswordC] = useState("")
@@ -230,35 +322,40 @@ function PasswordChangeForm(props: PasswordChangeFormProps) {
             }</ul>
         </div>
         <Button color="green" onClick={async () => {
-            let passwordErr = []
+            const passwordErr = []
             if (password.length < 5 || password.length > 16) {
                 passwordErr.push("Password must be between 5 and 16 characters!")
             }
             setPasswordError(passwordErr)
-            let passwordCErr = []
+            const passwordCErr = []
             if (password != passwordC) {
                 passwordCErr.push("Passwords and confirm password are not matching!")
             }
             setPasswordCError(passwordCErr)
-            let errors = [passwordErr, passwordCErr]
-            if (errors.every(error => error.length === 0)) {
-                let response = await store.dispatch(changePassword({
+            const errors = [passwordErr, passwordCErr]
+            if (errors.every((error) => { return error.length === 0 })) {
+                const response = await store.dispatch(changePassword({
                     password: password,
                     token: props.token
                 }))
-                let res = (response.payload as any)
+                const res = (response.payload as IResponse)
                 if (res.response) {
                     setPassword("")
                     setPasswordC("")
-                    if(props.setForm) props.setForm("Login")
+                    if (props.setForm) props.setForm("Login")
                 } else {
-                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
+                    if (res.data.message.errors.password) {
+                        setPasswordError(res.data.message.errors.password)
+                    }
                 }
             }
         }}>Change Password</Button>
     </div>
 }
 
+/**
+ * Props for the ChangePasswordInstruction component.
+ */
 interface ChangePasswordInstructionProps {
     item: {
         item_id: string;
@@ -267,6 +364,11 @@ interface ChangePasswordInstructionProps {
     };
 }
 
+/**
+ * ChangePasswordInstruction component to display instructions for resetting the password.
+ * @param item - The item to verify the user.
+ * @returns The ChangePasswordInstruction component.
+ */
 function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
     return (
         <div id="forgotPasswordItemContainer">
@@ -279,12 +381,12 @@ function ChangePasswordInstruction({ item }: ChangePasswordInstructionProps) {
             <h2 id="forgotPasswordTitle">Email Sent!</h2>
             <div id="forgotPasswordText">
                 <p>
-                    We’ve sent an email to the address you provided. The email contains three Minecraft
+                    We've sent an email to the address you provided. The email contains three Minecraft
                     items—select the correct one as shown on this page to complete the password reset
                     process.
                 </p>
                 <p>
-                    If you don’t see the email, please check your spam or promotions folder!
+                    If you don't see the email, please check your spam or promotions folder!
                 </p>
             </div>
         </div>
@@ -359,7 +461,7 @@ function RegisterForm(props: FormProps) {
             }</ul>
         </div>
         <Button color="green" onClick={async () => {
-            let usernameErr = []
+            const usernameErr = []
             if (username.length < 5 || username.length > 16) {
                 usernameErr.push("Username must be between 5 and 16 characters!")
             }
@@ -367,38 +469,38 @@ function RegisterForm(props: FormProps) {
                 usernameErr.push("Username can only contain alphanumeric and these special characters: . , ; : $ # ! / ? % & ( )")
             }
             setUsernameError(usernameErr)
-            let emailErr = []
+            const emailErr = []
             if (!/\S+@\S+\.\S+/.test(email)) {
                 emailErr.push("Email must be valid!")
             }
             setEmailError(emailErr)
-            let passwordErr = []
+            const passwordErr = []
             if (password.length < 5 || password.length > 16) {
                 passwordErr.push("Password must be between 5 and 16 characters!")
             }
             setPasswordError(passwordErr)
-            let passwordCErr = []
+            const passwordCErr = []
             if (password != passwordC) {
                 passwordCErr.push("Passwords and confirm password are not matching!")
             }
             setPasswordCError(passwordCErr)
-            let acceptErr = []
+            const acceptErr = []
             if (!acceptTOU) {
                 acceptErr.push("Terms of Use must be accepted to create an account!")
             }
             setAcceptError(acceptErr)
-            let errors = [usernameErr, emailErr, passwordErr, passwordCErr, acceptErr]
-            if (errors.every(error => error.length === 0)) {
-                let response = await store.dispatch(register({
+            const errors = [usernameErr, emailErr, passwordErr, passwordCErr, acceptErr]
+            if (errors.every((error) => { return error.length === 0 })) {
+                const response = await store.dispatch(register({
                     username: username,
                     email: email,
                     password: password,
                     stayLoggedIn: rememberMe
                 }))
-                let res = (response.payload as any)
+                const res = (response.payload as IResponse)
                 if (res.response) {
                     await store.dispatch(clearUser(true))
-                    await store.dispatch(saveUser(res.data.data))
+                    await store.dispatch(saveUser(res.data.data as IUser))
                     setUsername("")
                     setEmail("")
                     setPassword("")
@@ -409,9 +511,15 @@ function RegisterForm(props: FormProps) {
                     loadSettings()
                     connectSocket()
                 } else {
-                    res.data.message.errors.username ? setUsernameError(res.data.message.errors.username) : setUsernameError([])
-                    res.data.message.errors.email ? setEmailError(res.data.message.errors.email) : setEmailError([])
-                    res.data.message.errors.password ? setPasswordError(res.data.message.errors.password) : setPasswordError([])
+                    if (res.data.message.errors.username) {
+                        setUsernameError(res.data.message.errors.username)
+                    }
+                    if (res.data.message.errors.email) {
+                        setEmailError(res.data.message.errors.email)
+                    }
+                    if (res.data.message.errors.password) {
+                        setPasswordError(res.data.message.errors.password)
+                    }
                 }
             }
         }}>Sign Up</Button>
@@ -427,14 +535,14 @@ function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
         <Button color="green" onClick={async () => {
-            let response = await store.dispatch(logout())
-            let res = (response.payload as any)
+            const response = await store.dispatch(logout())
+            const res = (response.payload as IResponse)
             if (res.response) {
                 await store.dispatch(clearUser(true))
                 props.openAuth(false)
-                let response = await store.dispatch(guestLogin())
-                let res = (response.payload as any)
-                await store.dispatch(saveUser(res.data.data))
+                const response = await store.dispatch(guestLogin())
+                const res = (response.payload as IResponse)
+                await store.dispatch(saveUser(res.data.data as IUser))
                 connectSocket()
             }
         }}>Log Out</Button>
@@ -472,7 +580,7 @@ export function UserAuth(props: UserAuthProps) {
     const isGuest = useSelector((state: RootState) => state.user.isGuest);
     const [form, setForm] = useState<"Login" | "Register" | "Logout" | "ForgotPassword">("Login")
     return <div id="userAuth">
-        <button id='authExit' onClick={() => {props.openAuth(false); SoundEffect.play("click")}}></button>
+        <button id='authExit' onClick={() => { props.openAuth(false); SoundEffect.play("click") }}></button>
         <UserAuthNav isGuest={isGuest} form={form} setForm={setForm} />
         {getForm(form, props.openAuth, setForm)}
     </div>

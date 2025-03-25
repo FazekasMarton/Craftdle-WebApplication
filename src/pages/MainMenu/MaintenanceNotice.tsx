@@ -4,6 +4,8 @@ import { RootState } from "../../app/store";
 
 /**
  * MaintenanceNotice component to display the maintenance countdown.
+ * This component shows a title and a countdown timer for the estimated
+ * start of maintenance. The countdown value is retrieved from the Redux store.
  * @returns The MaintenanceNotice component.
  */
 export function MaintenanceNotice() {

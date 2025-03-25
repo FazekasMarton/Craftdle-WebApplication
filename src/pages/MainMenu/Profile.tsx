@@ -4,6 +4,7 @@ import { SoundEffect } from "../../classes/Audio";
 
 /**
  * Props for the Profile component.
+ * @property openAuth - A function to toggle the authentication modal.
  */
 interface ProfileProps {
     openAuth: (value: boolean) => void
@@ -11,6 +12,9 @@ interface ProfileProps {
 
 /**
  * Profile component to display the user's profile picture and name.
+ * This component retrieves user data from the Redux store and displays
+ * the profile picture, border, and username. Clicking the component
+ * triggers the `openAuth` function and plays a click sound.
  * @param props - The properties for the Profile component.
  * @returns The Profile component.
  */

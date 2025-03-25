@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { setError } from "../error/errorSlice";
 import { ISettings } from "../../interfaces/ISettings";
@@ -11,11 +11,12 @@ import { ISettings } from "../../interfaces/ISettings";
  * @param method - The HTTP method to use.
  * @param auth - The authentication type.
  * @param body - The request body.
+ * @param disableError - If error pop up disabled.
  * @returns The response data and status.
  */
 export async function communicate(
     state: RootState,
-    dispatch: Function,
+    dispatch: Dispatch,
     url: string,
     method: "GET" | "POST" | "PUT" | "DELETE",
     auth?: "Basic" | "Bearer" | null,
@@ -42,20 +43,31 @@ export async function communicate(
     try {
         const response = await fetch(url, options);
         const data = await response.json();
-        if(response.status === 401) {
+        if(response.status === 401 && !disableError) {
             const error = new Error("UnauthorizedError");
             error.name = "UnauthorizedError";
             throw error;
         }
         return { data: data, response: response.ok };
-    } catch (err: any) {
+    } catch (err: unknown) {
         if(!disableError) {
-            dispatch(setError(err.name));
+            if (err instanceof Error) {
+                dispatch(setError(err.name));
+            } else {
+                dispatch(setError("UnknownError"));
+            }
         }
     }
 }
 
 // Define async thunks for various user actions
+/**
+ * Register a new user.
+ * @param username - The username of the user.
+ * @param email - The email of the user.
+ * @param password - The password of the user.
+ * @param stayLoggedIn - Whether the user should stay logged in.
+ */
 export const register = createAsyncThunk(
     "user/register",
     async (
@@ -77,12 +89,16 @@ export const register = createAsyncThunk(
                 password: password,
                 stayLoggedIn: stayLoggedIn,
             },
+            true
         );
 
         return response;
     }
 );
 
+/**
+ * Log in as a guest user.
+ */
 export const guestLogin = createAsyncThunk(
     "user/guestLogin",
     async (_, { dispatch, getState }) => {
@@ -99,6 +115,9 @@ export const guestLogin = createAsyncThunk(
     }
 );
 
+/**
+ * Log in using a token.
+ */
 export const tokenLogin = createAsyncThunk(
     "user/tokenLogin",
     async (_, { dispatch, getState }) => {
@@ -118,6 +137,12 @@ export const tokenLogin = createAsyncThunk(
     }
 );
 
+/**
+ * Log in with username or email and password.
+ * @param usernameOrEmail - The username or email of the user.
+ * @param password - The password of the user.
+ * @param stayLoggedIn - Whether the user should stay logged in.
+ */
 export const login = createAsyncThunk(
     "user/login",
     async ({ usernameOrEmail, password, stayLoggedIn }:
@@ -131,13 +156,17 @@ export const login = createAsyncThunk(
             `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "POST",
             undefined,
-            { usernameOrEmail, password, stayLoggedIn }
+            { usernameOrEmail, password, stayLoggedIn },
+            true
         );
 
         return response;
     }
 );
 
+/**
+ * Log out the current user.
+ */
 export const logout = createAsyncThunk(
     "user/logout",
     async (_, { dispatch, getState }) => {
@@ -155,6 +184,10 @@ export const logout = createAsyncThunk(
     }
 );
 
+/**
+ * Request a password reset email.
+ * @param email - The email address to send the reset link to.
+ */
 export const forgotPassword = createAsyncThunk(
     "user/forgotPassword",
     async (email: string, { dispatch, getState }) => {
@@ -173,6 +206,11 @@ export const forgotPassword = createAsyncThunk(
     }
 );
 
+/**
+ * Change the user's password using a token.
+ * @param password - The new password.
+ * @param token - The reset token.
+ */
 export const changePassword = createAsyncThunk(
     "user/changePassword",
     async ({ password, token }:
@@ -196,6 +234,9 @@ export const changePassword = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch the user's settings.
+ */
 export const getSettings = createAsyncThunk(
     "user/getSettings",
     async (_, { dispatch, getState }) => {
@@ -213,6 +254,10 @@ export const getSettings = createAsyncThunk(
     }
 );
 
+/**
+ * Update the user's settings.
+ * @param settings - The updated settings object.
+ */
 export const changeSettings = createAsyncThunk(
     "user/changeSettings",
     async (settings: ISettings, { dispatch, getState }) => {
@@ -232,6 +277,9 @@ export const changeSettings = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch the user's statistics.
+ */
 export const getStats = createAsyncThunk(
     "user/getStats",
     async (_, { dispatch, getState }) => {
@@ -249,6 +297,9 @@ export const getStats = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch the user's collection.
+ */
 export const getCollection = createAsyncThunk(
     "user/getCollection",
     async (_, { dispatch, getState }) => {
@@ -266,6 +317,11 @@ export const getCollection = createAsyncThunk(
     }
 );
 
+/**
+ * Update the user's profile pictures.
+ * @param profilePicture - The ID of the new profile picture.
+ * @param profileBorder - The ID of the new profile border.
+ */
 export const changeProfilePics = createAsyncThunk(
     "user/changeProfilePics",
     async (
@@ -287,6 +343,10 @@ export const changeProfilePics = createAsyncThunk(
     }
 );
 
+/**
+ * Fetch available game modes.
+ * @param type - The type of game modes to fetch (singleplayer or multiplayer).
+ */
 export const getGamemodes = createAsyncThunk(
     "game/getGamemodes",
     async (

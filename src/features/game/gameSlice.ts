@@ -31,24 +31,48 @@ const gameSlice = createSlice({
             state.newGame = action.payload
         },
 
+        /**
+         * Set the allay state.
+         * @param state - The current state.
+         * @param action - The action containing the allay state.
+         */
         setAllay: (state, action: PayloadAction<boolean>) => {
             state.allay = action.payload
             state.help = false
         },
 
+        /**
+         * Set the help state.
+         * @param state - The current state.
+         * @param action - The action containing the help state.
+         */
         setHelp: (state, action: PayloadAction<boolean>) => {
             state.allay = action.payload
             state.help = action.payload
         },
 
+        /**
+         * Set the required controls.
+         * @param state - The current state.
+         * @param action - The action containing the required controls.
+         */
         setRequiredControl: (state, action: PayloadAction<string[]>) => {
             state.requiredControl = action.payload
         },
 
+        /**
+         * Reset the required controls to an empty array.
+         * @param state - The current state.
+         */
         resetRequiredControl: (state) => {
             state.requiredControl = []
         },
 
+        /**
+         * Remove a specific control from the required controls.
+         * @param state - The current state.
+         * @param action - The action containing the control to remove.
+         */
         removeRequiredControl: (state, action: PayloadAction<string>) => {
             state.requiredControl = state.requiredControl.filter(control => control !== action.payload)
         }

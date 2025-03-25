@@ -9,9 +9,11 @@ interface IGameOverProps {
 }
 
 /**
- * GameOver component to display the game over screen.
- * @param props - The properties for the GameOver component.
- * @returns The GameOver component.
+ * A React component that displays the "Game Over" screen.
+ * It shows the player's username and provides options to quit or start a new game.
+ * 
+ * @param props - The properties for the GameOver component, including a function to start a new game.
+ * @returns A JSX element representing the game over screen.
  */
 export function GameOver(props: IGameOverProps) {
     return (

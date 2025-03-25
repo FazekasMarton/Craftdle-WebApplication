@@ -18,6 +18,7 @@ describe("Error slice", () => {
   let store: ReturnType<typeof configureStore>;
 
   beforeEach(() => {
+    // Initialize the Redux store with the error reducer before each test.
     store = configureStore({
       reducer: {
         error: errorReducer,
@@ -26,6 +27,7 @@ describe("Error slice", () => {
   });
 
   it("should create an error state with default values", () => {
+    // Test that the initial error state has default values.
     const state = store.getState() as RootState;
     expect(state.error.status).toBe(200);
     expect(state.error.name).toBe("OK");
@@ -33,6 +35,7 @@ describe("Error slice", () => {
   });
 
   it("should update error state when setError is dispatched", () => {
+    // Test that the error state is updated correctly for a TypeError.
     const mockError = new TypeError("Mocked error");
     store.dispatch(setError(mockError.name));
     const state = store.getState() as RootState;
@@ -44,6 +47,7 @@ describe("Error slice", () => {
   });
 
   it("should update error state for SyntaxError", () => {
+    // Test that the error state is updated correctly for a SyntaxError.
     const mockError = new SyntaxError("Mocked SyntaxError");
     store.dispatch(setError(mockError.name));
     const state = store.getState() as RootState;
@@ -55,6 +59,7 @@ describe("Error slice", () => {
   });
 
   it("should update error state for unknown errors", () => {
+    // Test that the error state is updated correctly for an unknown error.
     const mockError = new Error("Mocked UnknownError");
     store.dispatch(setError(mockError.name));
     const state = store.getState() as RootState;
@@ -66,6 +71,7 @@ describe("Error slice", () => {
   });
 
   it("should clear error state when resetError is dispatched", () => {
+    // Test that the error state is reset to default values when resetError is dispatched.
     store.dispatch(setError(new TypeError().name));
     store.dispatch(resetError());
     const state = store.getState() as RootState;

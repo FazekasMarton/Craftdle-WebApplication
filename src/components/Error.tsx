@@ -6,6 +6,10 @@ import { resetError } from "../features/error/errorSlice";
 
 /**
  * Error component to handle and display error messages.
+ * 
+ * This component displays error details and provides a button to retry the operation.
+ * It resets the error state and reloads the page when the button is clicked.
+ * 
  * @returns The Error component.
  */
 export function Error() {

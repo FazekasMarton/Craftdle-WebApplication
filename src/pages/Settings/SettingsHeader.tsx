@@ -19,13 +19,15 @@ interface SettingsHeaderProps {
  * @param obj - The settings object.
  * @returns The settings object without the isSet property.
  */
-function removeIsSet(obj: ISettings | null) {
-    if (obj === null) {
-        return {} as ISettings;
+function removeIsSet(settings: ISettings[] | null) {
+    if (settings === null) {
+        return [] as ISettings[];
     }
-    let newObj = {...obj}
-    newObj.isSet = false
-    return newObj;
+    const settingsCopy = JSON.parse(JSON.stringify(settings)) as ISettings[];
+    settingsCopy.forEach(setting => {
+        setting.isSet = false;
+    });
+    return settingsCopy;
 }
 
 /**
@@ -36,13 +38,16 @@ function removeIsSet(obj: ISettings | null) {
 export function SettingsHeader(props: SettingsHeaderProps) {
     const navigate = useNavigate();
 
+    /**
+     * Switches to the next profile in the list.
+     */
     function changeNextProfile() {
         props.setActiveProfile((props.activeProfile + 1) % 3)
     }
 
-    let saveable = !isEqual(
-        removeIsSet(props.originalSettings && props.originalSettings[props.activeProfile]),
-        removeIsSet(props.profiles && props.profiles[props.activeProfile])
+    const saveable = !isEqual(
+        removeIsSet(props.originalSettings),
+        removeIsSet(props.profiles)
     );
 
     return <header id="settingsHeader">

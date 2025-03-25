@@ -1,6 +1,10 @@
 /**
  * Function to check if the user is playing on a PC.
- * @returns True if the user is playing on a PC, false otherwise.
+ * 
+ * This function analyzes the `navigator.userAgent` string to determine if the user
+ * is using a PC. It checks for common mobile, tablet, and TV device identifiers.
+ * 
+ * @returns {boolean} True if the user is playing on a PC, false otherwise.
  */
 export function isUserPlayingOnPC() {
     const agent = navigator.userAgent

@@ -22,11 +22,14 @@ declare global {
     }
 }
 
+/**
+ * Interface for backend version information.
+ */
 interface VersionInfo {
-    version: string,
-    snapshot: string,
-    minecraftVersion: string,
-    minecraftVersionName: string
+    version: string;
+    snapshot: string;
+    minecraftVersion: string;
+    minecraftVersionName: string;
 }
 
 /**
@@ -85,15 +88,15 @@ export function MainMenu() {
                     display: backendVersionInfo ? "flex" : "none"
                 }}>
                     <span>by Guideian Angel</span>
-                    <span>FE: v{isTestSubdomain() ? (
-                        `(${version}) - Snapshot ${snapshot}`
+                    <span>FE: {isTestSubdomain() ? (
+                        `(v${version}) - Snapshot ${snapshot}`
                     ) : (
-                        version
+                        `v${version}`
                     )}</span>
-                    <span>BE: v{isTestSubdomain() ? (
-                        `(${backendVersionInfo?.version}) - Snapshot ${backendVersionInfo?.snapshot}`
+                    <span>BE: {isTestSubdomain() ? (
+                        `(v${backendVersionInfo?.version}) - Snapshot ${backendVersionInfo?.snapshot}`
                     ) : (
-                        backendVersionInfo?.version
+                        `v${backendVersionInfo?.version}`
                     )}</span>
                     <span>for Minecraft: {[backendVersionInfo?.minecraftVersion, backendVersionInfo?.minecraftVersionName].filter(Boolean).join(" - ")}</span>
                 </aside>

@@ -5,6 +5,7 @@ import { isTestSubdomain } from "../../functions/isTestSubdomain"
 
 /**
  * Array of random texts to display below the title.
+ * These texts are meant to add a fun and engaging element to the UI.
  */
 const texts = [
     "Try it!",
@@ -46,7 +47,8 @@ const texts = [
 
 /**
  * Get a random text from the texts array.
- * @returns A random text.
+ * This function selects a random string from the `texts` array to be displayed.
+ * @returns A random text from the `texts` array.
  */
 function getRandomText(){
     return texts[Math.floor(Math.random() * texts.length)]
@@ -54,6 +56,8 @@ function getRandomText(){
 
 /**
  * Title component to display the game title and a random text.
+ * The component dynamically displays a title image based on the subdomain
+ * and a random text from the `texts` array.
  * @returns The Title component.
  */
 export function Title() {

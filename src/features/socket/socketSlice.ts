@@ -20,9 +20,9 @@ const socketSlice = createSlice({
     initialState,
     reducers: {
         /**
-         * Set the socket state.
+         * Set the socket instance.
          * @param state - The current state.
-         * @param action - The action containing the socket instance.
+         * @param action - The action containing the socket instance or null.
          */
         setSocket(state, action: PayloadAction<Socket | null>) {
             state.socket = action.payload as WritableDraft<Socket> | null;

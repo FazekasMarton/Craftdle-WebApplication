@@ -4,6 +4,7 @@ import { RootState, store } from "../../app/store"
 import { getStats } from "../../features/user/dataRequestSlice"
 import { StoneButton } from "../../components/StoneButton"
 import { useSelector } from "react-redux"
+import { IResponse } from "../../interfaces/IResponse"
 
 /**
  * Interface for collection statistics.
@@ -49,14 +50,15 @@ export function Stats() {
      * Fetch the user's statistics from the server.
      */
     async function getUserStats() {
-        let response = await store.dispatch(getStats())
-        let res = (response.payload as any)
+        const response = await store.dispatch(getStats())
+        const res = (response.payload as IResponse)
         if (res.response) {
-            setStats(res.data.data)
+            setStats(res.data.data as IStats)
         }
     }
 
     useEffect(() => {
+        // Fetch stats when the user is logged in.
         if (user.loginToken) {
             getUserStats()
         }
@@ -65,12 +67,14 @@ export function Stats() {
     return <div id="stats">
         <header id="statsHeader">
             <nav>
+                {/* Navigation back to the main menu */}
                 <StoneButton href="/">Back to Menu</StoneButton>
             </nav>
             <h1>Statistics</h1>
         </header>
         <main id="statsMain">
             <section className="account">
+                {/* Display user profile picture and border */}
                 <div className="profileBorder"
                     style={stats?.profileBorder ? {
                         backgroundImage: `url(${import.meta.env.VITE_SERVER_URL}/assets/profileBorders/${stats?.profileBorder?.src})`
@@ -84,6 +88,7 @@ export function Stats() {
                 <section id="basicStats">
                     <h3>Basic Stats</h3>
                     <article>
+                        {/* Display basic user statistics */}
                         <p>Streak: {stats?.streak}</p>
                         <p>Registration Date: {stats?.registrationDate}</p>
                         <p>Earned Achievements: {stats?.performedAchievements?.collected}/{stats?.performedAchievements?.collectable}</p>
@@ -100,6 +105,7 @@ export function Stats() {
                                 return <div key={gamemode.gamemodeName}>
                                     <h4 style={{ color: `#${gamemode.color}` }}>{gamemode.gamemodeName}</h4>
                                     <ul>
+                                        {/* Display gamemode-specific statistics */}
                                         <li>Played: {gamemode.played}</li>
                                         <li>Solved: {gamemode.solved}</li>
                                         {gamemode.played ? <li>Win Rate: {Math.floor(gamemode.solved / gamemode.played * 100)}%</li> : null}
@@ -108,6 +114,7 @@ export function Stats() {
                                 </div>
                             })
                         }
+                        {/* Display overall game statistics */}
                         <p>Total played: {gameStats.totalPlayed}</p>
                         <p>Total solved: {gameStats.totalSolved}</p>
                         {gameStats.totalPlayed ? <p>Overall win rate: {Math.floor(gameStats.totalSolved / gameStats.totalPlayed * 100)}%</p> : null}

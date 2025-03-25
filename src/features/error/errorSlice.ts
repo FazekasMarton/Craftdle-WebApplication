@@ -54,6 +54,11 @@ const errorSlice = createSlice({
                     state.name = "Unauthorized";
                     state.message = "Your token has expired, or another device is using your account. Please log in again.";
                     break;
+                case 'SessionTakeover':
+                    state.status = 4008;
+                    state.name = "Concurrent Login Conflict";
+                    state.message = "Connection closed due to another device taking over the session. Please log in again.";
+                    break;
                 default:
                     state.status = 500;
                     state.name = "Internal Server Error";
@@ -62,7 +67,7 @@ const errorSlice = createSlice({
             }
         },       
         /**
-         * Reset the error state to the initial state.
+         * Reset the error state to the default values.
          * @param state - The current state.
          */
         resetError: (state) => {

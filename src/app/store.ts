@@ -7,7 +7,16 @@ import maintenanceReducer from "../features/maintenance/maintenanceSlice";
 import gameReducer from "../features/game/gameSlice";
 
 /**
- * Configure the Redux store with user, error, info, socket, maintenance, and game reducers.
+ * The Redux store is configured with the following reducers:
+ * - `user`: Manages user-related state.
+ * - `error`: Handles application error states.
+ * - `info`: Stores informational messages or data.
+ * - `socket`: Manages WebSocket connections and related state.
+ * - `maintenance`: Tracks maintenance mode or related settings.
+ * - `game`: Handles game-related state and logic.
+ *
+ * Middleware:
+ * - Default middleware is used with `serializableCheck` disabled to allow non-serializable data in the state.
  */
 export const store = configureStore({
     reducer: {

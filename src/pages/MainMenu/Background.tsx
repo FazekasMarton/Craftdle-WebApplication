@@ -37,7 +37,7 @@ import { useEffect, useState } from "react"
 /**
  * Array of panorama images.
  */
-let panoramass = [
+const panoramass = [
     [bg1_21_0, bg1_21_1, bg1_21_2, bg1_21_3, bg1_21_4, bg1_21_5],
     [bg1_20_0, bg1_20_1, bg1_20_2, bg1_20_3, bg1_20_4, bg1_20_5],
     [bg1_19_0, bg1_19_1, bg1_19_2, bg1_19_3, bg1_19_4, bg1_19_5],
@@ -54,8 +54,9 @@ function randomizepanoramas() {
 }
 
 /**
- * Background component to display a random panorama background.
- * @returns The Background component.
+ * Load an image and resolve the promise once the image is loaded.
+ * @param src - The source URL of the image.
+ * @returns A promise that resolves when the image is loaded.
  */
 function loadImage(src: string) {
     return new Promise((resolve) => {
@@ -65,6 +66,10 @@ function loadImage(src: string) {
     });
 }
 
+/**
+ * Background component to display a random panorama background.
+ * @returns The Background component.
+ */
 export function Background() {
     const [loaded, setLoaded] = useState(false);
     const [panorama] = useState(randomizepanoramas());
