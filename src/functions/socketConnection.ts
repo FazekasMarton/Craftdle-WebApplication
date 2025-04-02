@@ -11,9 +11,8 @@ import { setSocket } from "../features/socket/socketSlice";
  */
 export function connectSocket() {
     const currentSocket = store.getState().socket.socket;
-    if (currentSocket) {
-        disconnectSocket();
-    }
+    currentSocket?.off("disconnect");
+    currentSocket?.disconnect()
     const token = store.getState().user.loginToken;
     const socket: Socket = io(import.meta.env.VITE_SERVER_URL, {
         auth: {
@@ -21,12 +20,4 @@ export function connectSocket() {
         }
     });
     store.dispatch(setSocket(socket));
-}
-
-export function disconnectSocket() {
-    const currentSocket = store.getState().socket.socket;
-    currentSocket?.off("error");
-    currentSocket?.off("maintenance");
-    currentSocket?.off("disconnect");
-    currentSocket?.disconnect()
 }

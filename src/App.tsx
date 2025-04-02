@@ -5,7 +5,7 @@ import { RootState, store } from "./app/store"
 import { clearUser, loadUser, saveUser, setInstalled } from "./features/user/userSlice"
 import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
-import { connectSocket, disconnectSocket } from "./functions/socketConnection"
+import { connectSocket } from "./functions/socketConnection"
 import { IMaintenance } from "./interfaces/IMaintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { BeforeInstallPromptEvent } from "./interfaces/IBeforeInstallPromptEvent"
@@ -47,7 +47,7 @@ async function autoLogin(token: string | null) {
  * Main application component that handles routing, user state, and maintenance mode.
  * @returns The App component.
  */
-export function App() {
+export default function App() {
     const user = useSelector((state: RootState) => state.user);
     const socket = useSelector((state: RootState) => state.socket.socket);
     const maintenance = useSelector((state: RootState) => state.maintenance);
@@ -79,6 +79,7 @@ export function App() {
         })
 
         socket?.on("error", (error: string) => {
+            console.log("Socket error:", error)
             if (error == "UnauthorizedError") {
                 store.dispatch(clearUser(true))
             }
@@ -92,7 +93,9 @@ export function App() {
         })
 
         return () => {
-            disconnectSocket()
+            socket?.off("maintenance")
+            socket?.off("disconnect")
+            socket?.off("error")
         }
     }, [socket])
 
@@ -126,5 +129,3 @@ export function App() {
         </>
     )
 }
-
-export default App
