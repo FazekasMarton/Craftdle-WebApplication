@@ -126,7 +126,7 @@ export const tokenLogin = createAsyncThunk(
         const response = await communicate(
             state,
             dispatch,
-            `${import.meta.env.VITE_SERVER_URL}/users/login`,
+            `${import.meta.env.VITE_SERVER_URL}/users/autoLogin`,
             "POST",
             "Bearer",
             {},
