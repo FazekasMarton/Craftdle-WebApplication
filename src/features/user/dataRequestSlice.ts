@@ -177,7 +177,9 @@ export const logout = createAsyncThunk(
             dispatch,
             `${import.meta.env.VITE_SERVER_URL}/users/login`,
             "DELETE",
-            "Basic"
+            "Basic",
+            {},
+            true
         );
 
         return response;

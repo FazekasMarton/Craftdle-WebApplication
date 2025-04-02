@@ -174,7 +174,7 @@ function LoginForm(props: FormProps) {
             <InputField id="loginUsernameAndEmail" label="Username or Email:" type="text" value={username} onChange={setUsername} errors={errors.username} />
             <InputField id="loginPassword" label="Password:" type="password" value={password} onChange={setPassword} errors={errors.password} />
             <span id='forgotPassword' onClick={() => {
-                if(props.setForm){
+                if (props.setForm) {
                     props.setForm("ForgotPassword");
                 }
             }}>Forgot password?</span>
@@ -535,16 +535,13 @@ function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
         <Button color="green" onClick={async () => {
-            const response = await store.dispatch(logout())
+            await store.dispatch(logout())
+            await store.dispatch(clearUser(true))
+            props.openAuth(false)
+            const response = await store.dispatch(guestLogin())
             const res = (response.payload as IResponse)
-            if (res.response) {
-                await store.dispatch(clearUser(true))
-                props.openAuth(false)
-                const response = await store.dispatch(guestLogin())
-                const res = (response.payload as IResponse)
-                await store.dispatch(saveUser(res.data.data as IUser))
-                connectSocket()
-            }
+            await store.dispatch(saveUser(res.data.data as IUser))
+            connectSocket()
         }}>Log Out</Button>
     </div>
 }
