@@ -71,7 +71,7 @@ const errorSlice = createSlice({
          * @param state - The current state.
          */
         resetError: (state) => {
-            state = initialState;
+            Object.assign(state, initialState)
         },
     },
 });

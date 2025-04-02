@@ -165,28 +165,6 @@ export const login = createAsyncThunk(
 );
 
 /**
- * Log out the current user.
- */
-export const logout = createAsyncThunk(
-    "user/logout",
-    async (_, { dispatch, getState }) => {
-        const state = getState() as RootState;
-
-        const response = await communicate(
-            state,
-            dispatch,
-            `${import.meta.env.VITE_SERVER_URL}/users/login`,
-            "DELETE",
-            "Basic",
-            {},
-            true
-        );
-
-        return response;
-    }
-);
-
-/**
  * Request a password reset email.
  * @param email - The email address to send the reset link to.
  */

@@ -3,7 +3,7 @@ import { RootState, store } from '../../app/store';
 import { useSelector } from "react-redux";
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
-import { changePassword, forgotPassword, guestLogin, login, logout, register } from '../../features/user/dataRequestSlice';
+import { changePassword, forgotPassword, guestLogin, login, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
 import { connectSocket } from '../../functions/connectSocket';
@@ -535,7 +535,6 @@ function LogoutForm(props: FormProps) {
     return <div className='authForm'>
         <div>Are you sure you want to log out?</div>
         <Button color="green" onClick={async () => {
-            await store.dispatch(logout())
             await store.dispatch(clearUser(true))
             props.openAuth(false)
             const response = await store.dispatch(guestLogin())
