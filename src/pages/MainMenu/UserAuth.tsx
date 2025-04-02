@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { changePassword, forgotPassword, guestLogin, login, register } from '../../features/user/dataRequestSlice';
 import { clearUser, saveUser } from '../../features/user/userSlice';
 import { loadSettings } from '../../functions/loadSettings';
-import { connectSocket } from '../../functions/connectSocket';
+import { connectSocket, disconnectSocket } from '../../functions/socketConnection';
 import { SoundEffect } from '../../classes/Audio';
 import { IPasswordChangeItem, IResponse, IUser } from '../../interfaces/IResponse';
 
@@ -152,6 +152,7 @@ function LoginForm(props: FormProps) {
             const response = await store.dispatch(login({ usernameOrEmail: username, password, stayLoggedIn: rememberMe }));
             const res = response.payload as IResponse;
             if (res.response) {
+                disconnectSocket();
                 await store.dispatch(clearUser(true));
                 await store.dispatch(saveUser(res.data.data as IUser));
                 setUsername("");

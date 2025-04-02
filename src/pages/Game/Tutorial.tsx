@@ -27,6 +27,7 @@ export function Tutorial(props: TutorialProps) {
     useEffect(() => {
         store.dispatch(setAllay(true));
         store.dispatch(setRequiredControl(currentStep.requiredControl));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.turn]);
 
     useEffect(() => {

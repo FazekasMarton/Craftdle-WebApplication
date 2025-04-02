@@ -5,7 +5,7 @@ import { RootState, store } from "./app/store"
 import { clearUser, loadUser, saveUser, setInstalled } from "./features/user/userSlice"
 import { guestLogin, tokenLogin } from "./features/user/dataRequestSlice"
 import { loadSettings } from "./functions/loadSettings"
-import { connectSocket } from "./functions/connectSocket"
+import { connectSocket, disconnectSocket } from "./functions/socketConnection"
 import { IMaintenance } from "./interfaces/IMaintenance"
 import { setMaintenance } from "./features/maintenance/maintenanceSlice"
 import { BeforeInstallPromptEvent } from "./interfaces/IBeforeInstallPromptEvent"
@@ -69,6 +69,7 @@ export function App() {
         if (!user.username) {
             loadSavedUser()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -91,9 +92,7 @@ export function App() {
         })
 
         return () => {
-            socket?.off("maintenance")
-            socket?.off("disconnect")
-            socket?.off("error")
+            disconnectSocket()
         }
     }, [socket])
 
