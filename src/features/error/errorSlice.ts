@@ -71,9 +71,7 @@ const errorSlice = createSlice({
          * @param state - The current state.
          */
         resetError: (state) => {
-            state.status = 200;
-            state.name = "OK";
-            state.message = "Everything is working fine.";
+            state = initialState;
         },
     },
 });
