@@ -79,7 +79,6 @@ export default function App() {
         })
 
         socket?.on("error", (error: string) => {
-            console.log("Socket error:", error)
             if (error == "UnauthorizedError") {
                 store.dispatch(clearUser(true))
             }

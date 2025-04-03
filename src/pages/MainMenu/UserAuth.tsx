@@ -152,6 +152,7 @@ function LoginForm(props: FormProps) {
             const response = await store.dispatch(login({ usernameOrEmail: username, password, stayLoggedIn: rememberMe }));
             const res = response.payload as IResponse;
             if (res.response) {
+                const oldToken = store.getState().user.loginToken;
                 await store.dispatch(clearUser(true));
                 await store.dispatch(saveUser(res.data.data as IUser));
                 setUsername("");
@@ -159,7 +160,9 @@ function LoginForm(props: FormProps) {
                 setRememberMe(false);
                 props.openAuth(false);
                 loadSettings();
-                connectSocket();
+                if(store.getState().user.loginToken !== oldToken) {
+                    connectSocket();
+                }
             } else {
                 setErrors({
                     username: res.data.message.errors.username || [],
