@@ -64,6 +64,12 @@ The following scripts are available for other tasks:
   npm run test
   ```
 
+- **Generate documentation using TypeDoc**:  
+  ```sh
+  npm run docs
+  ```
+  This will generate API documentation for the TypeScript codebase and place it in the `./docs` directory.
+
 ### 5. Windows Specific Configuration (Optional)
 
 If you're on **Windows** and want to access the **Test version** (e.g., `test.localhost`), you'll need to update your `hosts` file to map `test.localhost` to `127.0.0.1`.
