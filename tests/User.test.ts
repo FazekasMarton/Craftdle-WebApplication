@@ -148,12 +148,21 @@ describe("User Slice", () => {
                 fixedUser.stayLoggedIn = false;
                 store.dispatch(saveUser(fixedUser));
 
-                expect(sessionStorage.setItem).toHaveBeenCalledWith("username", fixedUser.username);
-                expect(sessionStorage.setItem).toHaveBeenCalledWith("loginToken", fixedUser.loginToken);
-                expect(sessionStorage.setItem).toHaveBeenCalledWith("isGuest", String(fixedUser.isGuest));
-                expect(sessionStorage.setItem).toHaveBeenCalledWith("stayLoggedIn", String(fixedUser.stayLoggedIn));
-                expect(sessionStorage.setItem).toHaveBeenCalledWith("profilePicture", JSON.stringify(fixedUser.profilePicture));
-                expect(sessionStorage.setItem).toHaveBeenCalledWith("profileBorder", JSON.stringify(fixedUser.profileBorder));
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("username", "TestUser");
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("loginToken", "test-login-token");
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("isGuest", "false");
+                expect(sessionStorage.setItem).toHaveBeenCalledWith(
+                    "profilePicture",
+                    JSON.stringify({ id: 1, name: "image-1", src: "https://example.com/image-1.jpg" })
+                );
+                expect(sessionStorage.setItem).toHaveBeenCalledWith(
+                    "profileBorder",
+                    JSON.stringify({ id: 2, name: "image-2", src: "https://example.com/image-2.jpg" })
+                );
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("settings", "null");
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("installed", "null");
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("email", "testuser@example.com");
+                expect(sessionStorage.setItem).toHaveBeenCalledWith("password", "TestPassword123!");
             });
         });
 
@@ -163,12 +172,21 @@ describe("User Slice", () => {
                 fixedUser.stayLoggedIn = true;
                 store.dispatch(saveUser(fixedUser));
 
-                expect(localStorage.setItem).toHaveBeenCalledWith("username", fixedUser.username);
-                expect(localStorage.setItem).toHaveBeenCalledWith("loginToken", fixedUser.loginToken);
-                expect(localStorage.setItem).toHaveBeenCalledWith("isGuest", String(fixedUser.isGuest));
-                expect(localStorage.setItem).toHaveBeenCalledWith("stayLoggedIn", String(fixedUser.stayLoggedIn));
-                expect(localStorage.setItem).toHaveBeenCalledWith("profilePicture", JSON.stringify(fixedUser.profilePicture));
-                expect(localStorage.setItem).toHaveBeenCalledWith("profileBorder", JSON.stringify(fixedUser.profileBorder));
+                expect(localStorage.setItem).toHaveBeenCalledWith("username", "TestUser");
+                expect(localStorage.setItem).toHaveBeenCalledWith("loginToken", "test-login-token");
+                expect(localStorage.setItem).toHaveBeenCalledWith("isGuest", "false");
+                expect(localStorage.setItem).toHaveBeenCalledWith(
+                    "profilePicture",
+                    JSON.stringify({ id: 1, name: "image-1", src: "https://example.com/image-1.jpg" })
+                );
+                expect(localStorage.setItem).toHaveBeenCalledWith(
+                    "profileBorder",
+                    JSON.stringify({ id: 2, name: "image-2", src: "https://example.com/image-2.jpg" })
+                );
+                expect(localStorage.setItem).toHaveBeenCalledWith("settings", "null");
+                expect(localStorage.setItem).toHaveBeenCalledWith("installed", "null");
+                expect(localStorage.setItem).toHaveBeenCalledWith("email", "testuser@example.com");
+                expect(localStorage.setItem).toHaveBeenCalledWith("password", "TestPassword123!");
             });
         });
 

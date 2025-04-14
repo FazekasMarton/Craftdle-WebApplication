@@ -26,17 +26,25 @@ npm install
 
 ### 3. Start the Application
 
-To start the application in development mode, run:
+- **Development Mode**:  
+  To start the application in development mode, run:
 
-```sh
-npm run dev
-```
+  ```sh
+  npm run dev
+  ```
 
-To start the application in preview mode, run:
+- **Production Mode**:  
+  To start the application in production mode, first build the application:
 
-```sh
-npm run preview
-```
+  ```sh
+  npm run build
+  ```
+
+  Then, start the application:
+
+  ```sh
+  npm run start:prod
+  ```
 
 This will run the app on the following local addresses:
 
