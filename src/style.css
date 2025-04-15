@@ -106,7 +106,7 @@
     width: 100dvw;
     height: 100dvh;
     background-color: rgba(0, 0, 0, 0.575);
-    z-index: 20;
+    z-index: 25;
 }
 
 #error {
